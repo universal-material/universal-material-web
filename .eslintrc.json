@@ -10,7 +10,12 @@
     "ecmaVersion": 2020,
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint"],
+  "plugins": [
+    "@typescript-eslint",
+    "eslint-plugin-import",
+    "eslint-plugin-import-helpers",
+    "unused-imports"
+  ],
   "env": {
     "browser": true
   },
@@ -23,11 +28,53 @@
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-unused-vars": [
-      "warn",
+      "error",
       {
         "argsIgnorePattern": "^_"
       }
-    ]
+    ],
+    "eol-last": "error",
+    "import-helpers/order-imports": [
+      "error",
+      {
+        "alphabetize": {
+          "order": "asc",
+          "ignoreCase": true
+        },
+        "newlinesBetween": "always",
+        "groups": [
+          "/^@angular|^rxjs/",
+          "module",
+          "/^locale/messages/",
+          [
+            "parent",
+            "sibling",
+            "index",
+            "/^(\\.|@app|@core|@admin|@document-management|@bot-management|core|shared|chatbot)/"
+          ]
+        ]
+      }
+    ],
+    "no-else-return": ["error", { "allowElseIf": false }],
+    "no-lonely-if": "error",
+    "no-multi-spaces": ["error"],
+    "no-multiple-empty-lines": ["error", {"max": 1, "maxEOF":  1}],
+    "padding-line-between-statements": [
+      "error",
+      { "blankLine": "always", "prev": "block-like", "next": "*"},
+      { "blankLine": "always", "prev": "*", "next": "block-like"}
+    ],
+    "space-before-blocks": ["error", "always"],
+    "space-in-parens": ["error", "never"],
+    "space-before-function-paren": [
+      "error",
+      {
+        "anonymous": "never",
+        "asyncArrow": "always",
+        "named": "never"
+      }
+    ],
+    "unused-imports/no-unused-imports": "error"
   },
   "overrides": [
     {

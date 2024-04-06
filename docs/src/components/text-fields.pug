@@ -1,0 +1,88 @@
+extends ../layout
+
+block content
+  h4.u-headline4.chapter-title Text fields
+  u-card.example-card(variant="outlined")
+    u-card-content
+      .u-form-field
+        .u-text-field.u-text-field-box
+          .u-text-field-leading-icon
+            i.mdi.mdi-magnify
+          .u-text-field-trailing-icon
+            i.mdi.mdi-close-circle-outline
+          label.u-text-field-label(for="text-field-box") Text field box
+          .u-text-input
+            input(type="text" placeholder="Placeholder" id="text-field-box" aria-describedby="textFieldBox")
+
+        .u-text-field-supporting-text
+          .u-text-field-supporting-text-item Supporting text
+          .u-text-field-supporting-text-item.ml-auto 0 / 10
+    u-card-content.example-card-code
+      pre
+        code.language-html
+
+  .u-form-field
+    .u-text-field.u-text-field-box.disabled
+      .u-text-field-leading-icon
+        i.mdi.mdi-magnify
+      .u-text-field-trailing-icon
+        i.mdi.mdi-close-circle-outline
+
+      label.u-text-field-label Text field box
+      input.u-text-input(type="text" placeholder="Placeholder" disabled aria-describedby="textFieldBox")
+
+  .u-form-field
+    .u-text-field.u-text-field-outlined
+      .u-text-field-leading-icon
+        i.mdi.mdi-magnify
+      .u-text-field-trailing-icon
+        i.mdi.mdi-close-circle-outline
+      label.u-text-field-label(for="text-field-outline") Text field outline
+      input.u-text-input(type="text" placeholder="Placeholder" id="text-field-outline" aria-describedby="textFieldOutline")
+    small#textFieldOutline.u-text-field-supporting-text Text field outline
+
+  .u-form-field
+    .u-text-field.u-text-field-outlined.disabled
+      .u-text-field-leading-icon
+        i.mdi.mdi-magnify
+      .u-text-field-trailing-icon
+        i.mdi.mdi-close-circle-outline
+      label.u-text-field-label(for="text-field-outline") Text field outline
+      input.u-text-input(type="text" placeholder="Placeholder" disabled)
+
+  .u-form-field
+    .u-text-field.u-search-field
+      .u-text-field-leading-icon
+        i.mdi.mdi-magnify
+      .u-text-field-trailing-icon
+        button.u-icon-btn
+          i.u-btn-icon.mdi.mdi-calendar
+
+      label.u-text-field-label(for="search-field") Label text
+      input.u-text-input(type="text" placeholder="Search" id="search-field" aria-describedby="searchField")
+    small#searchField.u-text-field-supporting-text Supporting text
+
+  .u-form-field
+    .u-text-field.u-text-field-box
+      label.u-text-field-label(for="text-area-box") Text area box
+      textarea.u-text-input(type="text" placeholder="Placeholder" id="text-area-box" aria-describedby="textAreaBox")
+    small#textAreaBox.u-text-field-supporting-text Text area box
+
+  .u-form-field
+    .u-text-field.u-text-field-outlined
+      label.u-text-field-label(for="text-area-outline") Text area outline
+      textarea.u-text-input(type="text" placeholder="Placeholder" id="text-area-outline" aria-describedby="textAreaOutline")
+    small#textAreaOutline.u-text-field-supporting-text Text area outline
+
+  .u-form-field
+    .u-text-field.u-text-field-box.u-dropdown
+      .u-text-field-trailing-icon
+        .u-dropdown-toggle-icon
+      label.u-text-field-label Dropdown
+      button.u-text-input.u-dropdown-toggle(type="button" disabled)
+        .u-text-input-placeholder No value
+      .u-dropdown-menu.up.w-100
+        .u-dropdown-content
+          button.u-dropdown-item(type="button") Option A
+          button.u-dropdown-item(type="button") Option B
+          button.u-dropdown-item(type="button") Option C

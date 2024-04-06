@@ -1,0 +1,40 @@
+extends ../layout
+
+block content
+  h4.u-headline4.chapter-title Icon buttons
+
+  h5.u-headline5.article-title Variants
+  u-card.example-card(variant="outlined")
+    u-card-content
+      include icon-buttons/buttons-variants.html
+
+    u-card-content.example-card-code
+      pre
+        code.language-html
+
+  h5.u-headline5.article-title Anchor buttons
+  u-card.example-card(variant="outlined")
+    u-card-content
+      include icon-buttons/anchor-buttons.html
+
+    u-card-content.example-card-code
+      pre
+        code.language-html
+
+  h5.u-headline5.article-title Toggles
+  u-card.example-card(variant="outlined")
+    u-card-content
+      include icon-buttons/toggle-buttons.html
+
+    u-card-content.example-card-code
+      pre
+        code.language-html
+
+  h5.u-headline5.article-title Toggles (manual)
+  u-card.example-card(variant="outlined")
+    u-card-content
+      include icon-buttons/toggle-buttons-manual.html
+
+    u-card-content.example-card-code
+      pre
+        code.language-html

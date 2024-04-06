@@ -1,0 +1,166 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='mobile-web-app-capable', content='yes')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='description', content='')
+    meta(name='author', content='')
+
+    title Universal Material
+
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/base16/atelier-sulphurpool-light.min.css")
+
+    link(rel="preconnect" href="https://fonts.googleapis.com")
+    link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
+    link(rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap")
+
+    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.9.96/css/materialdesignicons.min.css")
+    link(rel="stylesheet" href="/css/docs.css")
+
+    script(type="module", src="/js/index.js")
+    body.u-android
+      .u-drawer.u-drawer-lg-dismissible
+        aside.u-drawer-content.u-navigation-drawer
+          .u-drawer-scrollable-container
+            h6.u-navigation-drawer-headline.u-headline-s Material Design
+
+            nav.u-list.u-list-selectable
+              a.u-list-item(href="/")
+                .u-list-item-content
+                  | Introduction
+
+              a.u-list-item(href="/layout/grid.html")
+                .u-list-item-content
+                  span Grid
+
+              a.u-list-item(href="/content/typography.html")
+                .u-list-item-content
+                  span Typography
+
+              .u-list-item
+                .u-list-item-content
+                  span Colors
+                .u-list-item-icon.mdi.mdi-chevron-down
+
+              .nested-menu-items
+                a.u-list-item(href="/utilities/text-colors.html")
+                  .u-list-item-content
+                    span Text
+                a.u-list-item(href="/utilities/background-colors.html")
+                  .u-list-item-content
+                    span Background
+                a.u-list-item(href="/utilities/text-and-background-colors.html")
+                  .u-list-item-content
+                    span Text and background
+
+              .u-list-item
+                .u-list-item-content
+                  span Buttons
+                .u-list-item-icon.mdi.mdi-chevron-down
+
+              .nested-menu-items
+                a.u-list-item(href="/components/common-buttons.html")
+                  .u-list-item-content
+                    span Common buttons
+                a.u-list-item(href="/components/fab.html")
+                  .u-list-item-content
+                    span Floating Action Button (FAB)
+                a.u-list-item(href="/components/icon-buttons.html")
+                  .u-list-item-content
+                    span Icon buttons
+                a.u-list-item(href="/components/button-set.html")
+                  .u-list-item-content
+                    span Button set
+
+              a.u-list-item(href="/components/cards.html")
+                .u-list-item-content
+                  span Cards
+
+              a.u-list-item(href="/components/chips.html")
+                .u-list-item-content
+                  span Chips
+
+              a.u-list-item(href="/components/data-tables.html")
+                .u-list-item-content
+                  span Data tables
+
+              a.u-list-item(href="/components/dialogs.html")
+                .u-list-item-content
+                  span Dialogs
+
+              a.u-list-item(href="/components/dividers.html")
+                .u-list-item-content
+                  span Dividers
+
+              a.u-list-item(href="/components/lists.html")
+                .u-list-item-content
+                  span Lists
+
+              a.u-list-item(href="/components/menus.html")
+                .u-list-item-content
+                  span Menus
+
+              a.u-list-item(href="/components/progress.html")
+                .u-list-item-content
+                  span Progress
+
+              a.u-list-item(href="/components/selection-controls.html")
+                .u-list-item-content
+                  span Selection controls
+
+              a.u-list-item(href="/components/sliders.html")
+                .u-list-item-content
+                  span Sliders
+
+              a.u-list-item(href="/components/snackbars.html")
+                .u-list-item-content
+                  span Snackbars
+
+              a.u-list-item(href="/components/tabs.html")
+                .u-list-item-content
+                  span Tabs
+
+              a.u-list-item(href="/components/text-fields.html")
+                .u-list-item-content
+                  span Text fields
+
+              a.u-list-item(href="/components/toolbars.html")
+                .u-list-item-content
+                  span Toolbars
+
+        .u-drawer-backdrop.d-lg-none
+        .u-toolbar.u-toolbar-fixed#app-bar
+          .u-toolbar-row
+            .u-toolbar-start
+              .u-toolbar-actions
+                button.u-toolbar-action.u-icon-btn(type="button")#menu-toggle
+                  i.u-btn-icon.mdi.mdi-menu
+            .u-toolbar-center
+              .u-toolbar-title Material
+            .u-toolbar-end
+              .u-toolbar-actions
+                span.u-dropdown.u-toolbar-action
+                  button.u-icon-btn.u-dropdown-toggle
+                    i.u-btn-icon.mdi.mdi-theme-light-dark
+                  .u-dropdown-menu.down-start
+                    .u-dropdown-content
+                      button.u-dropdown-item(href='#', onclick="setThemeMode(ThemeMode.Auto)") System
+                      button.u-dropdown-item(href='#', onclick="setThemeMode(ThemeMode.Light)") Light
+                      button.u-dropdown-item(href='#', onclick="setThemeMode(ThemeMode.Dark)") Dark
+
+                a.u-toolbar-action.u-icon-btn(href="/angular", title="Universal Material Angular")
+                  i.u-btn-icon.mdi.mdi-angular
+                button.u-toolbar-action.u-icon-btn#rtl-toggle(type="button", title="Rtl")
+                  i.u-btn-icon.mdi.mdi-format-align-right
+
+        .u-container.u-margin-lg-40.chapter#main-content
+          block content
+
+    script(src='//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js')
+    script(src="/js/universal-material.js")
+    script(src="/js/docs.js")
+    block scripts
+
+

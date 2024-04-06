@@ -1,0 +1,189 @@
+@use "../../../scss/universal-material";
+//
+.deep-purple-amber {
+  @include universal-material.theme((
+    primary: #673ab7,
+    secondary: #ffd740
+  ));
+}
+
+.pink-blue-grey {
+
+  @include universal-material.theme((
+    primary: #e91e63,
+    secondary: #607d8b
+  ));
+}
+//
+//.purple-green {
+//  $u-theme-colors: (
+//    primary: #9c27b0,
+//    secondary: #69f0ae
+//  ) !global;
+//
+//  @include u-create-theme;
+//}
+//
+
+#main-content {
+  padding-top: 56px;
+}
+
+.example-box {
+  display: flex;
+  flex-direction: column;
+  padding: .5rem;
+  overflow: auto;
+  background: #e0e0e0;
+
+
+}
+
+.example-box-header {
+  padding: 1rem;
+  margin-bottom: .5rem;
+  background: var(--u-surface-color);
+
+  .u-toolbar {
+    width: 100%;
+  }
+
+  .u-dropdown {
+    display: inline-block;
+  }
+}
+
+.limited-height {
+  max-height: 300px;
+  overflow: auto;
+}
+
+.example-step-content {
+  width: 100%;
+  height: 300px;
+  background: #ccc;
+}
+
+.list-example-box-header {
+  @include universal-material.u-elevation-tint(1);
+
+  .u-list {
+    width: 300px;
+  }
+}
+
+.menu-example {
+  .example-box-header {
+    height: 14rem;
+  }
+}
+
+.u-card-filled,
+.u-card-outlined,
+.u-card-elevated {
+  margin-bottom: 8px;
+}
+
+.u-card-media,
+.u-card-media-wide {
+  background: url("/img/venice.jpg") center;
+  background-size: cover;
+}
+
+.u-list-item-avatar {
+  background: var(--u-low-emphasis-color);
+  background-size: cover;
+}
+
+.chapter,
+.article-title {
+  margin-top: 80px;
+}
+
+.chapter-title,
+.article-title {
+  margin-bottom: 48px;
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--u-primary-color);
+}
+
+.article-title {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+pre {
+  margin: 0;
+}
+
+code {
+  padding: 1rem !important;
+  unicode-bidi: plaintext;
+  background: transparent !important;
+}
+
+.nested-menu-items {
+  max-height: 0;
+  padding-inline-start: 12px;
+  overflow: hidden;
+
+  &.expanded {
+    max-height: 500px;
+  }
+}
+
+.example-card {
+
+  > .u-card-content:first-child {
+    padding: 36px;
+
+    div ~ div {
+      margin-top: 8px;
+    }
+  }
+
+  .u-floating-action-area {
+    position: static;
+  }
+
+  .u-floating-menu {
+    position: relative;
+    margin-top: 200px;
+  }
+
+  .u-chip-avatar {
+    background: rgba(0, 0, 0, .54);
+  }
+}
+
+.example-card-code {
+  background-color: var(--u-surface-variant-color);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+
+}
+
+::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  background-color: rgba(0,0,0,.47);
+  background-clip: content-box;
+  border-radius: 3px;
+}
+
+.u-dark-mode {
+  &::-webkit-scrollbar-thumb,
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(255,255,255,.47);
+  }
+}
+
+body {
+  overflow-y: auto;
+  overflow-y: overlay;
+}

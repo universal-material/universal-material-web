@@ -1,0 +1,27 @@
+extends ../layout
+
+block content
+  h4.u-headline4.chapter-title Snackbars
+
+  h5.u-headline5.article-title Example
+  u-card.example-card(variant="outlined")
+    u-card-content
+      include snackbar/example.html
+
+    u-card-content.example-card-code
+      pre
+        code.language-html
+block scripts
+  script.
+    function showSnackbar() {
+
+      const text = document.getElementById('snackbarText').value;
+      const buttonText = document.getElementById('snackbarButtonText').value;
+
+      umd.Snackbar.show(text, umd.SnackbarDuration.long, buttonText ? {
+        text: buttonText,
+        action: function () {
+          alert('Snackbar action!')
+        }
+      } : null);
+    }

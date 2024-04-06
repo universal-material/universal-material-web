@@ -1,0 +1,31 @@
+extends ../layout
+
+block content
+  h4.u-headline4.chapter-title Data tables
+
+  h5.u-headline5.article-title Simple tables
+  u-card.example-card(variant="outlined")
+    u-card-content
+      include data-tables/simple-table.html
+
+    u-card-content.example-card-code
+      pre
+        code.language-html
+
+  h5.u-headline5.article-title Table header
+  u-card.example-card(variant="outlined")
+    u-card-content
+      include data-tables/table-header.html
+
+    u-card-content.example-card-code
+      pre
+        code.language-html
+
+  h5.u-headline5.article-title Table footer
+  u-card.example-card(variant="outlined")
+    u-card-content
+      include data-tables/table-footer.html
+
+    u-card-content.example-card-code
+      pre
+        code.language-html

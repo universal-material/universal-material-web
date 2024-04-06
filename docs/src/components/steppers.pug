@@ -1,0 +1,57 @@
+extends ../layout
+
+block content
+  h4.u-headline4.chapter-title Steppers
+
+  h5.u-headline5.article-title Horizontal stepper
+  .u-card-elevated
+    .u-stepper.u-horizontal-stepper
+      .u-step.completed
+        .u-step-indicator
+          .u-step-circle 1
+        .u-step-label Step 1
+      .u-step-line
+      .u-step.active
+        .u-step-indicator
+          .u-step-circle 1
+        .u-step-label Step 1
+      .u-step-line
+      .u-step
+        .u-step-indicator
+          .u-step-circle 2
+        .u-step-label Step 2
+      .u-step-line
+      .u-step
+        .u-step-indicator
+          .u-step-circle 3
+        .u-step-label Step 3
+      .u-step-line
+      .u-step
+        .u-step-indicator
+          .u-step-circle 4
+        .u-step-label Step 4
+
+  h5.u-headline5.article-title Vertical stepper
+  .u-card-elevated
+    .u-stepper.u-vertical-stepper
+      .u-step.completed
+        .u-step-indicator
+          .u-step-circle 1
+          .u-step-line
+        .u-step-content
+          .u-step-label Step 1
+      .u-step.active
+        .u-step-indicator
+          .u-step-circle 2
+          .u-step-line
+        .u-step-content
+          .u-step-label Step 2
+          .example-step-content
+          .u-step-actions
+            button.u-step-action.u-filled-btn Continue
+            button.u-step-action.u-text-btn Cancel
+      .u-step
+        .u-step-indicator
+          .u-step-circle 3
+        .u-step-content
+          .u-step-label Step 3

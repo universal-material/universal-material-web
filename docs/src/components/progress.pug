@@ -1,0 +1,41 @@
+extends ../layout
+
+block content
+  h4.u-headline4.chapter-title Progress
+
+  h5.u-headline5.article-title Determinate
+  u-card.example-card(variant="outlined")
+    u-card-content
+      include progress/determinate-progress.html
+
+    u-card-content.example-card-code
+      pre
+        code.language-html
+
+  h5.u-headline5.article-title Indeterminate
+  u-card.example-card(variant="outlined")
+    u-card-content
+      include progress/indeterminate-progress.html
+
+    u-card-content.example-card-code
+      pre
+        code.language-html
+
+  h5.u-headline5.article-title Changing color
+  p Just set progress color and the magic is done
+  u-card.example-card(variant="outlined")
+    u-card-content
+      include progress/progress-color.html
+
+    u-card-content.example-card-code
+      pre
+        code.language-html
+
+  h5.u-headline5.article-title Circular progress
+  u-card.example-card(variant="outlined")
+    u-card-content
+      include progress/circular-progress.html
+
+    u-card-content.example-card-code
+      pre
+        code.language-html
