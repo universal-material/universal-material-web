@@ -1,31 +1,13 @@
-extends ../layout
+extends ../_layout
 
 block content
-  h4.u-headline4.chapter-title Selection controls
+  +renderTitle('Selection controls')
 
-  h5.u-headline5.article-title Checkbox
-  u-card.example-card(variant="outlined")
-    u-card-content
-      include selection-controls/checkbox.html
+  +renderSection('Checkbox')
+    include:exampleCode selection-controls/checkbox.html
 
-    u-card-content.example-card-code
-      pre
-        code.language-html
+  +renderSection('Radio')
+    include:exampleCode selection-controls/radio-button.html
 
-  h5.u-headline5.article-title Radio
-  u-card.example-card(variant="outlined")
-    u-card-content
-      include selection-controls/radio-button.html
-
-    u-card-content.example-card-code
-      pre
-        code.language-html
-
-  h5.u-headline5.article-title Switch
-  u-card.example-card(variant="outlined")
-    u-card-content
-      include selection-controls/switch.html
-
-    u-card-content.example-card-code
-      pre
-        code.language-html
+  +renderSection('Switch')
+    include:exampleCode selection-controls/switch.html

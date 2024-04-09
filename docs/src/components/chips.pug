@@ -1,40 +1,16 @@
-extends ../layout
+extends ../_layout
 
 block content
-  h4.u-headline4.chapter-title Chips
+  +renderTitle('Chips')
 
-  h5.u-headline5.article-title Default chip
-  u-card.example-card(variant="outlined")
-    u-card-content
-      include chips/default-chips.html
+  +renderSection('Default chip')
+    include:exampleCode chips/default-chips.html
 
-    u-card-content.example-card-code
-      pre
-        code.language-html
+  +renderSection('Elevated chip')
+    include:exampleCode chips/elevated-chips.html
 
-  h5.u-headline5.article-title Elevated chip
-  u-card.example-card(variant="outlined")
-    u-card-content
-      include chips/elevated-chips.html
+  +renderSection('Selected chip')
+    include:exampleCode chips/selected-chips.html
 
-    u-card-content.example-card-code
-      pre
-        code.language-html
-
-  h5.u-headline5.article-title Selected chip
-  u-card.example-card(variant="outlined")
-    u-card-content
-      include chips/selected-chips.html
-
-    u-card-content.example-card-code
-      pre
-        code.language-html
-
-  h5.u-headline5.article-title Chip input
-  u-card.example-card(variant="outlined")
-    u-card-content
-      include chips/chip-input.html
-
-    u-card-content.example-card-code
-      pre
-        code.language-html
+  +renderSection('Chip input')
+    include:exampleCode chips/chip-input.html

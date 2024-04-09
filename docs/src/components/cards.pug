@@ -1,31 +1,15 @@
-extends ../layout
+extends ../_layout
 
 block content
-  h4.u-headline4.chapter-title Cards
+  +renderTitle('Cards')
 
-  h5.u-headline5.article-title Variants
-  u-card.example-card(variant="outlined")
-    u-card-content
-      include cards/simple-card.html
+  +renderSection('Variants')
+    include:exampleCode cards/simple-card.html
 
-    u-card-content.example-card-code
-      pre
-        code.language-html
+  +renderSection('Card with actions')
+    include:exampleCode cards/card-with-actions.html
 
-  h5.u-headline5.article-title Card with actions
-  u-card.example-card(variant="outlined")
-    u-card-content
-      include cards/card-with-actions.html
+  +renderSection('Card media')
+    include:exampleCode cards/card-media.html
 
-    u-card-content.example-card-code
-      pre
-        code.language-html
-
-  h5.u-headline5.article-title Card media
-  u-card.example-card(variant="outlined")
-    u-card-content
-      include cards/card-media.html
-
-    u-card-content.example-card-code
-      pre
-        code.language-html
+  +renderApiSection(apis.card)

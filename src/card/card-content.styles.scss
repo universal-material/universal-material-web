@@ -1,0 +1,11 @@
+:host {
+  display: block;
+}
+
+:host(:has(slot > *)) {
+  display: none;
+}
+
+:host([has-content]) {
+  padding: var(--u-card-padding, 16px);
+}

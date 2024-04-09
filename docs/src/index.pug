@@ -1,10 +1,12 @@
-extends layout
+extends _layout
 
 block content
-  h4.u-headline4.chapter-title Universal Material
+  +renderTitle('Universal Material')
 
   h5.u-headline5.article-title Installation
   p Include Universal Material source sass and TypeScript files via npm.
 
   pre
-    code.terminal $ npm install @universal-material/core -S
+    code.terminal $ npm install @universal-material/web -S
+
+

@@ -1,31 +1,15 @@
-import { css, html, HTMLTemplateResult, LitElement } from 'lit';
-
-import { BaseStyles } from '../shared/base-styles';
+import { html, HTMLTemplateResult, LitElement } from 'lit';
 
 import './table-head';
 import './table-body';
 import './table-row';
 import './table-cell';
 import './table-header-cell';
+import { styles as baseStyles } from '../shared/base.styles';
+import { styles } from './table.styles';
 
 export class Table extends LitElement {
-  static override styles = [
-    BaseStyles.styles,
-    css`
-      :host {
-        display: table;
-        min-width: 100%;
-        border-collapse: collapse;
-      }
-
-      ::slotted(u-thead:not(:first-child)),
-      ::slotted(u-tbody:not(:first-child)),
-      ::slotted(u-tfooter:not(:first-child)),
-      ::slotted(u-tr:not(:first-child)) {
-        border-top: 1px solid var(--u-outline-variant-color, #cac5ca);
-      }
-    `
-  ];
+  static override styles = [baseStyles, styles];
 
   protected override render(): HTMLTemplateResult {
     return html`

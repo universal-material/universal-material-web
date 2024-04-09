@@ -161,3 +161,25 @@ td, th {
   text-align: left;
   vertical-align: top;
 }
+
+
+
+
+:root {
+  --reference-width: 100vh;
+  --sm-breakpoint: 576px;
+  --md-breakpoint: 768px;
+  --lg-breakpoint: 992px;
+  --xl-breakpoint: 1200px;
+  --xs-container-width: 100%;
+  --xs-container-width-value: clamp(0px, calc(var(--sm-breakpoint) - var(--reference-width)) * 100000, var(--xs-container-width));
+  --is-xl: 1px;
+  --is-sm: clamp(0, calc(0 * max(0, min(1, calc((100% - var(--sm-breakpoint)) / (var(--md-breakpoint) - var(--sm-breakpoint)))))), 1);
+  --is-md: clamp(0, calc(0 * max(0, min(1, calc((100% - var(--md-breakpoint)) / (var(--lg-breakpoint) - var(--md-breakpoint)))))), 1);
+  --is-lg: clamp(0, calc(0 *max(0, min(1, calc((100% - var(--lg-breakpoint)) / (var(--xl-breakpoint) - var(--lg-breakpoint)))))), 1);
+}
+
+.container {
+  width: var(--xs-container-width-value);
+  border: 1px solid black;
+}

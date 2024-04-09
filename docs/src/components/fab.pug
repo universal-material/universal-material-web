@@ -1,59 +1,25 @@
-extends ../layout
+extends ../_layout
 
 block content
   .u-container
-    h4.u-headline4.chapter-title Floating action button
+    +renderTitle('Floating action button')
 
-    h5.u-headline5.article-title Sizes
-    u-card.example-card(variant="outlined")
-      u-card-content
-        include fab/button-sizes.html
+    +renderSection('Sizes')
+      include:exampleCode fab/button-sizes.html
 
-      u-card-content.example-card-code
-        pre
-          code.language-html
+    +renderSection('Colors')
+      include:exampleCode fab/button-colors.html
 
-    h5.u-headline5.article-title Colors
-    u-card.example-card(variant="outlined")
-      u-card-content
-        include fab/button-colors.html
+    +renderSection('Extended')
+      include:exampleCode fab/extended-buttons.html
 
-      u-card-content.example-card-code
-        pre
-          code.language-html
+    +renderSection('Lowered')
+      include:exampleCode fab/lowered-buttons.html
 
-    h5.u-headline5.article-title Extended
-    u-card.example-card(variant="outlined")
-      u-card-content
-        include fab/extended-buttons.html
+    +renderSection('Floating action area')
+      include:exampleCode fab/floating-action-area.html
 
-      u-card-content.example-card-code
-        pre
-          code.language-html
+    +renderSection('Floating menu')
+      include:exampleCode fab/floating-menu.html
 
-    h5.u-headline5.article-title Lowered
-    u-card.example-card(variant="outlined")
-      u-card-content
-        include fab/lowered-buttons.html
-
-      u-card-content.example-card-code
-        pre
-          code.language-html
-
-    h5.u-headline5.article-title Floating action area
-    u-card.example-card(variant="outlined")
-      u-card-content
-        include fab/floating-action-area.html
-
-      u-card-content.example-card-code
-        pre
-          code.language-html
-
-    h5.u-headline5.article-title Floating menu
-    u-card.example-card(variant="outlined")
-      u-card-content.u-text-end
-        include fab/floating-menu.html
-
-      u-card-content.example-card-code
-        pre
-          code.language-html
+    +renderApiSection(apis.fabButton)

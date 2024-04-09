@@ -1,3 +1,14 @@
+include _apis
+include _api-section
+
+mixin renderTitle(title)
+  h4.u-display-m.chapter-title #{title}
+
+mixin renderSection(title)
+  h5.u-headline-m.article-title #{title}
+  u-card.example-card(variant="outlined")
+    block
+
 doctype html
 html
   head
@@ -31,20 +42,20 @@ html
                 .u-list-item-content
                   | Introduction
 
-              a.u-list-item(href="/layout/grid.html")
+              //a.u-list-item(href="/layout/grid.html")
                 .u-list-item-content
                   span Grid
 
-              a.u-list-item(href="/content/typography.html")
+              //a.u-list-item(href="/content/typography.html")
                 .u-list-item-content
                   span Typography
 
-              .u-list-item
+              //.u-list-item
                 .u-list-item-content
                   span Colors
                 .u-list-item-icon.mdi.mdi-chevron-down
 
-              .nested-menu-items
+              //.nested-menu-items
                 a.u-list-item(href="/utilities/text-colors.html")
                   .u-list-item-content
                     span Text
@@ -78,7 +89,11 @@ html
                 .u-list-item-content
                   span Cards
 
-              a.u-list-item(href="/components/chips.html")
+              //a.u-list-item(href="/components/checkbox.html")
+                .u-list-item-content
+                  span Checkbox
+
+              //a.u-list-item(href="/components/chips.html")
                 .u-list-item-content
                   span Chips
 
@@ -86,7 +101,7 @@ html
                 .u-list-item-content
                   span Data tables
 
-              a.u-list-item(href="/components/dialogs.html")
+              //a.u-list-item(href="/components/dialogs.html")
                 .u-list-item-content
                   span Dialogs
 
@@ -94,39 +109,39 @@ html
                 .u-list-item-content
                   span Dividers
 
-              a.u-list-item(href="/components/lists.html")
+              //a.u-list-item(href="/components/lists.html")
                 .u-list-item-content
                   span Lists
 
-              a.u-list-item(href="/components/menus.html")
+              //a.u-list-item(href="/components/menus.html")
                 .u-list-item-content
                   span Menus
 
-              a.u-list-item(href="/components/progress.html")
+              //a.u-list-item(href="/components/progress.html")
                 .u-list-item-content
                   span Progress
 
-              a.u-list-item(href="/components/selection-controls.html")
+              //a.u-list-item(href="/components/selection-controls.html")
                 .u-list-item-content
                   span Selection controls
 
-              a.u-list-item(href="/components/sliders.html")
+              //a.u-list-item(href="/components/sliders.html")
                 .u-list-item-content
                   span Sliders
 
-              a.u-list-item(href="/components/snackbars.html")
+              //a.u-list-item(href="/components/snackbars.html")
                 .u-list-item-content
                   span Snackbars
 
-              a.u-list-item(href="/components/tabs.html")
+              //a.u-list-item(href="/components/tabs.html")
                 .u-list-item-content
                   span Tabs
 
-              a.u-list-item(href="/components/text-fields.html")
+              //a.u-list-item(href="/components/text-fields.html")
                 .u-list-item-content
                   span Text fields
 
-              a.u-list-item(href="/components/toolbars.html")
+              //a.u-list-item(href="/components/toolbars.html")
                 .u-list-item-content
                   span Toolbars
 
@@ -155,12 +170,11 @@ html
                 button.u-toolbar-action.u-icon-btn#rtl-toggle(type="button", title="Rtl")
                   i.u-btn-icon.mdi.mdi-format-align-right
 
-        .u-container.u-margin-lg-40.chapter#main-content
-          block content
+        div
+          u-container.chapter#main-content
+            block content
 
     script(src='//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js')
     script(src="/js/universal-material.js")
     script(src="/js/docs.js")
     block scripts
-
-

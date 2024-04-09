@@ -3,5 +3,8 @@
 /lib/
 /dist/
 /test/
+/docs/src/_apis.pug
 /docs/dist/
+/src/**/*.d.ts
+/src/**/*.styles.ts
 custom-elements.json

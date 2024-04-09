@@ -1,18 +1,12 @@
-import { HTMLTemplateResult, LitElement, css, html } from 'lit';
+import { HTMLTemplateResult, LitElement, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
+
+import { styles } from './button-set.styles';
 
 @customElement('u-button-set')
 export class ButtonSet extends LitElement {
 
-  static override styles = css`
-    :host {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      justify-content: flex-end;
-      flex-wrap: wrap;
-    }
-  `;
+  static override styles = styles;
 
   override render(): HTMLTemplateResult {
     return html`

@@ -1,19 +1,40 @@
-import { HTMLTemplateResult, LitElement, css, html } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { HTMLTemplateResult, LitElement, html } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
+
+import { styles as baseStyles } from '../shared/base.styles';
+import { styles } from './card-content.styles';
 
 @customElement('u-card-content')
 export class CardContent extends LitElement {
 
-  static override styles = css`
-    :host {
-      display: block;
-      padding: var(--u-card-padding, 16px);
-    }
-  `;
+  static override styles = [baseStyles, styles];
+
+  @property({type: Boolean, attribute: 'has-content', reflect: true}) hasContent = false;
 
   override render(): HTMLTemplateResult {
     return html`
-      <slot></slot>`;
+      <slot @slotchange="${this.handleSlotChange}"></slot>`;
+  }
+
+  private handleSlotChange(e: Event) {
+    const slot = <HTMLSlotElement>e.target;
+
+    this.hasContent = slot.assignedElements({flatten: true}).length > 0;
+
+    if (this.hasContent) {
+      return;
+    }
+
+    const nodes = slot.assignedNodes({flatten: true});
+
+    for (const node of nodes) {
+      if (node.nodeValue?.trim()) {
+        this.hasContent = true;
+        return;
+      }
+    }
+
+    this.hasContent = false;
   }
 }
 

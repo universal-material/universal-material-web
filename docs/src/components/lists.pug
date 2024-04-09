@@ -1,104 +1,91 @@
-extends ../layout
+extends ../_layout
 
 block content
-  h4.u-headline4.chapter-title Lists
-  h5.u-headline5.article-title Simple list
-  u-card.example-card(variant="outlined")
+  +renderTitle('Lists')
+  +renderSection('Simple list')
     u-card-content.list-example-box-header
       include lists/simple-list.html
 
     u-card-content.example-card-code
       pre
         code.language-html
-  h5.u-headline5.article-title List dividers
-  u-card.example-card(variant="outlined")
+  +renderSection('List dividers')
     u-card-content.list-example-box-header
       include lists/list-dividers.html
 
     u-card-content.example-card-code
       pre
         code.language-html
-  h5.u-headline5.article-title List custom divider
-  u-card.example-card(variant="outlined")
+  +renderSection('List custom divider')
     u-card-content.list-example-box-header
       include lists/list-custom-dividers.html
 
     u-card-content.example-card-code
       pre
         code.language-html
-  h5.u-headline5.article-title List hover
-  u-card.example-card(variant="outlined")
+  +renderSection('List hover')
     u-card-content.list-example-box-header
       include lists/list-hover.html
     u-card-content.example-card-code
       pre
         code.language-html
-  h5.u-headline5.article-title List with two lines
-  u-card.example-card(variant="outlined")
+  +renderSection('List with two lines')
     u-card-content.list-example-box-header
       include lists/list-two-lines.html
 
     u-card-content.example-card-code
       pre
         code.language-html
-  h5.u-headline5.article-title List with three lines
-  u-card.example-card(variant="outlined")
+  +renderSection('List with three lines')
     u-card-content.list-example-box-header
       include lists/list-three-lines.html
 
     u-card-content.example-card-code
       pre
         code.language-html
-  h5.u-headline5.article-title List with dynamic content
-  u-card.example-card(variant="outlined")
+  +renderSection('List with dynamic content')
     u-card-content.list-example-box-header
       include lists/list-dynamic.html
 
     u-card-content.example-card-code
       pre
         code.language-html
-  h5.u-headline5.article-title List avatar
-  u-card.example-card(variant="outlined")
+  +renderSection('List avatar')
     u-card-content.list-example-box-header
       include lists/list-avatars.html
 
     u-card-content.example-card-code
       pre
         code.language-html
-  h5.u-headline5.article-title List icons
-  u-card.example-card(variant="outlined")
+  +renderSection('List icons')
     u-card-content.list-example-box-header
       include lists/list-icons.html
 
     u-card-content.example-card-code
       pre
         code.language-html
-  h5.u-headline5.article-title List with activated item
-  u-card.example-card(variant="outlined")
+  +renderSection('List with activated item')
     u-card-content.list-example-box-header
       include lists/list-with-activated-item.html
 
     u-card-content.example-card-code
       pre
         code.language-html
-  h5.u-headline5.article-title List with action
-  u-card.example-card(variant="outlined")
+  +renderSection('List with action')
     u-card-content.list-example-box-header
       include lists/list-with-action.html
 
     u-card-content.example-card-code
       pre
         code.language-html
-  h5.u-headline5.article-title List sections
-  u-card.example-card(variant="outlined")
+  +renderSection('List sections')
     u-card-content.list-example-box-header
       include lists/list-sections.html
 
     u-card-content.example-card-code
       pre
         code.language-html
-  h5.u-headline5.article-title List indexed
-  u-card.example-card(variant="outlined")
+  +renderSection('List indexed')
     u-card-content.list-example-box-header.limited-height
       include lists/list-indexed.html
 

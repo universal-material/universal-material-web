@@ -6,8 +6,6 @@ const ThemeMode = {
 
 (function () {
 
-  setExampleCodeText();
-
   const sidebar = document.querySelector(".u-drawer");
   const sidebarBackdrop = document.querySelector(".u-drawer-backdrop");
   const appbar = document.getElementById("app-bar");
@@ -120,38 +118,6 @@ const ThemeMode = {
   setExpandableMenus();
   setToggleButtons();
 })();
-
-function getHTML(who, deep){
-  if (!who || !who.tagName) return '';
-
-  let txt = '';
-  let ax = '';
-  let el = document.createElement("div");
-  el.appendChild(who.cloneNode(false));
-
-  if (deep) {
-    ax = txt.indexOf('>') + 1;
-    txt = txt.substring(0, ax) + who.innerHTML + txt.substring(ax);
-  }
-
-  el = null;
-  return txt;
-}
-
-function setExampleCodeText() {
-  const exampleBoxHeaders = document.querySelectorAll('.example-box-header, .example-card > .u-card-content:first-child');
-  for (let i = 0; i < exampleBoxHeaders.length; i++) {
-    const exampleBoxHeader = exampleBoxHeaders[i];
-    const tagText = exampleBoxHeader.innerHTML.trim();
-
-    exampleBoxHeader.parentElement.getElementsByTagName('code')[0].innerHTML = tagText
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&apos;');
-  }
-}
 
 hljs.highlightAll();
 

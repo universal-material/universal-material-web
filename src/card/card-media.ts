@@ -1,20 +1,13 @@
-import { HTMLTemplateResult, LitElement, css, html } from 'lit';
+import { HTMLTemplateResult, LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+
+import { styles as baseStyles } from '../shared/base.styles';
+import { styles } from './card-media.styles';
 
 @customElement('u-card-media')
 export class CardMedia extends LitElement {
 
-  static override styles = css`
-    :host {
-      display: block;
-      aspect-ratio: 1;
-      border-radius: var(--u-card-shape, var(--u-shape-corner-medium, 12px));
-    }
-
-    :host([wide]) {
-      aspect-ratio: 16/9;
-    }
-  `;
+  static override styles = [baseStyles, styles];
 
   @property({type: Boolean, reflect: true}) wide = false;
 

@@ -1,83 +1,53 @@
-extends ../layout
+extends ../_layout
 
 block content
-  h4.u-headline4.chapter-title Menus
+  +renderTitle('Menus')
 
   .menu-example
-    h5.u-headline5.article-title Down
-    u-card.example-card(variant="outlined")
-      u-card-content
-        include dropdown-menus/down.html
-      u-card-content.example-card-code
-        pre
-          code.language-html
+    +renderSection('Down')
+      include:exampleCode dropdown-menus/down.html
 
-    h5.u-headline5.article-title Down left
-    u-card.example-card(variant="outlined")
-      u-card-content
-        include dropdown-menus/down-left.html
-      u-card-content.example-card-code
-        pre
-          code.language-html
+    +renderSection('Down left')
+      include:exampleCode dropdown-menus/down-left.html
 
-    h5.u-headline5.article-title Down right
-    u-card.example-card(variant="outlined")
-      u-card-content
-        include dropdown-menus/down-right.html
-      u-card-content.example-card-code
-        pre
-          code.language-html
+    +renderSection('Down right')
+      include:exampleCode dropdown-menus/down-right.html
 
-    h5.u-headline5.article-title Down start
-    u-card.example-card(variant="outlined")
-      u-card-content
-        include dropdown-menus/down-start.html
-      u-card-content.example-card-code
-        pre
-          code.language-html
+    +renderSection('Down start')
+      include:exampleCode dropdown-menus/down-start.html
 
-    h5.u-headline5.article-title Down end
-    u-card.example-card(variant="outlined")
-      u-card-content
-        include dropdown-menus/down-end.html
-      u-card-content.example-card-code
-        pre
-          code.language-html
+    +renderSection('Down end')
+      include:exampleCode dropdown-menus/down-end.html
 
-    h5.u-headline5.article-title Up
-    u-card.example-card(variant="outlined")
+    +renderSection('Up')
       u-card-content.d-flex.align-items-end
         include dropdown-menus/up.html
       u-card-content.example-card-code
         pre
           code.language-html
 
-    h5.u-headline5.article-title Up left
-    u-card.example-card(variant="outlined")
+    +renderSection('Up left')
       u-card-content.d-flex.align-items-end
         include dropdown-menus/up-left.html
       u-card-content.example-card-code
         pre
           code.language-html
 
-    h5.u-headline5.article-title Up right
-    u-card.example-card(variant="outlined")
+    +renderSection('Up right')
       u-card-content.d-flex.align-items-end
         include dropdown-menus/up-right.html
       u-card-content.example-card-code
         pre
           code.language-html
 
-    h5.u-headline5.article-title Up start
-    u-card.example-card(variant="outlined")
+    +renderSection('Up start')
       u-card-content.d-flex.align-items-end
         include dropdown-menus/up-start.html
       u-card-content.example-card-code
         pre
           code.language-html
 
-    h5.u-headline5.article-title Up end
-    u-card.example-card(variant="outlined")
+    +renderSection('Up end')
       u-card-content.d-flex.align-items-end
         include dropdown-menus/up-end.html
       u-card-content.example-card-code

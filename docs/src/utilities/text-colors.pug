@@ -1,31 +1,13 @@
-extends ../layout
+extends ../_layout
 
 block content
-  h4.u-headline4.chapter-title Colors
+  +renderTitle('Colors')
 
-  h5.u-headline5.article-title Theme colors
-  u-card.example-card(variant="outlined")
-    u-card-content
-      include text-colors/theme-colors.html
+  +renderSection('Theme colors')
+    include:exampleCode text-colors/theme-colors.html
 
-    u-card-content.example-card-code
-      pre
-        code.language-html
+  +renderSection('Common colors')
+    include:exampleCode text-colors/common-colors.html
 
-  h5.u-headline5.article-title Common colors
-  u-card.example-card(variant="outlined")
-    u-card-content
-      include text-colors/common-colors.html
-
-    u-card-content.example-card-code
-      pre
-        code.language-html
-
-  h5.u-headline5.article-title Emphasis colors
-  u-card.example-card(variant="outlined")
-    u-card-content
-      include text-colors/emphasis-colors.html
-
-    u-card-content.example-card-code
-      pre
-        code.language-html
+  +renderSection('Emphasis colors')
+    include:exampleCode text-colors/emphasis-colors.html

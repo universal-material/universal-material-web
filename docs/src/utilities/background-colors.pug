@@ -1,22 +1,10 @@
-extends ../layout
+extends ../_layout
 
 block content
-  h4.u-headline4.chapter-title Colors
+  +renderTitle('Colors')
 
-  h5.u-headline5.article-title Theme colors
-  u-card.example-card(variant="outlined")
-    u-card-content
-      include background-colors/theme-colors.html
+  +renderSection('Theme colors')
+    include:exampleCode background-colors/theme-colors.html
 
-    u-card-content.example-card-code
-      pre
-        code.language-html
-
-  h5.u-headline5.article-title Common colors
-  u-card.example-card(variant="outlined")
-    u-card-content
-      include background-colors/common-colors.html
-
-    u-card-content.example-card-code
-      pre
-        code.language-html
+  +renderSection('Common colors')
+    include:exampleCode background-colors/common-colors.html

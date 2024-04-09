@@ -1,13 +1,7 @@
-extends ../layout
+extends ../_layout
 
 block content
-  h4.u-headline4.chapter-title Toolbars
+  +renderTitle('Toolbars')
 
-  h5.u-headline5.article-title Simple toolbar
-  u-card.example-card(variant="outlined")
-    u-card-content
-      include toolbars/simple-toolbar.html
-
-    u-card-content.example-card-code
-      pre
-        code.language-html
+  +renderSection('Simple toolbar')
+    include:exampleCode toolbars/simple-toolbar.html

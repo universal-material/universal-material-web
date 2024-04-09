@@ -1,19 +1,25 @@
 <u-card variant="outlined">
-  <div class="u-data-table u-data-table-hover">
+  <div class="u-data-table u-data-table-hover" slot="before-content">
     <div class="u-data-table-header">
       <div class="u-toolbar">
         <div class="u-toolbar-row">
           <div class="u-toolbar-title">Nutrients</div>
           <div class="u-toolbar-end">
+            <u-button-set>
+              <u-icon-button disabled>
+                <i class="mdi mdi-phone"></i>
+              </u-icon-button>
+              <u-icon-button>
+                <i class="mdi mdi-dots-vertical"></i>
+              </u-icon-button>
+            </u-button-set>
             <div class="u-toolbar-actions">
-              <button class="u-toolbar-action u-icon-btn u-btn-default" disabled="disabled"><i class="u-btn-icon mdi mdi-phone"></i></button>
-              <button class="u-toolbar-action u-icon-btn u-btn-default"><i class="u-btn-icon mdi mdi-dots-vertical"></i></button>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="u-data-table-content">
+    <div class="u-data-table-content" slot="before-content">
       <table is="u-table">
         <thead>
         <tr>

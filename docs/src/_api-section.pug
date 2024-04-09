@@ -1,0 +1,23 @@
+mixin renderApiSection(properties)
+  h5.u-headline-m.article-title API
+  u-card(variant="outlined")
+    u-table.api-table(slot="before-content")
+      u-thead
+        u-tr
+          u-th Property
+          u-th Attribute
+          u-th Type
+          u-th Default
+          u-th Description
+      u-tbody
+        each property in properties
+          u-tr
+            u-td
+              code= property.name
+            u-td
+              code= property.attribute
+            u-td
+              code= property.type
+            u-td
+              code= property.default
+            u-td !{property.description}
