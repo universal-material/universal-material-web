@@ -1,5 +1,5 @@
 import { HTMLTemplateResult, LitElement, html } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 
 import { styles } from './button-set.styles';
 
@@ -7,6 +7,16 @@ import { styles } from './button-set.styles';
 export class ButtonSet extends LitElement {
 
   static override styles = styles;
+
+  /**
+   * Set the alignment of the buttons at the `start`, `center` or at the `end`.
+   */
+  @property({reflect: true}) align: 'start' | 'center' | 'end' = 'end';
+
+  /**
+   * Whether ot not render the buttons stacked
+   */
+  @property({type: Boolean, reflect: true}) stack = false;
 
   override render(): HTMLTemplateResult {
     return html`

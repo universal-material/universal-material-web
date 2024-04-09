@@ -45,7 +45,7 @@ const docsCopyJs = () =>
 const watchDocs = () => {
   gulp.watch(['./docs/src/**/*.pug', './docs/src/**/*.html'], pugDocs);
   gulp.watch(['./dist/**/*'], docsCopyJs);
-  gulp.watch(['src/**/*.ts'], docsPugApis);
+  gulp.watch(['./src/**/*.ts', '!./src/**/*.styles.ts'], docsPugApis);
 }
 
 const docsPugApis = cb => {
@@ -117,6 +117,93 @@ ${content}
     }))
     .pipe(gulp.dest('./src'));
 
+function getAttributeName(property) {
+  const decorators = property.getDecorators();
+  const propertyDecorator = decorators.find(d => d.getName() === 'property');
+
+  if (!propertyDecorator) {
+    return null;
+  }
+
+  const optionsArgument = propertyDecorator.getArguments()[0];
+
+  if (!optionsArgument) {
+    return property.getName();
+  }
+
+  return optionsArgument.getProperty('attribute')
+    ?.getInitializer()
+    ?.getText()
+    ?.replaceAll(`'`, '') ?? property.getName();
+}
+
+function getJsDocsDescription(property) {
+  const jsDocs = property.getJsDocs()[0];
+
+  if (!jsDocs) {
+    return null;
+  }
+
+  let description = encode(jsDocs.getDescription())
+    .replaceAll(/`(.+?)`/g, '<code>$1</code>')
+    .replaceAll(/_(.+?)_/g, '<em>$1</em>')
+    .trimStart();
+
+  const linkTag = jsDocs
+    .getTags()
+    .find(t => t.getTagName() === 'link');
+
+  if (!linkTag) {
+    return description;
+  }
+
+  const link = linkTag.getComment().trim();
+
+  return `${description}
+
+<a href="${link}" target="_blank">${link}</a>`;
+}
+
+function setClassInfo(classDeclaration, classInfo) {
+
+  if (!classDeclaration || classDeclaration.getSourceFile().getFilePath().includes('node_modules')) {
+    return;
+  }
+
+  for (const property of classDeclaration.getProperties().concat(classDeclaration.getGetAccessors())) {
+
+    const propertyName = property.getName();
+
+    if (property.isStatic()
+      || property.hasModifier(SyntaxKind.PrivateKeyword)
+      || property.hasModifier(SyntaxKind.ProtectedKeyword)
+      || propertyName.startsWith('#')) {
+      continue;
+    }
+
+    const attributeName = getAttributeName(property);
+
+    const description = getJsDocsDescription(property);
+    const typeText = property.getType().getText();
+
+    classInfo.push({
+      type: typeText.includes('|')
+        ? 'string'
+        : typeText,
+      attribute: attributeName,
+      default: property.getInitializer
+        ? property.getInitializer()?.getText() ?? 'undefined'
+        : null,
+      name: propertyName.startsWith('_')
+        ? null
+        : propertyName,
+      description: description
+    });
+  }
+
+  setClassInfo(classDeclaration.getBaseClass(), classInfo);
+}
+
 gulp.task('docs:pug:apis', docsPugApis);
 gulp.task('docs:pug', pugDocs);
 gulp.task('docs:js', docsCopyJs);
@@ -125,52 +212,4 @@ gulp.task('docs:watch', watchDocs);
 gulp.task('sass:sass-to-ts', sassToTs);
 gulp.task('sass:sass-to-ts:watch', () => gulp.watch('./src/**/*.scss', sassToTs));
 
-function setClassInfo(classDeclaration, classInfo) {
-
-  if (!classDeclaration || classDeclaration.getSourceFile().getFilePath().includes('node_modules')) {
-    return;
-  }
-
-  for (const property of classDeclaration.getProperties()) {
-
-    if (property.isStatic() || property.hasModifier(SyntaxKind.PrivateKeyword) || property.hasModifier(SyntaxKind.ProtectedKeyword)) {
-      continue;
-    }
-
-    const description = property.getJsDocs()[0]?.getDescription();
-
-    const typeText = property.getType().getText();
-
-    classInfo.push({
-      type: typeText.includes('|')
-        ? 'string'
-        : typeText,
-      attribute: property.getDecorator('property')
-        ? property
-          .getName()
-          .split(/(?=[A-Z])/)
-          .join('-')
-          .toLowerCase()
-        : null,
-      default: property.getInitializer()?.getText() ?? 'undefined',
-      name: property.getName(),
-      description: description
-        ?.replaceAll(/`(.+?)`/g, '<code>$1</code>')
-    });
-  }
-
-  setClassInfo(classDeclaration.getBaseClass(), classInfo);
-}
-
-// exports.default = gulp.parallel(
-//   exports['sass'],
-//   exports['scripts'],
-//   exports['pug:docs'],
-//   exports['sass:docs'],
-//   exports['watch'])
-
 gulp.task('docs', gulp.series(docsPugApis, gulp.parallel('docs:pug', pugDocs, docsCopyJs, watchDocs)));
-// exports.docs = gulp.parallel(
-//   exports['docs:pug'],
-//   exports['docs:js'],
-//   exports['docs:watch'])

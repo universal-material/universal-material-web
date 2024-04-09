@@ -3,15 +3,18 @@ import { customElement, property } from 'lit/decorators.js';
 
 import { styles as baseStyles } from '../shared/base.styles';
 import { styles } from './card.styles';
-import './card-content';
-import './card-media';
-import '../elevation/elevation';
+import './card-content.js';
+import './card-media.js';
+import '../elevation/elevation.js';
 
 @customElement('u-card')
 export class Card extends LitElement {
 
   static override styles = [baseStyles, styles];
 
+  /**
+   * The Card variant to render.
+   */
   @property({reflect: true}) variant: 'filled' | 'elevated' | 'outlined' = 'elevated';
 
   override render(): HTMLTemplateResult {

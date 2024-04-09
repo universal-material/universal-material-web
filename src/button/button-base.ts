@@ -1,8 +1,8 @@
 import { html, HTMLTemplateResult, LitElement, nothing } from 'lit';
 import { property, query } from 'lit/decorators.js';
 
-import '../elevation/elevation';
-import '../ripple/ripple';
+import '../elevation/elevation.js';
+import '../ripple/ripple.js';
 import { Ripple } from '../ripple/ripple';
 
 export abstract class ButtonBase extends LitElement {
@@ -10,7 +10,7 @@ export abstract class ButtonBase extends LitElement {
   static readonly formAssociated = true;
 
   /**
-   * Whether or not the button is disabled.
+   * Whether the button is disabled.
    */
   @property({type: Boolean, reflect: true}) disabled = false;
 
@@ -27,10 +27,27 @@ export abstract class ButtonBase extends LitElement {
 
   @property() type: string = 'submit';
 
-  @property() form: string | undefined;
+  @property({reflect: true}) value: string = '';
+  @property() name: string | undefined;
 
   @query('.button') private readonly buttonElement!: HTMLElement;
   @query('u-ripple') private readonly ripple!: Ripple;
+
+  /**
+   * The `<form>` element to associate the button with (its form owner). The value of this attribute must be the id of a `<form>` in the same document. (If this attribute is not set, the button is associated with its ancestor `<form>` element, if any.)
+   * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#form
+   */
+  @property()
+  get form(): HTMLFormElement | null {
+    return this.#elementInternals.form;
+  }
+
+  readonly #elementInternals: ElementInternals;
+
+  constructor() {
+    super();
+    this.#elementInternals = this.attachInternals();
+  }
 
   protected override render() {
     return this.href
@@ -40,7 +57,6 @@ export abstract class ButtonBase extends LitElement {
 
   private renderButton() {
 
-    // Needed for closure conformance
     return html`
       <button
         id="button"
@@ -55,8 +71,7 @@ export abstract class ButtonBase extends LitElement {
   }
 
   private renderLink() {
-    // Needed for closure conformance
-    // const {ariaLabel, ariaHasPopup, ariaExpanded} = this as ARIAMixinStrict;
+
     return html`<a
       id="link"
       class="button"
@@ -80,6 +95,7 @@ export abstract class ButtonBase extends LitElement {
 
   override disconnectedCallback() {
     super.disconnectedCallback();
+
     this.removeEventListener('click', this.innerHandleClick);
   }
 
@@ -111,25 +127,21 @@ export abstract class ButtonBase extends LitElement {
       return;
     }
 
-    const formElement = this.getFormElement();
-
-    if (this.type === 'submit') {
-      formElement?.submit()
+    if (!this.form) {
       return;
     }
 
-    formElement?.reset();
+    this.#elementInternals.setFormValue(this.value);
+
+    if (this.type === 'submit') {
+      this.form.requestSubmit();
+      return;
+    }
+
+    this.form.reset();
   }
 
   protected handleClick(_: UIEvent): void {
 
-  }
-
-  private getFormElement(): HTMLFormElement | null {
-    if (!this.form) {
-      return this.closest<HTMLFormElement>('FORM');
-    }
-
-    return <HTMLFormElement>document.getElementById(this.form);
   }
 }

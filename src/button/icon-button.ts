@@ -1,7 +1,7 @@
 import { CSSResult, html, HTMLTemplateResult, nothing } from 'lit';
 import { customElement, property, queryAssignedElements } from 'lit/decorators.js';
 
-import '../ripple/ripple';
+import '../ripple/ripple.js';
 import { ButtonBase } from './button-base';
 import { styles as buttonBaseStyles } from './button-base.styles';
 import { styles } from './icon-button.styles';

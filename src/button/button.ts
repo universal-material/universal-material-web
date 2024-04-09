@@ -4,16 +4,25 @@ import { customElement, property, queryAssignedElements } from 'lit/decorators.j
 import { ButtonBase } from './button-base';
 import { styles as buttonBaseStyles } from './button-base.styles';
 import { styles } from './button.styles';
-import '../ripple/ripple';
+import '../ripple/ripple.js';
 
 @customElement('u-button')
 export class Button extends ButtonBase {
 
   static override styles: CSSResult | CSSResult[] = [buttonBaseStyles, styles];
 
+  /**
+   * The Button variant to render.
+   */
   @property({reflect: true}) variant: string = 'filled';
 
   @property({type: Boolean, attribute: 'trailing-icon', reflect: true}) trailingIcon = false;
+
+  /**
+   * Whether the button has icon or not
+   *
+   * _Note:_ Readonly
+   */
   @property({type: Boolean, attribute: 'has-icon', reflect: true}) hasIcon = false;
 
   @queryAssignedElements({slot: 'icon', flatten: true})

@@ -1,7 +1,8 @@
 mixin renderApiSection(properties)
   h5.u-headline-m.article-title API
-  u-card(variant="outlined")
-    u-table.api-table(slot="before-content")
+
+  u-card.api-card(variant="outlined")
+    u-table(slot="before-content")
       u-thead
         u-tr
           u-th Property
@@ -13,11 +14,14 @@ mixin renderApiSection(properties)
         each property in properties
           u-tr
             u-td
-              code= property.name
+              if property.name != null && property.name.trim() != ''
+                code= property.name
             u-td
-              code= property.attribute
+              if property.attribute != null && property.attribute.trim() != ''
+                code= property.attribute
             u-td
               code= property.type
             u-td
-              code= property.default
-            u-td !{property.description}
+              if property.default != null && property.default.trim() != ''
+                code= property.default
+            u-td.api-description-cell !{property.description}

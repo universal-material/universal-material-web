@@ -8,6 +8,9 @@ export class Divider extends LitElement {
 
   static override styles = styles;
 
+  /**
+   * When true, remove the margin of the divider
+   */
   @property({type: Boolean, attribute: 'no-margin', reflect: true}) noMargin = false;
 }
 

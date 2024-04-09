@@ -18,6 +18,7 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1')
     meta(name='description', content='')
     meta(name='author', content='')
+    base(href="/web/")
 
     title Universal Material
 
@@ -28,9 +29,9 @@ html
     link(rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap")
 
     link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.9.96/css/materialdesignicons.min.css")
-    link(rel="stylesheet" href="/css/docs.css")
+    link(rel="stylesheet" href="css/docs.css")
 
-    script(type="module", src="/js/index.js")
+    script(type="module", src="js/index.js")
     body.u-android
       .u-drawer.u-drawer-lg-dismissible
         aside.u-drawer-content.u-navigation-drawer
@@ -38,15 +39,15 @@ html
             h6.u-navigation-drawer-headline.u-headline-s Material Design
 
             nav.u-list.u-list-selectable
-              a.u-list-item(href="/")
+              a.u-list-item(href="")
                 .u-list-item-content
                   | Introduction
 
-              //a.u-list-item(href="/layout/grid.html")
+              //a.u-list-item(href="layout/grid.html")
                 .u-list-item-content
                   span Grid
 
-              //a.u-list-item(href="/content/typography.html")
+              //a.u-list-item(href="content/typography.html")
                 .u-list-item-content
                   span Typography
 
@@ -56,13 +57,13 @@ html
                 .u-list-item-icon.mdi.mdi-chevron-down
 
               //.nested-menu-items
-                a.u-list-item(href="/utilities/text-colors.html")
+                a.u-list-item(href="utilities/text-colors.html")
                   .u-list-item-content
                     span Text
-                a.u-list-item(href="/utilities/background-colors.html")
+                a.u-list-item(href="utilities/background-colors.html")
                   .u-list-item-content
                     span Background
-                a.u-list-item(href="/utilities/text-and-background-colors.html")
+                a.u-list-item(href="utilities/text-and-background-colors.html")
                   .u-list-item-content
                     span Text and background
 
@@ -72,76 +73,76 @@ html
                 .u-list-item-icon.mdi.mdi-chevron-down
 
               .nested-menu-items
-                a.u-list-item(href="/components/common-buttons.html")
+                a.u-list-item(href="components/common-buttons.html")
                   .u-list-item-content
                     span Common buttons
-                a.u-list-item(href="/components/fab.html")
+                a.u-list-item(href="components/fab.html")
                   .u-list-item-content
                     span Floating Action Button (FAB)
-                a.u-list-item(href="/components/icon-buttons.html")
+                a.u-list-item(href="components/icon-buttons.html")
                   .u-list-item-content
                     span Icon buttons
-                a.u-list-item(href="/components/button-set.html")
+                a.u-list-item(href="components/button-set.html")
                   .u-list-item-content
                     span Button set
 
-              a.u-list-item(href="/components/cards.html")
+              a.u-list-item(href="components/cards.html")
                 .u-list-item-content
                   span Cards
 
-              //a.u-list-item(href="/components/checkbox.html")
+              //a.u-list-item(href="components/checkbox.html")
                 .u-list-item-content
                   span Checkbox
 
-              //a.u-list-item(href="/components/chips.html")
+              //a.u-list-item(href="components/chips.html")
                 .u-list-item-content
                   span Chips
 
-              a.u-list-item(href="/components/data-tables.html")
+              a.u-list-item(href="components/data-tables.html")
                 .u-list-item-content
                   span Data tables
 
-              //a.u-list-item(href="/components/dialogs.html")
+              //a.u-list-item(href="components/dialogs.html")
                 .u-list-item-content
                   span Dialogs
 
-              a.u-list-item(href="/components/dividers.html")
+              a.u-list-item(href="components/dividers.html")
                 .u-list-item-content
                   span Dividers
 
-              //a.u-list-item(href="/components/lists.html")
+              //a.u-list-item(href="components/lists.html")
                 .u-list-item-content
                   span Lists
 
-              //a.u-list-item(href="/components/menus.html")
+              //a.u-list-item(href="components/menus.html")
                 .u-list-item-content
                   span Menus
 
-              //a.u-list-item(href="/components/progress.html")
+              //a.u-list-item(href="components/progress.html")
                 .u-list-item-content
                   span Progress
 
-              //a.u-list-item(href="/components/selection-controls.html")
+              //a.u-list-item(href="components/selection-controls.html")
                 .u-list-item-content
                   span Selection controls
 
-              //a.u-list-item(href="/components/sliders.html")
+              //a.u-list-item(href="components/sliders.html")
                 .u-list-item-content
                   span Sliders
 
-              //a.u-list-item(href="/components/snackbars.html")
+              //a.u-list-item(href="components/snackbars.html")
                 .u-list-item-content
                   span Snackbars
 
-              //a.u-list-item(href="/components/tabs.html")
+              //a.u-list-item(href="components/tabs.html")
                 .u-list-item-content
                   span Tabs
 
-              //a.u-list-item(href="/components/text-fields.html")
+              //a.u-list-item(href="components/text-fields.html")
                 .u-list-item-content
                   span Text fields
 
-              //a.u-list-item(href="/components/toolbars.html")
+              //a.u-list-item(href="components/toolbars.html")
                 .u-list-item-content
                   span Toolbars
 
@@ -170,11 +171,10 @@ html
                 button.u-toolbar-action.u-icon-btn#rtl-toggle(type="button", title="Rtl")
                   i.u-btn-icon.mdi.mdi-format-align-right
 
-        div
-          u-container.chapter#main-content
-            block content
+        u-container.chapter#main-content
+          block content
 
     script(src='//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js')
-    script(src="/js/universal-material.js")
-    script(src="/js/docs.js")
+    script(src="js/universal-material.js")
+    script(src="js/docs.js")
     block scripts
