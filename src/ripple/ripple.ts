@@ -4,19 +4,23 @@ import { customElement, property, query } from 'lit/decorators.js';
 import { styles } from './ripple.styles';
 
 @customElement('u-ripple')
-export class Ripple extends LitElement {
+export class UmRipple extends LitElement {
 
   static override styles = styles;
 
   private isTouching = false;
-  override ariaHidden = "true";
 
+  /**
+   * Disables the ripple.
+   */
   @property({type: Boolean, reflect: true}) disabled = false;
+
   @query('.ripple-container') private readonly rippleContainer!: HTMLElement;
 
   constructor() {
     super();
-    
+
+    this.ariaHidden = "true";
     this.attachEvents();
   }
 
@@ -36,7 +40,7 @@ export class Ripple extends LitElement {
       return;
     }
 
-    this.createRipple('mouseup', e.clientX, e.clientY);
+    this.createRipple(e.clientX, e.clientY, 'mouseup');
   }
 
   private handleTouchStart(e: TouchEvent): void {
@@ -47,29 +51,9 @@ export class Ripple extends LitElement {
 
     this.isTouching = true;
 
-    let release: (() => void) | null;
-    let cancel = false;
+    const dismiss = this.createRipple(e.touches[0].clientX, e.touches[0].clientY, 'touchend')!;
 
-    const touchMove = () => {
-
-      cancel = true;
-
-      this.removeEventListener("touchmove", touchMove);
-
-      if (release) {
-        release();
-      }
-    };
-
-    this.addEventListener("touchmove", touchMove);
-
-    setTimeout(() => {
-      if (cancel) {
-        return;
-      }
-
-      release = this.createRipple('touchend', e.touches[0].clientX, e.touches[0].clientY);
-    }, 100);
+    this.addEventListener("touchmove", dismiss);
   }
 
   private canCreateRipple(): boolean {
@@ -78,14 +62,13 @@ export class Ripple extends LitElement {
     const parent = this.parentElement;
 
     if (!parent || window.getComputedStyle(parent).position !== "relative" && window.getComputedStyle(parent).position !== "absolute" && window.getComputedStyle(parent).position !== "fixed") {
-      console.warn('Ripple: Parent element position must be "relative", "absolute" or "fixed"');
       return false;
     }
 
     return true;
   }
 
-  createRipple(releaseEventName: string | null = null, targetX: number | null = null, targetY: number | null = null): () => void {
+  createRipple(targetX: number | null = null, targetY: number | null = null, releaseEventName: string | null = null): (() => void) | null {
     const preClientRect = this.rippleContainer.getBoundingClientRect();
     targetX ??= preClientRect.x + this.rippleContainer.clientWidth / 2;
     targetY ??= preClientRect.y + this.rippleContainer.clientHeight / 2;
@@ -94,61 +77,74 @@ export class Ripple extends LitElement {
     ripple.classList.add('ripple');
     this.rippleContainer!.appendChild(ripple);
 
-    const release = () => {
-      ripple.classList.add('dismiss');
-      this.isTouching = false;
-    };
-
-    this.addEventListener("dragstart", release);
-    this.addEventListener("mouseleave", release);
-    ripple.addEventListener('transitionend', () => {
-      if (!ripple.classList.contains('dismiss') && !ripple.classList.contains('show-forced')) {
-        return;
-      }
-
-      ripple.remove();
-      this.removeEventListener('dragstart', release);
-      this.removeEventListener('mouseleave', release);
-
-      if (releaseEventName) {
-        window.removeEventListener(releaseEventName, release);
-      }
-    });
-
     requestAnimationFrame(() => {
       const clientRect = this.getBoundingClientRect();
       const largestDimensionSize = Math.max(this.clientWidth, this.clientHeight);
       const rippleSize = largestDimensionSize * 2;
 
-      Ripple._setElementSquareSizeAndCenter(ripple, rippleSize);
-      ripple.style.transitionDuration = (1080 * Math.pow(rippleSize, 0.3)) + 'ms, 750ms';
+      UmRipple._setElementSquareSizeAndCenter(ripple, rippleSize);
+      ripple.style.setProperty('--_ripple-transition-duration', `${1080 * Math.pow(rippleSize, 0.3)}ms`);
 
       const x = (targetX! - clientRect.left) + ((rippleSize - this.rippleContainer.clientWidth) / 2);
       const y = (targetY! - clientRect.top) + ((rippleSize - this.rippleContainer.clientHeight) / 2);
 
-      ripple.style.transformOrigin = x + "px " + y + "px";
+      ripple.style.transformOrigin = `${x}px ${y}px`;
       ripple.classList.add(releaseEventName ? 'show' : 'show-forced');
     });
 
-    if (releaseEventName) {
-      window.addEventListener(releaseEventName, release);
+    const interval = setInterval(() => {
+
+      if (!ripple.classList.contains('dismiss') && !ripple.classList.contains('show-forced')) {
+        return;
+      }
+
+      const animations = ripple.getAnimations();
+
+      if (animations.length) {
+        return;
+      }
+
+      clearInterval(interval);
+      ripple.remove();
+    }, 1000);
+
+    if (!releaseEventName) {
+      return null;
     }
 
-    return release;
+    return this.createDismissEvent(ripple, releaseEventName);
+  }
+
+  private createDismissEvent(ripple: HTMLElement, releaseEventName: string): () => void {
+    const dismiss = () => {
+      ripple.classList.add('dismiss');
+
+      this.isTouching = false;
+
+      this.removeEventListener('dragover', dismiss);
+      this.removeEventListener('mouseleave', dismiss);
+      window.removeEventListener(releaseEventName, dismiss);
+    }
+
+    this.addEventListener("dragover", dismiss);
+    this.addEventListener("mouseleave", dismiss);
+    window.addEventListener(releaseEventName, dismiss);
+
+    return dismiss;
   }
 
   private static _setElementSquareSizeAndCenter(element: HTMLElement, size: number) {
     element.style.top = "50%";
     element.style.left = "50%";
-    element.style.width = size + 'px';
-    element.style.height = size + 'px';
-    element.style.marginLeft = -size / 2 + 'px';
-    element.style.marginTop = -size / 2 + 'px';
+    element.style.width = `${size}px`;
+    element.style.height = `${size}px`;
+    element.style.marginLeft = `${-size / 2}px`;
+    element.style.marginTop = `${-size / 2}px`;
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-ripple': Ripple;
+    'u-ripple': UmRipple;
   }
 }

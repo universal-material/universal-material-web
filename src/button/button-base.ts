@@ -3,14 +3,14 @@ import { property, query } from 'lit/decorators.js';
 
 import '../elevation/elevation.js';
 import '../ripple/ripple.js';
-import { Ripple } from '../ripple/ripple';
+import { UmRipple } from '../ripple/ripple';
 
 export abstract class ButtonBase extends LitElement {
 
   static readonly formAssociated = true;
 
   /**
-   * Whether the button is disabled.
+   * Whether the button is disabled or not.
    */
   @property({type: Boolean, reflect: true}) disabled = false;
 
@@ -31,7 +31,7 @@ export abstract class ButtonBase extends LitElement {
   @property() name: string | undefined;
 
   @query('.button') private readonly buttonElement!: HTMLElement;
-  @query('u-ripple') private readonly ripple!: Ripple;
+  @query('u-ripple') private readonly ripple!: UmRipple;
 
   /**
    * The `<form>` element to associate the button with (its form owner). The value of this attribute must be the id of a `<form>` in the same document. (If this attribute is not set, the button is associated with its ancestor `<form>` element, if any.)

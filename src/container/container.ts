@@ -6,7 +6,7 @@ import { styles } from './container.styles.js';
 type SpacingSizes = 'none' | 'small' | 'medium ' | 'large' | 'extra-large';
 
 @customElement('u-container')
-export class container extends LitElement {
+export class UmContainer extends LitElement {
 
   static override styles = styles;
 
@@ -19,6 +19,6 @@ export class container extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-container': container;
+    'u-container': UmContainer;
   }
 }

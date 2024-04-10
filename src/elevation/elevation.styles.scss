@@ -1,6 +1,8 @@
+@import "../utils";
+
 :host {
   --_level: var(--u-elevation-level, 0);
-  --_shadow-color: var(--u-shadow-color, #000);
+  --_shadow-color: #{get-color-var(shadow)};
 
   -webkit-tap-highlight-color: transparent;
   position: absolute;

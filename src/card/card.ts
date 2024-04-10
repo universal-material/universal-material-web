@@ -8,7 +8,7 @@ import './card-media.js';
 import '../elevation/elevation.js';
 
 @customElement('u-card')
-export class Card extends LitElement {
+export class UmCard extends LitElement {
 
   static override styles = [baseStyles, styles];
 
@@ -30,6 +30,6 @@ export class Card extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-card': Card;
+    'u-card': UmCard;
   }
 }

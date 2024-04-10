@@ -1,11 +1,11 @@
 import { css, html, HTMLTemplateResult, LitElement } from 'lit';
 import { customElement, query, queryAssignedElements } from 'lit/decorators.js';
 
-import { Ripple } from '../ripple/ripple';
+import { UmRipple } from '../ripple/ripple';
 import { styles as baseStyles } from '../shared/base.styles';
 
 @customElement('u-checkbox')
-export class Checkbox extends LitElement {
+export class UmCheckbox extends LitElement {
   static override styles = [
     baseStyles,
     css`
@@ -36,7 +36,7 @@ export class Checkbox extends LitElement {
     `
   ];
 
-  @query('u-ripple') private readonly ripple!: Ripple;
+  @query('u-ripple') private readonly ripple!: UmRipple;
   @queryAssignedElements({selector: 'input', flatten: true})
   private readonly assignedInputs!: HTMLInputElement[];
 
@@ -72,6 +72,6 @@ export class Checkbox extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-checkbox': Checkbox;
+    'u-checkbox': UmCheckbox;
   }
 }

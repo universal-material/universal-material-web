@@ -8,5 +8,5 @@
 ::slotted(u-tbody:not(:first-child)),
 ::slotted(u-tfooter:not(:first-child)),
 ::slotted(u-tr:not(:first-child)) {
-  border-top: 1px solid var(--u-outline-variant-color, #cac5ca);
+  border-top: 1px solid #{get-color-var(outline-variant)};
 }

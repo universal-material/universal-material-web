@@ -8,7 +8,7 @@ import './table-header-cell.js';
 import { styles as baseStyles } from '../shared/base.styles';
 import { styles } from './table.styles';
 
-export class Table extends LitElement {
+export class UmTable extends LitElement {
   static override styles = [baseStyles, styles];
 
   protected override render(): HTMLTemplateResult {
@@ -19,10 +19,10 @@ export class Table extends LitElement {
   }
 }
 
-customElements.define('u-table', Table);
+customElements.define('u-table', UmTable);
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-table': Table;
+    'u-table': UmTable;
   }
 }

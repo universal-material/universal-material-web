@@ -7,7 +7,7 @@ import { styles as buttonBaseStyles } from './button-base.styles';
 import { styles } from './icon-button.styles';
 
 @customElement('u-icon-button')
-export class IconButton extends ButtonBase {
+export class UmIconButton extends ButtonBase {
 
   static override styles: CSSResult | CSSResult[] = [buttonBaseStyles, styles];
 
@@ -65,6 +65,6 @@ export class IconButton extends ButtonBase {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-icon-button': IconButton;
+    'u-icon-button': UmIconButton;
   }
 }

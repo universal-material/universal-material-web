@@ -5,7 +5,7 @@ import { styles as baseStyles } from '../shared/base.styles';
 import { styles } from './card-media.styles';
 
 @customElement('u-card-media')
-export class CardMedia extends LitElement {
+export class UmCardMedia extends LitElement {
 
   static override styles = [baseStyles, styles];
 
@@ -19,6 +19,6 @@ export class CardMedia extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-card-media': CardMedia;
+    'u-card-media': UmCardMedia;
   }
 }

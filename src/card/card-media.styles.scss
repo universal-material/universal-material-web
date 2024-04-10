@@ -1,7 +1,7 @@
 :host {
   display: block;
   aspect-ratio: 1;
-  border-radius: var(--u-card-shape, var(--u-shape-corner-medium, 12px));
+  border-radius: var(--u-card-shape-corner, var(--u-shape-corner-medium, 12px));
 }
 
 :host([wide]) {

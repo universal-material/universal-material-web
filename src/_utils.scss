@@ -1,0 +1,20 @@
+@use "sass:map";
+
+@import "variables";
+
+@function get-color-var($name) {
+  @return var(--u-color-#{$name}, map.get($colors, $name));
+}
+
+@function get-color-rgb-var($name) {
+  @return var(--u-color-#{$name}, map.get($rgb-colors, $name));
+}
+
+
+@function get-font-weight-var($name) {
+  @return var(--u-font-weight-#{$name}, map.get($font-weights, $name));
+}
+
+@function get-shaper-corner-var($name) {
+  @return var(--u-shape-corner-#{$name}, map.get($shape-corner, $name));
+}

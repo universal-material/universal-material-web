@@ -1,5 +1,12 @@
+@import '../variables';
+
 :host,
 .ripple-container::before {
+  --_ripple-hover-color: var(--u-ripple-hover-color, var(--u-ripple-color, var(--u-state-layer-color, currentColor)));
+  --_ripple-pressed-color: var(--u-ripple-pressed-color, var(--u-ripple-color, var(--u-state-layer-color, currentColor)));
+  --_ripple-hover-opacity: var(--u-ripple-pressed-opacity, .08);
+  --_ripple-pressed-opacity: var(--u-ripple-pressed-opacity, .2);
+
   display: block;
   inset: 0;
   isolation: isolate;
@@ -15,7 +22,7 @@
 
 .ripple-container::before {
   content: '';
-  background: var(--u-state-layer-color, currentColor);
+  background: var(--_ripple-hover-color);
   opacity: 0;
   transition: opacity 200ms;
 }
@@ -23,8 +30,8 @@
 @media (hover: hover) {
   :host(:not([disabled]):hover) .ripple-container::before {
     content: '';
-    background: var(--u-state-layer-color, currentColor);
-    opacity: .08;
+    background: var(--_ripple-hover-color);
+    opacity: var(--_ripple-hover-opacity);
   }
 }
 
@@ -38,21 +45,24 @@
 .ripple {
   top: 50%;
   left: 50%;
-  background: var(--u-state-layer-color, currentColor);
+  background: var(--_ripple-pressed-color);
   border-radius: 50%;
-  box-shadow: 0 0 64px 64px var(--u-state-layer-color, currentColor);
-  opacity: .2;
+  box-shadow: 0 0 64px 64px var(--_ripple-pressed-color);
+  opacity: var(--_ripple-pressed-opacity);
   transform: scale3d(0, 0, 1);
   pointer-events: none;
   will-change: transform;
 
   &.show {
-    transition: transform var(--u-ripple-wave-duration, 3s) cubic-bezier(.19, 1, .22, 1), opacity 750ms;
+    transition:
+      transform calc(var(--_ripple-transition-duration) / var(--u-ripple-speed, 1)) $awesome-cubic-bezier,
+      opacity calc(750ms / var(--u-ripple-speed, 1));
     transform: scale3d(1, 1, 1);
   }
-
   &.show-forced {
-    transition: transform var(--u-ripple-wave-duration, 3s) cubic-bezier(.19, 1, .22, 1), opacity 200ms 300ms;
+    transition:
+      transform calc(var(--_ripple-transition-duration) / var(--u-ripple-speed, 1)) $awesome-cubic-bezier,
+      opacity calc(200ms / var(--u-ripple-speed, 1)) 300ms;
     transform: scale3d(2, 2, 1);
     opacity: 0;
   }

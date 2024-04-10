@@ -5,7 +5,7 @@ import { styles as baseStyles } from '../shared/base.styles';
 import { styles } from './table-cell.styles';
 
 @customElement('u-td')
-export class TableCell extends LitElement {
+export class UmTableCell extends LitElement {
 
   static override styles = [baseStyles, styles];
 
@@ -16,6 +16,6 @@ export class TableCell extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-td': TableCell;
+    'u-td': UmTableCell;
   }
 }

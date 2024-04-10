@@ -1,18 +1,21 @@
-[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/universal-material/universal-material) 
-
 # Universal Material
 
+### Getting started
 
-## Getting started
+#### Install
+Install Universal Material components using [npm and node](https://nodejs.org/).
 
-### Step1: Install Universal Material
 ```
 npm i @universal-material/web
 ```
 
-### Step2: Import Universal Material scss
+### Import
+Import element definitions from `@universal-material/web/<component>/<component-variant>.js` or import everything from `@universal-material/web`.
 ```
-@import "node_modules/@universal-material/core/scss/universal-material.scss";
+// index.js
+import '@universal-material/web/button/button.js';
+import '@universal-material/web/card/card.js';
+import '@universal-material/web/checkbox/checkbox.js';
 ```
 
 ### Documentation

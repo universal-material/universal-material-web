@@ -1,6 +1,7 @@
+@import '../utils';
+
 :host {
-  --_primary-color: var(--u-primary-color, #6750a4);
-  --_shadow-color-rgb: var(--u-shadow-color-rgb, 0, 0, 0);
+  --_color-primary: #{get-color-var(primary)};
 
   -webkit-tap-highlight-color: transparent;
 
@@ -16,8 +17,8 @@
 
 :host([disabled]) {
   --u-elevation-level: 0 !important;
-  background-color: var(--u-button-disabled-background-color, rgba(var(--u-on-surface-color-rgb, 29, 27, 32), .12)) !important;
-  color: var(--u-button-disabled-text-color, rgba(var(--u-on-surface-color-rgb, 29, 27, 32), .38)) !important;
+  background-color: var(--u-button-disabled-background-color, rgba(#{get-color-rgb-var(on-surface)}, .12)) !important;
+  color: var(--u-button-disabled-text-color, rgba(#{get-color-rgb-var(on-surface)}, .38)) !important;
 }
 
 :host([disabled]) .button {
@@ -63,12 +64,12 @@ u-elevation {
 
 @keyframes offset-pulse {
   0% {
-    outline: 4px solid var(--u-primary-color, #6750a4)
+    outline: 4px solid var(--_color-primary);
   }
   50% {
-    outline: 8px solid var(--u-primary-color, #6750a4)
+    outline: 8px solid var(--_color-primary);
   }
   100% {
-    outline: 4px solid var(--u-primary-color, #6750a4)
+    outline: 4px solid var(--_color-primary);
   }
 }

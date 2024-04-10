@@ -1,9 +1,11 @@
+@import "../utils";
+
 :host {
   --_divider-thickness: var(--u-divider-thickness, 1px);
   display: block;
   margin-block: 8px;
   height: var(--_divider-thickness);
-  background-color: var(--u-divider-color, var(--u-outline-variant-color, #cac4d0));
+  background-color: var(--u-divider-color, #{get-color-var(outline-variant)});
 }
 
 :host([no-margin]) {

@@ -4,7 +4,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { styles } from './divider.styles';
 
 @customElement('u-divider')
-export class Divider extends LitElement {
+export class UmDivider extends LitElement {
 
   static override styles = styles;
 
@@ -16,6 +16,6 @@ export class Divider extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-divider': Divider;
+    'u-divider': UmDivider;
   }
 }

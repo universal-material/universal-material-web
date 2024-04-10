@@ -4,9 +4,12 @@ import gulpPug from 'gulp-pug';
 import gulpSass from 'gulp-sass';
 import { encode } from 'html-entities';
 import * as fs from 'node:fs';
+import { rollup } from 'rollup';
 import * as dartSass from 'sass';
 import through2 from 'through2';
 import { Project, SyntaxKind } from 'ts-morph';
+
+import rollupConfig from './rollup.config.js';
 
 const sass = gulpSass(dartSass);
 
@@ -41,6 +44,13 @@ const docsCopyJs = () =>
   gulp
     .src(["./dist/**/*"])
     .pipe(gulp.dest('docs/dist/js'));
+
+const docsBundle = async () => {
+  const bundle = await rollup(rollupConfig);
+  await bundle.write({
+    file: './docs/dist/js/index.js'
+  })
+}
 
 const watchDocs = () => {
   gulp.watch(['./docs/src/**/*.pug', './docs/src/**/*.html'], pugDocs);
@@ -93,7 +103,6 @@ const docsPugApis = cb => {
     cb()
     console.log('Done.');
   });
-
 };
 
 const sassToTs = () =>
@@ -207,9 +216,10 @@ function setClassInfo(classDeclaration, classInfo) {
 gulp.task('docs:pug:apis', docsPugApis);
 gulp.task('docs:pug', pugDocs);
 gulp.task('docs:js', docsCopyJs);
-gulp.task('docs:watch', watchDocs);
+gulp.task('docs:bundle', docsBundle);
+gulp.task('docs:watch', gulp.series(docsPugApis, gulp.parallel(pugDocs, docsCopyJs, watchDocs)));
 
 gulp.task('sass:sass-to-ts', sassToTs);
 gulp.task('sass:sass-to-ts:watch', () => gulp.watch('./src/**/*.scss', sassToTs));
 
-gulp.task('docs', gulp.series(docsPugApis, gulp.parallel('docs:pug', pugDocs, docsCopyJs, watchDocs)));
+gulp.task('docs', gulp.series(docsPugApis, gulp.parallel(pugDocs, docsBundle)));

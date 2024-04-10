@@ -18,7 +18,7 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1')
     meta(name='description', content='')
     meta(name='author', content='')
-    base(href="/web/")
+    base(href="/")
 
     title Universal Material
 
@@ -122,6 +122,10 @@ html
                 .u-list-item-content
                   span Progress
 
+              a.u-list-item(href="components/ripple.html")
+                .u-list-item-content
+                  span Ripple
+
               //a.u-list-item(href="components/selection-controls.html")
                 .u-list-item-content
                   span Selection controls
@@ -175,6 +179,5 @@ html
           block content
 
     script(src='//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js')
-    script(src="js/universal-material.js")
-    script(src="js/docs.js")
+    script(src="js/docs.js" type="module")
     block scripts

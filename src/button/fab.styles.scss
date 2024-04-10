@@ -1,3 +1,5 @@
+@import "../utils";
+
 :host {
   aspect-ratio: 1;
   --u-elevation-level: var(--u-fab-button-elevation-level, 3);
@@ -25,18 +27,18 @@
 
 :host([size="small"]) {
   width: var(--u-fab-button-small-size, 40px);
-  border-radius: var(--u-fab-button-medium-shape, var(--u-shape-corner-medium, 12px));
+  border-radius: var(--u-fab-button-medium-shape-corner, #{get-shaper-corner-var(medium)});
 }
 
 :host([size="large"]) {
   width: var(--u-fab-button-medium-size, 96px);
-  border-radius: var(--u-fab-button-medium-shape, var(--u-shape-corner-extra-large, 28px));
+  border-radius: var(--u-fab-button-medium-shape-corner, #{get-shaper-corner-var(extra-large)});
 }
 
 :host([extended]),
 :host([size="medium"]) {
   width: var(--u-fab-button-medium-size, 56px);
-  border-radius: var(--u-fab-button-medium-shape, var(--u-shape-corner-large, 16px));
+  border-radius: var(--u-fab-button-medium-shape-corner, #{get-shaper-corner-var(large)});
 }
 
 :host([size="large"]) .icon {
@@ -62,27 +64,27 @@
 }
 
 :host([color="primary"]) {
-  background-color: var(--u-fab-button-primary-background-color, var(--u-primary-container-color, #eaddff));
-  color: var(--u-fab-button-primary-text-color, var(--u-on-primary-container-color, #21005d));
+  background-color: var(--u-fab-button-primary-background-color, #{get-color-var(primary-container)});
+  color: var(--u-fab-button-primary-text-color, #{get-color-var(on-primary-container)});
 }
 
 :host([color="secondary"]) {
-  background-color: var(--u-fab-button-secondary-background-color, var(--u-secondary-container-color, #e8def8));
-  color: var(--u-fab-button-secondary-text-color, var(--u-on-secondary-container-color, #1d192b));
+  background-color: var(--u-fab-button-secondary-background-color, #{get-color-var(secondary-container)});
+  color: var(--u-fab-button-secondary-text-color, #{get-color-var(on-secondary-container)});
 }
 
 :host([color="tertiary"]) {
-  background-color: var(--u-fab-button-tertiary-background-color, var(--u-tertiary-container-color, #ffd8e4));
-  color: var(--u-fab-button-tertiary-text-color, var(--u-on-tertiary-container-color, #31111d));
+  background-color: var(--u-fab-button-tertiary-background-color, #{get-color-var(tertiary-container)});
+  color: var(--u-fab-button-tertiary-text-color, #{get-color-var(on-tertiary-container)});
 }
 
 :host([color="branded"]),
 :host([color="surface"]) {
-  background-color: var(--u-fab-button-surface-background-color, var(--u-surface-container-high-color, #ece6f0));
-  color: var(--u-fab-button-surface-text-color, var(--_primary-color));
+  background-color: var(--u-fab-button-surface-background-color, #{get-color-var(surface-container-high)});
+  color: var(--u-fab-button-surface-text-color, var(--_color-primary));
 }
 
 :host([color="branded"][lowered]),
 :host([color="surface"][lowered]) {
-  background-color: var(--u-fab-button-surface-background-color, var(--u-surface-container-low-color, #ece6f0));
+  background-color: var(--u-fab-button-surface-background-color, #{get-color-var(surface-container-low)});
 }

@@ -7,14 +7,21 @@ import { styles } from './button.styles';
 import '../ripple/ripple.js';
 
 @customElement('u-button')
-export class Button extends ButtonBase {
+export class UmButton extends ButtonBase {
 
   static override styles: CSSResult | CSSResult[] = [buttonBaseStyles, styles];
 
   /**
-   * The Button variant to render.
+   * The Button variant to render
    */
-  @property({reflect: true}) variant: string = 'filled';
+  @property({reflect: true}) variant: 'filled' | 'tonal' | 'elevated' | 'outlined' | 'text' = 'filled';
+
+  /**
+   * The Button color
+   *
+   * _Note:_ Filled buttons only
+   */
+  @property({reflect: true}) color: 'primary' | 'secondary' | 'tertiary' | 'error' | undefined;
 
   @property({type: Boolean, attribute: 'trailing-icon', reflect: true}) trailingIcon = false;
 
@@ -49,6 +56,6 @@ export class Button extends ButtonBase {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-button': Button;
+    'u-button': UmButton;
   }
 }

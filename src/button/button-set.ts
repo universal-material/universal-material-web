@@ -1,10 +1,10 @@
-import { HTMLTemplateResult, LitElement, html } from 'lit';
+import { html, HTMLTemplateResult, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 import { styles } from './button-set.styles';
 
 @customElement('u-button-set')
-export class ButtonSet extends LitElement {
+export class UmButtonSet extends LitElement {
 
   static override styles = styles;
 
@@ -14,7 +14,7 @@ export class ButtonSet extends LitElement {
   @property({reflect: true}) align: 'start' | 'center' | 'end' = 'end';
 
   /**
-   * Whether ot not render the buttons stacked
+   * Whether to render the buttons stacked or not
    */
   @property({type: Boolean, reflect: true}) stack = false;
 
@@ -26,6 +26,6 @@ export class ButtonSet extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-button-set': ButtonSet;
+    'u-button-set': UmButtonSet;
   }
 }

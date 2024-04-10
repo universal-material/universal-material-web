@@ -6,7 +6,7 @@ import { styles as buttonBaseStyles } from './button-base.styles';
 import { styles } from './fab.styles';
 
 @customElement('u-fab')
-export class FabButton extends ButtonBase {
+export class UmFabButton extends ButtonBase {
 
   static override styles: CSSResult | CSSResult[] = [buttonBaseStyles, styles];
   
@@ -47,6 +47,6 @@ export class FabButton extends ButtonBase {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-fab': FabButton;
+    'u-fab': UmFabButton;
   }
 }
