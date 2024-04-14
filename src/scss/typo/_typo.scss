@@ -1,0 +1,18 @@
+@use "sass:map";
+
+@use "variables";
+@use "../mixins";
+
+:root {
+  @each $style, $props in (variables.$typography-styles) {
+    @each $key, $value in $props {
+      --u-typo-#{$style}-#{$key}: #{$value};
+    }
+  }
+}
+
+@each $style in map.keys(variables.$typography-styles) {
+  .u-#{$style} {
+    @include mixins.typo($style);
+  }
+}

@@ -102,8 +102,8 @@ export class ThemeBuilder {
     this.addColors(builder, neutralColors, this.neutralColorPalette, dark);
 
     builder
-      .add('--u-color-background', "var(--u-color-surface-container-highest)")
-      .add('--u-color-inverse-background', "var(--u-color-inverse-surface-container-highest)")
+      .add('--u-color-background', "var(--u-color-surface)")
+      .add('--u-color-inverse-background', "var(--u-color-inverse-surface)")
       .add('--u-color-on-background', "var(--u-color-on-surface)")
       .add('--u-color-on-inverse-background', "var(--u-color-inverse-on-surface)");
 

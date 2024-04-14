@@ -2,7 +2,7 @@ import { css, html, HTMLTemplateResult, LitElement } from 'lit';
 import { customElement, query, queryAssignedElements } from 'lit/decorators.js';
 
 import { UmRipple } from '../ripple/ripple';
-import { styles as baseStyles } from '../shared/base.styles';
+import { styles as baseStyles } from '../shared/base.styles.js';
 
 @customElement('u-checkbox')
 export class UmCheckbox extends LitElement {

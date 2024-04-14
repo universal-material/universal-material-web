@@ -9,3 +9,7 @@
 :host([has-content]) {
   padding: var(--u-card-padding, 16px);
 }
+
+slot {
+  border-radius: inherit;
+}

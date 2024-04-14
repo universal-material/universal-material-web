@@ -1,27 +1,30 @@
 import { CSSResult, html, HTMLTemplateResult, nothing } from 'lit';
 import { customElement, property, queryAssignedElements } from 'lit/decorators.js';
 
-import { ButtonBase } from './button-base';
-import { styles as buttonBaseStyles } from './button-base.styles';
-import { styles } from './button.styles';
+import { styles as buttonWrapperStyles } from '../shared/button-wrapper.styles.js';
+import { UmButtonBase } from './button-base';
+import { styles } from './button.styles.js';
 import '../ripple/ripple.js';
 
-@customElement('u-button')
-export class UmButton extends ButtonBase {
+export type UmButtonVariant = 'filled' | 'tonal' | 'elevated' | 'outlined' | 'text';
+export type UmButtonColor = 'primary' | 'secondary' | 'tertiary' | 'error' | undefined;
 
-  static override styles: CSSResult | CSSResult[] = [buttonBaseStyles, styles];
+@customElement('u-button')
+export class UmButton extends UmButtonBase {
+
+  static override styles: CSSResult | CSSResult[] = [buttonWrapperStyles, styles];
 
   /**
    * The Button variant to render
    */
-  @property({reflect: true}) variant: 'filled' | 'tonal' | 'elevated' | 'outlined' | 'text' = 'filled';
+  @property({reflect: true}) variant: UmButtonVariant = 'filled';
 
   /**
    * The Button color
    *
    * _Note:_ Filled buttons only
    */
-  @property({reflect: true}) color: 'primary' | 'secondary' | 'tertiary' | 'error' | undefined;
+  @property({reflect: true}) color: UmButtonColor;
 
   @property({type: Boolean, attribute: 'trailing-icon', reflect: true}) trailingIcon = false;
 
@@ -37,10 +40,12 @@ export class UmButton extends ButtonBase {
 
   protected override renderContent(): HTMLTemplateResult {
     const icon = html`
-      <slot
-        name="icon"
-        aria-hidden="true"
-        @slotchange="${this.handleSlotChange}"></slot>`;
+      <span class="icon">
+        <slot
+          name="icon"
+          aria-hidden="true"
+          @slotchange="${this.handleSlotChange}"></slot>
+      </span>`;
 
     return html`
       ${this.trailingIcon ? nothing : icon}

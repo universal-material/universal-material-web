@@ -1,4 +1,4 @@
-@import "../utils";
+@use "../scss/functions";
 
 :host {
   aspect-ratio: 1;
@@ -27,18 +27,18 @@
 
 :host([size="small"]) {
   width: var(--u-fab-button-small-size, 40px);
-  border-radius: var(--u-fab-button-medium-shape-corner, #{get-shaper-corner-var(medium)});
+  border-radius: var(--u-fab-button-medium-shape-corner, #{functions.get-shape-corner-var(medium)});
 }
 
 :host([size="large"]) {
   width: var(--u-fab-button-medium-size, 96px);
-  border-radius: var(--u-fab-button-medium-shape-corner, #{get-shaper-corner-var(extra-large)});
+  border-radius: var(--u-fab-button-medium-shape-corner, #{functions.get-shape-corner-var(extra-large)});
 }
 
 :host([extended]),
 :host([size="medium"]) {
   width: var(--u-fab-button-medium-size, 56px);
-  border-radius: var(--u-fab-button-medium-shape-corner, #{get-shaper-corner-var(large)});
+  border-radius: var(--u-fab-button-medium-shape-corner, #{functions.get-shape-corner-var(large)});
 }
 
 :host([size="large"]) .icon {
@@ -64,27 +64,27 @@
 }
 
 :host([color="primary"]) {
-  background-color: var(--u-fab-button-primary-background-color, #{get-color-var(primary-container)});
-  color: var(--u-fab-button-primary-text-color, #{get-color-var(on-primary-container)});
+  background-color: var(--u-fab-button-primary-background-color, #{functions.get-color-var(primary-container)});
+  color: var(--u-fab-button-primary-text-color, #{functions.get-color-var(on-primary-container)});
 }
 
 :host([color="secondary"]) {
-  background-color: var(--u-fab-button-secondary-background-color, #{get-color-var(secondary-container)});
-  color: var(--u-fab-button-secondary-text-color, #{get-color-var(on-secondary-container)});
+  background-color: var(--u-fab-button-secondary-background-color, #{functions.get-color-var(secondary-container)});
+  color: var(--u-fab-button-secondary-text-color, #{functions.get-color-var(on-secondary-container)});
 }
 
 :host([color="tertiary"]) {
-  background-color: var(--u-fab-button-tertiary-background-color, #{get-color-var(tertiary-container)});
-  color: var(--u-fab-button-tertiary-text-color, #{get-color-var(on-tertiary-container)});
+  background-color: var(--u-fab-button-tertiary-background-color, #{functions.get-color-var(tertiary-container)});
+  color: var(--u-fab-button-tertiary-text-color, #{functions.get-color-var(on-tertiary-container)});
 }
 
 :host([color="branded"]),
 :host([color="surface"]) {
-  background-color: var(--u-fab-button-surface-background-color, #{get-color-var(surface-container-high)});
+  background-color: var(--u-fab-button-surface-background-color, #{functions.get-color-var(surface-container-high)});
   color: var(--u-fab-button-surface-text-color, var(--_color-primary));
 }
 
 :host([color="branded"][lowered]),
 :host([color="surface"][lowered]) {
-  background-color: var(--u-fab-button-surface-background-color, #{get-color-var(surface-container-low)});
+  background-color: var(--u-fab-button-surface-background-color, #{functions.get-color-var(surface-container-low)});
 }

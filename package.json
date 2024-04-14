@@ -1,6 +1,6 @@
 {
   "name": "@universal-material/web",
-  "version": "3.0.1",
+  "version": "3.0.20",
   "description": "Material web components",
   "type": "module",
   "keywords": [
@@ -16,13 +16,15 @@
   "module": "./index.js",
   "typings": "./index.d.ts",
   "scripts": {
-    "build": "run-s clean sass:sass-to-ts script:build copy",
-    "build:watch": "npm-run-all clean sass:sass-to-ts --parallel sass:sass-to-ts:watch script:build:watch",
+    "build": "run-s clean sass-to-ts script:build analyze copy",
+    "build:watch": "npm-run-all sass-to-ts --parallel sass-to-ts:watch script:build:watch",
     "script:build": "tsc",
     "script:build:watch": "tsc --watch",
     "script:build:prod": "npm run clean && npm run script:build && npm run copy",
-    "sass:sass-to-ts": "gulp -f gulpfile.js sass:sass-to-ts",
-    "sass:sass-to-ts:watch": "gulp -f gulpfile.js sass:sass-to-ts:watch",
+    "sass": "gulp -f gulpfile.js sass",
+    "sass:watch": "gulp -f gulpfile.js sass:watch",
+    "sass-to-ts": "gulp -f gulpfile.js sass-to-ts",
+    "sass-to-ts:watch": "gulp -f gulpfile.js sass-to-ts:watch",
     "clean": "rimraf ./dist/ rimraf ./src/**/*.d.ts rimraf ./src/**/*.styles.ts",
     "copy": "copyfiles package.json README.md custom-elements.json dist/",
     "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
@@ -33,11 +35,13 @@
     "docs:clean": "rimraf ./docs/dist/",
     "docs:build": "gulp -f gulpfile.js docs",
     "docs:watch": "run-p docs:gulp:watch docs:serve",
+    "docs:bundle": "gulp -f gulpfile.js docs:bundle",
     "docs:gulp:watch": "gulp -f gulpfile.js docs:watch",
     "docs:serve": "wds --root-dir=docs/dist --node-resolve --watch",
     "analyze": "cem analyze --litelement --globs \"src/**/*.ts\"",
     "analyze:watch": "cem analyze --litelement --globs \"src/**/*.ts\" --watch",
-    "checksize": "rollup -c ; cat my-element.bundled.js | gzip -9 | wc -c ; rm my-element.bundled.js"
+    "checksize": "rollup -c ; cat my-element.bundled.js | gzip -9 | wc -c ; rm my-element.bundled.js",
+    "publish": "cd dist && npm publish"
   },
   "author": "https://github.com/universal-material/universal-material/graphs/contributors",
   "repository": {
@@ -47,8 +51,8 @@
   "license": "MIT",
   "homepage": "https://universal-material.github.io",
   "dependencies": {
-    "lit": "^3.0.0",
-    "@material/material-color-utilities": "^0.2.7"
+    "@material/material-color-utilities": "^0.2.7",
+    "lit": "^3.0.0"
   },
   "devDependencies": {
     "@11ty/eleventy": "^1.0.1",
@@ -72,7 +76,9 @@
     "gulp": "^4.0.2",
     "gulp-notify": "^4.0.0",
     "gulp-pug": "^5.0.0",
+    "gulp-rename": "^2.0.0",
     "gulp-sass": "^5.1.0",
+    "gulp-sourcemaps": "^3.0.0",
     "html-entities": "^2.5.2",
     "lit-analyzer": "^1.2.1",
     "npm-run-all": "^4.1.5",

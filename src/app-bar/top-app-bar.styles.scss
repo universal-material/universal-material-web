@@ -1,0 +1,77 @@
+@use "../scss/functions";
+@use "../scss/mixins";
+
+:host {
+  display: block;
+  background-color: var(--u-top-app-bar-background-color, var(--u-color-background, #{functions.get-color-var(surface)}));
+  color: var(--u-top-app-bar-text-color, #{functions.get-color-var(on-surface)});
+  transition: background-color 150ms;
+}
+
+:host([container-scrolled]) {
+  background-color: var(--u-top-app-bar-elevated-background-color, #{functions.get-color-var(surface-container)});
+}
+
+:host(:not([has-leading-icon])) .leading-icon {
+  display: none;
+}
+
+:host(:not([has-trailing-icon])) .trailing-icon {
+  display: none;
+}
+
+slot[name="leading-icon"],
+slot[name="trailing-icon"] {
+  display: inline-flex;
+  gap: var(--u-top-app-bar-icons-gap, 8px);
+}
+
+slot[name="leading-icon"]::slotted(u-icon-button) {
+  color: inherit;
+}
+
+:host([position=absolute]) .content {
+  position: absolute;
+}
+
+:host([position=fixed]) .content {
+  position: fixed;
+  inset-inline: 0;
+  inset-block-start: 0;
+  inset-inline-start: var(--u-app-bar-offset, 0);
+}
+
+:host([position=absolute]),
+:host([position=fixed]) {
+  padding-top: var(--_content-height);
+
+  .content {
+    z-index: var(--u-fixed-app-bar-z-index, 1010);
+  }
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  background-color: inherit;
+  transition: inherit;
+  min-height: var(--u-top-app-bar-base-height, 56px);
+}
+
+.headline {
+  @include mixins.typo(title-l);
+  margin-inline: var(--u-headline-margin, 16px);
+}
+
+.leading-icon {
+  margin-inline: var(--u-leading-icon-margin, 8px);
+
+  + .headline {
+    margin-inline-start: 0;
+  }
+}
+
+.trailing-icon {
+  padding-inline: var(--u-trailing-icon-margin, 8px);
+  margin-inline-start: auto;
+}

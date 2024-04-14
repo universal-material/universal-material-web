@@ -1,0 +1,21 @@
+@use "../variables";
+
+@function breakpoint-min($name) {
+  $min: map-get(variables.$breakpoints, $name);
+  @return if($min != 0, $min, null);
+}
+
+@function breakpoint-infix($name) {
+  @return if(breakpoint-min($name) == null, "", "-#{$name}");
+}
+
+@mixin media-breakpoint-up($name) {
+  $min: breakpoint-min($name);
+  @if $min {
+    @media (min-width: $min) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}

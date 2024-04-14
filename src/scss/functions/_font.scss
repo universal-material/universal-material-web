@@ -1,0 +1,29 @@
+@use "sass:map";
+@use "sass:math";
+
+@use "../variables";
+
+@function get-rem-from-sp($sp-font-size) {
+  @return $sp-font-size * 0.0625rem;
+}
+
+@function get-letter-spacing($px-tracking, $sp-font-size) {
+  @return math.div($px-tracking, $sp-font-size) * 1rem;
+}
+
+@function get-font-family-var() {
+  @return var(--u-typo-font-family, variables.$font-family);
+}
+
+@function get-font-weight-var($name) {
+  @return var(--u-font-weight-#{$name}, map.get(variables.$font-weights, $name));
+}
+
+@function get-typo-style($line-height, $font-size, $tracking, $font-weight) {
+  @return (
+    line-height: get-rem-from-sp($line-height),
+    font-size: get-rem-from-sp($font-size),
+    letter-spacing: get-letter-spacing($tracking, $font-size),
+    font-weight: $font-weight
+  );
+}

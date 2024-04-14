@@ -2,6 +2,14 @@
 
 $awesome-cubic-bezier: cubic-bezier(.19, 1, .22, 1) !default;
 
+$breakpoints: (
+  xs: 0,
+  sm: 600px,
+  md: 840px,
+  lg: 1200px,
+  xl: 1600px
+);
+
 $rgb-colors: (
   primary: unquote("103, 80, 164"),
   on-primary: unquote("255, 255, 255"),
@@ -42,11 +50,14 @@ $colors: ();
 }
 
 $spacings: (
-  var(sm, 8px),
-  var(md, 16px),
-  var(lg, 24px),
-  var(xl, 40px),
+  extra-small: 4px,
+  small: 8px,
+  medium: 16px,
+  large: 24px,
+  extra-large: 40px,
 );
+
+$font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
 
 $font-weights: (
   thin: 100,

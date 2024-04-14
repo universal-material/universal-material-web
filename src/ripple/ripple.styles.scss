@@ -1,4 +1,4 @@
-@import '../variables';
+@use '../scss/variables';
 
 :host,
 .ripple-container::before {
@@ -55,13 +55,13 @@
 
   &.show {
     transition:
-      transform calc(var(--_ripple-transition-duration) / var(--u-ripple-speed, 1)) $awesome-cubic-bezier,
+      transform calc(var(--_ripple-transition-duration) / var(--u-ripple-speed, 1)) variables.$awesome-cubic-bezier,
       opacity calc(750ms / var(--u-ripple-speed, 1));
     transform: scale3d(1, 1, 1);
   }
   &.show-forced {
     transition:
-      transform calc(var(--_ripple-transition-duration) / var(--u-ripple-speed, 1)) $awesome-cubic-bezier,
+      transform calc(var(--_ripple-transition-duration) / var(--u-ripple-speed, 1)) variables.$awesome-cubic-bezier,
       opacity calc(200ms / var(--u-ripple-speed, 1)) 300ms;
     transform: scale3d(2, 2, 1);
     opacity: 0;

@@ -2,16 +2,18 @@ import { CSSResult, html, HTMLTemplateResult, nothing } from 'lit';
 import { customElement, property, queryAssignedElements } from 'lit/decorators.js';
 
 import '../ripple/ripple.js';
-import { ButtonBase } from './button-base';
-import { styles as buttonBaseStyles } from './button-base.styles';
-import { styles } from './icon-button.styles';
+import { styles as buttonWrapperStyles } from '../shared/button-wrapper.styles.js';
+import { UmButtonBase } from './button-base';
+import { styles } from './icon-button.styles.js';
+
+export type UmIconButtonVariant = 'standard' | 'filled' | 'tonal' | 'outlined';
 
 @customElement('u-icon-button')
-export class UmIconButton extends ButtonBase {
+export class UmIconButton extends UmButtonBase {
 
-  static override styles: CSSResult | CSSResult[] = [buttonBaseStyles, styles];
+  static override styles: CSSResult | CSSResult[] = [buttonWrapperStyles, styles];
 
-  @property({reflect: true}) variant: 'standard' | 'filled' | 'tonal' | 'outlined' = 'standard';
+  @property({reflect: true}) variant: UmIconButtonVariant = 'standard';
 
   /**
    * When true, the button will toggle between selected and unselected
@@ -46,7 +48,9 @@ export class UmIconButton extends ButtonBase {
     `;
   }
 
-  protected override handleClick(_: UIEvent): void {
+  protected override handleClick(event: UIEvent): void {
+    super.handleClick(event);
+
     if (this.toggle) {
       this.selected = !this.selected;
     }

@@ -1,9 +1,9 @@
-@import "../utils";
+@use "../scss/functions";
 
 :host {
   display: block;
   position: relative;
-  border-radius: var(--u-card-shape-corner, #{get-shaper-corner-var(medium)});
+  border-radius: var(--u-card-shape-corner, #{functions.get-shape-corner-var(medium)});
 }
 
 :host(:not(:first-child)) {
@@ -11,14 +11,22 @@
 }
 
 :host([variant=elevated]) {
-  background-color: #{get-color-var(surface-container-low)};
-  --u-elevation-level: var(--u-elevated-card-elevation-level, 1);
+  background-color: #{functions.get-color-var(surface-container-low)};
+
+  u-elevation {
+    --u-elevation-level: var(--u-elevated-card-elevation-level, 1);
+  }
 }
 
 :host([variant=filled]) {
-  background-color: #{get-color-var(surface-container-highest)};
+  background-color: #{functions.get-color-var(surface-container-highest)};
 }
 
 :host([variant=outlined]) {
-  border: var(--u-outlined-card-outline-width, 1px) solid var(--u-outlined-card-outline-color, #{get-color-var(outline-variant)});
+  border: var(--u-outlined-card-outline-width, 1px) solid var(--u-outlined-card-outline-color, #{functions.get-color-var(outline-variant)});
+}
+
+u-card-content,
+slot {
+  border-radius: inherit;
 }

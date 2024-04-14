@@ -1,7 +1,9 @@
 import { html, HTMLTemplateResult, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-import { styles } from './button-set.styles';
+import { styles } from './button-set.styles.js';
+
+export type UmButtonSetAlignment = 'start' | 'center' | 'end';
 
 @customElement('u-button-set')
 export class UmButtonSet extends LitElement {
@@ -11,7 +13,7 @@ export class UmButtonSet extends LitElement {
   /**
    * Set the alignment of the buttons at the `start`, `center` or at the `end`.
    */
-  @property({reflect: true}) align: 'start' | 'center' | 'end' = 'end';
+  @property({reflect: true}) align: UmButtonSetAlignment = 'end';
 
   /**
    * Whether to render the buttons stacked or not

@@ -1,16 +1,19 @@
-import { html, HTMLTemplateResult, LitElement } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { html, HTMLTemplateResult } from 'lit';
+import { customElement } from 'lit/decorators.js';
 
+import { styles as baseStyles } from '../shared/base.styles.js';
 import { styles } from './container.styles.js';
-
-type SpacingSizes = 'none' | 'small' | 'medium ' | 'large' | 'extra-large';
+import { GridBase } from './grid-base.js';
+import { styles as gridBaseStyles } from './grid-base.styles.js';
 
 @customElement('u-container')
-export class UmContainer extends LitElement {
+export class UmContainer extends GridBase {
 
-  static override styles = styles;
-
-  @property({reflect: true}) margin: SpacingSizes | undefined;
+  static override styles = [
+    baseStyles,
+    gridBaseStyles,
+    styles
+  ];
 
   override render(): HTMLTemplateResult {
     return html`<slot></slot>`;

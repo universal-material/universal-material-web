@@ -1,0 +1,21 @@
+@use "sass:map";
+
+@use "variables";
+
+@import "functions/font";
+
+@function get-color-var($name) {
+  @return var(--u-color-#{$name}, map.get(variables.$colors, $name));
+}
+
+@function get-color-rgb-var($name) {
+  @return var(--u-color-#{$name}-rgb, map.get(variables.$rgb-colors, $name));
+}
+
+@function get-shape-corner-var($name) {
+  @return var(--u-shape-corner-#{$name}, map.get(variables.$shape-corner, $name));
+}
+
+@function get-spacing-var($name) {
+  @return var(--u-spacing-#{$name}, map.get(variables.$spacings, $name));
+}

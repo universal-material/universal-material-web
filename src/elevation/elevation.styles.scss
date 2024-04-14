@@ -1,8 +1,8 @@
-@import "../utils";
+@use "../scss/functions";
 
 :host {
   --_level: var(--u-elevation-level, 0);
-  --_shadow-color: #{get-color-var(shadow)};
+  --_shadow-color: #{functions.get-color-var(shadow)};
 
   -webkit-tap-highlight-color: transparent;
   position: absolute;

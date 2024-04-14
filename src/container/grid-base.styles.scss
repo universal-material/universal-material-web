@@ -1,0 +1,54 @@
+@use "../scss/variables";
+@use "../scss/api";
+
+:host {
+  --_grid-spacing-sm: #{api.get-spacing-var(small)};
+  --_grid-spacing-md: #{api.get-spacing-var(medium)};
+  --_grid-spacing-lg: #{api.get-spacing-var(large)};
+  --_grid-spacing-xl: #{api.get-spacing-var(extra-large)};
+
+  --_grid-spacing-default: var(--u-grid-spacing-default, var(--_grid-spacing-md));
+  --_grid-margin: var(--u-grid-margin-default, var(--_grid-spacing-default));
+}
+
+@each $breakpoint, $_ in variables.$breakpoints {
+  $infix: api.breakpoint-infix($breakpoint);
+
+  @include api.media-breakpoint-up($breakpoint) {
+
+    :host([margin#{$infix}="none"]) {
+      --_grid-margin: 0;
+    }
+
+    :host([margin#{$infix}="small"]) {
+      --_grid-margin: var(--u-grid-margin, var(--_grid-spacing-sm));
+    }
+
+    :host([margin#{$infix}="medium"]) {
+      --_grid-margin: var(--u-grid-margin, var(--_grid-spacing-md));
+    }
+
+    :host([margin#{$infix}="large"]) {
+      --_grid-margin: var(--u-grid-margin, var(--_grid-spacing-lg));
+    }
+
+    :host([margin#{$infix}="extra-large"]) {
+      --_grid-margin: var(--u-grid-margin, var(--_grid-spacing-xl));
+    }
+  }
+}
+
+:host {
+  width: 100%;
+  margin-inline: auto;
+  padding: var(--u-grid-margin, var(--_grid-margin));
+
+  &:host::after {
+    content: '';
+    display: block;
+  }
+}
+
+:host(:not([full-width])) {
+  max-width: var(--u-container-max-width, 992px);
+}

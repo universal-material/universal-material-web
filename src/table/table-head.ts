@@ -1,8 +1,8 @@
 import { html, HTMLTemplateResult, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
-import { styles as baseStyles } from '../shared/base.styles';
-import { styles } from './table-head.styles';
+import { styles as baseStyles } from '../shared/base.styles.js';
+import { styles } from './table-head.styles.js';
 
 @customElement('u-thead')
 export class UmTableHead extends LitElement {

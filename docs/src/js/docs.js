@@ -1,4 +1,7 @@
-import { ThemeBuilder } from './theme/index.js';
+import { SnackbarDuration, UmSnackbar, ThemeBuilder } from './index.js';
+
+await customElements.whenDefined('u-side-navigation');
+document.body.style.display = '';
 
 window.ThemeMode = {
   Auto: 0,
@@ -8,56 +11,28 @@ window.ThemeMode = {
 
 (function () {
 
-  const sidebar = document.querySelector(".u-drawer");
-  const sidebarBackdrop = document.querySelector(".u-drawer-backdrop");
-  const appbar = document.getElementById("app-bar");
-
-  function toggleSidebar() {
-    if (sidebar.classList.contains("open")) {
-      sidebar.classList.remove("open");
-    } else {
-      sidebar.classList.add("open");
-    }
-
-    if (sidebar.classList.contains("dismiss")) {
-      sidebar.classList.remove("dismiss");
-    } else {
-      sidebar.classList.add("dismiss");
-    }
-  }
+  const sideNavigation = document.querySelector("u-side-navigation");
 
   function toggleRtl() {
     document.body.classList.toggle("rtl");
   }
 
-  function mainContentScroll(e) {
-    if (window.scrollY) {
-      appbar.classList.add('u-toolbar-elevated');
-    } else {
-      appbar.classList.remove('u-toolbar-elevated');
-    }
-  }
-
   document
     .getElementById("menu-toggle")
-    .addEventListener("click", toggleSidebar);
+    .addEventListener("click", () => sideNavigation.toggleDrawer = !sideNavigation.toggleDrawer);
 
   document
     .querySelector(".u-dropdown-toggle")
-    .addEventListener("click", e => e.currentTarget.nextElementSibling.classList.toggle('show'));
+    ?.addEventListener("click", e => e.currentTarget.nextElementSibling.classList.toggle('show'));
 
   document
     .querySelector(".u-dropdown-menu")
-    .addEventListener("click", e => e.currentTarget.classList.remove('show'));
+    ?.addEventListener("click", e => e.currentTarget.classList.remove('show'));
 
   document
     .getElementById("rtl-toggle")
-    .addEventListener("click", toggleRtl);
+    ?.addEventListener("click", toggleRtl);
 
-
-  sidebarBackdrop.addEventListener("click", toggleSidebar);
-
-  window.addEventListener("scroll", mainContentScroll);
 
   let textField = document.querySelector('.u-text-field-box');
   const textInput = document.querySelector('#text-field-box');
@@ -72,7 +47,7 @@ window.ThemeMode = {
   }
 
   function setActiveNavigationItem() {
-    const navItems = document.querySelectorAll('nav .u-list-item');
+    const navItems = document.querySelectorAll('u-drawer-item');
 
     for (let i = 0; i < navItems.length; i++) {
       const navItem = navItems[i];
@@ -80,7 +55,7 @@ window.ThemeMode = {
         continue;
       }
 
-      navItem.classList.add('active');
+      navItem.active = true;
       if (navItem.parentElement.classList.contains('nested-menu-items')) {
         navItem.parentElement.classList.add('expanded');
       }
@@ -88,6 +63,7 @@ window.ThemeMode = {
       break;
     }
   }
+
   function setExpandableMenus() {
     const nestedMenus = document.querySelectorAll('.nested-menu-items');
 
@@ -117,7 +93,7 @@ window.ThemeMode = {
     }
   }
 
-  setActiveNavigationItem();
+  window.onload = () => setActiveNavigationItem();
   setExpandableMenus();
   setToggleButtons();
 })();
@@ -159,3 +135,6 @@ window.createTheme = color => {
 
   themeStylesElement.innerText = styles;
 }
+
+window.UmSnackbar = UmSnackbar;
+window.SnackbarDuration = SnackbarDuration;

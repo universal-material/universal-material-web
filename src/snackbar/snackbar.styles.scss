@@ -1,0 +1,88 @@
+@use "../scss/variables";
+@use "../scss/api";
+
+:host {
+  --u-elevation-level: var(--u-snackbar-elevation-level, 3);
+  --_snackbar-margin: var(--u-snackbar-margin, #{api.get-spacing-var(medium)});
+
+  position: fixed;
+  inset-inline: 0;
+  inset-block-end: 0;
+  padding: var(--_snackbar-margin);
+  z-index: var(--u-snackbar-z-index, 1070);
+  display: flex;
+  justify-content: center;
+}
+
+.snackbar {
+  display: flex;
+  align-items: center;
+  min-height: var(--u-snackbar-height, 48px);
+  color: var(--u-snackbar-text-color, #{api.get-color-var(inverse-on-surface)});
+  background-color: var(--u-snackbar-background-color, #{api.get-color-var(inverse-surface)});
+  border-radius: var(--u-snackbar-shape, #{api.get-shape-corner-var(extra-small)});
+  animation-name: snackbar-fade-in;
+  animation-duration: 450ms;
+  animation-timing-function: variables.$awesome-cubic-bezier;
+  animation-fill-mode: forwards;
+  min-width: var(--u-snackbar-min-width, 100%);
+  max-width: var(--u-snackbar-max-width, 100%);
+
+  &.dismiss {
+    animation-name: snackbar-fade-out;
+  }
+}
+
+u-button {
+  color: #{api.get-color-var(inverse-primary)};
+  margin-inline: var(--u-snackbar-text-button-margin, #{api.get-spacing-var(small)});
+}
+
+u-icon-button {
+  color: #{api.get-color-var(inverse-on-surface)};
+  margin-inline: var(--u-snackbar-close-button-margin, #{api.get-spacing-var(extra-small)});;
+}
+
+.label {
+  flex: 1;
+  overflow: hidden;
+  color: var(--u-on-inverse-surface-color);
+  padding: var(--u-snackbar-text-margin, #{api.get-spacing-var(medium)});
+  line-height: 18px;
+}
+
+@include api.media-breakpoint-up(md) {
+  :host {
+    --_snackbar-margin: var(--u-snackbar-margin, #{api.get-spacing-var(large)});
+  }
+
+  .snackbar {
+    min-width: var(--u-snackbar-min-width, 288px);
+    max-width: var(--u-snackbar-max-width, 568px);
+  }
+}
+
+@keyframes snackbar-fade-in {
+  0% {
+    opacity: 0;
+    transform: scale3d(.5, .5, 1);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes snackbar-fade-out {
+  0% {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale3d(.5, .5, 1);
+  }
+}
+

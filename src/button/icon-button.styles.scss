@@ -1,21 +1,22 @@
-@import "../utils";
+@use "../scss/functions";
 
 :host {
-  --_surface-container-highest-color: #{get-color-var(surface-container-highest)};
+  --_icon-button-size: var(--u-icon-button-size, 2.5rem);
+  --_icon-button-icon-size: var(--u-icon-button-icon-size, 1.5rem);
+  --_color-surface-container-highest: #{functions.get-color-var(surface-container-highest)};
 
-  width: var(--u-icon-button-size, 2.5rem);
-  height: var(--u-icon-button-size, 2.5rem);
+  width: var(--_icon-button-size);
+  height: var(--_icon-button-size);
   border-radius: var(--u-icon-button-shape-corner, 9999px);
   font-family: var(--u-font-family-base, system-ui);
-
 }
 
 .icon {
-  display: inline-block;
-  width: var(--u-icon-button-icon-size, 1.5rem);
-  height: var(--u-icon-button-icon-size, 1.5rem);
-  font-size: var(--u-icon-button-icon-size, 1.5rem);
-  line-height: var(--u-icon-button-icon-size, 1.5rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--_icon-button-icon-size);
+  line-height: var(--_icon-button-icon-size);
 
   &.icon-selected {
     display: none;
@@ -33,40 +34,40 @@
 }
 
 :host([variant="filled"]) {
-  background-color: var(--u-filled-icon-button-unselected-background-color, var(--_surface-container-highest-color));
+  background-color: var(--u-filled-icon-button-unselected-background-color, var(--_color-surface-container-highest));
   color: var(--u-filled-icon-button-unselected-text-color, var(--_color-primary));
 }
 
 :host([variant="tonal"]) {
-  background-color: var(--u-total-icon-button-unselected-background-color, var(--_surface-container-highest-color));
-  color: var(--u-tonal-icon-button-unselected-text-color, #{get-color-var(on-surface-variant)});
+  background-color: var(--u-total-icon-button-unselected-background-color, var(--_color-surface-container-highest));
+  color: var(--u-tonal-icon-button-unselected-text-color, #{functions.get-color-var(on-surface-variant)});
 }
 
 :host([selected][variant="filled"]),
 :host([variant="filled"]:not([has-selection-icon])) {
   background-color: var(--u-filled-icon-button-background-color, var(--_color-primary));
-  color: var(--u-filled-icon-button-text-color, #{get-color-var(on-primary)});
+  color: var(--u-filled-icon-button-text-color, #{functions.get-color-var(on-primary)});
 }
 
 :host([selected][variant="tonal"]),
 :host([variant="tonal"]:not([has-selection-icon])) {
-  background-color: var(--u-tonal-icon-button-background-color, #{get-color-var(secondary-container)});
-  color: var(--u-tonal-icon-button-text-color, #{get-color-var(on-secondary-container)});
+  background-color: var(--u-tonal-icon-button-background-color, #{functions.get-color-var(secondary-container)});
+  color: var(--u-tonal-icon-button-text-color, #{functions.get-color-var(on-secondary-container)});
 }
 
 :host([variant="standard"]),
 :host([variant="outlined"]) {
-  color: #{get-color-var(on-surface-variant)};
+  color: #{functions.get-color-var(on-surface-variant)};
 }
 
 :host([variant="outlined"]) {
-  border: 1px solid #{get-color-var(outline)};
+  border: 1px solid #{functions.get-color-var(outline)};
 }
 
 :host([selected][variant="outlined"]) {
   border: none;
-  background-color: var(--u-outlined-icon-button-selected-background-color, #{get-color-var(inverse-surface)});
-  color: var(--u-outlined-icon-button-selected-text-color, #{get-color-var(inverse-on-surface)});
+  background-color: var(--u-outlined-icon-button-selected-background-color, #{functions.get-color-var(inverse-surface)});
+  color: var(--u-outlined-icon-button-selected-text-color, #{functions.get-color-var(inverse-on-surface)});
 }
 
 :host([selected][variant="standard"]) {

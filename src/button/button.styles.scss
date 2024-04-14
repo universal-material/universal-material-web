@@ -1,14 +1,15 @@
-@import "../utils";
+@use "../scss/functions";
 
 :host {
   --u-common-button-line-height: var(--u-label-large-line-height, 1.25rem);
   --u-common-button-font-size: var(--u-label-large-font-size, 0.875rem);
-  --u-common-button-font-weight: #{get-font-weight-var(medium)};
+  --u-common-button-font-weight: #{functions.get-font-weight-var(medium)};
   --_common-button-height: var(--u-common-button-height, 2.5rem);
   --_common-button-padding: var(--u-common-button-padding, 24px);
   --_common-button-icon-padding: var(--u-common-button-icon-padding, 16px);
+  --_common-button-icon-margin: var(--u-common-button-icon-margin, 8px);
 
-  border-radius: var(--u-common-button-shape-corner, #{get-shaper-corner-var(full)});
+  border-radius: var(--u-common-button-shape-corner, #{functions.get-shape-corner-var(full)});
   font-family: var(--u-font-family-base, system-ui);
   height: var(--u-common-button-height, 40px);
   font-size: var(--u-common-button-font-size);
@@ -20,32 +21,32 @@
 :host([variant=filled]),
 :host([variant=filled][color=primary]) {
   background-color: var(--u-filled-button-primary-container-color, var(--_color-primary));
-  color: var(--u-filled-button-primary-text-color, #{get-color-var(on-primary)});
+  color: var(--u-filled-button-primary-text-color, #{functions.get-color-var(on-primary)});
 }
 
 :host([variant=filled][color=secondary]) {
-  background-color: var(--u-filled-button-secondary-container-color, #{get-color-var(secondary)});
-  color: var(--u-filled-button-secondary-text-color, #{get-color-var(on-secondary)});
+  background-color: var(--u-filled-button-secondary-container-color, #{functions.get-color-var(secondary)});
+  color: var(--u-filled-button-secondary-text-color, #{functions.get-color-var(on-secondary)});
 }
 
 :host([variant=filled][color=tertiary]) {
-  background-color: var(--u-filled-button-tertiary-container-color, #{get-color-var(tertiary)});
-  color: var(--u-filled-button-tertiary-text-color, #{get-color-var(on-tertiary)});
+  background-color: var(--u-filled-button-tertiary-container-color, #{functions.get-color-var(tertiary)});
+  color: var(--u-filled-button-tertiary-text-color, #{functions.get-color-var(on-tertiary)});
 }
 
 :host([variant=filled][color=error]) {
-  background-color: var(--u-filled-button-error-container-color, #{get-color-var(error)});
-  color: var(--u-filled-button-error-text-color, #{get-color-var(on-error)});
+  background-color: var(--u-filled-button-error-container-color, #{functions.get-color-var(error)});
+  color: var(--u-filled-button-error-text-color, #{functions.get-color-var(on-error)});
 }
 
 :host([variant=tonal]) {
-  background-color: var(--u-tonal-button-background-color, #{get-color-var(secondary-container)});
-  color: var(--u-tonal-button-text-color, #{get-color-var(on-secondary-container)});
+  background-color: var(--u-tonal-button-background-color, #{functions.get-color-var(secondary-container)});
+  color: var(--u-tonal-button-text-color, #{functions.get-color-var(on-secondary-container)});
 }
 
 :host([variant=elevated]) {
-  background-color: var(--u-elevated-button-background-color, #{get-color-var(surface-container-low)});
-  color: var(--u-tonal-button-text-color, #{get-color-var(on-secondary-container)});
+  background-color: var(--u-elevated-button-background-color, #{functions.get-color-var(surface-container-low)});
+  color: var(--u-tonal-button-text-color, #{functions.get-color-var(on-secondary-container)});
 }
 
 @media (hover: hover) {
@@ -62,7 +63,7 @@
 }
 
 :host([variant=outlined]) {
-  border: 1px solid #{get-color-var(outline-color)};
+  border: 1px solid #{functions.get-color-var(outline)};
 }
 
 :host([variant=elevated]) {
@@ -83,15 +84,20 @@
   padding-inline: var(--_common-button-padding) var(--_common-button-icon-padding);
 }
 
-::slotted([slot=icon]) {
-  display: inline-block;
+:host(:not([has-icon])) .icon {
+  display: none;
+}
+
+.icon {
   width: var(--u-common-button-icon-size, 1.125rem);
   height: var(--u-common-button-icon-size, 1.125rem);
-  margin-inline-end: 8px;
+  padding-inline-end: var(--_common-button-icon-margin);
+  margin-inline-end: auto;
   font-size: var(--u-common-button-icon-size, 1.125rem);
   line-height: var(--u-common-button-icon-size, 1.125rem);
 }
 
-:host([trailing-icon]) ::slotted([slot=icon]) {
-  margin-inline: 8px 0;
+:host([trailing-icon]) .icon {
+  padding-inline: var(--_common-button-icon-margin) 0;
+  margin-inline: auto 0;
 }

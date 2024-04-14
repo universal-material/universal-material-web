@@ -1,11 +1,13 @@
 import { html, HTMLTemplateResult, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-import { styles as baseStyles } from '../shared/base.styles';
-import { styles } from './card.styles';
+import { styles as baseStyles } from '../shared/base.styles.js';
+import { styles } from './card.styles.js';
 import './card-content.js';
 import './card-media.js';
 import '../elevation/elevation.js';
+
+export type UmCardVariant = 'filled' | 'elevated' | 'outlined';
 
 @customElement('u-card')
 export class UmCard extends LitElement {
@@ -15,7 +17,7 @@ export class UmCard extends LitElement {
   /**
    * The Card variant to render.
    */
-  @property({reflect: true}) variant: 'filled' | 'elevated' | 'outlined' = 'elevated';
+  @property({reflect: true}) variant: UmCardVariant = 'filled';
 
   override render(): HTMLTemplateResult {
     return html`

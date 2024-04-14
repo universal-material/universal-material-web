@@ -1,24 +1,27 @@
 import { CSSResult, html, HTMLTemplateResult, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-import { ButtonBase } from './button-base';
-import { styles as buttonBaseStyles } from './button-base.styles';
-import { styles } from './fab.styles';
+import { styles as buttonWrapperStyles } from '../shared/button-wrapper.styles.js';
+import { UmButtonBase } from './button-base';
+import { styles } from './fab.styles.js';
+
+export type UmFabColor = 'primary' | 'secondary' | 'tertiary' | 'surface' | 'branded';
+export type UmFabSize = 'small' | 'medium' | 'large';
 
 @customElement('u-fab')
-export class UmFabButton extends ButtonBase {
+export class UmFab extends UmButtonBase {
 
-  static override styles: CSSResult | CSSResult[] = [buttonBaseStyles, styles];
+  static override styles: CSSResult | CSSResult[] = [buttonWrapperStyles, styles];
   
   /**
    * The FAB color variant to render.
    */
-  @property({reflect: true}) color: 'primary' | 'secondary' | 'tertiary' | 'surface' | 'branded' = 'primary';
+  @property({reflect: true}) color: UmFabColor = 'primary';
 
   /**
    * The size of the FAB.
    */
-  @property({reflect: true}) size: 'small' | 'medium' | 'large' = 'medium';
+  @property({reflect: true}) size: UmFabSize = 'medium';
 
   /**
    * The text to display the FAB.
@@ -39,7 +42,7 @@ export class UmFabButton extends ButtonBase {
     const labelTag = html`<span>${this.label}</span>`;
 
     return html`
-      <span class="icon" aria-hidden="true"><slot name="icon"></slot></span>
+      <span class="icon" aria-hidden="true"><slot></slot></span>
       ${this.label ? labelTag : nothing}
     `;
   }
@@ -47,6 +50,6 @@ export class UmFabButton extends ButtonBase {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-fab': UmFabButton;
+    'u-fab': UmFab;
   }
 }

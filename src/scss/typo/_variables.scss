@@ -1,0 +1,19 @@
+@use "../functions";
+
+$typography-styles: (
+  display-l: functions.get-typo-style(64, 57, -.25, #{functions.get-font-weight-var(regular)}),
+  display-m: functions.get-typo-style(52, 45, 0, #{functions.get-font-weight-var(regular)}),
+  display-s: functions.get-typo-style(44, 36, 0, #{functions.get-font-weight-var(regular)}),
+  headline-l: functions.get-typo-style(40, 32, 0, #{functions.get-font-weight-var(regular)}),
+  headline-m: functions.get-typo-style(36, 28, 0, #{functions.get-font-weight-var(regular)}),
+  headline-s: functions.get-typo-style(32, 24, 0, #{functions.get-font-weight-var(regular)}),
+  title-l: functions.get-typo-style(28, 22, 0, #{functions.get-font-weight-var(regular)}),
+  title-m: functions.get-typo-style(24, 16, .15, #{functions.get-font-weight-var(medium)}),
+  title-s: functions.get-typo-style(20, 14, .1, #{functions.get-font-weight-var(medium)}),
+  body-l: functions.get-typo-style(24, 16, .5, #{functions.get-font-weight-var(regular)}),
+  body-m: functions.get-typo-style(20, 14, .25, #{functions.get-font-weight-var(regular)}),
+  body-s: functions.get-typo-style(16, 12, .4, #{functions.get-font-weight-var(regular)}),
+  label-l: functions.get-typo-style(20, 14, .1, #{functions.get-font-weight-var(medium)}),
+  label-m: functions.get-typo-style(16, 12, .5, #{functions.get-font-weight-var(medium)}),
+  label-s: functions.get-typo-style(16, 11, .5, #{functions.get-font-weight-var(medium)})
+) !default;

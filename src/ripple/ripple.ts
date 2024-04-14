@@ -1,7 +1,7 @@
 import { html, HTMLTemplateResult, LitElement } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 
-import { styles } from './ripple.styles';
+import { styles } from './ripple.styles.js';
 
 @customElement('u-ripple')
 export class UmRipple extends LitElement {
@@ -19,19 +19,35 @@ export class UmRipple extends LitElement {
 
   constructor() {
     super();
-
-    this.ariaHidden = "true";
-    this.attachEvents();
   }
 
   override render(): HTMLTemplateResult {
     return html`<div class="ripple-container"></div><slot></slot>`
   }
 
+  override connectedCallback() {
+    super.connectedCallback();
+
+    this.attachEvents();
+    this.ariaHidden = "true";
+  }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+
+    this.dettachEvents();
+  }
+
   private attachEvents(): void {
 
     this.addEventListener('mousedown', this.handleMouseDown);
     this.addEventListener('touchstart', this.handleTouchStart);
+  }
+
+  private dettachEvents(): void {
+
+    this.removeEventListener('mousedown', this.handleMouseDown);
+    this.removeEventListener('touchstart', this.handleTouchStart);
   }
 
   private handleMouseDown(e: MouseEvent): void {
@@ -57,15 +73,7 @@ export class UmRipple extends LitElement {
   }
 
   private canCreateRipple(): boolean {
-    if (this.disabled) return false;
-
-    const parent = this.parentElement;
-
-    if (!parent || window.getComputedStyle(parent).position !== "relative" && window.getComputedStyle(parent).position !== "absolute" && window.getComputedStyle(parent).position !== "fixed") {
-      return false;
-    }
-
-    return true;
+    return !this.disabled;
   }
 
   createRipple(targetX: number | null = null, targetY: number | null = null, releaseEventName: string | null = null): (() => void) | null {
