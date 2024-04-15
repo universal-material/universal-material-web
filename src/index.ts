@@ -9,6 +9,8 @@ import './container/container.js';
 import './container/grid.js';
 import './divider/divider.js';
 import './elevation/elevation.js';
+import './menu/menu.js'
+import './menu/menu-item.js'
 import './navigation/drawer.js'
 import './navigation/drawer-item.js'
 import './navigation/side-navigation.js';
@@ -31,6 +33,8 @@ export * from './container/grid.js';
 export * from './container/container.js';
 export * from './divider/divider.js';
 export * from './elevation/elevation.js';
+export * from './menu/menu.js'
+export * from './menu/menu-item.js'
 export * from './navigation/drawer.js'
 export * from './navigation/drawer-item.js'
 export * from './navigation/side-navigation.js';

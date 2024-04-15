@@ -75,7 +75,7 @@ html
 
           //u-drawer-item(href="components/lists.html") Lists
 
-          //u-drawer-item(href="components/menus.html") Menus
+          u-drawer-item(href="components/menus.html") Menus
 
           //u-drawer-item(href="components/progress.html") Progress
 
@@ -100,14 +100,16 @@ html
             i.mdi.mdi-menu
           span Material
 
-          span.u-dropdown(slot="trailing-icon")
-            u-icon-button.u-dropdown-toggle
+          .position-relative(slot="trailing-icon")
+            u-icon-button#theme-button
               i.mdi.mdi-theme-light-dark
-            .u-dropdown-menu.down-start
-              .u-dropdown-content
-                button.u-dropdown-item(href='#', onclick="setThemeMode(ThemeMode.Auto)") System
-                button.u-dropdown-item(href='#', onclick="setThemeMode(ThemeMode.Light)") Light
-                button.u-dropdown-item(href='#', onclick="setThemeMode(ThemeMode.Dark)") Dark
+            u-menu(
+              toggle-selector="#theme-button"
+              anchor-corner="end-end")
+              u-menu-item(href='#', onclick="setThemeMode(ThemeMode.Auto)") System
+              u-menu-item(href='#', onclick="setThemeMode(ThemeMode.Light)") Light
+              u-menu-item(href='#', onclick="setThemeMode(ThemeMode.Dark)") Dark
+
           u-icon-button(
             slot="trailing-icon",
             href="/angular",

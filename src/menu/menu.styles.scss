@@ -1,0 +1,107 @@
+@use "../scss/variables";
+@use "../scss/functions";
+
+:host {
+  --u-elevation-level: var(--u-menu-elevation-level, 2);
+}
+
+.menu {
+  position: absolute;
+  display: flex;
+  min-width: var(--u-menu-min-width, 112px);
+  max-width: var(--u-menu-max-width, 280px);
+  background: var(--u-menu-background-color, #{functions.get-color-var(surface-container)});
+  border-radius: var(--u-menu-shape-corner, #{functions.get-shape-corner-var(extra-small)});
+  opacity: 0;
+  transition: transform 350ms variables.$awesome-cubic-bezier 350ms, opacity 350ms;
+  transform: scale3d(0, 0, 1);
+  transform-origin: top;
+  z-index: var(--u-menu-z-index, 1040);
+
+  &.up {
+    transform: scale3d(1, 0, 0);
+    transform-origin: bottom;
+  }
+}
+
+.content {
+  width: 100%;
+  padding-block: var(--u-menu-padding, 8px);
+  opacity: 0;
+  transition: opacity 1ms 400ms;
+  overflow: auto;
+}
+
+:host([open]) {
+  .menu {
+    opacity: 1;
+    transition: transform 350ms variables.$awesome-cubic-bezier, opacity 250ms;
+    transform: scale3d(1, 1, 1);
+  }
+
+  .content {
+    opacity: 1;
+    transition: opacity 300ms 150ms;
+  }
+}
+
+:host([anchor-corner="start-start"]) .menu {
+  inset-inline-start: 0;
+  inset-block-start: 0;
+
+  &.up {
+    inset-block-start: auto;
+    inset-block-end: 100%;
+  }
+
+  &.start {
+    inset-inline-start: auto;
+    inset-inline-end: 100%;
+  }
+}
+
+:host([anchor-corner="start-end"]) .menu {
+  inset-inline-start: 100%;
+  inset-block-start: 0;
+
+  &.up {
+    inset-block-start: auto;
+    inset-block-end: 100%;
+  }
+
+  &.start {
+    inset-inline-start: auto;
+    inset-inline-end: 0;
+  }
+}
+
+:host([anchor-corner="end-start"]) .menu {
+  inset-inline-start: 0;
+  inset-block-start: 100%;
+
+  &.up {
+    inset-block-start: auto;
+    inset-block-end: 0;
+  }
+
+  &.start {
+    inset-inline-start: auto;
+    inset-inline-end: 100%;
+  }
+}
+
+:host([anchor-corner="end-end"]) .menu {
+
+  inset-inline-start: 100%;
+  inset-block-start: 100%;
+
+  &.up {
+    inset-block-start: auto;
+    inset-block-end: 0;
+  }
+
+  &.start {
+    inset-inline-start: auto;
+    inset-inline-end: 0;
+  }
+}

@@ -22,14 +22,6 @@ window.ThemeMode = {
     .addEventListener("click", () => sideNavigation.toggleDrawer = !sideNavigation.toggleDrawer);
 
   document
-    .querySelector(".u-dropdown-toggle")
-    ?.addEventListener("click", e => e.currentTarget.nextElementSibling.classList.toggle('show'));
-
-  document
-    .querySelector(".u-dropdown-menu")
-    ?.addEventListener("click", e => e.currentTarget.classList.remove('show'));
-
-  document
     .getElementById("rtl-toggle")
     ?.addEventListener("click", toggleRtl);
 

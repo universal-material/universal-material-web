@@ -9,6 +9,7 @@
   display: inline-block;
   font-family: var(--u-font-family-base, system-ui);
   transition: color 150ms ease-in-out, background-color 150ms ease-in-out;
+  --u-elevation-level: 0;
 }
 
 :host([disabled]) {
