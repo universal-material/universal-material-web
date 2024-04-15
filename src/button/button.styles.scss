@@ -6,6 +6,7 @@
   --u-common-button-font-weight: #{functions.get-font-weight-var(medium)};
   --_common-button-height: var(--u-common-button-height, 2.5rem);
   --_common-button-padding: var(--u-common-button-padding, 24px);
+  --_common-button-icon-size: var(--u-common-button-icon-size, 1.125rem);
   --_common-button-icon-padding: var(--u-common-button-icon-padding, 16px);
   --_common-button-icon-margin: var(--u-common-button-icon-margin, 8px);
 
@@ -89,12 +90,9 @@
 }
 
 .icon {
-  width: var(--u-common-button-icon-size, 1.125rem);
-  height: var(--u-common-button-icon-size, 1.125rem);
+  font-size: var(--_common-button-icon-size);
   padding-inline-end: var(--_common-button-icon-margin);
   margin-inline-end: auto;
-  font-size: var(--u-common-button-icon-size, 1.125rem);
-  line-height: var(--u-common-button-icon-size, 1.125rem);
 }
 
 :host([trailing-icon]) .icon {

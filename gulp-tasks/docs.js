@@ -1,13 +1,19 @@
 import gulp from 'gulp';
 import notify from 'gulp-notify';
 import gulpPug from 'gulp-pug';
+import gulpSass from 'gulp-sass';
 import { encode } from 'html-entities';
 import fs from 'node:fs';
 import { rollup } from 'rollup';
+import * as dartSass from 'sass';
 import { Project } from 'ts-morph';
+
+const sass = gulpSass(dartSass);
 
 import rollupConfig from '../rollup.config.js';
 import { setClassInfo } from './docs-api.js';
+
+const distCssPath = 'docs/dist/css';
 
 const buildPug = () => {
   return gulp
@@ -44,7 +50,7 @@ const copyJs = () =>
 const copyCss = () =>
   gulp
     .src("./dist/css/**/*.css")
-    .pipe(gulp.dest('docs/dist/css'));
+    .pipe(gulp.dest(distCssPath));
 
 const createJsBundle = async () => {
   const bundle = await rollup(rollupConfig);
@@ -54,10 +60,11 @@ const createJsBundle = async () => {
 }
 
 const watch = () => {
-  gulp.watch(['./docs/src/**/*.pug', './docs/src/**/*.html'], buildPug);
-  gulp.watch(['./dist/**/*.js'], copyJs);
-  gulp.watch(['./dist/**/*.css'], copyCss);
-  gulp.watch(['./src/**/*.ts', '!./src/**/*.styles.ts'], buildPugApis);
+  gulp.watch(['src/**/*.pug', 'src/**/*.html'], {cwd: 'docs'}, buildPug);
+  gulp.watch('css/*.scss', {cwd: 'docs'}, buildSass);
+  gulp.watch('**/*.js', {cwd: 'dist'}, copyJs);
+  gulp.watch('**/*.css', {cwd: 'dist'}, copyCss);
+  gulp.watch(['**/*.ts', '!**/*.styles.ts'], {cwd: 'src'}, buildPugApis);
 }
 
 const buildPugApis = cb => {
@@ -107,10 +114,17 @@ const buildPugApis = cb => {
   });
 };
 
+const buildSass = () =>
+  gulp
+    .src('docs/src/css/docs.scss')
+    .pipe(sass({outputStyle: 'expanded'}).on('error', sass.logError))
+    .pipe(gulp.dest(distCssPath));
+
 gulp.task('docs', gulp.series(buildPugApis, gulp.parallel(buildPug, createJsBundle)));
 gulp.task('docs:pug:apis', buildPugApis);
 gulp.task('docs:pug', buildPug);
 gulp.task('docs:js', copyJs);
 gulp.task('docs:css', copyCss);
+gulp.task('docs:scss', buildSass);
 gulp.task('docs:bundle', createJsBundle);
-gulp.task('docs:watch', gulp.series(buildPugApis, gulp.parallel(buildPug, copyJs, copyCss, watch)));
+gulp.task('docs:watch', gulp.series(buildPugApis, gulp.parallel(buildPug, copyJs, copyCss, buildSass), watch));

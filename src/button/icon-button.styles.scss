@@ -2,7 +2,6 @@
 
 :host {
   --_icon-button-size: var(--u-icon-button-size, 2.5rem);
-  --_icon-button-icon-size: var(--u-icon-button-icon-size, 1.5rem);
   --_color-surface-container-highest: #{functions.get-color-var(surface-container-highest)};
 
   width: var(--_icon-button-size);
@@ -15,8 +14,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--_icon-button-icon-size);
-  line-height: var(--_icon-button-icon-size);
+  font-size: var(--u-icon-button-icon-size, 1.5rem);
 
   &.icon-selected {
     display: none;

@@ -1,56 +1,17 @@
-@use "../../../scss/universal-material";
-//
-.deep-purple-amber {
-  @include universal-material.theme((
-    primary: #673ab7,
-    secondary: #ffd740
-  ));
+@import "theme";
+
+body {
+  --u-scrim-color-rgb: 0, 0, 0;
+  background-color: var(--u-color-background);
+  color: var(--u-color-on-background);
 }
 
-.pink-blue-grey {
-
-  @include universal-material.theme((
-    primary: #e91e63,
-    secondary: #607d8b
-  ));
+.u-dark-mode {
+  color: var(--u-color-on-background);
 }
-//
-//.purple-green {
-//  $u-theme-colors: (
-//    primary: #9c27b0,
-//    secondary: #69f0ae
-//  ) !global;
-//
-//  @include u-create-theme;
-//}
-//
 
 #main-content {
   padding-top: 56px;
-}
-
-.example-box {
-  display: flex;
-  flex-direction: column;
-  padding: .5rem;
-  overflow: auto;
-  background: #e0e0e0;
-
-
-}
-
-.example-box-header {
-  padding: 1rem;
-  margin-bottom: .5rem;
-  background: var(--u-surface-color);
-
-  .u-toolbar {
-    width: 100%;
-  }
-
-  .u-dropdown {
-    display: inline-block;
-  }
 }
 
 .limited-height {
@@ -65,8 +26,6 @@
 }
 
 .list-example-box-header {
-  @include universal-material.u-elevation-tint(1);
-
   .u-list {
     width: 300px;
   }
@@ -103,14 +62,12 @@
 .chapter-title,
 .article-title {
   margin-bottom: 48px;
-  font-size: 2rem;
   font-weight: 400;
-  color: var(--u-primary-color);
+  color: var(--u-color-primary);
 }
 
 .article-title {
   margin-bottom: 1rem;
-  font-size: 1.5rem;
 }
 
 pre {
@@ -131,16 +88,20 @@ code {
   &.expanded {
     max-height: 500px;
   }
+
+  u-drawer-item {
+    margin-inline: 0;
+  }
 }
 
 .example-card {
 
-  > .u-card-content:first-child {
-    padding: 36px;
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+  }
 
-    div ~ div {
-      margin-top: 8px;
-    }
+  > u-card-content:first-child {
+    padding: 36px;
   }
 
   .u-floating-action-area {
@@ -158,7 +119,32 @@ code {
 }
 
 .example-card-code {
-  background-color: var(--u-surface-variant-color);
+  background-color: var(--u-color-surface-container-low);
+  border-radius: var(--u-card-shape, var(--u-shape-corner-medium, 12px)) !important;
+}
+
+.example-card-grid-container {
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-gap: 8px;
+}
+
+.example-card-grid-container u-card {
+  margin: 0;
+}
+
+.example-card-media {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  background: url("https://picsum.photos/seed/picsum/800/800") center;
+  background-size: cover;
+
+  u-card-content {
+    background-color: rgba(var(--u-scrim-color-rgb), .8);
+  }
 }
 
 ::-webkit-scrollbar {
@@ -186,4 +172,61 @@ code {
 body {
   overflow-y: auto;
   overflow-y: overlay;
+}
+
+.api-card {
+  overflow-y: auto;
+}
+
+.api-card u-td {
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+.api-card code {
+  white-space: nowrap;
+  color: var(--u-on-surface-variant-color);
+  background-color: var(--u-surface-container-high-color) !important;
+  padding: 4px !important;
+  border-radius: 8px;
+}
+
+.api-description-cell {
+  white-space: pre-wrap;
+}
+
+.ripple-example-container {
+  position: relative;
+  width: 200px;
+  aspect-ratio: 1;
+  border: 1px solid var(--u-outline-color);
+}
+
+.round {
+  border-radius: 24px;
+}
+
+.u-toolbar {
+  inset-inline-start: var(--u-app-bar-offset);
+}
+
+.u-navigation-drawer-headline {
+  padding-block: 16px;
+  margin-block: 0;
+}
+
+.position-relative {
+  position: relative !important;
+}
+
+.d-inline-block {
+  display: inline-block;
+}
+
+.material-symbols-outlined {
+  font-size: inherit;
+}
+
+.material-symbols-fill {
+  font-variation-settings: "FILL" 1;
 }

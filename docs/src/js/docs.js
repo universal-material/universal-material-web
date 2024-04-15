@@ -102,7 +102,7 @@ window.setThemeMode = mode => {
 
 function applyThemeMode() {
   const darkMode = currentThemeMode === ThemeMode.Dark ||
-    currentThemeMode  === ThemeMode.Auto && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    currentThemeMode === ThemeMode.Auto && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
   if (!darkMode) {
     document.body.classList.remove('u-dark-mode');

@@ -64,6 +64,15 @@ u-elevation {
   outline-offset: 2px;
 }
 
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1em;
+  height: 1em;
+  line-height: 1em;
+}
+
 ::slotted([slot=icon]) {
   display: inline-block;
 }

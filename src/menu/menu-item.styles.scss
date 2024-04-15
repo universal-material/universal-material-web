@@ -19,7 +19,7 @@
 .icon {
   font-size: var(--_menu-item-icon-size);
   line-height: var(--_menu-item-icon-size);
-  margin-inline-end: var(--u-menu-item-icon-margin, 12x);
+  margin-inline-end: var(--u-menu-item-icon-margin, 12px);
   color: var(--u-menu-item-label-color,  #{functions.get-color-var(on-surface-variant)});
 }
 

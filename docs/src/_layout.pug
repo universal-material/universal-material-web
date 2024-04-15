@@ -28,7 +28,7 @@ html
     link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
     link(rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap")
 
-    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.9.96/css/materialdesignicons.min.css")
+    link(rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0")
     link(rel="stylesheet" href="https://unpkg.com/normalize.css@8.0.1/normalize.css")
     link(rel="stylesheet" href="css/universal-material.min.css")
     link(rel="stylesheet" href="css/docs.css")
@@ -53,7 +53,7 @@ html
             u-drawer-item(href="utilities/text-and-background-colors.html") Text and background
 
           u-drawer-item Buttons
-            i.u-typo-title-l.mdi.mdi-chevron-down(slot="badge")
+            span.material-symbols-outlined(slot="badge") expand_more
 
           .nested-menu-items
             u-drawer-item(href="components/common-buttons.html") Common buttons
@@ -97,76 +97,35 @@ html
           u-icon-button#menu-toggle(
             type="button",
             slot="leading-icon")
-            i.mdi.mdi-menu
+            span.material-symbols-outlined menu
           span Material
 
           .position-relative(slot="trailing-icon")
             u-icon-button#theme-button
-              i.mdi.mdi-theme-light-dark
+              span.material-symbols-outlined palette
             u-menu(
               toggle-selector="#theme-button"
               anchor-corner="end-end")
-              u-menu-item(href='#', onclick="setThemeMode(ThemeMode.Auto)") System
-              u-menu-item(href='#', onclick="setThemeMode(ThemeMode.Light)") Light
-              u-menu-item(href='#', onclick="setThemeMode(ThemeMode.Dark)") Dark
+              u-menu-item(onclick="setThemeMode(ThemeMode.Auto)")
+                span.material-symbols-outlined(slot="icon") brightness_4
+                span System
+              u-menu-item(onclick="setThemeMode(ThemeMode.Light)")
+                span.material-symbols-outlined(slot="icon") light_mode
+                span Light Mode
+              u-menu-item(onclick="setThemeMode(ThemeMode.Dark)")
+                span.material-symbols-outlined(slot="icon") dark_mode
+                span Dark Mode
 
-          u-icon-button(
+          //u-icon-button(
             slot="trailing-icon",
             href="/angular",
             title="Universal Material Angular")
-            i.mdi.mdi-angular
+            span.material-symbols-outlined angular
           u-icon-button#rtl-toggle(
             slot="trailing-icon",
             type="button",
             title="Rtl")
-            i.mdi.mdi-format-align-right
-
-              //.u-toolbar-actions
-                span.u-dropdown.u-toolbar-action
-                  button.u-icon-btn.u-dropdown-toggle
-                    i.u-btn-icon.mdi.mdi-theme-light-dark
-                  .u-dropdown-menu.down-start
-                    .u-dropdown-content
-                      button.u-dropdown-item(href='#', onclick="setThemeMode(ThemeMode.Auto)") System
-                      button.u-dropdown-item(href='#', onclick="setThemeMode(ThemeMode.Light)") Light
-                      button.u-dropdown-item(href='#', onclick="setThemeMode(ThemeMode.Dark)") Dark
-
-                a.u-toolbar-action.u-icon-btn(href="/angular", title="Universal Material Angular")
-                  i.u-btn-icon.mdi.mdi-angular
-                button.u-toolbar-action.u-icon-btn#rtl-toggle(type="button", title="Rtl")
-                  i.u-btn-icon.mdi.mdi-format-align-right
-
-        u-container.chapter#main-content
-          block content
-      //.u-drawer.u-drawer-lg-dismissible
-        aside.u-drawer-content.u-navigation-drawer
-          .u-drawer-scrollable-container
-
-
-        .u-drawer-backdrop.d-lg-none
-        .u-toolbar.u-toolbar-fixed#app-bar
-          .u-toolbar-row
-            .u-toolbar-start
-              .u-toolbar-actions
-                button.u-toolbar-action.u-icon-btn(type="button")#menu-toggle
-                  i.u-btn-icon.mdi.mdi-menu
-            .u-toolbar-center
-              .u-toolbar-title Material
-            .u-toolbar-end
-              .u-toolbar-actions
-                span.u-dropdown.u-toolbar-action
-                  button.u-icon-btn.u-dropdown-toggle
-                    i.u-btn-icon.mdi.mdi-theme-light-dark
-                  .u-dropdown-menu.down-start
-                    .u-dropdown-content
-                      button.u-dropdown-item(href='#', onclick="setThemeMode(ThemeMode.Auto)") System
-                      button.u-dropdown-item(href='#', onclick="setThemeMode(ThemeMode.Light)") Light
-                      button.u-dropdown-item(href='#', onclick="setThemeMode(ThemeMode.Dark)") Dark
-
-                a.u-toolbar-action.u-icon-btn(href="/angular", title="Universal Material Angular")
-                  i.u-btn-icon.mdi.mdi-angular
-                button.u-toolbar-action.u-icon-btn#rtl-toggle(type="button", title="Rtl")
-                  i.u-btn-icon.mdi.mdi-format-align-right
+            span.material-symbols-outlined format_align_right
 
         u-container.chapter#main-content
           block content
