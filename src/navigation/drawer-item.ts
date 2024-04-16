@@ -36,6 +36,11 @@ export class UmDrawerItem extends UmButtonWrapper {
    */
   @property({type: Boolean, reflect: true}) active = false;
 
+  /**
+   * If true, it will not attempt to close de navigation drawer on click
+   */
+  @property({type: Boolean, attribute: 'keep-drawer-open', reflect: true}) keepDrawerOpen = false;
+
   @queryAssignedElements({slot: 'icon', flatten: true})
   private readonly assignedIcons!: HTMLElement[];
 
@@ -65,6 +70,18 @@ export class UmDrawerItem extends UmButtonWrapper {
 
   private handleBadgeSlotChange() {
     this.hasBadge = this.assignedBadges.length > 0;
+  }
+
+  override handleClick(): void {
+    if (this.keepDrawerOpen) {
+      return;
+    }
+
+    const sideNavigation = this.closest('u-side-navigation');
+
+    if (sideNavigation) {
+      sideNavigation.toggleDrawer = false;
+    }
   }
 }
 

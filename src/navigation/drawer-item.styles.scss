@@ -6,7 +6,7 @@
   --_drawer-item-icon-size: var(--u-drawer-item-icon-size, 1.125rem);
   --_drawer-item-padding: var(--u-drawer-item-padding, 16px);
 
-  @include mixins.typo(label-l);
+  @include mixins.typo(label-l, drawer-item);
 
   height: var(--u-drawer-item-height, 56px);
   padding-inline: var(--_drawer-item-padding);

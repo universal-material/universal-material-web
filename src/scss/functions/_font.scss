@@ -12,7 +12,7 @@
 }
 
 @function get-font-family-var() {
-  @return var(--u-typo-font-family, variables.$font-family);
+  @return var(--u-font-family, variables.$font-family);
 }
 
 @function get-font-weight-var($name) {

@@ -1,4 +1,3 @@
-import { encode } from 'html-entities';
 import { SyntaxKind } from 'ts-morph';
 
 function getAttributeName(property) {
@@ -15,7 +14,8 @@ function getAttributeName(property) {
     return property.getName();
   }
 
-  return optionsArgument.getProperty('attribute')
+  return optionsArgument
+    .getProperty('attribute')
     ?.getInitializer()
     ?.getText()
     ?.replaceAll(`'`, '') ?? property.getName();
@@ -28,24 +28,7 @@ function getJsDocsDescription(property) {
     return null;
   }
 
-  let description = encode(jsDocs.getDescription())
-    .replaceAll(/`(.+?)`/g, '<code>$1</code>')
-    .replaceAll(/_(.+?)_/g, '<em>$1</em>')
-    .trimStart();
-
-  const linkTag = jsDocs
-    .getTags()
-    .find(t => t.getTagName() === 'link');
-
-  if (!linkTag) {
-    return description;
-  }
-
-  const link = linkTag.getComment().trim();
-
-  return `${description}
-
-<a href="${link}" target="_blank">${link}</a>`;
+  return jsDocs.getDescription().trim();
 }
 
 export function setClassInfo(classDeclaration, classInfo) {

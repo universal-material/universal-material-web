@@ -9,7 +9,7 @@
   height: var(--u-menu-item-height, 56px);
   padding-inline: var(--_menu-item-padding);
   color: var(--u-menu-item-label-color,  #{functions.get-color-var(on-surface)});
-  @include mixins.typo(label-l);
+  @include mixins.typo(label-l, menu-item-label);
 }
 
 :host(:not([has-icon])) .icon {

@@ -11,7 +11,7 @@
   --_common-button-icon-margin: var(--u-common-button-icon-margin, 8px);
 
   border-radius: var(--u-common-button-shape-corner, #{functions.get-shape-corner-var(full)});
-  font-family: var(--u-font-family-base, system-ui);
+  font-family: #{functions.get-font-family-var()};
   height: var(--u-common-button-height, 40px);
   font-size: var(--u-common-button-font-size);
   font-weight: var(--u-common-button-font-weight);

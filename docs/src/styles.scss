@@ -1,5 +1,6 @@
 body {
   --u-scrim-color-rgb: 0, 0, 0;
+  --u-font-family: Roboto;
   background-color: var(--u-color-background);
   color: var(--u-color-on-background);
 }
@@ -21,7 +22,7 @@ docs-typography {
 }
 
 docs-submenu {
-  u-drawer-item {
+  .submenu-items u-drawer-item {
     margin-inline: 0;
   }
 }
@@ -78,6 +79,10 @@ docs-submenu {
 
 .d-flex {
   display: flex;
+}
+
+.d-inline-block {
+  display: inline-block;
 }
 
 .position-relative {

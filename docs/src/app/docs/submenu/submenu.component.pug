@@ -1,4 +1,6 @@
-u-drawer-item((click)="open = !open") {{label}}
+u-drawer-item(
+  (click)="open = !open",
+  keep-drawer-open) {{label}}
   span.material-symbols-outlined(slot="badge") expand_more
 
 .submenu-items([class.open]="open")

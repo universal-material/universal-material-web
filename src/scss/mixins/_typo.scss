@@ -3,14 +3,24 @@
 @use "../typo/variables";
 @use "../functions";
 
-@mixin typo($style) {
+@mixin typo($style, $target-name: null) {
   @if not map.has-key(variables.$typography-styles, $style) {
     @error "Invalid style specified! #{$style} doesn't exist. Choose one of #{map.keys(variables.$typography-styles)}";
   }
 
-  font-family: var(--u-typo-#{$style}-font-family, #{functions.get-font-family-var()});
-  font-size: var(--u-typo-#{$style}-font-size);
-  font-weight: var(--u-typo-#{$style}-font-weight);
-  line-height: var(--u-typo-#{$style}-line-height);
-  letter-spacing: var(--u-typo-#{$style}-letter-spacing);
+  @if $target-name != null {
+    font-family: var(--u-font-family, #{functions.get-font-family-var()});
+  } @else {
+    font-family: var(--u-font-family);
+  }
+
+  $props: map.get(variables.$typography-styles, $style);
+
+  @each $key, $value in $props {
+    @if $target-name != null {
+      #{$key}: var(--u-#{$target-name}-#{$key}, var(--u-#{$style}-#{$key}, #{$value}));
+    } @else {
+      #{$key}: var(--u-#{$style}-#{$key});
+    }
+  }
 }

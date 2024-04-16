@@ -19,7 +19,7 @@ const sass = gulpSass(dartSass);
 
 const options = {cwd: 'src'};
 
-const sassToTsSrc = ['**/*.scss', '!scss/**/*.scss'];
+const sassToTsSrc = '**/*.scss';
 const sassToTsDest = 'src';
 const sassToTs = () =>
   gulp
@@ -48,6 +48,10 @@ const allInSeries = gulp.series(sassToTs, buildScripts);
 const watch = () =>
   gulp.watch([...sassToTsSrc, '**/*.ts'], options, allInSeries);
 
+const watchSassToTs = () =>
+  gulp.watch(sassToTsSrc, options, sassToTs);
+
 gulp.task('scripts:build', buildScripts);
 gulp.task('scripts:sass-to-ts', sassToTs);
+gulp.task('scripts:sass-to-ts:watch', watchSassToTs);
 gulp.task('scripts:watch', gulp.series(allInSeries, watch));

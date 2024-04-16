@@ -27,6 +27,7 @@ export class AppComponent {
   ThemeMode = ThemeMode;
 
   currentThemeMode = parseInt(localStorage['currentThemeMode'], 10) || 0;
+  toggleMenu = false;
 
   constructor() {
     this.applyThemeMode();
@@ -43,14 +44,22 @@ export class AppComponent {
   }
 
   private applyThemeMode() {
-    const darkMode = this.currentThemeMode === ThemeMode.Dark ||
-      this.currentThemeMode === ThemeMode.Auto && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const darkMode = this.currentThemeMode === ThemeMode.Dark;
+    const lightMode = this.currentThemeMode === ThemeMode.Light;
 
-    if (!darkMode) {
-      document.body.classList.remove('u-dark-mode');
+    if (!darkMode && !lightMode) {
+      document.documentElement.classList.remove('u-dark-mode');
+      document.documentElement.classList.remove('u-light-mode');
       return;
     }
 
-    document.body.classList.add('u-dark-mode');
+    if (!darkMode) {
+      document.documentElement.classList.add('u-light-mode');
+      document.documentElement.classList.remove('u-dark-mode');
+      return;
+    }
+
+    document.documentElement.classList.add('u-dark-mode');
+    document.documentElement.classList.remove('u-light-mode');
   }
 }

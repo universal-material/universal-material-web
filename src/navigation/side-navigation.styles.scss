@@ -1,9 +1,19 @@
 @use "../scss/variables";
+@use "../scss/functions";
 @use "../scss/mixins";
 
 :host {
   --_navigation-width: 0;
   --_navigation-drawer-width: min(var(--u-navigation-drawer-width, 360px), 85vw);
+  --_navigation-drawer-corner-shape: var(--u-navigation-drawer-corner-shape, #{functions.get-shape-corner-var(large)});
+}
+
+.navigation {
+  position: fixed;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  height: 100%;
+  z-index: var(--u-side-navigation-z-index, 1030);
 }
 
 .drawer {
@@ -14,17 +24,30 @@
   height: 100%;
   transform: translate3d(-100%, 0, 0);
   transition: transform 375ms variables.$awesome-cubic-bezier;
+  border-start-end-radius: var(--_navigation-drawer-corner-shape);
+  border-end-end-radius: var(--_navigation-drawer-corner-shape);
+  overflow: hidden;
 
   &.toggle {
     transform: translate3d(0, 0, 0);
   }
 }
 
-.navigation {
-  position: fixed;
+.scrim {
+  position: absolute;
   inset-inline-start: 0;
   inset-block-start: 0;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+  background: var(--u-drawer-scrim-color, #{functions.get-color-var(scrim)});
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 375ms linear;
+
+  &.toggle {
+    pointer-events: auto;
+    opacity: var(--u-drawer-scrim-opacity, .4);
+  }
 }
 
 .grid {
@@ -32,17 +55,21 @@
   grid-template-columns: var(--_navigation-width) minmax(0, 1fr);
   transition: 375ms variables.$awesome-cubic-bezier;
 
-
   @include mixins.media-breakpoint-up(md) {
 
     --_navigation-width: var(--_navigation-drawer-width);
 
     .drawer {
+      border-radius: 0;
       transform: translate3d(0, 0, 0);
 
       &.toggle {
         transform: translate3d(-100%, 0, 0);
       }
+    }
+
+    .scrim {
+      display: none;
     }
 
     &:has(.drawer.toggle) {

@@ -1,12 +1,13 @@
 @use "sass:map";
 
 @use "variables";
+@use "../functions";
 @use "../mixins";
 
 :root {
   @each $style, $props in (variables.$typography-styles) {
     @each $key, $value in $props {
-      --u-typo-#{$style}-#{$key}: #{$value};
+      --u-#{$style}-#{$key}: #{$value};
     }
   }
 }

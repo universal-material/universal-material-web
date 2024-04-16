@@ -1,3 +1,4 @@
+@use "../scss/variables";
 @use "../scss/functions";
 @use "../scss/mixins";
 
@@ -5,7 +6,7 @@
   display: block;
   background-color: var(--u-top-app-bar-background-color, var(--u-color-background, #{functions.get-color-var(surface)}));
   color: var(--u-top-app-bar-text-color, #{functions.get-color-var(on-surface)});
-  transition: background-color 150ms;
+  transition: background-color 150ms, inset 375ms variables.$awesome-cubic-bezier;
 }
 
 :host([container-scrolled]) {
@@ -59,7 +60,7 @@ slot[name="leading-icon"]::slotted(u-icon-button) {
 }
 
 .headline {
-  @include mixins.typo(title-l);
+  @include mixins.typo(title-l, top-app-bar-headline);
   margin-inline: var(--u-headline-margin, 16px);
 }
 

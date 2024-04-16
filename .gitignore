@@ -1,5 +1,6 @@
 # Compiled output
 /dist
+/docs/dist
 /tmp
 /out-tsc
 /bazel-out
@@ -40,10 +41,9 @@ testem.log
 Thumbs.db
 
 
-/dist/
-/test/
-/docs/src/_apis.pug
+/docs/src/app/apis.ts
 /docs/dist/
 /src/**/*.d.ts
 /src/**/*.styles.ts
+/src/scss/universal-material.ts
 custom-elements.json

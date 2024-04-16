@@ -14,21 +14,3 @@
     background-color: var(--u-standard-drawer-background-color, var(--u-color-background, #{functions.get-color-var(surface)}));
   }
 }
-//
-//.u-navigation-drawer {
-//  .u-list {
-//    padding: 0;
-//    background: transparent;
-//  }
-//
-//  .u-list-item {
-//    min-height: $u-drawer-list-item-min-height;
-//    padding-inline: $u-drawer-list-item-padding;
-//    margin-inline: $u-drawer-list-item-margin;
-//    border-radius: $u-drawer-list-item-border-radius;
-//  }
-//
-//  ~ .u-drawer-backdrop {
-//    position: fixed;
-//  }
-//}

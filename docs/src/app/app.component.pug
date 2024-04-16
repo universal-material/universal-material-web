@@ -1,4 +1,4 @@
-u-side-navigation
+u-side-navigation(#navigation)
   u-drawer(slot="drawer")
     h6.navigation-headline.u-headline-s Material Design
     u-drawer-item(
@@ -9,7 +9,9 @@ u-side-navigation
       routerLink="content/typography",
       docsLinkActive) Typography
 
-    //u-drawer-item(href="layout/grid.html") Grid
+    //u-drawer-item(
+      routerLink="layout/grid",
+      docsLinkActive) Grid
 
 
     //u-drawer-item Colors
@@ -44,47 +46,71 @@ u-side-navigation
       routerLink="components/cards",
       docsLinkActive) Cards
 
-    //u-drawer-item(href="components/checkbox.html") Checkbox
+    //u-drawer-item(
+      routerLink="components/checkbox",
+      docsLinkActive) Checkbox
 
-    //u-drawer-item(href="components/chips.html") Chips
+    //u-drawer-item(
+      routerLink="components/chips",
+      docsLinkActive) Chips
 
     u-drawer-item(
       routerLink="components/data-tables",
       docsLinkActive) Data tables
 
-    //u-drawer-item(href="components/dialogs.html") Dialogs
+    //u-drawer-item(
+      routerLink="components/dialogs",
+      docsLinkActive) Dialogs
 
     u-drawer-item(
       routerLink="components/dividers",
       docsLinkActive) Dividers
 
-    //u-drawer-item(href="components/lists.html") Lists
+    //u-drawer-item(
+      routerLink="components/lists",
+      docsLinkActive) Lists
 
-    u-drawer-item(
+    //u-drawer-item(
       routerLink="components/menus",
       docsLinkActive) Menus
 
-    //u-drawer-item(href="components/progress.html") Progress
+    //u-drawer-item(
+      routerLink="components/progress",
+      docsLinkActive) Progress
 
     u-drawer-item(
       routerLink="components/ripple",
       docsLinkActive) Ripple
 
-    //u-drawer-item(href="components/selection-controls.html") Selection controls
+    //u-drawer-item(
+      routerLink="components/selection-controls",
+      docsLinkActive) Selection controls
 
-    //u-drawer-item(href="components/sliders.html") Sliders
+    //u-drawer-item(
+      routerLink="components/sliders",
+      docsLinkActive) Sliders
 
-    //u-drawer-item(href="components/snackbars.html") Snackbars
+    //u-drawer-item(
+      routerLink="components/snackbars",
+      docsLinkActive) Snackbars
 
-    //u-drawer-item(href="components/tabs.html") Tabs
+    //u-drawer-item(
+      routerLink="components/tabs",
+      docsLinkActive) Tabs
 
-    //u-drawer-item(href="components/text-fields.html") Text fields
+    //u-drawer-item(
+      routerLink="components/text-fields",
+      docsLinkActive) Text fields
 
-    //u-drawer-item(href="components/toolbars.html") Toolbars
+    //u-drawer-item(
+      routerLink="components/toolbars",
+      docsLinkActive) Toolbars
+
   u-top-app-bar
-    u-icon-button#menu-toggle(
+    u-icon-button(
       type="button",
-      slot="leading-icon")
+      slot="leading-icon",
+      (click)="navigation.toggleDrawer = !navigation.toggleDrawer")
       span.material-symbols-outlined menu
     span Material
 

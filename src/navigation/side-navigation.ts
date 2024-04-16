@@ -11,13 +11,20 @@ export class UmSideNavigation extends LitElement {
     styles
   ];
 
-  @property({type: Boolean, attribute: 'toggle-drawer', reflect: true}) toggleDrawer = false;
+  /**
+   * Toggle the navigation drawer visibility
+   *
+   * _Modal drawer_: Open if `true`, closed if `false`
+   * _Standard drawer_: Collapsed if `true`, visible if `false`
+   */
+  @property({type: Boolean, attribute: 'toggle-drawer'}) toggleDrawer = false;
 
   override render(): HTMLTemplateResult {
     return html`
       <div class="grid">
         <div>
           <div class="navigation">
+            <div class="scrim ${this.toggleDrawer ? 'toggle' : ''}" @click="${this.scrimClick}"></div>
             <div class="drawer ${this.toggleDrawer ? 'toggle' : ''}">
                 <slot name="drawer"></slot>
             </div>
@@ -29,6 +36,10 @@ export class UmSideNavigation extends LitElement {
         </div>
       </div>
     `;
+  }
+
+  private scrimClick() {
+    this.toggleDrawer = false;
   }
 }
 
