@@ -1,7 +1,7 @@
 import { html, HTMLTemplateResult, LitElement } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 
-import { styles } from './ripple.styles.js';
+import { styles } from './ripple.styles';
 
 @customElement('u-ripple')
 export class UmRipple extends LitElement {

@@ -1,8 +1,8 @@
 import { html, HTMLTemplateResult, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-import { styles as baseStyles } from '../shared/base.styles.js';
-import { styles } from './side-navigation.styles.js';
+import { styles as baseStyles } from '../shared/base.styles';
+import { styles } from './side-navigation.styles';
 
 @customElement('u-side-navigation')
 export class UmSideNavigation extends LitElement {

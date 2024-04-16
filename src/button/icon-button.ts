@@ -1,10 +1,10 @@
 import { CSSResult, html, HTMLTemplateResult, nothing } from 'lit';
 import { customElement, property, queryAssignedElements } from 'lit/decorators.js';
 
-import '../ripple/ripple.js';
-import { styles as buttonWrapperStyles } from '../shared/button-wrapper.styles.js';
+import '../ripple/ripple';
+import { styles as buttonWrapperStyles } from '../shared/button-wrapper.styles';
 import { UmButtonBase } from './button-base';
-import { styles } from './icon-button.styles.js';
+import { styles } from './icon-button.styles';
 
 export type UmIconButtonVariant = 'standard' | 'filled' | 'tonal' | 'outlined';
 

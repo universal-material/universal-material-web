@@ -1,0 +1,9 @@
+h5.u-headline-m.article-title {{sectionTitle}}
+u-card(variant="outlined")
+  .example(
+    #example,
+    slot="before-content",
+    [innerHTML]="_htmlSafe")
+
+  pre(slot="after-content")
+    code([highlight]="_html" language="html")

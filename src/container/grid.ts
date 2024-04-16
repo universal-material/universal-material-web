@@ -1,11 +1,11 @@
 import { html, HTMLTemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-import './container.js';
-import { styles as baseStyles } from '../shared/base.styles.js';
-import { GridBase, UmSpacingSizes } from './grid-base.js';
-import { styles as gridBaseStyles } from './grid-base.styles.js';
-import { styles } from './grid.styles.js';
+import './container';
+import { styles as baseStyles } from '../shared/base.styles';
+import { GridBase, UmSpacingSizes } from './grid-base';
+import { styles as gridBaseStyles } from './grid-base.styles';
+import { styles } from './grid.styles';
 
 @customElement('u-grid')
 export class UmGrid extends GridBase {

@@ -1,4 +1,4 @@
-import {Color} from './color.js';
+import {Color} from './color';
 
 export const neutralColors: Color[] = [
   { name: 'surface', lightTone: 98, darkTone: 6 },

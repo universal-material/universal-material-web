@@ -2,9 +2,9 @@ import { html, HTMLTemplateResult, LitElement } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 
 import { styles as baseStyles } from '../shared/base.styles';
-import { styles } from './menu.styles.js';
+import { styles } from './menu.styles';
 
-import '../elevation/elevation.js';
+import '../elevation/elevation';
 
 interface MenuRect {
   x?: number;
@@ -25,8 +25,8 @@ export class UmMenu extends LitElement {
    * Opens the menu and makes it visible. Alternative to the `.show()`, `.close()` and `.toggle()` methods
    */
   @property({type: Boolean, reflect: true})
-  get open() { return this.#open }
-  set open(open) {
+  get open(): boolean { return this.#open }
+  set open(open: boolean) {
     if (open) {
       this.calcDropdownPositioning();
     }
@@ -58,6 +58,9 @@ export class UmMenu extends LitElement {
    * Set a selector to auto attach to a toggle element
    */
   @property({attribute: 'toggle-selector', reflect: true})
+  get toggleSelector(): string | undefined {
+    return this.attributes.getNamedItem('toggle-selector')?.value;
+  }
   set toggleSelector(selector: string) {
     this.toggleElement?.removeEventListener('click', this.toggle);
 

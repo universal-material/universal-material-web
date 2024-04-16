@@ -1,10 +1,10 @@
 import { html, HTMLTemplateResult } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
-import { styles as baseStyles } from '../shared/base.styles.js';
-import { styles } from './container.styles.js';
-import { GridBase } from './grid-base.js';
-import { styles as gridBaseStyles } from './grid-base.styles.js';
+import { styles as baseStyles } from '../shared/base.styles';
+import { styles } from './container.styles';
+import { GridBase } from './grid-base';
+import { styles as gridBaseStyles } from './grid-base.styles';
 
 @customElement('u-container')
 export class UmContainer extends GridBase {

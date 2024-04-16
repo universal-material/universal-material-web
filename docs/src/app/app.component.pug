@@ -1,0 +1,120 @@
+u-side-navigation
+  u-drawer(slot="drawer")
+    h6.navigation-headline.u-headline-s Material Design
+    u-drawer-item(
+      routerLink="",
+      docsLinkActive,
+      [routerLinkActiveOptions]="{exact: true}") Introduction
+    u-drawer-item(
+      routerLink="content/typography",
+      docsLinkActive) Typography
+
+    //u-drawer-item(href="layout/grid.html") Grid
+
+
+    //u-drawer-item Colors
+      i.u-typo-title-l.mdi.mdi-chevron-down(slot="badge")
+
+    //.nested-menu-items
+      u-drawer-item(
+        routerLink="utilities/text-colors",
+        docsLinkActive) Text
+      u-drawer-item(
+        routerLink="utilities/background-colors",
+        docsLinkActive) Background
+      u-drawer-item(
+        routerLink="utilities/text-and-background-colors",
+        docsLinkActive) Text and background
+
+    docs-submenu(label="Buttons")
+      u-drawer-item(
+        routerLink="components/common-buttons",
+        docsLinkActive) Common buttons
+      u-drawer-item(
+        routerLink="components/fab",
+        docsLinkActive) Floating Action Button (FAB)
+      u-drawer-item(
+        routerLink="components/icon-buttons",
+        docsLinkActive) Icon buttons
+      u-drawer-item(
+        routerLink="components/button-set",
+        docsLinkActive) Button set
+
+    u-drawer-item(
+      routerLink="components/cards",
+      docsLinkActive) Cards
+
+    //u-drawer-item(href="components/checkbox.html") Checkbox
+
+    //u-drawer-item(href="components/chips.html") Chips
+
+    u-drawer-item(
+      routerLink="components/data-tables",
+      docsLinkActive) Data tables
+
+    //u-drawer-item(href="components/dialogs.html") Dialogs
+
+    u-drawer-item(
+      routerLink="components/dividers",
+      docsLinkActive) Dividers
+
+    //u-drawer-item(href="components/lists.html") Lists
+
+    u-drawer-item(
+      routerLink="components/menus",
+      docsLinkActive) Menus
+
+    //u-drawer-item(href="components/progress.html") Progress
+
+    u-drawer-item(
+      routerLink="components/ripple",
+      docsLinkActive) Ripple
+
+    //u-drawer-item(href="components/selection-controls.html") Selection controls
+
+    //u-drawer-item(href="components/sliders.html") Sliders
+
+    //u-drawer-item(href="components/snackbars.html") Snackbars
+
+    //u-drawer-item(href="components/tabs.html") Tabs
+
+    //u-drawer-item(href="components/text-fields.html") Text fields
+
+    //u-drawer-item(href="components/toolbars.html") Toolbars
+  u-top-app-bar
+    u-icon-button#menu-toggle(
+      type="button",
+      slot="leading-icon")
+      span.material-symbols-outlined menu
+    span Material
+
+    .position-relative(slot="trailing-icon")
+      u-icon-button#theme-button
+        span.material-symbols-outlined palette
+      u-menu(
+        toggle-selector="#theme-button"
+        anchor-corner="end-end")
+        u-menu-item((click)="setThemeMode(ThemeMode.Auto)")
+          span.material-symbols-outlined(slot="icon") brightness_4
+          span System
+        u-menu-item((click)="setThemeMode(ThemeMode.Light)")
+          span.material-symbols-outlined(slot="icon") light_mode
+          span Light Mode
+        u-menu-item((click)="setThemeMode(ThemeMode.Dark)")
+          span.material-symbols-outlined(slot="icon") dark_mode
+          span Dark Mode
+
+    //u-icon-button(
+      slot="trailing-icon",
+      href="/angular",
+      title="Universal Material Angular")
+      span.material-symbols-outlined angular
+    u-icon-button#rtl-toggle(
+      slot="trailing-icon",
+      type="button",
+      title="Rtl",
+      (click)="toggleRtl()")
+      span.material-symbols-outlined format_align_right
+
+  u-container.chapter#main-content
+    router-outlet

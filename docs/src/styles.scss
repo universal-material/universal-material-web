@@ -1,0 +1,93 @@
+body {
+  --u-scrim-color-rgb: 0, 0, 0;
+  background-color: var(--u-color-background);
+  color: var(--u-color-on-background);
+}
+
+.u-dark-mode {
+  color: var(--u-color-on-background);
+}
+
+.hljs {
+  background-color: var(--u-color-surface-container);
+}
+
+docs-typography {
+  u-card {
+    h1, h2, h3, h4, h5, h6 {
+      margin: 0;
+    }
+  }
+}
+
+docs-submenu {
+  u-drawer-item {
+    margin-inline: 0;
+  }
+}
+
+.article-title {
+  margin-bottom: 16px;
+  font-weight: var(--u-font-weight-regular);
+  color: var(--u-color-primary);
+}
+
+.api-card code {
+  white-space: nowrap;
+  color: var(--u-color-on-surface-variant);
+  background-color: var(--u-color-surface-container-high) !important;
+  padding: 4px !important;
+  border-radius: 8px;
+}
+
+.ripple-example-container {
+  position: relative;
+  width: 200px;
+  aspect-ratio: 1;
+  border: 1px solid var(--u-color-outline);
+  margin-inline-end: 16px;
+
+  &.round {
+    border-radius: 24px;
+  }
+}
+
+.example-card-grid-container {
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-gap: 8px;
+}
+
+.example-card-grid-container u-card {
+  margin: 0;
+}
+
+.example-card-media {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  background: url("https://picsum.photos/seed/picsum/800/800") center;
+  background-size: cover;
+
+  u-card-content {
+    background-color: rgba(var(--u-scrim-color-rgb), .8);
+  }
+}
+
+.d-flex {
+  display: flex;
+}
+
+.position-relative {
+  position: relative !important;
+}
+
+.rtl {
+  direction: rtl;
+}
+
+* {
+  box-sizing: border-box;
+}

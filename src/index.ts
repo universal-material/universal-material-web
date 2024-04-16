@@ -1,44 +1,44 @@
-import './app-bar/top-app-bar.js';
-import './button/button.js';
-import './button/button-set.js';
-import './button/fab.js';
-import './button/icon-button.js';
-import './card/card.js';
-import './checkbox/checkbox.js';
-import './container/container.js';
-import './container/grid.js';
-import './divider/divider.js';
-import './elevation/elevation.js';
-import './menu/menu.js'
-import './menu/menu-item.js'
-import './navigation/drawer.js'
-import './navigation/drawer-item.js'
-import './navigation/side-navigation.js';
-import './ripple/ripple.js';
-import './snackbar/snackbar.js';
-import './table/table.js';
+import './app-bar/top-app-bar';
+import './button/button';
+import './button/button-set';
+import './button/fab';
+import './button/icon-button';
+import './card/card';
+import './checkbox/checkbox';
+import './container/container';
+import './container/grid';
+import './divider/divider';
+import './elevation/elevation';
+import './menu/menu';
+import './menu/menu-item';
+import './navigation/drawer';
+import './navigation/drawer-item';
+import './navigation/side-navigation';
+import './ripple/ripple';
+import './snackbar/snackbar';
+import './table/table';
 
-export * from './app-bar/top-app-bar.js';
-export * from './button/button.js';
-export * from './button/button-base.js';
-export * from './button/button-set.js';
-export * from './button/fab.js';
-export * from './button/icon-button.js';
-export * from './card/card.js';
-export * from './card/card-content.js';
-export * from './card/card-media.js';
-export * from './checkbox/checkbox.js';
-export * from './container/grid-base.js';
-export * from './container/grid.js';
-export * from './container/container.js';
-export * from './divider/divider.js';
-export * from './elevation/elevation.js';
-export * from './menu/menu.js'
-export * from './menu/menu-item.js'
-export * from './navigation/drawer.js'
-export * from './navigation/drawer-item.js'
-export * from './navigation/side-navigation.js';
-export * from './ripple/ripple.js';
-export * from './snackbar/snackbar.js';
-export * from './table/table.js';
-export * from './theme/theme-builder.js';
+export * from './app-bar/top-app-bar';
+export * from './button/button';
+export * from './button/button-base';
+export * from './button/button-set';
+export * from './button/fab';
+export * from './button/icon-button';
+export * from './card/card';
+export * from './card/card-content';
+export * from './card/card-media';
+export * from './checkbox/checkbox';
+export * from './container/grid-base';
+export * from './container/grid';
+export * from './container/container';
+export * from './divider/divider';
+export * from './elevation/elevation';
+export * from './menu/menu';
+export * from './menu/menu-item';
+export * from './navigation/drawer';
+export * from './navigation/drawer-item';
+export * from './navigation/side-navigation';
+export * from './ripple/ripple';
+export * from './snackbar/snackbar';
+export * from './table/table';
+export * from './theme/theme-builder';

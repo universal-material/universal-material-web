@@ -1,0 +1,18 @@
+.example {
+  padding: 32px;
+}
+
+pre {
+  margin: 0;
+
+  &[slot="after-content"] {
+    border-end-start-radius: inherit;
+    border-end-end-radius: inherit;
+    overflow: hidden;
+  }
+
+  code {
+    background-color: var(--u-color-surface-container);
+    padding: 32px;
+  }
+}

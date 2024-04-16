@@ -1,0 +1,25 @@
+h5.u-headline-m.article-title API
+
+u-card.api-card(variant="outlined")
+  u-table(slot="before-content")
+    u-thead
+      u-tr
+        u-th Property
+        u-th Attribute
+        u-th Type
+        u-th Default
+        u-th Description
+    u-tbody
+      ng-container(*ngFor="let property of properties")
+        u-tr
+          u-td
+            code(*ngIf="!!property.name?.trim()") {{property.name}}
+          u-td
+            code(*ngIf="!!property.attribute?.trim()") {{property.attribute}}
+          u-td
+            code {{property.type}}
+          u-td
+            code(*ngIf="!!property.default?.trim()") {{property.default}}
+          u-td.api-description-cell
+            markdown {{property.description}}
+

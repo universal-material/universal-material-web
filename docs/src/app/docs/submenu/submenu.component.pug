@@ -1,0 +1,5 @@
+u-drawer-item((click)="open = !open") {{label}}
+  span.material-symbols-outlined(slot="badge") expand_more
+
+.submenu-items([class.open]="open")
+  ng-content

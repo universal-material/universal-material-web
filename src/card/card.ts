@@ -1,11 +1,11 @@
 import { html, HTMLTemplateResult, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-import { styles as baseStyles } from '../shared/base.styles.js';
-import { styles } from './card.styles.js';
-import './card-content.js';
-import './card-media.js';
-import '../elevation/elevation.js';
+import { styles as baseStyles } from '../shared/base.styles';
+import { styles } from './card.styles';
+import './card-content';
+import './card-media';
+import '../elevation/elevation';
 
 export type UmCardVariant = 'filled' | 'elevated' | 'outlined';
 

@@ -1,8 +1,8 @@
 import { HTMLTemplateResult, LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-import { styles as baseStyles } from '../shared/base.styles.js';
-import { styles } from './card-media.styles.js';
+import { styles as baseStyles } from '../shared/base.styles';
+import { styles } from './card-media.styles';
 
 @customElement('u-card-media')
 export class UmCardMedia extends LitElement {
