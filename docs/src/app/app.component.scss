@@ -2,3 +2,24 @@
   padding-block: 16px;
   margin-block: 0;
 }
+
+.color-picker {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  width: 40px;
+  height: 40px;
+  border: none;
+  cursor: pointer;
+}
+
+.color-picker::-webkit-color-swatch {
+  border-radius: 50%;
+  border: 1px solid var(--u-color-outline);
+}
+
+.color-picker::-moz-color-swatch {
+  border-radius: 50%;
+  border: 1px solid var(--u-color-outline);
+}

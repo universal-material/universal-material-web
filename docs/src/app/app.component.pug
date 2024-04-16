@@ -114,6 +114,11 @@ u-side-navigation(#navigation)
       span.material-symbols-outlined menu
     span Material
 
+    input.color-picker(
+      type="color",
+      slot="trailing-icon",
+      [ngModel]="themeColor",
+      (ngModelChange)="$themeColorChange.next($event)")
     .position-relative(slot="trailing-icon")
       u-icon-button#theme-button
         span.material-symbols-outlined palette
