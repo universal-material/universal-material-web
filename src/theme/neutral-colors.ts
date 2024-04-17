@@ -15,6 +15,7 @@ export const neutralColors: Color[] = [
 ]
 
 export const neutralVariantColors: Color[] = [
+  { name: 'surface-variant', lightTone: 90, darkTone: 30 },
   { name: 'on-surface-variant', lightTone: 30, darkTone: 80 },
   { name: 'outline', lightTone: 50, darkTone: 60 },
   { name: 'outline-variant', lightTone: 80, darkTone: 30 }

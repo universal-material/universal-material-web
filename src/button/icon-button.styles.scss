@@ -65,7 +65,7 @@
 :host([selected][variant="outlined"]) {
   border: none;
   background-color: var(--u-outlined-icon-button-selected-background-color, #{functions.get-color-var(inverse-surface)});
-  color: var(--u-outlined-icon-button-selected-text-color, #{functions.get-color-var(inverse-on-surface)});
+  color: var(--u-outlined-icon-button-selected-text-color, #{functions.get-color-var(on-inverse-surface)});
 }
 
 :host([selected][variant="standard"]) {

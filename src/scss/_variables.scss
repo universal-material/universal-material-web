@@ -1,6 +1,9 @@
 @use "sass:map";
 
 $awesome-cubic-bezier: cubic-bezier(.19, 1, .22, 1) !default;
+$u-success-color: #007e33 !default;
+$u-info-color: #33b5e5 !default;
+$u-warning-color: #ffbb33 !default;
 
 $breakpoints: (
   xs: 0,
@@ -8,6 +11,42 @@ $breakpoints: (
   md: 840px,
   lg: 1200px,
   xl: 1600px
+);
+
+$color-roles: (
+  primary,
+  primary-container,
+  secondary,
+  secondary-container,
+  tertiary,
+  tertiary-container,
+  error,
+  error-container,
+  surface,
+  surface-variant,
+  surface-container,
+  surface-container-highest,
+  surface-container-high,
+  surface-container-low,
+  surface-container-lowest,
+  inverse-surface,
+  inverse-surface-variant,
+  background,
+  inverse-background
+);
+
+$on-color-roles: (
+  on-primary,
+  on-primary-container,
+  on-secondary,
+  on-secondary-container,
+  on-tertiary,
+  on-tertiary-container,
+  on-error,
+  on-error-container,
+  on-surface,
+  on-inverse-surface,
+  on-inverse-surface-variant,
 );
 
 $rgb-colors: (
@@ -37,7 +76,7 @@ $rgb-colors: (
   surface-container-low: unquote("247, 242, 250"),
   surface-container-lowest: unquote("255, 255, 255"),
   inverse-surface: unquote("50, 47, 53"),
-  inverse-on-surface: unquote("245, 239, 247"),
+  on-inverse-surface: unquote("245, 239, 247"),
   outline: unquote("121, 116, 126"),
   outline-variant: unquote("202, 196, 208"),
   scrim: unquote("0, 0, 0"),
@@ -49,6 +88,12 @@ $colors: ();
 @each $name, $value in $rgb-colors {
   $colors: map.set($colors, $name, unquote("rgb(#{$value})"));
 }
+
+$static-colors: (
+  success: $u-success-color,
+  info: $u-info-color,
+  warning: $u-warning-color,
+);
 
 $spacings: (
   extra-small: 4px,

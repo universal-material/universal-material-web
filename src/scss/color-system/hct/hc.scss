@@ -1,0 +1,5 @@
+@use "cam16";
+
+@function from-color($color) {
+  @return cam16.from-color($color);
+}

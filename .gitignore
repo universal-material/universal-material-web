@@ -45,5 +45,5 @@ Thumbs.db
 /docs/dist/
 /src/**/*.d.ts
 /src/**/*.styles.ts
-/src/scss/universal-material.ts
+/src/scss/**/*.ts
 custom-elements.json

@@ -1,3 +1,10 @@
+@use "../../../src/scss/mixins";
+
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
 .navigation-headline {
   padding-block: 16px;
   margin-block: 0;
@@ -22,4 +29,66 @@
 .color-picker::-moz-color-swatch {
   border-radius: 50%;
   border: 1px solid var(--u-color-outline);
+}
+
+.pane-layout {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: minmax(0, 1fr);
+  width: 1600px;
+  max-width: 100%;
+  margin-inline: auto;
+  gap: 16px;
+  flex: 1;
+
+  @include mixins.media-breakpoint-up(md) {
+    grid-template-columns: minmax(500px, 992px) minmax(250px, auto);
+    overflow: hidden;
+    padding-inline: 16px;
+    padding-block-end: 16px;
+  }
+}
+
+.pane {
+  position: relative;
+  background: var(--u-color-surface);
+  overflow: hidden;
+  border-radius: 24px;
+  border-end-start-radius: 0;
+  border-end-end-radius: 0;
+
+  @include mixins.media-breakpoint-up(md) {
+    border-radius: 24px;
+  }
+
+  u-elevation {
+    --u-elevation-level: 1;
+  }
+}
+
+.side-pane {
+  display: none;
+  position: relative;
+
+  @include mixins.media-breakpoint-up(md) {
+    display: block;
+  }
+}
+
+.scroll-wrapper {
+  height: 100%;
+  overflow: auto;
+  scrollbar-width: thin;
+}
+
+@include mixins.media-breakpoint-up(md) {
+  u-container {
+    --u-grid-margin: 24px;
+  }
+}
+
+@include mixins.media-breakpoint-up(lg) {
+  u-container {
+    --u-grid-margin: 40px;
+  }
 }

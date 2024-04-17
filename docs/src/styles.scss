@@ -1,8 +1,17 @@
+@use "../../src/scss/mixins";
+
 body {
   --u-scrim-color-rgb: 0, 0, 0;
   --u-font-family: Roboto;
   background-color: var(--u-color-background);
   color: var(--u-color-on-background);
+  min-height: 100vh;
+}
+
+@include mixins.media-breakpoint-up(md) {
+  body {
+    --u-color-background: var(--u-color-surface-container);
+  }
 }
 
 .u-dark-mode {
@@ -14,7 +23,7 @@ body {
 }
 
 docs-typography {
-  u-card {
+  docs-example {
     h1, h2, h3, h4, h5, h6 {
       margin: 0;
     }
@@ -77,12 +86,20 @@ docs-submenu {
   }
 }
 
+.material-symbols-fill {
+  font-variation-settings: 'FILL' 1;
+}
+
 .d-flex {
   display: flex;
 }
 
 .d-inline-block {
   display: inline-block;
+}
+
+.p-4 {
+  padding: 24px !important;
 }
 
 .position-relative {

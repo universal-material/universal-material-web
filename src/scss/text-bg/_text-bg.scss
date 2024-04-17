@@ -1,0 +1,65 @@
+@use "sass:string";
+
+@use "../variables";
+@import "../mixins/text-bg";
+
+@each $color in variables.$color-roles {
+
+  .u-text-bg-#{$color} {
+    @include _text-bg-variant-important($color);
+  }
+
+  .u-bg-#{$color} {
+    @include _bg-variant-important($color);
+  }
+}
+
+@each $color-name, $color-value in variables.$static-colors {
+  .u-bg-#{$color-name} {
+    background-color: var(--u-color-#{$color-name}) !important;
+  }
+
+  .u-bg-#{$color-name}-container {
+    background-color: var(--u-color-#{$color-name}-container) !important;
+  }
+
+  .u-text-bg-#{$color-name} {
+    @include _text-bg-variant-important($color-name);
+  }
+
+  .u-text-bg-#{$color-name}-container {
+    @include _text-bg-variant-important(#{$color-name}-container);
+  }
+}
+
+//.u-text-bg-surface {
+//  @include _text-bg-variant-important(surface);
+//}
+//
+//.u-text-bg-inverse-surface {
+//  @include _text-bg-variant-important(inverse-surface);
+//}
+//
+//.u-text-bg-surface-variant {
+//  @include _text-bg-variant-important(surface-variant);
+//}
+//
+//.u-text-bg-inverse-surface-variant {
+//  @include _text-bg-variant-important(inverse-surface-variant);
+//}
+//
+//.u-text-bg-body {
+//  @include _text-bg-variant-important(background);
+//}
+//
+//.u-text-bg-inverse-mode {
+//  @include _text-bg-variant-important(inverse-background);
+//}
+//
+//.u-text-bg-light-mode {
+//  @include _text-bg-variant-important(light-background);
+//}
+//
+//.u-text-bg-dark-mode {
+//  @include _text-bg-variant-important(dark-background);
+//}

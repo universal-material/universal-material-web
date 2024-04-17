@@ -18,7 +18,7 @@
   display: flex;
   align-items: center;
   min-height: var(--u-snackbar-height, 48px);
-  color: var(--u-snackbar-text-color, #{api.get-color-var(inverse-on-surface)});
+  color: var(--u-snackbar-text-color, #{api.get-color-var(on-inverse-surface)});
   background-color: var(--u-snackbar-background-color, #{api.get-color-var(inverse-surface)});
   border-radius: var(--u-snackbar-shape, #{api.get-shape-corner-var(extra-small)});
   animation-name: snackbar-fade-in;
@@ -39,7 +39,7 @@ u-button {
 }
 
 u-icon-button {
-  color: #{api.get-color-var(inverse-on-surface)};
+  color: #{api.get-color-var(on-inverse-surface)};
   margin-inline: var(--u-snackbar-close-button-margin, #{api.get-spacing-var(extra-small)});;
 }
 

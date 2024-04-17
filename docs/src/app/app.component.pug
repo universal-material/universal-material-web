@@ -1,4 +1,45 @@
 u-side-navigation(#navigation)
+  u-top-app-bar
+    u-icon-button(
+      type="button",
+      slot="leading-icon",
+      (click)="navigation.toggleDrawer = !navigation.toggleDrawer")
+      span.material-symbols-outlined menu
+    span Material
+
+    input.color-picker(
+      type="color",
+      slot="trailing-icon",
+      [ngModel]="themeColor",
+      (ngModelChange)="$themeColorChange.next($event)")
+    .position-relative(slot="trailing-icon")
+      u-icon-button#theme-button
+        span.material-symbols-outlined palette
+      u-menu(
+        toggle-selector="#theme-button"
+        anchor-corner="end-end")
+        u-menu-item((click)="setThemeMode(ThemeMode.Auto)")
+          span.material-symbols-outlined(slot="icon") brightness_4
+          span System
+        u-menu-item((click)="setThemeMode(ThemeMode.Light)")
+          span.material-symbols-outlined(slot="icon") light_mode
+          span Light Mode
+        u-menu-item((click)="setThemeMode(ThemeMode.Dark)")
+          span.material-symbols-outlined(slot="icon") dark_mode
+          span Dark Mode
+
+    //u-icon-button(
+      slot="trailing-icon",
+      href="/angular",
+      title="Universal Material Angular")
+      span.material-symbols-outlined angular
+    u-icon-button#rtl-toggle(
+      slot="trailing-icon",
+      type="button",
+      title="Rtl",
+      (click)="toggleRtl()")
+      span.material-symbols-outlined format_align_right
+
   u-drawer(slot="drawer")
     h6.navigation-headline.u-headline-s Material Design
     u-drawer-item(
@@ -17,7 +58,7 @@ u-side-navigation(#navigation)
     //u-drawer-item Colors
       i.u-typo-title-l.mdi.mdi-chevron-down(slot="badge")
 
-    //.nested-menu-items
+    docs-submenu(label="Colors")
       u-drawer-item(
         routerLink="utilities/text-colors",
         docsLinkActive) Text
@@ -106,46 +147,13 @@ u-side-navigation(#navigation)
       routerLink="components/toolbars",
       docsLinkActive) Toolbars
 
-  u-top-app-bar
-    u-icon-button(
-      type="button",
-      slot="leading-icon",
-      (click)="navigation.toggleDrawer = !navigation.toggleDrawer")
-      span.material-symbols-outlined menu
-    span Material
+  .pane-layout
+    .pane
+      u-elevation
+      .scroll-wrapper
+        u-container.chapter
+          router-outlet
 
-    input.color-picker(
-      type="color",
-      slot="trailing-icon",
-      [ngModel]="themeColor",
-      (ngModelChange)="$themeColorChange.next($event)")
-    .position-relative(slot="trailing-icon")
-      u-icon-button#theme-button
-        span.material-symbols-outlined palette
-      u-menu(
-        toggle-selector="#theme-button"
-        anchor-corner="end-end")
-        u-menu-item((click)="setThemeMode(ThemeMode.Auto)")
-          span.material-symbols-outlined(slot="icon") brightness_4
-          span System
-        u-menu-item((click)="setThemeMode(ThemeMode.Light)")
-          span.material-symbols-outlined(slot="icon") light_mode
-          span Light Mode
-        u-menu-item((click)="setThemeMode(ThemeMode.Dark)")
-          span.material-symbols-outlined(slot="icon") dark_mode
-          span Dark Mode
-
-    //u-icon-button(
-      slot="trailing-icon",
-      href="/angular",
-      title="Universal Material Angular")
-      span.material-symbols-outlined angular
-    u-icon-button#rtl-toggle(
-      slot="trailing-icon",
-      type="button",
-      title="Rtl",
-      (click)="toggleRtl()")
-      span.material-symbols-outlined format_align_right
-
-  u-container.chapter#main-content
-    router-outlet
+    .side-pane
+      u-card
+        h1 Dummy

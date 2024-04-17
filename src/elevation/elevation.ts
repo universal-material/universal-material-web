@@ -7,7 +7,10 @@ import { styles } from './elevation.styles';
 export class UmElevation extends LitElement {
   static override styles = styles;
 
-  override ariaHidden = "true";
+  override connectedCallback() {
+    super.connectedCallback();
+    this.ariaHidden = "true";
+  }
 }
 
 declare global {

@@ -87,6 +87,10 @@ export class ThemeBuilder {
       this.addColorFromPalette('tertiary', palette.a3);
     }
 
+    if (!this.colors.find(c => c.name === 'error')) {
+      this.addColorFromHex('error', "#b3261e");
+    }
+
     if (!this.neutralColorPalette) {
       this.neutralColorPalette = palette.n1;
     }
@@ -103,9 +107,13 @@ export class ThemeBuilder {
 
     builder
       .add('--u-color-background', "var(--u-color-surface)")
+      .add('--u-color-background-rgb', "var(--u-color-surface-rgb)")
       .add('--u-color-inverse-background', "var(--u-color-inverse-surface)")
+      .add('--u-color-inverse-background-rgb', "var(--u-color-inverse-surface-rgb)")
       .add('--u-color-on-background', "var(--u-color-on-surface)")
-      .add('--u-color-on-inverse-background', "var(--u-color-inverse-on-surface)");
+      .add('--u-color-on-background-rgb', "var(--u-color-on-surface-rgb)")
+      .add('--u-color-on-inverse-background', "var(--u-color-on-inverse-surface)")
+      .add('--u-color-on-inverse-background-rgb', "var(--u-color-on-inverse-surface-rgb)");
 
     return builder.build();
   }
@@ -165,17 +173,15 @@ export class ThemeBuilder {
       ? color.lightTone!
       : color.darkTone!;
 
+    const inversetName = `inverse-${color.name}`.replace('inverse-on', 'on-inverse');
+
     builder
       .addFromArgb(color.name, palette.tone(tone))
-      .addFromArgb(`inverse-${color.name}`, palette.tone(inverseTone));
+      .addFromArgb(inversetName, palette.tone(inverseTone));
 
     if (dark) {
       return;
     }
-
-    builder
-      .addFromArgb(`light-${color.name}`, palette.tone(color.lightTone!))
-      .addFromArgb(`dark-${color.name}`, palette.tone(color.darkTone!));
   }
 
   build(): string {

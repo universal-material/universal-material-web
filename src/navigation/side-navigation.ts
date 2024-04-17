@@ -26,13 +26,13 @@ export class UmSideNavigation extends LitElement {
           <div class="navigation">
             <div class="scrim ${this.toggleDrawer ? 'toggle' : ''}" @click="${this.scrimClick}"></div>
             <div class="drawer ${this.toggleDrawer ? 'toggle' : ''}">
-                <slot name="drawer"></slot>
+              <slot name="drawer"></slot>
             </div>
             <slot name="rail"></slot>
           </div>
         </div>
         <div class="content">
-            <slot></slot>
+          <slot></slot>
         </div>
       </div>
     `;

@@ -25,6 +25,21 @@ export class UmTopAppBar extends LitElement {
 
   @property({reflect: true}) position: 'fixed' | 'absolute' | 'static' = 'fixed';
 
+  @property({reflect: true})
+  get scrollContainer(): 'none' | 'window' | string | undefined {
+    return this.attributes.getNamedItem('scrollContainer')?.value;
+  }
+  set scrollContainer(idOrElement: string | HTMLElement | undefined) {
+    this.scrollContainerElement?.removeEventListener('scroll', this.onContainerScroll);
+
+    if (idOrElement === 'none') {
+      return;
+    }
+
+    this.scrollContainerElement = this.getScrollContainer(idOrElement)!;
+    this.scrollContainerElement?.addEventListener('scroll', this.onContainerScroll);
+  }
+
   @property({type: Boolean, attribute: 'container-scrolled', reflect: true})
   containerScrolled: boolean = false;
 
@@ -38,10 +53,25 @@ export class UmTopAppBar extends LitElement {
 
   private contentSizeObserver: ResizeObserver | null = null;
 
-  private scrollingContainer: {
+  private scrollContainerElement: {
     addEventListener: typeof window.addEventListener;
     removeEventListener: typeof window.removeEventListener;
   } | null = null;
+
+  private getScrollContainer(idOrElement: string | HTMLElement | undefined): {
+    addEventListener: typeof window.addEventListener;
+    removeEventListener: typeof window.removeEventListener;
+  } | undefined {
+    if (idOrElement instanceof HTMLElement) {
+      return idOrElement;
+    }
+
+    if (idOrElement === 'window') {
+      return window;
+    }
+
+    return document.getElementById(idOrElement!)!;
+  }
 
   private handleLeadingIconSlotChange() {
     this.hasLeadingIcon = this.assignedLeadingIcons.length > 0;
@@ -82,8 +112,7 @@ export class UmTopAppBar extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
 
-    this.scrollingContainer = window;
-    window.addEventListener('scroll', this.onContainerScroll);
+    this.scrollContainer = this.scrollContainer || 'window';
   }
 
   override disconnectedCallback() {
@@ -91,7 +120,6 @@ export class UmTopAppBar extends LitElement {
 
     this.contentSizeObserver!.disconnect();
     this.contentSizeObserver = null;
-    this.scrollingContainer!.removeEventListener('scroll', this.onContainerScroll);
   }
 
   onContainerScroll = (e: Event) => {

@@ -5,6 +5,7 @@
 :host {
   --_navigation-width: 0;
   --_navigation-drawer-width: min(var(--u-navigation-drawer-width, 360px), 85vw);
+  --_navigation-drawer-width-negative: calc(var(--_navigation-drawer-width) * -1);
   --_navigation-drawer-corner-shape: var(--u-navigation-drawer-corner-shape, #{functions.get-shape-corner-var(large)});
 }
 
@@ -18,18 +19,17 @@
 
 .drawer {
   position: absolute;
-  inset-inline-start: 0;
+  inset-inline-start: var(--_navigation-drawer-width-negative);
   inset-block-start: 0;
   width: var(--_navigation-drawer-width);
   height: 100%;
-  transform: translate3d(-100%, 0, 0);
-  transition: transform 375ms variables.$awesome-cubic-bezier;
+  transition: inset 375ms variables.$awesome-cubic-bezier;
   border-start-end-radius: var(--_navigation-drawer-corner-shape);
   border-end-end-radius: var(--_navigation-drawer-corner-shape);
   overflow: hidden;
 
   &.toggle {
-    transform: translate3d(0, 0, 0);
+    inset-inline-start: 0;
   }
 }
 
@@ -55,16 +55,16 @@
   grid-template-columns: var(--_navigation-width) minmax(0, 1fr);
   transition: 375ms variables.$awesome-cubic-bezier;
 
-  @include mixins.media-breakpoint-up(md) {
+  @include mixins.media-breakpoint-up(lg) {
 
     --_navigation-width: var(--_navigation-drawer-width);
 
     .drawer {
       border-radius: 0;
-      transform: translate3d(0, 0, 0);
+      inset-inline-start: 0;
 
       &.toggle {
-        transform: translate3d(-100%, 0, 0);
+        inset-inline-start: var(--_navigation-drawer-width-negative);
       }
     }
 
@@ -74,6 +74,15 @@
 
     &:has(.drawer.toggle) {
       --_navigation-width: 0;
+    }
+
+  }
+
+  @include mixins.media-breakpoint-up(md) {
+    .content slot {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
     }
   }
 

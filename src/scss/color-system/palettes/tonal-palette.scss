@@ -1,0 +1,19 @@
+@use "sass:color";
+@use "sass:map";
+
+@use "../hct/hct-solver";
+@use "../color-utils";
+
+
+@function tone($hc, $tone) {
+  $hue: map.get($hc, "hue");
+  $chroma: map.get($hc, "chroma");
+
+  $argb: hct-solver.solve-to-int($hue, $chroma, $tone);
+
+  $red: color-utils.red-from-argb($argb);
+  $green: color-utils.green-from-argb($argb);
+  $blue: color-utils.blue-from-argb($argb);
+
+  @return rgba(rgb($red, $green, $blue), 1);
+}

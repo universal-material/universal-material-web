@@ -1,0 +1,25 @@
+@mixin _current-color-vars-important($current-color-rgb) {
+  --u-current-text-color-rgb: #{$current-color-rgb} !important;
+  --u-high-emphasis-color: rgba(var(--u-current-text-color-rgb), var(--u-high-emphasis-opacity)) !important;
+  --u-low-emphasis-color: rgba(var(--u-current-text-color-rgb), var(--u-low-emphasis-opacity)) !important;
+  --u-lower-emphasis-color: rgba(var(--u-current-text-color-rgb), var(--u-lower-emphasis-opacity)) !important;
+}
+
+@mixin _bg-variant-important($color-name) {
+  background-color: var(--u-color-#{$color-name}) !important;
+}
+
+@mixin _text-bg-variant-important($color-name) {
+
+  $on-color-name: on-#{$color-name};
+
+  @include _current-color-vars-important(var(--u-color-#{$on-color-name}-rgb));
+
+  background-color: var(--u-color-#{$color-name}) !important;
+  color: var(--u-high-emphasis-color) !important;
+
+  .u-divider {
+    --u-divider-opacity: .2;
+    --u-divider-color: var(--u-current-text-color-rgb);
+  }
+}

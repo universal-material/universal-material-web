@@ -120,6 +120,18 @@ export const routes: Routes = [
     loadComponent: () => import('@docs/components/toolbars/toolbars.component').then(c => c.ToolbarsComponent)
   },
   {
+    path: 'utilities/background-colors',
+    loadComponent: () => import('@docs/utilities/background-colors/background-colors.component').then(c => c.BackgroundColorsComponent)
+  },
+  {
+    path: 'utilities/text-and-background-colors',
+    loadComponent: () => import('@docs/utilities/text-and-background-colors/text-and-background-colors.component').then(c => c.TextAndBackgroundColorsComponent)
+  },
+  {
+    path: 'utilities/text-colors',
+    loadComponent: () => import('@docs/utilities/text-colors/text-colors.component').then(c => c.TextColorsComponent)
+  },
+  {
     path: '',
     loadComponent: () => import('@docs/introduction/introduction.component').then(c => c.IntroductionComponent)
   }
