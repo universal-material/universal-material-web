@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { titleToHash } from '@docs/docs/shared/title-to-hash';
 
 @Component({
   selector: 'docs-title',
@@ -7,6 +8,12 @@ import { Component, Input } from '@angular/core';
   templateUrl: './title.component.pug',
   styleUrl: './title.component.scss'
 })
-export class TitleComponent {
+export class TitleComponent implements OnChanges {
+
   @Input() title!: string;
+  anchorHash: string | null = null;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.anchorHash = titleToHash(this.title);
+  }
 }

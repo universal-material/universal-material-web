@@ -32,7 +32,6 @@ export class UmMenu extends LitElement {
     }
 
     this.#open = open;
-    console.log(`set open: ${open}`);
   }
 
   /**

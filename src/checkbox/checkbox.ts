@@ -50,7 +50,6 @@ export class UmCheckbox extends LitElement {
   }
 
   private handleSlotChange(): void {
-    console.log('slotchange');
 
     if (this.input) {
       this.input.removeEventListener('click', this.handleInputChange);

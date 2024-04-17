@@ -150,10 +150,13 @@ u-side-navigation(#navigation)
   .pane-layout
     .pane
       u-elevation
-      .scroll-wrapper
+      .scroll-wrapper(#scrollWrapper)
         u-container.chapter
           router-outlet
 
     .side-pane
       u-card
-        h1 Dummy
+        .u-label-m On this page:
+        .hash-navigation-item.u-title-s.u-text-primary(
+          *ngFor="let item of anchorsNavigation",
+          (click)="navigateToAnchor(item)") {{item.title}}

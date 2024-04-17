@@ -10,6 +10,17 @@
   margin-block: 0;
 }
 
+.hash-navigation-item {
+  margin-top: 8px;
+
+  @media (hover: hover) {
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+}
+
 .color-picker {
   -webkit-appearance: none;
   -moz-appearance: none;

@@ -39,7 +39,11 @@ docs-submenu {
 .article-title {
   margin-bottom: 16px;
   font-weight: var(--u-font-weight-regular);
-  color: var(--u-color-primary);
+
+  a {
+    color: var(--u-color-primary) !important;
+    text-decoration: none !important;
+  }
 }
 
 .api-card code {

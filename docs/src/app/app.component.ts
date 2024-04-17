@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { ChildActivationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Subject, throttleTime } from 'rxjs';
+
+import { ThemeBuilder } from '@universal-material/web';
 
 import { LinkActiveDirective } from './docs/link-active.directive';
 import { SubmenuComponent } from './docs/submenu/submenu.component';
-// import { ThemeBuilder } from '@universal-material/web';
 
 enum ThemeMode {
   Auto,
@@ -17,6 +19,7 @@ enum ThemeMode {
   selector: 'docs-root',
   standalone: true,
   imports: [
+    CommonModule,
     FormsModule,
     RouterLink,
     RouterLinkActive,
@@ -35,7 +38,11 @@ export class AppComponent {
   themeColor = '#6750a4';
   $themeColorChange = new Subject<string>();
 
-  constructor() {
+  anchorsNavigation: {hash: string, title: string}[] = [];
+
+  @ViewChild('scrollWrapper') scrollWrapper!: ElementRef<HTMLElement>;
+
+  constructor(router: Router) {
     this.applyThemeMode();
 
     const storedThemeColor = localStorage['currentThemeColor'];
@@ -51,6 +58,14 @@ export class AppComponent {
     window
       .matchMedia('(prefers-color-scheme: dark)')
       .addEventListener('change', () => this.applyThemeMode());
+
+    router.events.subscribe(event => {
+      if (!(event instanceof ChildActivationEnd)) {
+        return;
+      }
+
+      setTimeout(() => this.buildNavigation(), 100);
+    })
   }
 
   toggleRtl() {
@@ -58,19 +73,19 @@ export class AppComponent {
   }
 
   setThemeColor(color: string) {
-    // const styles = ThemeBuilder.create(color).build();
-    //
-    // let themeStylesElement = document.getElementById('theme-styles');
-    //
-    // if (!themeStylesElement) {
-    //   themeStylesElement = document.createElement('style');
-    //   themeStylesElement.id = 'theme-styles';
-    //   document.head.appendChild(themeStylesElement);
-    // }
-    //
-    // themeStylesElement.innerText = styles;
-    // localStorage['currentThemeColor'] = color;
-    // this.themeColor = color;
+    const styles = ThemeBuilder.create(color).build();
+
+    let themeStylesElement = document.getElementById('theme-styles');
+
+    if (!themeStylesElement) {
+      themeStylesElement = document.createElement('style');
+      themeStylesElement.id = 'theme-styles';
+      document.head.appendChild(themeStylesElement);
+    }
+
+    themeStylesElement.innerText = styles;
+    localStorage['currentThemeColor'] = color;
+    this.themeColor = color;
   }
 
   setThemeMode(mode: ThemeMode) {
@@ -89,5 +104,33 @@ export class AppComponent {
     }
 
     document.documentElement.classList.add('u-dark-mode');
+  }
+
+  private buildNavigation() {
+    const anchors = Array.from(document.querySelectorAll('a'));
+
+    this.anchorsNavigation.length = 0;
+    for (const anchor of anchors) {
+      if (!anchor.hash?.startsWith('#')) {
+        continue;
+      }
+
+      this.anchorsNavigation.push({
+        hash: anchor.hash,
+        title: anchor.textContent!
+      })
+    }
+  }
+
+  navigateToAnchor(item: { hash: string; title: string }) {
+    const target = document.querySelector<HTMLElement>(`a[href="${item.hash}"]`)
+
+    if (!target) {
+      return;
+    }
+
+    this.scrollWrapper.nativeElement.scrollTo({
+      top: target.offsetTop - 24
+    })
   }
 }
