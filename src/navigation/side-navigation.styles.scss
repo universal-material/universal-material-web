@@ -2,12 +2,7 @@
 @use "../scss/functions";
 @use "../scss/mixins";
 
-:host {
-  --_navigation-width: 0;
-  --_navigation-drawer-width: min(var(--u-navigation-drawer-width, 360px), 85vw);
-  --_navigation-drawer-width-negative: calc(var(--_navigation-drawer-width) * -1);
-  --_navigation-drawer-corner-shape: var(--u-navigation-drawer-corner-shape, #{functions.get-shape-corner-var(large)});
-}
+@import "side-navigation-base.styles";
 
 .navigation {
   position: fixed;
@@ -23,7 +18,6 @@
   inset-block-start: 0;
   width: var(--_navigation-drawer-width);
   height: 100%;
-  transition: inset 375ms variables.$awesome-cubic-bezier;
   border-start-end-radius: var(--_navigation-drawer-corner-shape);
   border-end-end-radius: var(--_navigation-drawer-corner-shape);
   overflow: hidden;
@@ -33,58 +27,21 @@
   }
 }
 
-.scrim {
-  position: absolute;
-  inset-inline-start: 0;
-  inset-block-start: 0;
-  width: 100vw;
-  height: 100vh;
-  background: var(--u-drawer-scrim-color, #{functions.get-color-var(scrim)});
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 375ms linear;
-
-  &.toggle {
-    pointer-events: auto;
-    opacity: var(--u-drawer-scrim-opacity, .4);
-  }
-}
-
 .grid {
   display: grid;
   grid-template-columns: var(--_navigation-width) minmax(0, 1fr);
   transition: 375ms variables.$awesome-cubic-bezier;
 
-  @include mixins.media-breakpoint-up(lg) {
-
-    --_navigation-width: var(--_navigation-drawer-width);
-
-    .drawer {
-      border-radius: 0;
-      inset-inline-start: 0;
-
-      &.toggle {
-        inset-inline-start: var(--_navigation-drawer-width-negative);
-      }
-    }
-
-    .scrim {
-      display: none;
-    }
-
-    &:has(.drawer.toggle) {
-      --_navigation-width: 0;
-    }
-
-  }
-
-  @include mixins.media-breakpoint-up(md) {
-    .content slot {
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-    }
-  }
-
   --u-app-bar-offset: var(--_navigation-width);
+}
+
+@include mixins.media-breakpoint-up(lg) {
+
+  .drawer {
+    inset-inline-start: 0;
+
+    &.toggle {
+      inset-inline-start: var(--_navigation-drawer-width-negative);
+    }
+  }
 }

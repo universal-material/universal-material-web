@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Subject, throttleTime } from 'rxjs';
 
 import { LinkActiveDirective } from './docs/link-active.directive';
 import { SubmenuComponent } from './docs/submenu/submenu.component';
-import { ThemeBuilder } from '@universal-material/web';
-import { interval, Subject, throttle, throttleTime } from 'rxjs';
+// import { ThemeBuilder } from '@universal-material/web';
 
 enum ThemeMode {
   Auto,
@@ -58,19 +58,19 @@ export class AppComponent {
   }
 
   setThemeColor(color: string) {
-    const styles = ThemeBuilder.create(color).build();
-
-    let themeStylesElement = document.getElementById('theme-styles');
-
-    if (!themeStylesElement) {
-      themeStylesElement = document.createElement('style');
-      themeStylesElement.id = 'theme-styles';
-      document.head.appendChild(themeStylesElement);
-    }
-
-    themeStylesElement.innerText = styles;
-    localStorage['currentThemeColor'] = color;
-    this.themeColor = color;
+    // const styles = ThemeBuilder.create(color).build();
+    //
+    // let themeStylesElement = document.getElementById('theme-styles');
+    //
+    // if (!themeStylesElement) {
+    //   themeStylesElement = document.createElement('style');
+    //   themeStylesElement.id = 'theme-styles';
+    //   document.head.appendChild(themeStylesElement);
+    // }
+    //
+    // themeStylesElement.innerText = styles;
+    // localStorage['currentThemeColor'] = color;
+    // this.themeColor = color;
   }
 
   setThemeMode(mode: ThemeMode) {

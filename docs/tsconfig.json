@@ -27,7 +27,8 @@
       "@docs/*": [
         "src/app/*"
       ],
-      "@universal-material/web": ["../src/index.ts"]
+      "@universal-material/web": ["../src/index.ts"],
+      "@universal-material/web/config": ["../src/config.ts"]
     }
   },
   "angularCompilerOptions": {

@@ -1,9 +1,13 @@
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter, withHashLocation } from '@angular/router';
+
+import { config } from '@universal-material/web/config';
 import { provideHighlightOptions } from 'ngx-highlightjs';
 import { provideMarkdown } from 'ngx-markdown';
 
 import { routes } from './app.routes';
+
+config.navigationDrawer.useSwiperJs = true;
 
 export const appConfig: ApplicationConfig = {
   providers: [

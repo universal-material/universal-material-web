@@ -1,0 +1,101 @@
+@use "../scss/variables";
+@use "../scss/functions";
+@use "../scss/mixins";
+
+:host {
+  --_navigation-width: 0;
+  --_navigation-drawer-width: min(var(--u-navigation-drawer-width, 360px), 85vw);
+  --_navigation-drawer-width-negative: calc(var(--_navigation-drawer-width) * -1);
+  --_navigation-drawer-corner-shape: var(--u-navigation-drawer-corner-shape, #{functions.get-shape-corner-var(large)});
+  --_scrim-opacity: var(--u-drawer-scrim-opacity, .4);
+
+  display: block;
+  width: 100%;
+  height: 100%;
+  --u-app-bar-offset: var(--_navigation-width);
+}
+
+:host(.disable-transition) * {
+  transition: none !important;
+
+  ::slotted(u-top-app-bar) {
+    transition: none !important;
+  }
+}
+
+.drawer {
+  transition: inset 375ms variables.$awesome-cubic-bezier;
+
+  &,
+  u-elevation,
+  .drawer-container {
+    border-start-end-radius: var(--_navigation-drawer-corner-shape);
+    border-end-end-radius: var(--_navigation-drawer-corner-shape);
+  }
+
+  &.toggle u-elevation {
+    --u-elevation-level: 1;
+  }
+}
+
+.drawer-container {
+  height: 100%;
+  overflow: hidden;
+}
+
+.scrim {
+  --_modal-drawer-open-progress: 0;
+
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--u-drawer-scrim-color, #{functions.get-color-var(scrim)});
+  pointer-events: none;
+  opacity: calc(var(--_scrim-opacity) * var(--_modal-drawer-open-progress));
+  transition: opacity 375ms linear;
+
+  &.moving {
+    transition: none;
+  }
+
+  &.toggle {
+    --_modal-drawer-open-progress: 1;
+    pointer-events: auto;
+  }
+}
+
+@include mixins.media-breakpoint-up(md) {
+  .content slot {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+}
+
+@include mixins.media-breakpoint-up(lg) {
+
+  .container {
+    --_navigation-width: var(--_navigation-drawer-width);
+
+    &:has(.drawer.toggle) {
+      --_navigation-width: 0;
+    }
+  }
+
+  .drawer {
+    border-radius: 0;
+    inset-inline-start: 0;
+
+    &.toggle {
+      inset-inline-start: var(--_navigation-drawer-width-negative);
+    }
+  }
+
+  u-elevation,
+  .scrim {
+    display: none;
+  }
+}
+

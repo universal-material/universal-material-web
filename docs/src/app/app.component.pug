@@ -1,5 +1,5 @@
 u-side-navigation(#navigation)
-  u-top-app-bar
+  u-top-app-bar([scrollContainer]="navigation.scrollContainer || 'window'")
     u-icon-button(
       type="button",
       slot="leading-icon",

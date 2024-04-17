@@ -1,0 +1,53 @@
+@use "../scss/variables";
+@use "../scss/mixins";
+
+@import "side-navigation-base.styles";
+
+.content {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  overflow: auto;
+}
+
+.drawer {
+  position: relative;
+  width: var(--_navigation-drawer-width);
+  z-index: var(--u-side-navigation-z-index, 1030);
+  pointer-events: auto;
+}
+
+.scrim {
+  z-index: 1;
+}
+
+swiper-container {
+  height: 100%;
+  --u-app-bar-offset: var(--_navigation-width);
+}
+
+swiper-container::part(wrapper) {
+  pointer-events: none;
+  z-index: 2;
+}
+
+
+@include mixins.media-breakpoint-up(lg) {
+  :host {
+    --_navigation-width: var(--_navigation-drawer-width);
+  }
+
+  .content {
+    position: static;
+  }
+
+  swiper-container::part(container) {
+    display: grid;
+    grid-template-columns: var(--_navigation-width) minmax(0, 1fr);
+    transition: 375ms variables.$awesome-cubic-bezier;
+  }
+
+  .dummy-slide {
+    display: none;
+  }
+}
