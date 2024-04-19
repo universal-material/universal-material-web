@@ -39,7 +39,6 @@ export abstract class UmButtonWrapper extends LitElement {
   }
 
   private renderButton() {
-
     return html`
       <button
         id="button"
@@ -55,7 +54,6 @@ export abstract class UmButtonWrapper extends LitElement {
   }
 
   private renderLink() {
-
     return html`<a
       id="link"
       class="button"
@@ -74,13 +72,15 @@ export abstract class UmButtonWrapper extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
 
-    this.addEventListener('click', this.innerHandleClick);
+    this.addEventListener('click', this.innerClickHandler);
+    this.addEventListener('focus', this.innerFocusHandler)
   }
 
   override disconnectedCallback() {
     super.disconnectedCallback();
 
-    this.removeEventListener('click', this.innerHandleClick);
+    this.removeEventListener('click', this.innerClickHandler);
+    this.removeEventListener('focus', this.innerFocusHandler);
   }
 
   override focus() {
@@ -88,6 +88,7 @@ export abstract class UmButtonWrapper extends LitElement {
   }
 
   override blur() {
+
     this.buttonElement?.blur();
   }
 
@@ -95,13 +96,24 @@ export abstract class UmButtonWrapper extends LitElement {
     return this.ariaLabel || nothing;
   }
 
-  private innerHandleClick(event: UIEvent): void {
+  private innerFocusHandler(): void {
+    const tabIndexAttributeValue = this.getAttribute('tabindex');
+
+    if (tabIndexAttributeValue !== "0") {
+      return;
+    }
+ 
+    this.removeAttribute('tabindex');
+    setTimeout(() => this.buttonElement?.focus());
+  }
+
+  private innerClickHandler(event: MouseEvent): void {
 
     if (this.disabled) {
       return;
     }
 
-    if (event.detail === 0) {
+    if (!(<PointerEvent>event).pointerType) {
       this.ripple.createRipple();
     }
 

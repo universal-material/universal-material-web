@@ -38,7 +38,7 @@ function mapSchema(customElementsDefinition, SCHEMAS) {
 
     if (classDeclaration.attributes) {
       for (const attr of classDeclaration.attributes) {
-        properties.push(`${parsePropertyType(attr.type.text)}${attr.name}`);
+        properties.push(`${parsePropertyType(attr.type?.text)}${attr.name}`);
       }
     }
 

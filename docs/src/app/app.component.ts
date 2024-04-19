@@ -8,6 +8,7 @@ import { ThemeBuilder } from '@universal-material/web';
 
 import { LinkActiveDirective } from './docs/link-active.directive';
 import { SubmenuComponent } from './docs/submenu/submenu.component';
+import { NavigationItem } from '@docs/components/navigation-item.model';
 
 enum ThemeMode {
   Auto,
@@ -111,18 +112,23 @@ export class AppComponent {
 
     this.anchorsNavigation.length = 0;
     for (const anchor of anchors) {
+
       if (!anchor.hash?.startsWith('#')) {
         continue;
       }
 
-      this.anchorsNavigation.push({
+      const navigationItem = {
         hash: anchor.hash,
         title: anchor.textContent!
-      })
+      };
+
+      anchor.addEventListener('click', e => this.navigateToAnchor(e, navigationItem));
+      this.anchorsNavigation.push(navigationItem);
     }
   }
 
-  navigateToAnchor(item: { hash: string; title: string }) {
+  navigateToAnchor(e: Event, item: NavigationItem) {
+    e.preventDefault();
     const target = document.querySelector<HTMLElement>(`a[href="${item.hash}"]`)
 
     if (!target) {

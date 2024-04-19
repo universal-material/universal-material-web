@@ -3,5 +3,5 @@ u-drawer-item(
   keep-drawer-open) {{label}}
   span.material-symbols-outlined(slot="badge") expand_more
 
-.submenu-items([class.open]="open")
+.submenu-items([class.open]="open", [attr.inert]="open ? undefined : ''")
   ng-content

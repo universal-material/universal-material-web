@@ -157,6 +157,8 @@ u-side-navigation(#navigation)
     .side-pane
       u-card
         .u-label-m On this page:
-        .hash-navigation-item.u-title-s.u-text-primary(
+        a.hash-navigation-item.u-title-s.u-text-primary(
+          href="#",
           *ngFor="let item of anchorsNavigation",
-          (click)="navigateToAnchor(item)") {{item.title}}
+          tabindex="0",
+          (click)="navigateToAnchor($event, item)") {{item.title}}

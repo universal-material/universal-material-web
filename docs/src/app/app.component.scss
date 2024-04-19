@@ -11,14 +11,8 @@
 }
 
 .hash-navigation-item {
+  display: block;
   margin-top: 8px;
-
-  @media (hover: hover) {
-    &:hover {
-      cursor: pointer;
-      text-decoration: underline;
-    }
-  }
 }
 
 .color-picker {
