@@ -24,6 +24,7 @@
 slot[name="leading-icon"],
 slot[name="trailing-icon"] {
   display: inline-flex;
+  align-items: center;
   gap: var(--u-top-app-bar-icons-gap, 8px);
 }
 

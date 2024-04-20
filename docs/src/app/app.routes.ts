@@ -132,6 +132,10 @@ export const routes: Routes = [
     loadComponent: () => import('@docs/utilities/text-colors/text-colors.component').then(c => c.TextColorsComponent)
   },
   {
+    path: 'utilities/text-emphasis',
+    loadComponent: () => import('@docs/utilities/text-emphasis/text-emphasis.component').then(c => c.TextEmphasisComponent)
+  },
+  {
     path: '',
     loadComponent: () => import('@docs/introduction/introduction.component').then(c => c.IntroductionComponent)
   }

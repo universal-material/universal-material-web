@@ -1,3 +1,5 @@
+@use "functions";
+
 * {
   outline: 0;
 }
@@ -6,6 +8,10 @@
   animation: u-focus-pulse 400ms ease;
   animation-fill-mode: forwards;
   outline-offset: 2px;
+}
+
+body {
+  color: rgba(var(--u-current-text-color-rgb), var(--u-text-opacity));
 }
 
 @keyframes u-focus-pulse {
@@ -21,6 +27,7 @@
 }
 
 a {
+  border-radius: #{functions.get-spacing-var(extra-small)};
   text-decoration: none;
 
   @media (hover: hover) {

@@ -16,24 +16,34 @@
 }
 
 .color-picker {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
   width: 40px;
   height: 40px;
-  border: none;
   cursor: pointer;
-}
+  border-radius: 9999px;
 
-.color-picker::-webkit-color-swatch {
-  border-radius: 50%;
-  border: 1px solid var(--u-color-outline);
-}
+  input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    width: 32px;
+    height: 32px;
+    border: none;
 
-.color-picker::-moz-color-swatch {
-  border-radius: 50%;
-  border: 1px solid var(--u-color-outline);
+    &::-webkit-color-swatch {
+      border-radius: 50%;
+      border: 1px solid var(--u-color-outline);
+    }
+
+    &::-moz-color-swatch {
+      border-radius: 50%;
+      border: 1px solid var(--u-color-outline);
+    }
+  }
 }
 
 .pane-layout {

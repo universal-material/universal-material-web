@@ -4,11 +4,12 @@
   --_color-primary: #{functions.get-color-var(primary)};
 
   -webkit-tap-highlight-color: transparent;
+  --u-elevation-level: 0;
 
   position: relative;
   display: inline-block;
   font-family: #{functions.get-font-family-var()};
-  --u-elevation-level: 0;
+  appearance: none !important;
 }
 
 :host([disabled]) {

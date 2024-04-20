@@ -8,7 +8,7 @@
 
   height: var(--u-menu-item-height, 56px);
   padding-inline: var(--_menu-item-padding);
-  color: var(--u-menu-item-label-color,  #{functions.get-color-var(on-surface)});
+  color: var(--u-menu-item-label-color, #{functions.get-color-var(on-surface)});
   @include mixins.typo(label-l, menu-item-label);
 }
 
@@ -20,9 +20,14 @@
   font-size: var(--_menu-item-icon-size);
   line-height: var(--_menu-item-icon-size);
   margin-inline-end: var(--u-menu-item-icon-margin, 12px);
-  color: var(--u-menu-item-label-color,  #{functions.get-color-var(on-surface-variant)});
+  color: var(--u-menu-item-label-color, #{functions.get-color-var(on-surface-variant)});
 }
 
 .content {
   justify-content: flex-start;
+}
+
+.button:focus-visible {
+  outline-offset: -4px;
+  border-radius: #{functions.get-spacing-var(extra-small)};
 }

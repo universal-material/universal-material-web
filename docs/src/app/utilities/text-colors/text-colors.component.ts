@@ -5,11 +5,7 @@ import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
 
 // @ts-ignore
-import themeColorsHtml from '!raw-loader!./examples/theme-colors.html';
-// @ts-ignore
-import commonColorsHtml from '!raw-loader!./examples/common-colors.html';
-// @ts-ignore
-import emphasisColorsHtml from '!raw-loader!./examples/emphasis-colors.html';
+import colorsHtml from '!raw-loader!./examples/colors.html';
 
 @Component({
   selector: 'docs-text-colors',
@@ -23,7 +19,10 @@ import emphasisColorsHtml from '!raw-loader!./examples/emphasis-colors.html';
   ]
 })
 export class TextColorsComponent {
-  themeColorsHtml = themeColorsHtml;
-  commonColorsHtml = commonColorsHtml;
-  emphasisColorsHtml = emphasisColorsHtml;
+  colorsHtml = colorsHtml;
+  inverseColorsHtml = colorsHtml
+    .replace(/<p class="p-2 u-text-(on-)?(info|warning|success|light|dark).+\n/g, '')
+    .replace(/-text-/g, '-text-inverse-')
+    .replace(/-text-inverse-on-/g, '-text-on-inverse-')
+    .replace(/-bg-/g, '-bg-inverse-');
 }

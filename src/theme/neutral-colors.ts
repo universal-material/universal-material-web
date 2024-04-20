@@ -10,6 +10,10 @@ export const neutralColors: Color[] = [
   { name: 'surface-container-high', lightTone: 92, darkTone: 17 },
   { name: 'surface-container-highest', lightTone: 90, darkTone: 22 },
   { name: 'on-surface', lightTone: 10, darkTone: 90 },
+  { name: 'light', fixedTone: 98 },
+  { name: 'on-light', fixedTone: 10 },
+  { name: 'dark', fixedTone: 6 },
+  { name: 'on-dark', fixedTone: 90 },
   { name: 'scrim', fixedTone: 0 },
   { name: 'shadow', fixedTone: 0 },
 ]

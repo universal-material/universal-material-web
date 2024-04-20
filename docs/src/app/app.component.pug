@@ -7,11 +7,13 @@ u-side-navigation(#navigation)
       span.material-symbols-outlined menu
     span Material
 
-    input.color-picker(
-      type="color",
-      slot="trailing-icon",
-      [ngModel]="themeColor",
-      (ngModelChange)="$themeColorChange.next($event)")
+    .color-picker(slot="trailing-icon")
+      u-ripple((click)="colorInput.click()")
+      input(
+        #colorInput,
+        type="color",
+        [ngModel]="themeColor",
+        (ngModelChange)="$themeColorChange.next($event)")
     .position-relative(slot="trailing-icon")
       u-icon-button#theme-button
         span.material-symbols-outlined palette
@@ -63,11 +65,14 @@ u-side-navigation(#navigation)
         routerLink="utilities/text-colors",
         docsLinkActive) Text
       u-drawer-item(
+        routerLink="utilities/text-emphasis",
+        docsLinkActive) Text emphasis
+      u-drawer-item(
         routerLink="utilities/background-colors",
         docsLinkActive) Background
       u-drawer-item(
         routerLink="utilities/text-and-background-colors",
-        docsLinkActive) Text and background
+        docsLinkActive) Color & background
 
     docs-submenu(label="Buttons")
       u-drawer-item(

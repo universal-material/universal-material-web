@@ -1,9 +1,0 @@
-@use "../scss/functions";
-
-:host {
-  display: table-header-group;
-}
-
-::slotted(u-tr:not(:first-child)) {
-  border-top: 1px solid #{functions.get-color-var(outline-variant)};
-}

@@ -22,15 +22,9 @@
   --u-color-on-background-rgb: #{functions.get-color-rgb-var(on-surface)};
 
   --u-current-text-color-rgb: var(--u-color-on-background-rgb);
-  --u-high-emphasis-color: rgba(var(--u-current-text-color-rgb), var(--u-high-emphasis-opacity));
-  --u-low-emphasis-color: rgba(var(--u-current-text-color-rgb), var(--u-low-emphasis-opacity));
-  --u-lower-emphasis-color: rgba(var(--u-current-text-color-rgb), var(--u-lower-emphasis-opacity));
+  --u-text-opacity: var(--u-high-emphasis-opacity);
 
   @each $name, $value in variables.$font-weights {
     --u-font-weight-#{$name}: #{$value};
-  }
-
-  @each $color-name, $color-value in variables.$static-colors {
-    @include mixins.common-colors-vars($color-value, $color-name);
   }
 }

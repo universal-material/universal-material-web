@@ -16,7 +16,6 @@ import './navigation/drawer-item';
 import './navigation/side-navigation';
 import './ripple/ripple';
 import './snackbar/snackbar';
-import './table/table';
 
 export * from './app-bar/top-app-bar';
 export * from './button/button';
@@ -40,5 +39,4 @@ export * from './navigation/drawer-item';
 export * from './navigation/side-navigation';
 export * from './ripple/ripple';
 export * from './snackbar/snackbar';
-export * from './table/table';
 export * from './theme/theme-builder';

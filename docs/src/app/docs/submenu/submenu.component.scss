@@ -1,10 +1,10 @@
 .submenu-items {
   max-height: 0;
-  padding-block: 8px;
   padding-inline-start: 12px;
   overflow: hidden;
 
   &.open {
     max-height: 500px;
+    padding-block: 8px;
   }
 }

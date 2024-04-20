@@ -66,11 +66,22 @@ export class AppComponent {
       }
 
       setTimeout(() => this.buildNavigation(), 100);
-    })
+    });
+
+    if (localStorage['direction'] === 'rtl') {
+      document.body.setAttribute('dir', 'rtl');
+    }
   }
 
   toggleRtl() {
-    document.body.classList.toggle("rtl");
+
+    const currentDirection = localStorage['direction'];
+
+    localStorage['direction'] = currentDirection === 'rtl'
+      ? ''
+      : 'rtl';
+
+    location.reload();
   }
 
   setThemeColor(color: string) {
@@ -84,7 +95,7 @@ export class AppComponent {
       document.head.appendChild(themeStylesElement);
     }
 
-    themeStylesElement.innerText = styles;
+    themeStylesElement.textContent = styles;
     localStorage['currentThemeColor'] = color;
     this.themeColor = color;
   }

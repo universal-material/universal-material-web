@@ -1,9 +1,6 @@
 @use "sass:map";
 
 $awesome-cubic-bezier: cubic-bezier(.19, 1, .22, 1) !default;
-$u-success-color: #007e33 !default;
-$u-info-color: #33b5e5 !default;
-$u-warning-color: #ffbb33 !default;
 
 $breakpoints: (
   xs: 0,
@@ -28,25 +25,7 @@ $color-roles: (
   surface-container-highest,
   surface-container-high,
   surface-container-low,
-  surface-container-lowest,
-  inverse-surface,
-  inverse-surface-variant,
-  background,
-  inverse-background
-);
-
-$on-color-roles: (
-  on-primary,
-  on-primary-container,
-  on-secondary,
-  on-secondary-container,
-  on-tertiary,
-  on-tertiary-container,
-  on-error,
-  on-error-container,
-  on-surface,
-  on-inverse-surface,
-  on-inverse-surface-variant,
+  surface-container-lowest
 );
 
 $rgb-colors: (
@@ -89,10 +68,10 @@ $colors: ();
   $colors: map.set($colors, $name, unquote("rgb(#{$value})"));
 }
 
-$static-colors: (
-  success: $u-success-color,
-  info: $u-info-color,
-  warning: $u-warning-color,
+$fixed-colors: (
+  success,
+  info,
+  warning
 );
 
 $spacings: (

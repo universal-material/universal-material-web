@@ -34,7 +34,7 @@
     "docs": "run-p script:sass-to-ts:watch docs:serve",
     "docs:apis": "gulp -f gulpfile.js docs:apis",
     "docs:apis:watch": "gulp -f gulpfile.js docs:apis:watch",
-    "docs:serve": "cd docs && ng serve",
+    "docs:serve": "cd docs && ng serve --disable-host-check",
     "docs:build": "npm run predocs && cd docs && ng build",
     "docs:watch": "npm run predocs && cd docs && ng build --watch --configuration development",
     "analyze": "cem analyze --litelement --globs \"src/**/*.ts\"",

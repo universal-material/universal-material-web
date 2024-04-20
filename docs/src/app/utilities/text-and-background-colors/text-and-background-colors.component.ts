@@ -5,9 +5,7 @@ import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
 
 // @ts-ignore
-import themeColorsHtml from '!raw-loader!./examples/theme-colors.html';
-// @ts-ignore
-import commonColorsHtml from '!raw-loader!./examples/common-colors.html';
+import colorsHtml from '!raw-loader!./examples/colors.html';
 
 @Component({
   selector: 'docs-text-and-background-colors',
@@ -21,6 +19,8 @@ import commonColorsHtml from '!raw-loader!./examples/common-colors.html';
   ]
 })
 export class TextAndBackgroundColorsComponent {
-  themeColorsHtml = themeColorsHtml;
-  commonColorsHtml = commonColorsHtml;
+  colorsHtml = colorsHtml;
+  inverseColorsHtml = colorsHtml
+    .replace(/<div class="p-4 u-text-bg-(info|warning|success|light|dark).+\n/g, '')
+    .replace(/-bg-/g, '-bg-inverse-');
 }

@@ -10,19 +10,9 @@
   @include _color-vars(on-#{$color-name}, tonal-palette.tone($hc, 15));
   @include _color-vars(#{$color-name}-container, tonal-palette.tone($hc, 90));
   @include _color-vars(on-#{$color-name}-container, tonal-palette.tone($hc, 15));
-  @include _text-emphasis-vars($color-name);
 }
 
 @mixin _color-vars($color-name, $color-value) {
   --u-color-#{$color-name}: #{$color-value};
   --u-color-#{$color-name}-rgb: #{color.red($color-value)},#{color.green($color-value)},#{color.blue($color-value)};
-}
-
-@mixin _text-emphasis-vars($color-name) {
-  --u-on-#{$color-name}-high-emphasis-color: rgba(var(--u-color-on-#{$color-name}-rgb), var(--u-high-emphasis-opacity));
-  --u-on-#{$color-name}-low-emphasis-color: rgba(var(--u-color-on-#{$color-name}-rgb), var(--u-low-emphasis-opacity));
-  --u-on-#{$color-name}-lower-emphasis-color: rgba(var(--u-color-on-#{$color-name}-rgb), var(--u-lower-emphasis-opacity));
-  --u-on-#{$color-name}-container-high-emphasis-color: rgba(var(--u-color-on-#{$color-name}-container-rgb), var(--u-high-emphasis-opacity));
-  --u-on-#{$color-name}-container-low-emphasis-color: rgba(var(--u-color-on-#{$color-name}-container-rgb), var(--u-low-emphasis-opacity));
-  --u-on-#{$color-name}-container-lower-emphasis-color: rgba(var(--u-color-on-#{$color-name}-container-rgb), var(--u-lower-emphasis-opacity));
 }
