@@ -21,7 +21,7 @@ import colorsHtml from '!raw-loader!./examples/colors.html';
 export class BackgroundColorsComponent {
   colorsHtml = colorsHtml;
   inverseColorsHtml = colorsHtml
-    .replace(/<div class="p-4 u-bg-(info|warning|success|light|dark).+\n/g, '')
+    .replace(/<div class="p-4 u-bg-(primary-fixed|secondary-fixed|tertiary-fixed|info|warning|success|light|dark).+\n/g, '')
     .replace(/-bg-/g, '-bg-inverse-')
     .replace(/-text-on-/g, '-text-on-inverse-');
 }

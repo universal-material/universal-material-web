@@ -1,9 +1,9 @@
 import { argbFromHex, CorePalette, TonalPalette } from '@material/material-color-utilities';
 
-import { Color } from './color';
-import { CssVarBuilder } from './css-var-builder';
-import { neutralColors, neutralVariantColors } from './neutral-colors';
-import { ThemeColor } from './theme-color';
+import { Color } from './color.js';
+import { CssVarBuilder } from './css-var-builder.js';
+import { neutralColors, neutralVariantColors } from './neutral-colors.js';
+import { ThemeColor } from './theme-color.js';
 
 function getCss(selector: string, content: string): string {
   return `${selector} {

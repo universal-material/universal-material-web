@@ -1,7 +1,7 @@
 import { html, HTMLTemplateResult, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-import { styles } from './button-set.styles';
+import { styles } from './button-set.styles.js';
 
 export type UmButtonSetAlignment = 'start' | 'center' | 'end';
 

@@ -10,10 +10,6 @@
   outline-offset: 2px;
 }
 
-body {
-  color: rgba(var(--u-current-text-color-rgb), var(--u-text-opacity));
-}
-
 @keyframes u-focus-pulse {
   0% {
     outline: 2px solid var(--u-color-primary);

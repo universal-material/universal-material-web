@@ -1,10 +1,10 @@
 import { html, HTMLTemplateResult } from 'lit';
 import { customElement, property, queryAssignedElements } from 'lit/decorators.js';
 
-import { styles as baseStyles } from '../shared/base.styles';
-import { UmButtonWrapper } from '../shared/button-wrapper';
-import { styles as buttonWrapperStyles } from '../shared/button-wrapper.styles';
-import { styles } from './menu-item.styles';
+import { styles as baseStyles } from '../shared/base.styles.js';
+import { UmButtonWrapper } from '../shared/button-wrapper.js';
+import { styles as buttonWrapperStyles } from '../shared/button-wrapper.styles.js';
+import { styles } from './menu-item.styles.js';
 
 @customElement('u-menu-item')
 export class UmMenuItem extends UmButtonWrapper {

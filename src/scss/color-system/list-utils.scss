@@ -1,5 +1,0 @@
-@use "sass:list";
-
-@function zero-base-nth($list, $index) {
-  @return list.nth($list, $index + 1);
-}

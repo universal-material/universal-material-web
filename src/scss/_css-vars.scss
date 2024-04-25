@@ -27,4 +27,12 @@
   @each $name, $value in variables.$font-weights {
     --u-font-weight-#{$name}: #{$value};
   }
+
+  @each $name, $value in variables.$spacings {
+    --u-spacing-#{$name}: #{$value};
+  }
+
+  @each $name, $value in variables.$shape-corner {
+    --u-shape-corner-#{$name}: #{$value};
+  }
 }

@@ -12,9 +12,11 @@
   }
 }
 
-@mixin _text-bg-variant-important($color-name) {
+@mixin _text-bg-variant-important($color-name, $on-color-name: null) {
 
-  $on-color-name: on-#{$color-name};
+  @if $on-color-name == null {
+    $on-color-name: on-#{$color-name};
+  }
 
   $container-index: string.index($on-color-name, "surface-container");
   @if $container-index != null {

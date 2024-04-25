@@ -1,9 +1,9 @@
 import { html, HTMLTemplateResult, LitElement, nothing } from 'lit';
 import { property, query } from 'lit/decorators.js';
 
-import '../elevation/elevation';
-import '../ripple/ripple';
-import { UmRipple } from '../ripple/ripple';
+import '../elevation/elevation.js';
+import '../ripple/ripple.js';
+import { UmRipple } from '../ripple/ripple.js';
 
 export abstract class UmButtonWrapper extends LitElement {
 

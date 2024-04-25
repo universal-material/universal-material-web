@@ -1,10 +1,10 @@
 import { html, HTMLTemplateResult, LitElement } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 
-import { styles as baseStyles } from '../shared/base.styles';
-import { styles } from './menu.styles';
+import { styles as baseStyles } from '../shared/base.styles.js';
+import { styles } from './menu.styles.js';
 
-import '../elevation/elevation';
+import '../elevation/elevation.js';
 
 interface MenuRect {
   x?: number;
@@ -81,9 +81,9 @@ export class UmMenu extends LitElement {
 
   protected override render(): HTMLTemplateResult {
     return html`
-      <div class="menu">
+      <div class="menu" part="menu">
         <u-elevation></u-elevation>
-        <div class="content">
+        <div class="content" part="content">
           <slot></slot>
         </div>
       </div>

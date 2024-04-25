@@ -12,12 +12,19 @@
   @include _bg-variant-important(inverse-#{$color});
 }
 
-@each $color-name in variables.$fixed-colors {
-  @include _text-bg-variant-important($color-name);
-  @include _text-bg-variant-important(#{$color-name}-container);
+@each $color in variables.$fixed-colors {
+  @include _text-bg-variant-important($color);
+  @include _text-bg-variant-important(#{$color}-container);
 
-  @include _bg-variant-important($color-name);
-  @include _bg-variant-important(#{$color-name}-container);
+  @include _bg-variant-important($color);
+  @include _bg-variant-important(#{$color}-container);
+}
+
+@each $color in variables.$theme-colors {
+  @include _text-bg-variant-important(#{$color}-fixed);
+  @include _text-bg-variant-important(#{$color}-fixed-dim, on-#{$color}-fixed);
+  @include _bg-variant-important(#{$color}-fixed);
+  @include _bg-variant-important(#{$color}-fixed-dim);
 }
 
 @include _text-bg-variant-important(body);
@@ -29,42 +36,3 @@
 @include _bg-variant-important(inverse-body);
 @include _bg-variant-important(light);
 @include _bg-variant-important(dark);
-
-
-//@include _text-bg-variant-important(inverse-mode, inverse-background);
-//@include _text-bg-variant-important(light-mode, light-surface);
-//@include _text-bg-variant-important(dark-mode, dark-surface);
-//@include _text-bg-variant-important(inverse-mode, inverse-background);
-//@include _text-bg-variant-important(light-mode, light-surface);
-//@include _text-bg-variant-important(dark-mode, dark-surface);
-//.u-text-bg-surface {
-//  @include _text-bg-variant-important(surface);
-//}
-//
-//.u-text-bg-inverse-surface {
-//  @include _text-bg-variant-important(inverse-surface);
-//}
-//
-//.u-text-bg-surface-variant {
-//  @include _text-bg-variant-important(surface-variant);
-//}
-//
-//.u-text-bg-inverse-surface-variant {
-//  @include _text-bg-variant-important(inverse-surface-variant);
-//}
-//
-//.u-text-bg-body {
-//  @include _text-bg-variant-important(background);
-//}
-//
-//.u-text-bg-inverse-mode {
-//  @include _text-bg-variant-important(inverse-background);
-//}
-//
-//.u-text-bg-light-mode {
-//  @include _text-bg-variant-important(light-background);
-//}
-//
-//.u-text-bg-dark-mode {
-//  @include _text-bg-variant-important(dark-background);
-//}

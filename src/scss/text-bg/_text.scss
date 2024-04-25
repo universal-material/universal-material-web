@@ -45,6 +45,13 @@
   @include _text-variant(on-#{$color}-container);
 }
 
+@each $color in variables.$theme-colors {
+  @include _text-variant(#{$color}-fixed);
+  @include _text-variant(#{$color}-fixed-dim);
+  @include _text-variant(on-#{$color}-fixed);
+  @include _text-variant(on-#{$color}-fixed-variant);
+}
+
 @include _text-variant(on-body);
 @include _text-variant(on-inverse-body);
 @include _text-variant(on-light);

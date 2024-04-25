@@ -1,6 +1,6 @@
 import { hexFromArgb } from '@material/material-color-utilities';
 
-import { RgbColor } from './rgb-color';
+import { RgbColor } from './rgb-color.js';
 
 export class CssVarBuilder {
 

@@ -2,7 +2,7 @@ import { PropertyValues } from '@lit/reactive-element';
 import { html, HTMLTemplateResult, LitElement } from 'lit';
 import { customElement, property, query, queryAssignedElements } from 'lit/decorators.js';
 
-import { styles } from './top-app-bar.styles';
+import { styles } from './top-app-bar.styles.js';
 
 @customElement('u-top-app-bar')
 export class UmTopAppBar extends LitElement {

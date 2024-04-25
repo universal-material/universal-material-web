@@ -1,6 +1,6 @@
 import { property } from 'lit/decorators.js';
 
-import { UmButtonWrapper } from '../shared/button-wrapper';
+import { UmButtonWrapper } from '../shared/button-wrapper.js';
 
 export abstract class UmButtonBase extends UmButtonWrapper {
 

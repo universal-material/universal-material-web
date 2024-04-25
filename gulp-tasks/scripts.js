@@ -19,11 +19,10 @@ const sass = gulpSass(dartSass);
 
 const options = {cwd: 'src'};
 
-const sassToTsSrc = '**/*.scss';
 const sassToTsDest = 'src';
 const sassToTs = () =>
   gulp
-    .src(sassToTsSrc, options)
+    .src('**/*.styles.scss', options)
     .pipe(changed(sassToTsDest, {extension: 'ts'}))
     .pipe(sass({outputStyle: 'expanded'}).on('error', sass.logError))
     .pipe(through2({objectMode: true}, (file, enc, cb) => {
@@ -46,10 +45,10 @@ ${content}
 const allInSeries = gulp.series(sassToTs, buildScripts);
 
 const watch = () =>
-  gulp.watch([...sassToTsSrc, '**/*.ts'], options, allInSeries);
+  gulp.watch(['**/*.scss', '**/*.ts'], options, allInSeries);
 
 const watchSassToTs = () =>
-  gulp.watch(sassToTsSrc, options, sassToTs);
+  gulp.watch('**/*.scss', options, sassToTs);
 
 gulp.task('scripts:build', buildScripts);
 gulp.task('scripts:sass-to-ts', sassToTs);

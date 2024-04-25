@@ -1,8 +1,8 @@
 import { html, HTMLTemplateResult, LitElement, nothing } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 
-import { styles as baseStyles } from '../shared/base.styles';
-import { styles } from './snackbar.styles';
+import { styles as baseStyles } from '../shared/base.styles.js';
+import { styles } from './snackbar.styles.js';
 
 export interface SnackbarConfig {
   label: string;
