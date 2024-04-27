@@ -1,0 +1,13 @@
+@use "../api";
+
+.u-divider,
+.u-divider-no-margin {
+  display: block;
+  height: var(--u-divider-thickness, 1px);
+  background-color: var(--u-divider-color, var(--u-current-text-color));
+  opacity: var(--u-divider-opacity, .4);
+}
+
+.u-divider {
+  margin-block: 8px;
+}

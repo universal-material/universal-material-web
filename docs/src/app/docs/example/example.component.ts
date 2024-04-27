@@ -1,5 +1,8 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
 import { Highlight } from 'ngx-highlightjs';
+
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { titleToHash } from '@docs/docs/shared/title-to-hash';
 
@@ -7,21 +10,22 @@ import { titleToHash } from '@docs/docs/shared/title-to-hash';
   selector: 'docs-example',
   standalone: true,
   imports: [
+    CommonModule,
     Highlight
   ],
   templateUrl: './example.component.pug',
   styleUrl: './example.component.scss'
 })
 export class ExampleComponent implements OnChanges {
-  _htmlSafe!: SafeHtml;
-  _html!: string;
+  htmlSafe: SafeHtml | null = null;
+  _html?: string;
 
   @Input() sectionTitle!: string;
   anchorHash: string | null = null;
 
   @Input()
   set html(html: string) {
-    this._htmlSafe = this.sanitizer.bypassSecurityTrustHtml(html);
+    this.htmlSafe = this.sanitizer.bypassSecurityTrustHtml(html);
     this._html = html;
   };
 

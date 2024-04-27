@@ -31,8 +31,8 @@ export const routes: Routes = [
   },
 
   {
-    path: 'components/data-tables',
-    loadComponent: () => import('@docs/components/data-tables/data-tables.component').then(c => c.DataTablesComponent)
+    path: 'components/tables',
+    loadComponent: () => import('@docs/components/tables/tables.component').then(c => c.TablesComponent)
   },
 
   {
@@ -46,8 +46,8 @@ export const routes: Routes = [
   },
 
   {
-    path: 'components/dividers',
-    loadComponent: () => import('@docs/components/dividers/dividers.component').then(c => c.DividersComponent)
+    path: 'utilities/dividers',
+    loadComponent: () => import('@docs/utilities/dividers/dividers.component').then(c => c.DividersComponent)
   },
 
   {
@@ -118,6 +118,14 @@ export const routes: Routes = [
   {
     path: 'components/toolbars',
     loadComponent: () => import('@docs/components/toolbars/toolbars.component').then(c => c.ToolbarsComponent)
+  },
+  {
+    path: 'layout/container',
+    loadComponent: () => import('@docs/layout/container/container.component').then(c => c.ContainerComponent)
+  },
+  {
+    path: 'layout/grid',
+    loadComponent: () => import('@docs/layout/grid/grid.component').then(c => c.GridComponent)
   },
   {
     path: 'utilities/background-colors',

@@ -5,27 +5,27 @@
   flex-wrap: nowrap;
 }
 
-:host([align=start]) {
+:host([alignment=start]) {
   justify-content: flex-start;
 }
 
-:host([align=center]) {
+:host([alignment=center]) {
   justify-content: center;
 }
 
-:host([align=end]) {
+:host([alignment=end]) {
   justify-content: flex-end;
 }
 
-:host([stack][align=start]) {
+:host([stack][alignment=start]) {
   align-items: flex-start;
 }
 
-:host([stack][align=center]) {
+:host([stack][alignment=center]) {
   align-items: center;
 }
 
-:host([stack][align=end]) {
+:host([stack][alignment=end]) {
   align-items: flex-end;
 }
 

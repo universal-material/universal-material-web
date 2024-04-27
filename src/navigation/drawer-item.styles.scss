@@ -31,6 +31,9 @@
 }
 
 .badge {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-inline-start: auto;
   padding-inline: var(--u-drawer-item-badge-padding, (12px 8px));
 }

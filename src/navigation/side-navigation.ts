@@ -6,6 +6,8 @@ import { styles as baseStyles } from '../shared/base.styles.js';
 import { styles as swiperStyles } from './side-navigation-swiper.styles.js';
 import { styles } from './side-navigation.styles.js';
 
+import '../elevation/elevation.js';
+
 @customElement('u-side-navigation')
 export class UmSideNavigation extends LitElement {
 

@@ -6,10 +6,6 @@
   border-radius: var(--u-card-shape-corner, #{functions.get-shape-corner-var(medium)});
 }
 
-:host(:not(:first-child)) {
-  margin-top: 8px;
-}
-
 :host([variant=elevated]) {
   background-color: #{functions.get-color-var(surface-container-low)};
 

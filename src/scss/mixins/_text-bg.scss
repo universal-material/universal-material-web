@@ -1,7 +1,8 @@
 @use "sass:string";
 
-@mixin _current-color-vars-important($current-color-rgb) {
-  --u-current-text-color-rgb: #{$current-color-rgb} !important;
+@mixin _current-color-vars-important($current-color-var-name) {
+  --u-current-text-color: var(#{$current-color-var-name}) !important;
+  --u-current-text-color-rgb: var(#{$current-color-var-name}-rgb) !important;
   --u-text-opacity: 1;
   color: rgba(var(--u-current-text-color-rgb), var(--u-text-opacity)) !important;
 }
@@ -24,10 +25,7 @@
   }
 
   .u-text-bg-#{$color-name} {
-    @include _current-color-vars-important(var(--u-color-#{$on-color-name}-rgb));
+    @include _current-color-vars-important(--u-color-#{$on-color-name});
     background-color: var(--u-color-#{$color-name}) !important;
-
-    --u-divider-color: rgb(var(--u-current-text-color-rgb)) !important;
-    --u-divider-opacity: .4 !important;
   }
 }

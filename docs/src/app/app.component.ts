@@ -124,6 +124,11 @@ export class AppComponent {
     this.anchorsNavigation.length = 0;
     for (const anchor of anchors) {
 
+      if (anchor.host !== location.host) {
+        anchor.target = '_blank';
+        continue;
+      }
+
       if (!anchor.hash?.startsWith('#')) {
         continue;
       }

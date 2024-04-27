@@ -1,27 +1,5 @@
 @use "functions";
 
-* {
-  outline: 0;
-}
-
-*:focus-visible {
-  animation: u-focus-pulse 400ms ease;
-  animation-fill-mode: forwards;
-  outline-offset: 2px;
-}
-
-@keyframes u-focus-pulse {
-  0% {
-    outline: 2px solid var(--u-color-primary);
-  }
-  50% {
-    outline: 4px solid var(--u-color-primary);
-  }
-  100% {
-    outline: 2px solid var(--u-color-primary);
-  }
-}
-
 a {
   border-radius: #{functions.get-spacing-var(extra-small)};
   text-decoration: none;

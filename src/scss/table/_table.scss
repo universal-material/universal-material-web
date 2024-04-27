@@ -1,0 +1,47 @@
+@use "../functions";
+
+:root {
+  --u-table-hover-opacity: var(--u-state-layer-hover-opacity);
+  --u-table-cell-padding: 13px 16px;
+  --u-table-cell-font-weight: #{functions.get-font-weight-var(medium)};
+}
+
+.u-table {
+  min-width: 100%;
+  border-collapse: collapse;
+  font-family: var(--u-font-family, #{functions.get-font-family-var()});
+
+  > tbody > tr,
+  > thead > tr,
+  > tfoot > tr,
+  > tr {
+    &:not(:first-child) {
+      border-top: 1px solid rgba(var(--u-current-text-color-rgb), var(--u-table-divider-opacity, .2));
+    }
+
+    > td {
+      padding: var(--u-td-padding, var(--u-table-cell-padding));
+      font-size: var(--u-td-font-size, .875rem);
+      font-weight: var(--u-td-font-weight, var(--u-table-cell-font-weight));
+      text-align: start;
+    }
+
+    > th {
+      --u-text-opacity: var(--u-low-emphasis-opacity);
+      padding: var(--u-th-padding, var(--u-table-cell-padding));
+      font-size: var(--u-th-font-size, .8125rem);
+      font-weight: var(--u-th-font-weight, var(--u-table-cell-font-weight));
+      color: rgba(var(--u-current-text-color-rgb), var(--u-text-opacity));
+      text-align: start;
+    }
+  }
+}
+
+.u-table-hover {
+  > tbody > tr,
+  > tr {
+    &:hover {
+      background-color: rgba(var(--u-current-text-color-rgb), var(--u-table-hover-opacity));
+    }
+  }
+}

@@ -6,23 +6,27 @@
 
 :root {
   --u-state-layer-color: currentColor;
-  --u-hover-state-layer-opacity: .08;
-  --u-focus-state-layer-opacity: .12;
-  --u-pressed-state-layer-opacity: .12;
-  --u-dragged-state-layer-opacity: .16;
-  --u-disabled-state-background-opacity: .12;
-  --u-disabled-state-label-opacity: .57;
-  --u-disabled-state-opacity: .38;
+  --u-state-layer-hover-opacity: .08;
+  --u-state-layer-focus-opacity: .12;
+  --u-state-layer-pressed-opacity: .12;
+  --u-state-layer-dragged-opacity: .16;
+
   --u-high-emphasis-opacity: 1;
   --u-low-emphasis-opacity: .75;
   --u-lower-emphasis-opacity: .5;
+
   --u-color-background: #{functions.get-color-var(surface)};
   --u-color-on-background: #{functions.get-color-var(on-surface)};
   --u-color-background-rgb: #{functions.get-color-rgb-var(surface)};
   --u-color-on-background-rgb: #{functions.get-color-rgb-var(on-surface)};
 
+  --u-current-text-color: var(--u-color-on-background);
   --u-current-text-color-rgb: var(--u-color-on-background-rgb);
   --u-text-opacity: var(--u-high-emphasis-opacity);
+  --u-layout-margin: var(--u-layout-margin-default);
+  --u-layout-gutter: var(--u-layout-gutter-default);
+  --u-layout-margin-default: var(--u-spacing-medium);
+  --u-layout-gutter-default: var(--u-spacing-medium);
 
   @each $name, $value in variables.$font-weights {
     --u-font-weight-#{$name}: #{$value};
@@ -34,5 +38,13 @@
 
   @each $name, $value in variables.$shape-corner {
     --u-shape-corner-#{$name}: #{$value};
+  }
+}
+
+@include mixins.media-breakpoint-up(sm) {
+
+  :root {
+    --u-layout-margin-default: var(--u-spacing-large);
+    --u-layout-gutter-default: var(--u-spacing-large);
   }
 }

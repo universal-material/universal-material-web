@@ -1,0 +1,74 @@
+docs-title(title="Tables") Simple styling of tables using old material design specs
+
+docs-example(
+  sectionTitle="Overview",
+  [html]="overviewHtml")
+  markdown #{"Due to the widespread use of `<table>`, Universal Material provides a simple Material Design table. Add the class `.u-table` to any `<table>`"}
+
+docs-example(
+  sectionTitle="Hover",
+  [html]="tableHoverHtml")
+  markdown #{"Add `.u-table-hover` to enable a hover state on table rows within a `<tbody>`."}
+
+docs-example(
+  sectionTitle="CSS")
+
+  h4.u-title-m Variables
+
+  u-card.api-card(variant="outlined")
+    table.u-table(slot="before-content")
+      thead
+        tr
+          th Variable
+          th Default
+      tbody
+        tr
+          td
+            code --u-table-hover-opacity
+          td
+            code --u-state-layer-hover-opacity
+        tr
+          td
+            code --u-table-divider-opacity
+          td
+            code .2
+        tr
+          td
+            code --u-table-cell-padding
+          td
+            code 13px 16px
+        tr
+          td
+            code --u-td-padding
+          td
+            code --u-table-cell-padding
+        tr
+          td
+            code --u-th-padding
+          td
+            code --u-table-cell-padding
+        tr
+          td
+            code --u-table-cell-font-weight
+          td
+            code --u-font-weight-medium
+        tr
+          td
+            code --u-td-font-weight
+          td
+            code --u-table-cell-font-weight
+        tr
+          td
+            code --u-th-font-weight
+          td
+            code --u-table-cell-font-weight
+        tr
+          td
+            code --u-td-font-size
+          td
+            code .875rem
+        tr
+          td
+            code --u-th-font-size
+          td
+            code .8125rem

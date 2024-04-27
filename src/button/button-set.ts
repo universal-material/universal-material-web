@@ -13,7 +13,7 @@ export class UmButtonSet extends LitElement {
   /**
    * Set the alignment of the buttons at the `start`, `center` or at the `end`.
    */
-  @property({reflect: true}) align: UmButtonSetAlignment = 'end';
+  @property({reflect: true}) alignment: UmButtonSetAlignment = 'end';
 
   /**
    * Whether to render the buttons stacked or not

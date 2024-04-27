@@ -97,13 +97,13 @@
 }
 
 @include mixins.media-breakpoint-up(md) {
-  u-container {
+  .u-container {
     --u-grid-margin: 24px;
   }
 }
 
 @include mixins.media-breakpoint-up(lg) {
-  u-container {
+  .u-container {
     --u-grid-margin: 40px;
   }
 }

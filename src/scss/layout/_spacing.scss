@@ -1,0 +1,37 @@
+@use "sass:list";
+@use "sass:map";
+
+@use "../variables";
+@use "../api";
+
+@each $breakpoint in map.keys(variables.$breakpoints) {
+  $infix: api.breakpoint-infix($breakpoint);
+
+  @each $direction in variables.$layout-directions {
+
+    @include api.media-breakpoint-up($breakpoint) {
+      .u-margin#{$direction}#{$infix}-default {
+        --u-layout-margin#{$direction}: var(--u-layout-margin-default);
+      }
+
+      .u-gutter#{$direction}#{$infix}-default {
+        --u-layout-gutter#{$direction}: var(--u-layout-gutter-default);
+      }
+    }
+  }
+
+  @each $spacing in map.keys(variables.$spacings) {
+    @each $direction in variables.$layout-directions {
+
+      @include api.media-breakpoint-up($breakpoint) {
+        .u-margin#{$direction}#{$infix}-#{$spacing} {
+          --u-layout-margin#{$direction}: var(--u-spacing-#{$spacing});
+        }
+
+        .u-gutter#{$direction}#{$infix}-#{$spacing} {
+          --u-layout-gutter#{$direction}: var(--u-spacing-#{$spacing});
+        }
+      }
+    }
+  }
+}

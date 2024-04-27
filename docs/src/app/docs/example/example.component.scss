@@ -2,13 +2,20 @@ pre {
   margin: 0;
 
   &[slot="after-content"] {
-    border-end-start-radius: inherit;
-    border-end-end-radius: inherit;
+    border-radius: inherit;
     overflow: hidden;
   }
 
   code {
     background-color: var(--u-color-surface-container);
     padding: 32px;
+  }
+}
+
+.description {
+  font-size: 1.125rem;
+
+  &:not(:empty) {
+    margin-bottom: var(--u-spacing-medium);
   }
 }

@@ -48,9 +48,6 @@ u-side-navigation(#navigation)
       routerLink="",
       docsLinkActive,
       [routerLinkActiveOptions]="{exact: true}") Introduction
-    u-drawer-item(
-      routerLink="content/typography",
-      docsLinkActive) Typography
 
     //u-drawer-item(
       routerLink="layout/grid",
@@ -60,21 +57,43 @@ u-side-navigation(#navigation)
     //u-drawer-item Colors
       i.u-typo-title-l.mdi.mdi-chevron-down(slot="badge")
 
-    docs-submenu(label="Colors")
+    docs-submenu(label="CSS")
       u-drawer-item(
-        routerLink="utilities/text-colors",
-        docsLinkActive) Text
-      u-drawer-item(
-        routerLink="utilities/text-emphasis",
-        docsLinkActive) Text emphasis
-      u-drawer-item(
-        routerLink="utilities/background-colors",
-        docsLinkActive) Background
-      u-drawer-item(
-        routerLink="utilities/text-and-background-colors",
-        docsLinkActive) Color & background
+        routerLink="content/typography",
+        docsLinkActive) Typography
 
-    docs-submenu(label="Buttons")
+      docs-submenu(label="Colors")
+        u-drawer-item(
+          routerLink="utilities/text-colors",
+          docsLinkActive) Text
+        u-drawer-item(
+          routerLink="utilities/text-emphasis",
+          docsLinkActive) Text emphasis
+        u-drawer-item(
+          routerLink="utilities/background-colors",
+          docsLinkActive) Background
+        u-drawer-item(
+          routerLink="utilities/text-and-background-colors",
+          docsLinkActive) Color & background
+
+      u-drawer-item(
+        routerLink="utilities/dividers",
+        docsLinkActive) Dividers
+
+      u-drawer-item(
+        routerLink="components/tables",
+        docsLinkActive) Tables
+
+      u-drawer-item(
+        routerLink="layout/container",
+        docsLinkActive) Container
+
+      u-drawer-item(
+        routerLink="layout/grid",
+        docsLinkActive) Grid
+
+    docs-submenu(label="Components")
+
       u-drawer-item(
         routerLink="components/common-buttons",
         docsLinkActive) Common buttons
@@ -88,75 +107,67 @@ u-side-navigation(#navigation)
         routerLink="components/button-set",
         docsLinkActive) Button set
 
-    u-drawer-item(
-      routerLink="components/cards",
-      docsLinkActive) Cards
+      u-drawer-item(
+        routerLink="components/cards",
+        docsLinkActive) Cards
 
-    //u-drawer-item(
-      routerLink="components/checkbox",
-      docsLinkActive) Checkbox
+      //u-drawer-item(
+        routerLink="components/checkbox",
+        docsLinkActive) Checkbox
 
-    //u-drawer-item(
-      routerLink="components/chips",
-      docsLinkActive) Chips
+      //u-drawer-item(
+        routerLink="components/chips",
+        docsLinkActive) Chips
 
-    u-drawer-item(
-      routerLink="components/data-tables",
-      docsLinkActive) Data tables
+      //u-drawer-item(
+        routerLink="components/dialogs",
+        docsLinkActive) Dialogs
 
-    //u-drawer-item(
-      routerLink="components/dialogs",
-      docsLinkActive) Dialogs
+      //u-drawer-item(
+        routerLink="components/lists",
+        docsLinkActive) Lists
 
-    u-drawer-item(
-      routerLink="components/dividers",
-      docsLinkActive) Dividers
+      //u-drawer-item(
+        routerLink="components/menus",
+        docsLinkActive) Menus
 
-    //u-drawer-item(
-      routerLink="components/lists",
-      docsLinkActive) Lists
+      //u-drawer-item(
+        routerLink="components/progress",
+        docsLinkActive) Progress
 
-    //u-drawer-item(
-      routerLink="components/menus",
-      docsLinkActive) Menus
+      u-drawer-item(
+        routerLink="components/ripple",
+        docsLinkActive) Ripple
 
-    //u-drawer-item(
-      routerLink="components/progress",
-      docsLinkActive) Progress
+      //u-drawer-item(
+        routerLink="components/selection-controls",
+        docsLinkActive) Selection controls
 
-    u-drawer-item(
-      routerLink="components/ripple",
-      docsLinkActive) Ripple
+      //u-drawer-item(
+        routerLink="components/sliders",
+        docsLinkActive) Sliders
 
-    //u-drawer-item(
-      routerLink="components/selection-controls",
-      docsLinkActive) Selection controls
+      //u-drawer-item(
+        routerLink="components/snackbars",
+        docsLinkActive) Snackbars
 
-    //u-drawer-item(
-      routerLink="components/sliders",
-      docsLinkActive) Sliders
+      //u-drawer-item(
+        routerLink="components/tabs",
+        docsLinkActive) Tabs
 
-    //u-drawer-item(
-      routerLink="components/snackbars",
-      docsLinkActive) Snackbars
+      //u-drawer-item(
+        routerLink="components/text-fields",
+        docsLinkActive) Text fields
 
-    //u-drawer-item(
-      routerLink="components/tabs",
-      docsLinkActive) Tabs
-
-    //u-drawer-item(
-      routerLink="components/text-fields",
-      docsLinkActive) Text fields
-
-    //u-drawer-item(
-      routerLink="components/toolbars",
-      docsLinkActive) Toolbars
+      //u-drawer-item(
+        routerLink="components/toolbars",
+        docsLinkActive) Toolbars
 
   .pane-layout
     .pane
       u-elevation
       .scroll-wrapper(#scrollWrapper)
-        u-container.chapter
+        .u-container.chapter
           router-outlet
 
     .side-pane

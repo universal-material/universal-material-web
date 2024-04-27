@@ -2,13 +2,19 @@
 
 $awesome-cubic-bezier: cubic-bezier(.19, 1, .22, 1) !default;
 
+$layout-directions: (
+  "",
+  -block,
+  -inline
+);
+
 $breakpoints: (
   xs: 0,
   sm: 600px,
   md: 840px,
   lg: 1200px,
   xl: 1600px
-);
+) !default;
 
 $theme-colors: (
   primary,
@@ -81,12 +87,13 @@ $fixed-colors: (
 );
 
 $spacings: (
+  0: 0,
   extra-small: 4px,
   small: 8px,
   medium: 16px,
   large: 24px,
   extra-large: 40px,
-);
+) !default;
 
 $font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
 
@@ -97,7 +104,7 @@ $font-weights: (
   medium: 500,
   bold: 700,
   bolder: 900,
-);
+) !default;
 
 $shape-corner: (
   none: 0,
@@ -107,4 +114,4 @@ $shape-corner: (
   large: 16px,
   extra-large: 28px,
   full: 9999px
-);
+) !default;

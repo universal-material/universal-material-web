@@ -1,11 +1,15 @@
 h5.u-headline-m.article-title
   a([href]="anchorHash") {{sectionTitle}}
 
-.example(
-  #example,
-  slot="before-content",
-  [innerHTML]="_htmlSafe")
+.description
+  ng-content
 
-u-card(variant="outlined")
-  pre(slot="after-content")
-    code([highlight]="_html" language="html")
+.u-grid(*ngIf="_html")
+  .example(
+    #example,
+    slot="before-content",
+    [innerHTML]="htmlSafe")
+
+  u-card(variant="outlined")
+    pre(slot="after-content")
+      code([highlight]="_html!" language="html")

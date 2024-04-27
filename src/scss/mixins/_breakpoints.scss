@@ -1,8 +1,27 @@
+@use "sass:map";
+
 @use "../variables";
 
+@function breakpoint-next($name) {
+  $breakpoint-names: map.keys(variables.$breakpoints);
+
+  $n: index($breakpoint-names, $name);
+
+  @if not $n {
+    @return null;
+  }
+
+  @return if($n < length($breakpoint-names), nth($breakpoint-names, $n + 1), null);
+}
+
 @function breakpoint-min($name) {
-  $min: map-get(variables.$breakpoints, $name);
+  $min: map.get(variables.$breakpoints, $name);
   @return if($min != 0, $min, null);
+}
+
+@function breakpoint-max($name) {
+  $next: breakpoint-next($name);
+  @return if($next, breakpoint-min($next) - .02px, null);
 }
 
 @function breakpoint-infix($name) {
@@ -17,5 +36,36 @@
     }
   } @else {
     @content;
+  }
+}
+
+@mixin media-breakpoint-down($name) {
+  $max: breakpoint-max($name);
+  @if $max {
+    @media (max-width: $max) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+@mixin media-breakpoint-only($name) {
+  $min:  breakpoint-min($name);
+  $next: breakpoint-next($name);
+  $max:  breakpoint-min($next);
+
+  @if $min != null and $max != null {
+    @media (min-width: $min) and (max-width: $max) {
+      @content;
+    }
+  } @else if $max == null {
+    @include media-breakpoint-up($name) {
+      @content;
+    }
+  } @else if $min == null {
+    @include media-breakpoint-down($name) {
+      @content;
+    }
   }
 }
