@@ -2,10 +2,23 @@
 
 $awesome-cubic-bezier: cubic-bezier(.19, 1, .22, 1) !default;
 
+$enable-smooth-scroll: true !default;
+$include-reboot: true !default;
+
 $layout-directions: (
   "",
   -block,
   -inline
+);
+
+$spacing-sides: (
+  "": "",
+  t: -top,
+  b: -bottom,
+  s: -inline-start,
+  e: -inline-end,
+  x: -inline,
+  y: -block,
 );
 
 $breakpoints: (
@@ -95,7 +108,15 @@ $spacings: (
   extra-large: 40px,
 ) !default;
 
+$state-layer-opacity: (
+  hover: .08,
+  focus: .1,
+  press: .1,
+  drag: .16
+) !default;
+
 $font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
 $font-weights: (
   thin: 100,

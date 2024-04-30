@@ -1,0 +1,23 @@
+@use "sass:list";
+@use "sass:map";
+
+@use "../variables";
+@use "../api";
+
+@each $breakpoint in map.keys(variables.$breakpoints) {
+  $infix: api.breakpoint-infix($breakpoint);
+
+  @each $spacing in map.keys(variables.$spacings) {
+    @each $side, $value in variables.$spacing-sides {
+      @include api.media-breakpoint-up($breakpoint) {
+        .u-m#{$side}#{$infix}-#{$spacing} {
+          margin#{$value}: var(--u-spacing-#{$spacing});
+        }
+
+        .u-p#{$side}#{$infix}-#{$spacing} {
+          padding#{$value}: var(--u-spacing-#{$spacing});
+        }
+      }
+    }
+  }
+}

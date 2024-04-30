@@ -1,9 +1,14 @@
+@import "variables";
 @import "css-vars";
-@import "common";
+@import "colors";
+@import "layout";
+@import "utilities";
 @import "table/table";
-@import "layout/layout";
-@import "utilities/divider";
-@import "utilities/text-bg";
-@import "utilities/text";
 @import "typo/font";
 @import "typo/typo";
+
+@import "reboot";
+
+@if $include-reboot {
+  @include reboot;
+}

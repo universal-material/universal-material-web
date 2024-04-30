@@ -155,7 +155,7 @@ u-side-navigation(#navigation)
         routerLink="components/tabs",
         docsLinkActive) Tabs
 
-      //u-drawer-item(
+      u-drawer-item(
         routerLink="components/text-fields",
         docsLinkActive) Text fields
 
@@ -173,7 +173,7 @@ u-side-navigation(#navigation)
     .side-pane
       u-card
         .u-label-m On this page:
-        a.hash-navigation-item.u-title-s.u-text-primary(
+        a.hash-navigation-item.u-title-s(
           href="#",
           *ngFor="let item of anchorsNavigation",
           tabindex="0",

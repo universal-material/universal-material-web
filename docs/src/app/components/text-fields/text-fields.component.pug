@@ -1,1 +1,58 @@
 docs-title(title="Text fields")
+
+.u-grid
+  docs-example(
+    sectionTitle="Live",
+    [html]="template")
+    label
+      input(type="radio", [(ngModel)]="variant", (ngModelChange)="updated$.next()", name="variant", value="filled")
+      | &nbsp;Filled
+    label
+      input(type="radio", [(ngModel)]="variant", (ngModelChange)="updated$.next()", name="variant", value="outlined")
+      | &nbsp;Outlined
+    br
+    label
+      input(type="checkbox", [(ngModel)]="leadingIcon", (ngModelChange)="updated$.next()")
+      | &nbsp;Leading icon
+    label
+      input(type="checkbox", [(ngModel)]="trailingIcon", (ngModelChange)="updated$.next()")
+      | &nbsp;Trailing icon
+    label
+      input(type="checkbox", [(ngModel)]="invalid", (ngModelChange)="updated$.next()")
+      | &nbsp;Invalid
+    label
+      input(type="checkbox", [(ngModel)]="disabled", (ngModelChange)="updated$.next()")
+      | &nbsp;Disabled
+
+  //u-field([variant]="variant", [invalid]="invalid", [disabled]="disabled")
+  //  span.material-symbols-outlined(slot="leading-icon") search
+  //  u-icon-button(slot="trailing-icon")
+  //    span.material-symbols-outlined cancel
+  //  label(slot="label") Name
+  //  input(placeholder="A placeholder")
+  //  span(slot="supporting-text") *required
+  //  span(slot="error-text") Enter a name
+  //  span(slot="counter") 10/100
+  //
+  //u-field([variant]="variant", [invalid]="invalid", [disabled]="disabled")
+  //  span.material-symbols-outlined(slot="leading-icon") search
+  //  span.material-symbols-outlined(slot="trailing-icon") cancel
+  //  label(slot="label") Batata
+  //  input(type="number" placeholder="A placeholder")
+  //  span(slot="supporting-text") *required
+  //
+  //u-field([variant]="variant", [invalid]="invalid", [disabled]="disabled")
+  //  span.material-symbols-outlined(slot="leading-icon") search
+  //  span.material-symbols-outlined(slot="trailing-icon") cancel
+  //  label(slot="label") Batata
+  //  select
+  //    option(value="") Select an option
+  //    option A
+  //    option B
+  //
+  //
+  //u-field([variant]="variant", [invalid]="invalid", [disabled]="disabled")
+  //  span.material-symbols-outlined(slot="leading-icon") search
+  //  span.material-symbols-outlined(slot="trailing-icon") cancel
+  //  label(slot="label") Batata
+  //  textarea(placeholder="A placeholder")

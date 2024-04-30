@@ -1,0 +1,358 @@
+@use "../scss/api";
+
+:host {
+
+  --_control-line-height: var(--u-field-control-line-height, 1.5rem);
+  --_label-line-height: var(--u-field-label-line-height, 1rem);
+  --_field-icon-size: var(--u-field-icon-size, 1.5rem);
+  --_field-control-padding: var(--u-field-control-padding, 16px);
+  --_field-control-inline-padding: var(--u-field-control-inline-padding, var(--_field-control-padding));
+  --_field-control-block-padding: var(--u-field-control-block-padding, var(--_field-control-padding));
+  --_field-min-height: var(--u-field-min-height, 56px);
+  --_field-placeholder-color: var(--u-field-placeholder-color, #{api.get-color-var(on-surface-variant)});
+  --_disabled-color: var(--u-field-disabled-color, rgba(#{api.get-color-var(on-surface-rgb)}, var(--u-field-disabled-opacity, .38)));
+  --_disabled-background-color: var(--u-filled-field-disabled-background-color, rgba(#{api.get-color-var(on-surface-rgb)}, var(--u-filled-field-background-disabled-opacity, .12)));
+  --_color-primary: #{api.get-color-var(primary)};
+  --_color-error: var(--u-field-error-color, #{api.get-color-var(error)});
+  --_active-indicator-opacity: 1;
+  --_vertical-padding: var(--u-field-vertical-padding, 8px);
+  --_icon-size: var(--u-field-icon-size, 1.5rem);
+  --_icon-padding: var(--u-field-icon-padding, 12px);
+  --_icon-color: var(--u-icon-color, #{api.get-color-var(on-surface-variant)});
+  --_focus-border-width: var(--u-text-field-focus-border-width, 2px);
+
+  --_field-control-leading-padding: var(--_field-control-inline-padding);
+  --_field-control-trailing-padding: var(--_field-control-inline-padding);
+
+  --_outlined-label-margin: var(--u-outlined-field-label-margin, 12px);
+  --_outlined-label-padding: var(--u-outlined-field-label-padding, 4px);
+
+  --u-label-input-start: auto;
+  --u-label-input-span-leading-offset: 0;
+  --u-label-input-span-trailing-offset: 0;
+  --u-text-field-horizontal-padding: 12px;
+}
+
+.field {
+  display: block;
+  position: relative;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    pointer-events: none;
+  }
+
+  &::before {
+    background: #{api.get-color-var(on-surface)};
+    transition: opacity 150ms;
+    opacity: 0;
+  }
+
+  &::after {
+    border-width: var(--u-field-border-width, 1px);
+    border-color: var(--u-field-border-color, #{api.get-color-var(on-surface-variant)});
+  }
+}
+
+
+@media (hover: hover) {
+  :host([variant=filled]:not([disabled]):not([invalid]):hover) {
+    .field::before {
+      opacity: #{api.get-state-layer-opacity-var(hover)};
+    }
+  }
+
+  :host(:not([disabled]):not([invalid]):not(:focus-within):hover) {
+    .field::after {
+      border-color: var(--u-field-hover-border-color, #{api.get-color-var(on-surface)});
+    }
+  }
+}
+
+.icon {
+  position: absolute;
+  width: var(--_icon-size);
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--_icon-color);
+  font-size: var(--_icon-size);
+  line-height: var(--_icon-size);
+
+  &::slotted(*) {
+    flex-shrink: 0;
+  }
+}
+
+.leading-icon {
+  inset-inline-start: var(--_icon-padding);
+}
+
+.trailing-icon {
+  inset-inline-end: var(--_icon-padding);
+}
+
+.label {
+  @include api.typo(body-l, field-label);
+  @include api.typo-prop(body-s, font-size, field-label);
+
+  display: block;
+  position: absolute;
+  inset-inline-start: var(--_field-control-leading-padding);
+  margin-bottom: 0;
+  line-height: var(--_label-line-height);
+  color: var(--u-field-label-color, #{api.get-color-var(on-surface-variant)});
+  transition: inset 200ms, font-size 200ms;
+}
+
+.input {
+
+  display: block;
+  color: var(--u-on-surface-color);
+
+  &:focus {
+    outline: 0;
+  }
+
+  &::slotted(*) {
+    @include api.typo(body-l, field-control);
+    width: 100%;
+    color: var(--u-field-input-text-color, #{api.get-color-var(on-surface)});
+    min-height: var(--_field-min-height);
+    line-height: var(--_control-line-height);
+    padding-block: 0;
+    padding-inline: var(--_field-control-leading-padding) var(--_field-control-trailing-padding);
+    appearance: none;
+    background: transparent;
+    border: none;
+    outline: 0 !important;
+  }
+
+  &,
+  &::slotted(select),
+  &::slotted(:is(input, textarea))::placeholder {
+    transition: color 150ms 100ms;
+  }
+
+  &::slotted(:is(input, textarea))::placeholder {
+    color: var(--_field-placeholder-color);
+  }
+}
+
+.supporting-text {
+  @include api.typo(body-s, field-supporting-text);
+
+  display: flex;
+  color: var(--u-field-supporting-text, #{api.get-color-var(on-surface-variant)});
+  padding-inline: 16px;
+  gap: 16px;
+
+  .supporting-text-slot {
+    display: block;
+  }
+
+  ::slotted(*) {
+    display: inline-block;
+    margin-top: 4px;
+  }
+}
+
+.error-text {
+  display: none;
+}
+
+.counter {
+  display: none;
+  margin-inline-start: auto;
+}
+
+:host([has-counter]) .counter {
+  display: block;
+}
+
+:host([has-leading-icon]) {
+  --_field-control-leading-padding: calc(var(--_icon-padding) + var(--_icon-size) + var(--_field-control-inline-padding))
+}
+
+:host([has-trailing-icon]) {
+  --_field-control-trailing-padding: calc(var(--_icon-padding) + var(--_icon-size) + var(--_field-control-inline-padding))
+}
+
+:host(:focus-within) {
+  --u-field-border-width: var(--_focus-border-width);
+
+  .field::after {
+    border-color: var(--u-field-focused-border-color, var(--_color-primary));
+  }
+
+  .label {
+    color: var(--u-field-label-focused-color, var(--_color-primary));
+  }
+}
+
+:host([invalid]) {
+  .field::after {
+    border-color: var(--u-field-error-border-color, var(--_color-error));
+  }
+
+  .label {
+    color: var(--u-field-label-error-color, var(--_color-error));
+  }
+
+  .supporting-text {
+    color: var(--u-field-supporting-text-error-color, var(--_color-error));
+  }
+
+  .trailing-icon {
+    color: var(--u-field-trailing-icon-error-color, var(--_color-error));
+  }
+
+  .leading-icon {
+    color: var(--u-field-leading-icon-error-color, var(--_icon-color));
+  }
+}
+
+:host([invalid][has-error-text]) {
+
+  .error-text {
+    display: block;
+  }
+
+  .supporting-text-slot {
+    display: none
+  }
+}
+
+:host([disabled]) {
+  .field::after {
+    border-color: var(--u-field-disabled-border-color, var(--_disabled-color));
+  }
+  .supporting-text {
+    color: var(--u-field-supporting-text-disabled-color, var(--_disabled-color));
+  }
+
+  .label {
+    color: var(--u-field-label-disabled-color, var(--_disabled-color));
+  }
+
+  .input {
+    &::slotted(*) {
+      color: var(--u-field-input-disabled-color, var(--_disabled-color));
+    }
+
+    &::slotted(:is(input, textarea))::placeholder {
+      color: var(--u-field-input-disabled-color, var(--_disabled-color));
+    }
+  }
+
+  .trailing-icon {
+    color: var(--u-field-trailing-icon-disabled-color, var(--_disabled-color));
+  }
+
+  .leading-icon {
+    color: var(--u-field-leading-icon-disabled-color, var(--_disabled-color));
+  }
+}
+
+:host([variant=filled]) {
+  .field {
+    border-radius: var(--u-field-filled-border-radius, 4px 4px 0 0);
+    background-color: var(--u-color-surface-variant);
+
+    &::after {
+      border-bottom-style: solid;
+    }
+  }
+
+  .label {
+    top: var(--_vertical-padding);
+  }
+
+  .input::slotted(:is(input, textarea, select, button)) {
+    display: block;
+    border-top: calc(var(--_vertical-padding) + var(--_label-line-height)) solid transparent;
+    border-bottom: var(--_vertical-padding) solid transparent;
+  }
+}
+
+:host([variant=filled][disabled]) {
+  .field {
+    background-color: var(--u-filled-field-disabled-background-color, rgba(#{api.get-color-var(on-surface-rgb)}, var(--u-filled-field-background-disabled-opacity, .12)));
+  }
+}
+
+:host([variant=outlined]) {
+  .field {
+    &::after {
+      --_mid-point: calc(var(--u-field-label-half-width) + var(--_outlined-label-margin) + var(--_outlined-label-padding));
+      border-radius: var(--u-outlined-field-shape-corder, #{api.get-shape-corner-var(small)});
+      border-style: solid;
+      clip-path: polygon(
+          0 0,
+          var(--_mid-point) 0,
+          var(--_mid-point) var(--_focus-border-width),
+          var(--_mid-point) var(--_focus-border-width),
+          var(--_mid-point) 0,
+          100% 0,
+          100% 100%,
+          0 100%);
+      transition: clip-path 100ms;
+    }
+  }
+
+  .label {
+    top: calc(var(--_label-line-height) / -2);
+  }
+}
+
+:host([variant=outlined]:focus-within),
+:host([variant=outlined]:not([empty])) {
+  .field {
+    &::after {
+      --_end-point: calc(var(--u-field-label-width) + var(--_outlined-label-margin) + (var(--_outlined-label-padding) * 2));
+      clip-path: polygon(
+          0 0,
+          var(--_outlined-label-margin) 0,
+          var(--_outlined-label-margin) var(--_focus-border-width),
+          var(--_end-point) var(--_focus-border-width),
+          var(--_end-point) 0,
+          100% 0,
+          100% 100%,
+          0 100%);
+    }
+  }
+
+  .label {
+    inset-inline-start: calc(var(--_outlined-label-margin) + var(--_outlined-label-padding));
+  }
+}
+
+:host([empty]) {
+  ::slotted(select) {
+    color: var(--_field-placeholder-color);
+  }
+}
+
+:host([empty]:not(:focus-within)) {
+
+  .label {
+    @include api.typo-prop(body-l, font-size, field-label);
+    pointer-events: none;
+    top: calc(var(--_field-min-height) / 2 - var(--_label-line-height) / 2);
+  }
+
+  .input,
+  ::slotted(:is(input, textarea))::placeholder,
+  ::slotted(select) {
+    color: transparent;
+    transition: color 150ms;
+  }
+}

@@ -21,6 +21,6 @@ import colorsHtml from '!raw-loader!./examples/colors.html';
 export class TextAndBackgroundColorsComponent {
   colorsHtml = colorsHtml;
   inverseColorsHtml = colorsHtml
-    .replace(/<div class="p-4 u-text-bg-(primary-fixed|secondary-fixed|tertiary-fixed|info|warning|success|light|dark).+\n/g, '')
+    .replace(/<div class="u-p-large u-text-bg-(primary-fixed|secondary-fixed|tertiary-fixed|info|warning|success|light|dark).+\n/g, '')
     .replace(/-bg-/g, '-bg-inverse-');
 }

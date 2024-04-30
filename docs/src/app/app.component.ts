@@ -46,11 +46,8 @@ export class AppComponent {
   constructor(router: Router) {
     this.applyThemeMode();
 
-    const storedThemeColor = localStorage['currentThemeColor'];
-
-    if (storedThemeColor) {
-      this.setThemeColor(storedThemeColor);
-    }
+    const themeColor = localStorage['currentThemeColor'] || this.themeColor;
+    this.setThemeColor(themeColor);
 
     this.$themeColorChange
       .pipe(throttleTime(1000, undefined, {leading: true, trailing: true}))

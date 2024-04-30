@@ -1,0 +1,52 @@
+@use "sass:list";
+@use "sass:map";
+@use "sass:string";
+
+@use "../variables";
+@import "../mixins/text-bg";
+
+@mixin _text-variant-block($name, $color-name) {
+
+  @if string.index($name, "-container") == null and string.index($name, "-surface") == null {
+    @include _text-variant($name, $color-name);
+    @include _text-variant($name, $color-name, inverse-);
+  }
+
+  @include _text-variant($name, $color-name, on-);
+  @include _text-variant($name, $color-name, on-inverse-);
+}
+
+@mixin _text-variant($name, $color-name: null, $prefix: '') {
+
+  @if ($color-name == null) {
+    $color-name: $name;
+  }
+
+  .u-text-#{$prefix}#{$name} {
+    @include _current-color-vars-important(--u-color-#{$prefix}#{$color-name});
+  }
+}
+
+@each $color in variables.$color-roles {
+  @include _text-variant-block($color, $color);
+}
+
+@each $color in variables.$fixed-colors {
+  @include _text-variant($color);
+  @include _text-variant(on-#{$color});
+  @include _text-variant(#{$color}-container);
+  @include _text-variant(on-#{$color}-container);
+}
+
+@each $color in variables.$theme-colors {
+  @include _text-variant(#{$color}-fixed);
+  @include _text-variant(#{$color}-fixed-dim);
+  @include _text-variant(on-#{$color}-fixed);
+  @include _text-variant(on-#{$color}-fixed-variant);
+}
+
+@include _text-variant(on-body);
+@include _text-variant(on-inverse-body);
+@include _text-variant(on-light);
+@include _text-variant(on-dark);
+

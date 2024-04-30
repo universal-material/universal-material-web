@@ -54,7 +54,6 @@
             "styles": [
               "../src/scss/universal-material.scss",
               "../node_modules/highlight.js/styles/base16/atelier-sulphurpool-light.css",
-              "src/theme.scss",
               "src/styles.scss"
             ],
             "scripts": []

@@ -1,21 +1,15 @@
 @use "../../src/scss/mixins";
 
 body {
-  --u-scrim-color-rgb: 0, 0, 0;
   --u-font-family: Roboto;
-  background-color: var(--u-color-background);
-  color: var(--u-color-on-background);
+  --u-font-monospace: "Roboto Mono";
   min-height: 100vh;
 }
 
 @include mixins.media-breakpoint-up(md) {
   body {
-    --u-color-background: var(--u-color-surface-container);
+    --u-color-body: var(--u-color-surface-container);
   }
-}
-
-.u-dark-mode {
-  color: var(--u-color-on-background);
 }
 
 .hljs {
@@ -37,11 +31,11 @@ docs-submenu {
 }
 
 .article-title {
+  margin-top: 48px;
   margin-bottom: 16px;
   font-weight: var(--u-font-weight-regular);
 
   a {
-    color: var(--u-color-primary) !important;
     text-decoration: none !important;
   }
 }

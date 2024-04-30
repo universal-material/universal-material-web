@@ -12,6 +12,7 @@
     font-family: var(--u-font-family, #{functions.get-font-family-var()});
   } @else {
     font-family: var(--u-font-family);
+    color: rgba(var(--u-current-text-color-rgb), var(--u-text-opacity));
   }
 
   $props: map.get(variables.$typography-styles, $style);
@@ -22,5 +23,22 @@
     } @else {
       #{$key}: var(--u-#{$style}-#{$key});
     }
+  }
+}
+
+
+@mixin typo-prop($style, $prop, $target-name: null) {
+  @if not map.has-key(variables.$typography-styles, $style) {
+    @error "Invalid style specified! #{$style} doesn't exist. Choose one of #{map.keys(variables.$typography-styles)}";
+  }
+
+  $props: map.get(variables.$typography-styles, $style);
+
+  $value: map.get($props, $prop);
+
+  @if $target-name != null {
+    #{$prop}: var(--u-#{$target-name}-#{$prop}, var(--u-#{$style}-#{$prop}, #{$value}));
+  } @else {
+    #{$prop}: var(--u-#{$style}-#{$prop});
   }
 }

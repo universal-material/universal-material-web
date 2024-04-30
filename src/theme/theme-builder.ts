@@ -128,7 +128,9 @@ export class ThemeBuilder {
       .add('--u-color-on-body', "var(--u-color-on-surface)")
       .add('--u-color-on-body-rgb', "var(--u-color-on-surface-rgb)")
       .add('--u-color-on-inverse-body', "var(--u-color-on-inverse-surface)")
-      .add('--u-color-on-inverse-body-rgb', "var(--u-color-on-inverse-surface-rgb)");
+      .add('--u-color-on-inverse-body-rgb', "var(--u-color-on-inverse-surface-rgb)")
+      .add('--u-current-text-color', "var(--u-color-on-body)")
+      .add('--u-current-text-color-rgb', "var(--u-color-on-body-rgb)");
 
     return builder.build();
   }

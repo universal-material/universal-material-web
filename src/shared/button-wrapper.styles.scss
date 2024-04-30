@@ -14,8 +14,8 @@
 
 :host([disabled]) {
   --u-elevation-level: 0 !important;
-  background-color: var(--u-button-disabled-background-color, rgba(#{functions.get-color-rgb-var(on-surface)}, .12)) !important;
-  color: var(--u-button-disabled-text-color, rgba(#{functions.get-color-rgb-var(on-surface)}, .38)) !important;
+  background-color: var(--u-button-disabled-background-color, rgba(#{functions.get-color-rgb-var(on-surface)}, var(--u-button-disabled-background-opacity, .12))) !important;
+  color: var(--u-button-disabled-text-color, rgba(#{functions.get-color-rgb-var(on-surface)}, var(--u-button-disabled-color, .38))) !important;
 }
 
 :host([disabled]) .button {

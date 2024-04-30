@@ -11,6 +11,6 @@
 
 @include mixins.media-breakpoint-up(lg) {
   :host {
-    background-color: var(--u-standard-drawer-background-color, var(--u-color-background, #{functions.get-color-var(surface)}));
+    background-color: var(--u-standard-drawer-background-color, var(--u-color-body, #{functions.get-color-var(surface)}));
   }
 }

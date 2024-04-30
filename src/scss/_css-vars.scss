@@ -15,13 +15,15 @@
   --u-low-emphasis-opacity: .75;
   --u-lower-emphasis-opacity: .5;
 
-  --u-color-background: #{functions.get-color-var(surface)};
-  --u-color-on-background: #{functions.get-color-var(on-surface)};
-  --u-color-background-rgb: #{functions.get-color-rgb-var(surface)};
-  --u-color-on-background-rgb: #{functions.get-color-rgb-var(on-surface)};
+  --u-color-body: #{functions.get-color-var(surface)};
+  --u-color-on-body: #{functions.get-color-var(on-surface)};
+  --u-color-body-rgb: #{functions.get-color-rgb-var(surface)};
+  --u-color-on-body-rgb: #{functions.get-color-rgb-var(on-surface)};
 
-  --u-current-text-color: var(--u-color-on-background);
-  --u-current-text-color-rgb: var(--u-color-on-background-rgb);
+  --u-font-family: #{variables.$font-family};
+  --u-font-monospace: #{variables.$font-mono};
+  --u-current-text-color: var(--u-color-on-body);
+  --u-current-text-color-rgb: var(--u-color-on-body-rgb);
   --u-text-opacity: var(--u-high-emphasis-opacity);
   --u-layout-margin: var(--u-layout-margin-default);
   --u-layout-gutter: var(--u-layout-gutter-default);

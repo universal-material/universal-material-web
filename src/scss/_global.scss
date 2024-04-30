@@ -1,0 +1,23 @@
+@use "functions";
+
+@mixin global-styles() {
+  body {
+    --u-current-text-color-rgb: var(--u-color-on-body-rgb);
+    background-color: var(--u-color-body);
+    color: rgba(var(--u-current-text-color-rgb), var(--u-text-opacity));
+  }
+
+  a {
+    --u-current-text-color: var(--u-color-primary);
+    --u-current-text-color-rgb: var(--u-color-primary-rgb);
+    color: rgba(var(--u-current-text-color-rgb), var(--u-text-opacity));
+    border-radius: #{functions.get-spacing-var(extra-small)};
+    text-decoration: none;
+
+    @media (hover: hover) {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

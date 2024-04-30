@@ -57,18 +57,23 @@
   }
 }
 
-:host([variant=outlined]),
-:host([variant=text]),
-:host([variant=elevated]) {
-  color: var(--_color-primary);
+:host([variant=text]) {
+  color: var(--u-text-button-text-color, var(--_color-primary));
 }
 
 :host([variant=outlined]) {
-  border: 1px solid #{functions.get-color-var(outline)};
+  color: var(--u-outlined-button-text-color, var(--u-text-button-text-color, var(--_color-primary)));
+  border: 1px solid var(--u-outlined-button-outline-color, #{functions.get-color-var(outline)});
 }
 
 :host([variant=elevated]) {
   --u-elevation-level: var(--u-elevated-button-elevation-level, 1);
+  color: var(--u-elevated-button-text-color, var(--_color-primary));
+}
+
+:host([disabled][variant=outlined]) {
+  background-color: transparent !important;
+  border-color: var(--u-outlined-button-disabled-border-color, rgba(#{functions.get-color-rgb-var(on-surface)}, var(--u-outlined-button-disabled-border-opacity, .12))) !important;
 }
 
 @media (hover: hover) {

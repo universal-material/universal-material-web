@@ -1,10 +1,11 @@
 @use '../scss/variables';
+@use '../scss/api';
 
 :host,
 .ripple-container::before {
   --_ripple-hover-color: var(--u-ripple-hover-color, var(--u-ripple-color, var(--u-state-layer-color, currentColor)));
   --_ripple-pressed-color: var(--u-ripple-pressed-color, var(--u-ripple-color, var(--u-state-layer-color, currentColor)));
-  --_ripple-hover-opacity: var(--u-ripple-pressed-opacity, .08);
+  --_ripple-hover-opacity: var(--u-ripple-pressed-opacity, #{api.get-state-layer-opacity-var(hover)});
   --_ripple-pressed-opacity: var(--u-ripple-pressed-opacity, .2);
 
   display: block;

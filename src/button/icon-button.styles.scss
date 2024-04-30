@@ -55,11 +55,12 @@
 
 :host([variant="standard"]),
 :host([variant="outlined"]) {
-  color: #{functions.get-color-var(on-surface-variant)};
+  color: var(--u-standard-icon-button-color, #{functions.get-color-var(on-surface-variant)});
 }
 
 :host([variant="outlined"]) {
   border: 1px solid #{functions.get-color-var(outline)};
+  color: var(--u-outlined-icon-button-color , var(--u-standard-icon-button-color, #{functions.get-color-var(on-surface-variant)}));
 }
 
 :host([selected][variant="outlined"]) {
@@ -70,4 +71,10 @@
 
 :host([selected][variant="standard"]) {
   color: var(--u-standard-icon-button-selected-text-color, var(--_color-primary));
+  background-color: var(--u-standard-icon-button-selected-background-color, transparent);
+}
+
+:host([disabled][variant=outlined]) {
+  background-color: transparent !important;
+  border-color: var(--u-outlined-icon-button-disabled-border-color, rgba(#{functions.get-color-rgb-var(on-surface)}, var(--u-outlined-icon-button-disabled-border-opacity, .12))) !important;
 }

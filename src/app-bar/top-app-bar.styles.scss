@@ -4,7 +4,7 @@
 
 :host {
   display: block;
-  background-color: var(--u-top-app-bar-background-color, var(--u-color-background, #{functions.get-color-var(surface)}));
+  background-color: var(--u-top-app-bar-background-color, var(--u-color-body, #{functions.get-color-var(surface)}));
   color: var(--u-top-app-bar-text-color, #{functions.get-color-var(on-surface)});
   transition: background-color 100ms, inset 375ms variables.$awesome-cubic-bezier;
 }
