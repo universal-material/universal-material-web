@@ -1,10 +1,12 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { debounceTime, Subject } from 'rxjs';
 
 import { ApisTableComponent } from '@docs/docs/apis-table/apis-table.component';
 import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
-import { debounceTime, Subject } from 'rxjs';
+import { UmRadio } from '@universal-material/web';
 
 @Component({
   selector: 'docs-text-fields',
@@ -12,6 +14,7 @@ import { debounceTime, Subject } from 'rxjs';
   styleUrl: './text-fields.component.scss',
   standalone: true,
   imports: [
+    CommonModule,
     FormsModule,
     ApisTableComponent,
     ExampleComponent,
@@ -22,8 +25,9 @@ export class TextFieldsComponent {
   variant = 'filled';
   invalid = false;
   disabled = false;
-  leadingIcon = false;
-  trailingIcon = false;
+  leadingIcon = true;
+  trailingIcon = true;
+  showCounter = true;
   supportingText = '*required';
   errorText = 'Enter a description';
   template = '';
@@ -44,11 +48,9 @@ export class TextFieldsComponent {
     this.template = `
 <u-field${this.getProperties()}>${this.getIcons()}
   <label slot="label" for="description">Description</label>
-  <input placeholder="A placeholder" value="Batata" id="description"${this.disabled ? ' disabled' : ''} />
-  <span slot="supporting-text">${this.supportingText}</span>
-  <span slot="error-text">${this.errorText}</span>
-  <span slot="counter">10/100</span>
-</u-field>`.trimStart();
+  <input id="description"${this.disabled ? ' disabled' : ''} placeholder="A placeholder" aria-describedby="supporting-text" />${this.getSupportingText()}
+</u-field>`
+      .trimStart();
   }
 
   private getProperties(): string {
@@ -101,4 +103,35 @@ export class TextFieldsComponent {
 
     return icons;
   }
+
+  private getSupportingText(): string {
+    if (!this.supportingText && !this.errorText && !this.showCounter) {
+      return '';
+    }
+
+    let nodes = '';
+
+    if (this.supportingText) {
+      nodes += `
+  <span slot="supporting-text" id="supporting-text">${this.supportingText}</span>`;
+    }
+
+    if (this.errorText) {
+      nodes += `
+  <span slot="error-text">${this.errorText}</span>`;
+      }
+
+    if (this.showCounter) {
+      nodes += `
+  <span slot="counter">10/100</span>`;
+    }
+
+    return nodes;
+  }
+
+  setVariant($event: Event) {
+    this.variant = (<UmRadio>$event.target)!.value;
+    this.updated$.next();
+  }
 }
+

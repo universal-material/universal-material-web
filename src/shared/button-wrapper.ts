@@ -28,11 +28,13 @@ export abstract class UmButtonWrapper extends LitElement {
   @query('.button') private readonly buttonElement!: HTMLElement;
   @query('u-ripple') private readonly ripple!: UmRipple;
 
+  protected innerRole: string | null = null;
+
   get pathname(): string {
     return (<HTMLAnchorElement>this.buttonElement)?.pathname
   }
 
-  protected override render() {
+  protected override render(): HTMLTemplateResult {
     return typeof this.href === 'string'
       ? this.renderLink()
       : this.renderButton();
@@ -44,7 +46,9 @@ export abstract class UmButtonWrapper extends LitElement {
         id="button"
         class="button"
         ?disabled=${this.disabled}
-        aria-label="${this.getAriaLabel()}"
+        aria-label=${this.ariaLabel || nothing}
+        aria-labelledby="${this.ariaLabel ? nothing : 'text'}"
+        .role=${this.innerRole}
         type="button">
         <u-ripple ?disabled=${this.disabled}></u-ripple>
         <u-elevation></u-elevation>
@@ -59,7 +63,9 @@ export abstract class UmButtonWrapper extends LitElement {
       class="button"
       href=${this.disabled ? nothing : this.href}
       aria-disabled=${this.disabled || nothing}
-      aria-label="${this.getAriaLabel()}"
+      aria-label=${this.ariaLabel || nothing}
+      aria-labelledby="${this.ariaLabel ? nothing : 'text'}"
+      .role=${this.innerRole}
       target=${this.target || nothing}>
       <u-elevation></u-elevation>
       <u-ripple ?disabled=${this.disabled}></u-ripple>
@@ -93,6 +99,7 @@ export abstract class UmButtonWrapper extends LitElement {
   }
 
   protected getAriaLabel(): string | null | typeof nothing {
+    console.log(this.ariaLabel);
     return this.ariaLabel || nothing;
   }
 

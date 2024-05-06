@@ -1,0 +1,74 @@
+@use "../../scss/api";
+
+$control-name: '' !default;
+
+:host {
+  --_state-layer-padding: var(--u-#{$control-name}-state-layer-padding, 4px);
+  --_input-size: calc(var(--_width) - var(--_state-layer-padding) * 2);
+  --_indicator-color: var(--u-#{$control-name}-indicator-unselected-color, #{api.get-color-var(on-surface-variant)});
+
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.container {
+  cursor: pointer;
+  position: relative;
+  width: var(--_width);
+  height: var(--_height);
+  padding: var(--_state-layer-padding);
+  border-radius: #{api.get-shape-corner-var(full)};
+}
+
+:host([hide-state-layer]) {
+  .container {
+    width: var(--_indicator-size);
+    height: var(--_indicator-size);
+    padding: 0;
+  }
+
+  u-ripple {
+    display: none;
+  }
+}
+
+input {
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  border-radius: inherit;
+  appearance: none;
+}
+
+u-ripple {
+  padding: var(--_state-layer-padding);
+}
+
+.indicator-container {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inset: 0;
+  pointer-events: none
+}
+
+input:checked ~ .indicator-container {
+  --_indicator-color: var(--u-#{$control-name}-indicator-unselected-color, #{api.get-color-var(primary)});
+}
+
+:host([disabled]) {
+
+  opacity: var(--u-#{$control-name}-disabled-state-opacity, .38);
+
+  input,
+  .container {
+    cursor: default;
+  }
+
+  .indicator-container {
+    --_indicator-color: var(--u-#{$control-name}-indicator-disabled-color, #{api.get-color-var(on-surface)});
+  }
+}

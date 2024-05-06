@@ -27,11 +27,15 @@ export class UmMenu extends LitElement {
   @property({type: Boolean, reflect: true})
   get open(): boolean { return this.#open }
   set open(open: boolean) {
-    if (open) {
-      this.calcDropdownPositioning();
+    if (!open) {
+      this.#open = open;
+      return;
     }
-
+ 
+    this.calcDropdownPositioning();
     this.#open = open;
+
+    setTimeout(() => this.querySelector<HTMLElement>('u-menu-item:not([disabled])')?.focus());
   }
 
   /**
@@ -81,9 +85,9 @@ export class UmMenu extends LitElement {
 
   protected override render(): HTMLTemplateResult {
     return html`
-      <div class="menu" part="menu">
+      <div class="menu" part="menu" ?inert=${!this.open}>
         <u-elevation></u-elevation>
-        <div class="content" part="content">
+        <div role="menu" class="content" part="content">
           <slot></slot>
         </div>
       </div>
@@ -93,6 +97,7 @@ export class UmMenu extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
     window.addEventListener('click', this.close);
+    this.role = "listbox";
   }
 
   override disconnectedCallback() {

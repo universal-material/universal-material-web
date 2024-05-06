@@ -1,0 +1,71 @@
+@use "../scss/api";
+
+$control-name: checkbox;
+
+@import "../shared/selection-control/selection-control.styles";
+
+:host {
+  --_indicator-size: var(--u-checkbox-size, 1.125rem);
+  --_width: var(--u-checkbox-size, 3rem);
+  --_height: var(--_width);
+}
+
+.border {
+
+  width: var(--_indicator-size);
+  height: var(--_indicator-size);
+  box-shadow: 0 0 0 var(--u-checkbox-indicator-border-width, .125rem) var(--_indicator-color) inset;
+  border-radius: var(--u-checkbox-indicator-shaper-coner, 2px);
+  transition: box-shadow 175ms 175ms;
+}
+
+.indicator {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  width: var(--_indicator-size);
+  height: var(--_indicator-size);
+  overflow: hidden;
+  clip: rect(0, 0, var(--_indicator-size), 0);
+  transition: clip 275ms;
+
+  &::before {
+    position: relative;
+    top: 25%;
+    box-sizing: border-box;
+    display: block;
+    width: .75rem;
+    height: .35rem;
+    content: "";
+    border: var(--u-checkbox-indicator-border-width, .125rem) solid var(--u-color-on-primary);
+    border-top-style: none;
+    border-right-style: none;
+    transform: rotate(-45deg);
+    transition: border 175ms, transform 175ms;
+  }
+}
+
+input.indeterminate ~ .indicator-container,
+input:checked ~ .indicator-container {
+  .border {
+    box-shadow: 0 0 0 calc(var(--_indicator-size) / 2) var(--_indicator-color) inset;
+    transition: box-shadow 175ms;
+  }
+
+  .indicator {
+    clip: rect(0, var(--_indicator-size), var(--_indicator-size), 0);
+    transition: clip 175ms 175ms;
+  }
+}
+
+input.indeterminate ~ .indicator-container {
+  --_indicator-color: var(--u-checkbox-indicator-indeterminate-color, #{api.get-color-var(primary)});
+
+  .indicator {
+    &::before {
+      border-left-style: none;
+      transform: rotate(0);
+      width: .6rem;
+    }
+  }
+}

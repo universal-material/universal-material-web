@@ -47,6 +47,11 @@ export class UmDrawerItem extends UmButtonWrapper {
   @queryAssignedElements({slot: 'badge', flatten: true})
   private readonly assignedBadges!: HTMLElement[];
 
+  override connectedCallback() {
+    super.connectedCallback();
+    this.setAttribute('aria-labelledby', 'label');
+  }
+
   protected override renderContent(): HTMLTemplateResult {
     return html`
       <div class="icon">
@@ -55,7 +60,7 @@ export class UmDrawerItem extends UmButtonWrapper {
           aria-hidden="true"
           @slotchange="${this.handleIconSlotChange}"></slot>
       </div>
-      <span class="label"><slot></slot></span>
+      <span class="label" id="text"><slot></slot></span>
       <span class="badge">
         <slot
           name="badge"

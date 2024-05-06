@@ -1,0 +1,36 @@
+$control-name: radio;
+
+@import "../shared/selection-control/selection-control.styles";
+
+:host {
+  --_indicator-size: var(--u-radio-indicator-size, 1.25rem);
+  --_width: var(--u-radio-size, 3rem);
+  --_height: var(--_width);
+}
+
+.indicator {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_indicator-size);
+  height: var(--_indicator-size);
+  border: var(--u-radio-indicator-border-width, .125rem) solid var(--_indicator-color);
+  border-radius: 50%;
+
+  &::before {
+    content: '';
+    width: calc(var(--_indicator-size) / 2);
+    height: calc(var(--_indicator-size) / 2);
+    background: var(--_indicator-color);
+    border-radius: 50%;
+    transition: transform 250ms;
+    transform: scale3d(0, 0, 1);
+  }
+}
+
+input:checked ~ .indicator-container .indicator {
+  &::before {
+    transform: scale3d(1, 1, 1);
+  }
+}

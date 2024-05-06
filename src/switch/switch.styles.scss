@@ -1,0 +1,89 @@
+@use "../scss/api";
+
+$control-name: switch;
+
+@import "../shared/selection-control/selection-control.styles";
+
+:host {
+  --_width: 3.25rem;
+  --_height: 2rem;
+  --_state-layer-padding: 0;
+  --_selected-track-background: var(--u-switch-track-background-color, #{api.get-color-var(primary)});
+  --_state-layer-size: var(--u-switch-state-layer-size, 2.5rem);
+  --_unselected-color: var(--u-switch-track-outline-color, #{api.get-color-var(outline)});
+  --_unselected-handle-size: var(--u-swich-unselected-handle-size, 1rem);
+  --_selected-handle-size: var(--u-swich-unselected-handle-size, 1.5rem);
+  --_active-handle-size: var(--u-swich-unselected-handle-size, 1.75rem);
+}
+
+.indicator-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: var(--_height);
+  transition: width 200ms;
+}
+
+.state-layer,
+.indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.indicator {
+  width: var(--_height);
+  height: var(--_height);
+}
+
+.state-layer {
+  flex-shrink: 0;
+  width: var(--_state-layer-size);
+  height: var(--_state-layer-size);
+  border-radius: #{api.get-shape-corner-var(full)};
+}
+
+.handle {
+  width: var(--_unselected-handle-size);
+  height: var(--_unselected-handle-size);
+  background-color: var(--u-switch-unselected-handle-color, var(--_unselected-color));
+  border-radius: var(--u-switch-handle-shape-corner, #{api.get-shape-corner-var(full)});
+  transition: background 200ms, width 200ms, height 200ms;
+}
+
+input {
+  border: var(--u-switch-track-width, .125rem) solid var(--u-switch-unselected-track-outline-color, var(--_unselected-color));
+  background-color: var(--u-switch-unselected-track-background-color, #{api.get-color-var(surface-container-highest)});
+  transition: background 200ms, border-color 200ms;
+
+  &:checked {
+    background-color: var(--_selected-track-background);
+    border-color: var(--_selected-track-background);
+
+    ~ .indicator-container {
+      width: 100%;
+
+      .handle {
+        width: var(--_selected-handle-size);
+        height: var(--_selected-handle-size);
+        background-color: var(--u-switch-selected-handle-color, #{api.get-color-var(on-primary)});
+      }
+    }
+  }
+}
+
+@media (hover: hover) {
+  :host(:not([disabled]):hover) {
+    .state-layer {
+      background-color: rgba(#{api.get-color-var(on-surface-rgb)}, var(--u-switch-state-layer-hover-opacity, #{api.get-state-layer-opacity-var(hover)}));
+    }
+  }
+}
+
+:host(:not([disabled]):active) {
+
+  .indicator-container .handle {
+    width: var(--_active-handle-size);
+    height: var(--_active-handle-size);
+  }
+}

@@ -49,7 +49,7 @@ export class UmButton extends UmButtonBase {
 
     return html`
       ${this.trailingIcon ? nothing : icon}
-      <span><slot></slot></span>
+      <span id="text"><slot></slot></span>
       ${this.trailingIcon ? icon : nothing}
     `;
   }

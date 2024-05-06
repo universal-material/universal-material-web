@@ -69,20 +69,20 @@ export class UmField extends LitElement {
           name="leading-icon"
           @slotchange="${this.handleLeadingIconSlotChange}">
         </slot>
+        <slot class="label" name="label"></slot>
+        <slot class="input"></slot>
         <slot
           class="icon trailing-icon"
           name="trailing-icon"
           @slotchange="${this.handleTrailingIconSlotChange}">
         </slot>
-        <slot class="label" name="label"></slot>
-        <slot class="input"></slot>
       </div>
       <div class="supporting-text">
         <slot
           class="error-text"
           name="error-text"
           @slotchange="${this.handleErrorTextSlotChange}"></slot>
-        <slot class="supporting-text-slot" name="supporting-text"></slot>
+        <slot class="supporting-text-slot" name="supporting-text" id="supporting-text"></slot>
         <slot
           class="counter"
           name="counter"
@@ -93,7 +93,6 @@ export class UmField extends LitElement {
 
   override firstUpdated(changedProperties: PropertyValues) {
     super.firstUpdated(changedProperties);
-    console.log(this.assignedLeadingIcons.length);
     this.hasLeadingIcon = !!this.assignedLeadingIcons.length;
 
     this.labelSizeObserver = new ResizeObserver(() => this.setLabelWidthProperties())
@@ -122,7 +121,12 @@ export class UmField extends LitElement {
   }
 
   private handleLeadingIconSlotChange() {
+    this.label.style.transition = 'none';
     this.hasLeadingIcon = this.assignedLeadingIcons.length > 0;
+
+    setTimeout(() => {
+      this.label.style.transition = '';
+    });
   }
 
   private handleTrailingIconSlotChange() {

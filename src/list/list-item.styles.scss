@@ -1,0 +1,18 @@
+:host {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: var(--u-list-item-min-height, 56px);
+  padding-block: var(--u-list-item-block-padding, 8px);
+  padding-inline: var(--u-list-item-inline-padding, 16px);
+  gap: var(--u-list-item-gap, 16px);
+}
+
+slot:not([name]) {
+  display: block;
+  margin-inline-end: auto;
+}
+
+slot {
+  flex-shrink: 0;
+}

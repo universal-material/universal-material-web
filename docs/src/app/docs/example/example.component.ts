@@ -20,6 +20,7 @@ export class ExampleComponent implements OnChanges {
   htmlSafe: SafeHtml | null = null;
   _html?: string;
 
+  @Input() renderExample = true;
   @Input() sectionTitle!: string;
   anchorHash: string | null = null;
 

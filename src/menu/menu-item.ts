@@ -1,3 +1,4 @@
+
 import { html, HTMLTemplateResult } from 'lit';
 import { customElement, property, queryAssignedElements } from 'lit/decorators.js';
 
@@ -32,6 +33,13 @@ export class UmMenuItem extends UmButtonWrapper {
   @queryAssignedElements({slot: 'icon', flatten: true})
   private readonly assignedIcons!: HTMLElement[];
 
+  override innerRole = 'menuitem';
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.role = 'presentation';
+  }
+
   protected override renderContent(): HTMLTemplateResult {
     return html`
       <div class="icon">
@@ -40,7 +48,7 @@ export class UmMenuItem extends UmButtonWrapper {
           aria-hidden="true"
           @slotchange="${this.handleIconSlotChange}"></slot>
       </div>
-      <span class="label"><slot></slot></span>
+      <span class="label" id="text"><slot></slot></span>
     `;
   }
 

@@ -12,6 +12,7 @@ export class SubmenuComponent implements AfterViewInit {
   open = false;
 
   constructor(private readonly elementRef: ElementRef) {
+    this.elementRef.nativeElement.setAttribute('role', 'menu');
   }
 
   ngAfterViewInit() {

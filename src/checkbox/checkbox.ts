@@ -1,72 +1,59 @@
-import { css, html, HTMLTemplateResult, LitElement } from 'lit';
-import { customElement, query, queryAssignedElements } from 'lit/decorators.js';
+import { PropertyValues } from '@lit/reactive-element';
+import { html, HTMLTemplateResult } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 
-import { UmRipple } from '../ripple/ripple.js';
 import { styles as baseStyles } from '../shared/base.styles.js';
+import { UmSelectionControl } from '../shared/selection-control/selection-control.js';
+import { styles } from './checkbox.styles.js';
 
 @customElement('u-checkbox')
-export class UmCheckbox extends LitElement {
+export class UmCheckbox extends UmSelectionControl {
   static override styles = [
     baseStyles,
-    css`
-      :host {
-        position: relative;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        width: 48px;
-        height: 48px;
-      }
-      
-      ::slotted(input) {
-        position: relative;
-        padding: 0;
-        margin: 0;
-        aspect-ratio: 1;
-        height: 100%;
-        z-index: 1;
-        appearance: none;
-      }
-      
-      .touch {
-        position: absolute;
-        inset: 0;
-        border-radius: 9999px;
-      }
-    `
+    styles
   ];
 
-  @query('u-ripple') private readonly ripple!: UmRipple;
-  @queryAssignedElements({selector: 'input', flatten: true})
-  private readonly assignedInputs!: HTMLInputElement[];
+  #indeterminate = false;
 
-  private input: HTMLInputElement | undefined;
+  @property({type: Boolean, attribute: 'hide-state-layer', reflect: true}) hideStateLayer = false;
 
-  override render(): HTMLTemplateResult {
-    return html`
-      <div class="touch">
-        <u-ripple><slot @slotchange="${this.handleSlotChange}"></slot></u-ripple>
-      </div>`;
+  @property({type: Boolean})
+  get indeterminate(): boolean {
+    return this.#indeterminate;
+  }
+  set indeterminate(indeterminate: boolean) {
+    this.#indeterminate = indeterminate;
+
+    if (!indeterminate) {
+      this.input?.classList.remove('indeterminate');
+      return;
+    }
+ 
+    this.input?.classList.add('indeterminate');
+    this.elementInternals.setFormValue(null);
   }
 
-  private handleSlotChange(): void {
-
-    if (this.input) {
-      this.input.removeEventListener('click', this.handleInputChange);
-    }
-
-    this.input = this.assignedInputs[0];
-
-    if (this.input) {
-      this.input.addEventListener('click', this.handleInputChange);
-    }
+  override get checked(): boolean {
+    return super.checked;
+  }
+  override set checked(checked: boolean) {
+    super.checked = checked;
+    this.indeterminate = false;
   }
 
-  private handleInputChange = (e: MouseEvent) => {
-    if (this.input !== document.elementFromPoint(e.clientX, e.clientY)) {
-      this.ripple.createRipple();
-    }
-  };
+  constructor() {
+    super();
+  }
+
+  override firstUpdated(changedProperties: PropertyValues) {
+    super.firstUpdated(changedProperties);
+    // eslint-disable-next-line no-self-assign
+    this.indeterminate = this.indeterminate;
+  }
+
+  protected override renderIndicator(): HTMLTemplateResult {
+    return html`<div class="border"><div class="indicator"></div></div>`;
+  }
 }
 
 declare global {

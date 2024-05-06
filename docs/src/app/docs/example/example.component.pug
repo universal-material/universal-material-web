@@ -6,9 +6,11 @@ h5.u-headline-m.article-title
 
 .u-grid(*ngIf="_html")
   .example(
+    *ngIf="renderExample",
     #example,
     slot="before-content",
     [innerHTML]="htmlSafe")
+  ng-content(select="[example]")
 
   u-card(variant="outlined")
     pre(slot="after-content")

@@ -12,10 +12,11 @@ u-side-navigation(#navigation)
       input(
         #colorInput,
         type="color",
+        aria-label="Theme color",
         [ngModel]="themeColor",
         (ngModelChange)="$themeColorChange.next($event)")
     .position-relative(slot="trailing-icon")
-      u-icon-button#theme-button
+      u-icon-button#theme-button(aria-label="Theme")
         span.material-symbols-outlined palette
       u-menu(
         toggle-selector="#theme-button"
@@ -64,6 +65,7 @@ u-side-navigation(#navigation)
 
       docs-submenu(label="Colors")
         u-drawer-item(
+          role="menuitem",
           routerLink="utilities/text-colors",
           docsLinkActive) Text
         u-drawer-item(

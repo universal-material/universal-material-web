@@ -117,3 +117,8 @@ markdown {
 * {
   box-sizing: border-box;
 }
+
+.reapply-container-margin {
+  --u-list-item-inline-padding: var(--u-layout-margin);
+  margin-inline: calc(var(--u-layout-margin) * -1);
+}

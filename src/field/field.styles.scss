@@ -80,6 +80,7 @@
   position: absolute;
   width: var(--_icon-size);
   height: 100%;
+  top: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -212,10 +213,12 @@
   }
 
   .trailing-icon {
+    --u-standard-icon-button-color: var(--u-field-trailing-icon-error-color, var(--_color-error));
     color: var(--u-field-trailing-icon-error-color, var(--_color-error));
   }
 
   .leading-icon {
+    --u-standard-icon-button-color: var(--u-field-leading-icon-error-color, var(--_color-error));
     color: var(--u-field-leading-icon-error-color, var(--_icon-color));
   }
 }

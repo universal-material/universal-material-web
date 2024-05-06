@@ -21,7 +21,7 @@
   }
 }
 
-:host([selected]) {
+:host([selected][has-selection-icon]) {
   .icon:not(.icon-selected) {
     display: none;
   }

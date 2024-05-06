@@ -3,36 +3,69 @@ docs-title(title="Text fields")
 .u-grid
   docs-example(
     sectionTitle="Live",
+    [renderExample]="false",
     [html]="template")
-    label
-      input(type="radio", [(ngModel)]="variant", (ngModelChange)="updated$.next()", name="variant", value="filled")
-      | &nbsp;Filled
-    label
-      input(type="radio", [(ngModel)]="variant", (ngModelChange)="updated$.next()", name="variant", value="outlined")
-      | &nbsp;Outlined
-    br
-    label
-      input(type="checkbox", [(ngModel)]="leadingIcon", (ngModelChange)="updated$.next()")
-      | &nbsp;Leading icon
-    label
-      input(type="checkbox", [(ngModel)]="trailingIcon", (ngModelChange)="updated$.next()")
-      | &nbsp;Trailing icon
-    label
-      input(type="checkbox", [(ngModel)]="invalid", (ngModelChange)="updated$.next()")
-      | &nbsp;Invalid
-    label
-      input(type="checkbox", [(ngModel)]="disabled", (ngModelChange)="updated$.next()")
-      | &nbsp;Disabled
+    u-radio-list-item.reapply-container-margin(
+      (change)="setVariant($event)",
+      checked,
+      name="variant",
+      value="filled") Filled
+    u-radio-list-item.reapply-container-margin(
+      (change)="setVariant($event)",
+      name="variant",
+      value="outlined") Outlined
 
-  //u-field([variant]="variant", [invalid]="invalid", [disabled]="disabled")
-  //  span.material-symbols-outlined(slot="leading-icon") search
-  //  u-icon-button(slot="trailing-icon")
-  //    span.material-symbols-outlined cancel
-  //  label(slot="label") Name
-  //  input(placeholder="A placeholder")
-  //  span(slot="supporting-text") *required
-  //  span(slot="error-text") Enter a name
-  //  span(slot="counter") 10/100
+    br
+    u-switch-list-item.reapply-container-margin(
+      (change)="leadingIcon = $any($event.target).checked; updated$.next()",
+      [checked]="leadingIcon") Leading icon
+    u-switch-list-item.reapply-container-margin(
+      (change)="trailingIcon = $any($event.target).checked; updated$.next()",
+      [checked]="trailingIcon") Trailing icon
+    u-switch-list-item.reapply-container-margin(
+      (change)="invalid = $any($event.target).checked; updated$.next()",
+      [checked]="invalid") Invalid
+
+    u-switch-list-item.reapply-container-margin(
+      (change)="disabled = $any($event.target).checked; updated$.next()",
+      [checked]="disabled") Disabled
+
+    u-switch-list-item.reapply-container-margin(
+      (change)="showCounter = $any($event.target).checked; updated$.next()",
+      [checked]="showCounter") Show counter
+
+    .u-grid.u-mt-large(example)
+      u-text-field(label="Supporting text", [(ngModel)]="supportingText", (ngModelChange)="updated$.next()", ngDefaultControl)
+      u-text-field(label="Error text", [(ngModel)]="errorText", (ngModelChange)="updated$.next()", ngDefaultControl)
+
+      u-text-field(
+        id="description",
+        label="Name",
+        [variant]="variant",
+        [invalid]="invalid",
+        [disabled]="disabled")
+    u-field(example, [variant]="variant", [invalid]="invalid", [disabled]="disabled")
+      span.material-symbols-outlined(
+        *ngIf="leadingIcon",
+        slot="leading-icon") search
+      u-icon-button(
+        *ngIf="trailingIcon",
+        slot="trailing-icon",
+        toggle,
+        [disabled]="disabled")
+        span.material-symbols-outlined cancel
+      label(slot="label", for="description") Name
+      input(placeholder="A placeholder", [disabled]="disabled", aria-describedby="supporting-text")
+      span(
+        *ngIf="supportingText",
+        slot="supporting-text",
+        id="supporting-text") {{supportingText}}
+      span(
+        *ngIf="errorText",
+        slot="error-text") {{errorText}}
+      span(
+        *ngIf="showCounter",
+        slot="counter") 10/100
   //
   //u-field([variant]="variant", [invalid]="invalid", [disabled]="disabled")
   //  span.material-symbols-outlined(slot="leading-icon") search
