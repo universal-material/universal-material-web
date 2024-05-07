@@ -1,5 +1,7 @@
 @use "../scss/functions";
 
+@import "./button-base.styles";
+
 :host {
   aspect-ratio: 1;
   --u-elevation-level: var(--u-fab-button-elevation-level, 3);

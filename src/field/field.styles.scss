@@ -10,7 +10,7 @@
   --_field-control-block-padding: var(--u-field-control-block-padding, var(--_field-control-padding));
   --_field-min-height: var(--u-field-min-height, 56px);
   --_field-placeholder-color: var(--u-field-placeholder-color, #{api.get-color-var(on-surface-variant)});
-  --_disabled-color: var(--u-field-disabled-color, rgba(#{api.get-color-var(on-surface-rgb)}, var(--u-field-disabled-opacity, .38)));
+  --_disabled-color: var(--u-field-disabled-color, rgba(#{api.get-color-rgb-var(on-surface)}, var(--u-field-disabled-opacity, .38)));
   --_disabled-background-color: var(--u-filled-field-disabled-background-color, rgba(#{api.get-color-var(on-surface-rgb)}, var(--u-filled-field-background-disabled-opacity, .12)));
   --_color-primary: #{api.get-color-var(primary)};
   --_color-error: var(--u-field-error-color, #{api.get-color-var(error)});
@@ -268,7 +268,7 @@
 :host([variant=filled]) {
   .field {
     border-radius: var(--u-field-filled-border-radius, 4px 4px 0 0);
-    background-color: var(--u-color-surface-variant);
+    background-color: #{api.get-color-var(surface-container-highest)};
 
     &::after {
       border-bottom-style: solid;
@@ -288,7 +288,7 @@
 
 :host([variant=filled][disabled]) {
   .field {
-    background-color: var(--u-filled-field-disabled-background-color, rgba(#{api.get-color-var(on-surface-rgb)}, var(--u-filled-field-background-disabled-opacity, .12)));
+    background-color: var(--u-filled-field-disabled-background-color, rgba(#{api.get-color-rgb-var(on-surface)}, var(--u-filled-field-background-disabled-opacity, .04)));
   }
 }
 

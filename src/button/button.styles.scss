@@ -1,5 +1,7 @@
 @use "../scss/functions";
 
+@import "./button-base.styles";
+
 :host {
   --u-common-button-line-height: var(--u-label-large-line-height, 1.25rem);
   --u-common-button-font-size: var(--u-label-large-font-size, 0.875rem);

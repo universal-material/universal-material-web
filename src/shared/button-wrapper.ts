@@ -1,9 +1,11 @@
 import { html, HTMLTemplateResult, LitElement, nothing } from 'lit';
 import { property, query } from 'lit/decorators.js';
 
+import { UmRipple } from '../ripple/ripple.js';
+import { redispatchEvent } from './redispatch-event.js';
+
 import '../elevation/elevation.js';
 import '../ripple/ripple.js';
-import { UmRipple } from '../ripple/ripple.js';
 
 export abstract class UmButtonWrapper extends LitElement {
 
@@ -25,7 +27,7 @@ export abstract class UmButtonWrapper extends LitElement {
 
   @property() name: string | undefined;
 
-  @query('.button') private readonly buttonElement!: HTMLElement;
+  @query('.button') protected readonly buttonElement!: HTMLElement;
   @query('u-ripple') private readonly ripple!: UmRipple;
 
   protected innerRole: string | null = null;
@@ -44,17 +46,17 @@ export abstract class UmButtonWrapper extends LitElement {
     return html`
       <button
         id="button"
-        class="button"
+        class="button focus-ring"
         ?disabled=${this.disabled}
-        aria-label=${this.ariaLabel || nothing}
-        aria-labelledby="${this.ariaLabel ? nothing : 'text'}"
+        aria-label=${this.getAriaLabel() || nothing}
+        aria-labelledby="${this.getAriaLabel() ? nothing : 'text'}"
         .role=${this.innerRole}
-        type="button">
+        type="button"
+        @click=${this.#innerClickHandler}>
         <u-ripple ?disabled=${this.disabled}></u-ripple>
         <u-elevation></u-elevation>
       </button>
       <div class="content">${this.renderContent()}</div>`;
-
   }
 
   private renderLink() {
@@ -66,7 +68,8 @@ export abstract class UmButtonWrapper extends LitElement {
       aria-label=${this.ariaLabel || nothing}
       aria-labelledby="${this.ariaLabel ? nothing : 'text'}"
       .role=${this.innerRole}
-      target=${this.target || nothing}>
+      target=${this.target || nothing}
+      @click=${this.#innerClickHandler}>
       <u-elevation></u-elevation>
       <u-ripple ?disabled=${this.disabled}></u-ripple>
     </a>
@@ -78,14 +81,12 @@ export abstract class UmButtonWrapper extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
 
-    this.addEventListener('click', this.innerClickHandler);
     this.addEventListener('focus', this.innerFocusHandler)
   }
 
   override disconnectedCallback() {
     super.disconnectedCallback();
 
-    this.removeEventListener('click', this.innerClickHandler);
     this.removeEventListener('focus', this.innerFocusHandler);
   }
 
@@ -98,9 +99,8 @@ export abstract class UmButtonWrapper extends LitElement {
     this.buttonElement?.blur();
   }
 
-  protected getAriaLabel(): string | null | typeof nothing {
-    console.log(this.ariaLabel);
-    return this.ariaLabel || nothing;
+  protected getAriaLabel(): string | null {
+    return this.ariaLabel;
   }
 
   private innerFocusHandler(): void {
@@ -114,9 +114,15 @@ export abstract class UmButtonWrapper extends LitElement {
     setTimeout(() => this.buttonElement?.focus());
   }
 
-  private innerClickHandler(event: MouseEvent): void {
-
+  #innerClickHandler(event: MouseEvent): void {
+    
     if (this.disabled) {
+      return;
+    }
+
+    const preventDefault = !redispatchEvent(this, event);
+
+    if (preventDefault) {
       return;
     }
 

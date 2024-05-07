@@ -64,7 +64,7 @@ export class UmMenu extends LitElement {
   get toggleSelector(): string | undefined {
     return this.attributes.getNamedItem('toggle-selector')?.value;
   }
-  set toggleSelector(selector: string) {
+  set toggleSelector(selector: string | undefined) {
     this.toggleElement?.removeEventListener('click', this.toggle);
 
     if (!selector) {

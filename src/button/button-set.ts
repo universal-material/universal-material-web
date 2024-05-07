@@ -1,29 +1,20 @@
-import { html, HTMLTemplateResult, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 import { styles } from './button-set.styles.js';
 
-export type UmButtonSetAlignment = 'start' | 'center' | 'end';
+import { UmSetBase } from '../shared/sets/set-base.js';
 
 @customElement('u-button-set')
-export class UmButtonSet extends LitElement {
+export class UmButtonSet extends UmSetBase {
 
   static override styles = styles;
-
-  /**
-   * Set the alignment of the buttons at the `start`, `center` or at the `end`.
-   */
-  @property({reflect: true}) alignment: UmButtonSetAlignment = 'end';
 
   /**
    * Whether to render the buttons stacked or not
    */
   @property({type: Boolean, reflect: true}) stack = false;
 
-  override render(): HTMLTemplateResult {
-    return html`
-      <slot></slot>`;
-  }
+  override alignment: 'start' | 'center' | 'end' = 'end';
 }
 
 declare global {

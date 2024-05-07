@@ -1,17 +1,16 @@
-import { CSSResult, html, HTMLTemplateResult, nothing } from 'lit';
+import { CSSResult, html, HTMLTemplateResult } from 'lit';
 import { customElement, property, queryAssignedElements } from 'lit/decorators.js';
 
-import '../ripple/ripple.js';
-import { styles as buttonWrapperStyles } from '../shared/button-wrapper.styles.js';
-import { UmButtonBase } from './button-base.js';
 import { styles } from './icon-button.styles.js';
+
+import { UmButtonBase } from './button-base.js';
 
 export type UmIconButtonVariant = 'standard' | 'filled' | 'tonal' | 'outlined';
 
 @customElement('u-icon-button')
 export class UmIconButton extends UmButtonBase {
 
-  static override styles: CSSResult | CSSResult[] = [buttonWrapperStyles, styles];
+  static override styles: CSSResult | CSSResult[] = [styles];
 
   @property({reflect: true}) variant: UmIconButtonVariant = 'standard';
 
@@ -51,12 +50,15 @@ export class UmIconButton extends UmButtonBase {
   protected override handleClick(event: UIEvent): void {
     super.handleClick(event);
 
-    if (this.toggle) {
-      this.selected = !this.selected;
+    if (!this.toggle) {
+      return;
     }
+
+    this.selected = !this.selected;
+    this.dispatchEvent(new Event('change', {bubbles: true}));
   }
 
-  override getAriaLabel(): string | null | typeof nothing {
+  override getAriaLabel(): string | null {
     return this.selected
       ? this.ariaLabelSelected || super.getAriaLabel()
       : super.getAriaLabel();

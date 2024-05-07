@@ -82,6 +82,10 @@ export class AppComponent {
   }
 
   setThemeColor(color: string) {
+    if (localStorage['ignoreThemeColor'] === 'true') {
+      return;
+    }
+
     const styles = ThemeBuilder.create(color).build();
 
     let themeStylesElement = document.getElementById('theme-styles');

@@ -2,8 +2,8 @@ import { PropertyValues } from '@lit/reactive-element';
 import { html, HTMLTemplateResult, LitElement } from 'lit';
 import { customElement, property, query, queryAssignedElements } from 'lit/decorators.js';
 
-import { config } from '../config';
-import { styles as baseStyles } from '../shared/base.styles';
+import { config } from '../config.js';
+import { styles as baseStyles } from '../shared/base.styles.js';
 import { styles } from './field.styles.js';
 
 @customElement('u-field')

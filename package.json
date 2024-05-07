@@ -1,6 +1,6 @@
 {
   "name": "@universal-material/web",
-  "version": "3.0.28",
+  "version": "3.0.36",
   "description": "Material web components",
   "type": "module",
   "keywords": [
@@ -16,7 +16,7 @@
   "module": "./index.js",
   "typings": "./index.d.ts",
   "scripts": {
-    "build": "run-s clean script:sass-to-ts script:build sass analyze copy",
+    "build": "run-s clean script:sass-to-ts script:build sass analyze copy && node remove-scripts-from-package.js",
     "build:watch": "gulp -f gulpfile.js scripts:watch",
     "script:build": "tsc",
     "script:sass-to-ts": "gulp -f gulpfile.js scripts:sass-to-ts",
@@ -26,7 +26,7 @@
     "clean": "rimraf ./dist/ rimraf ./src/**/*.d.ts rimraf ./src/**/*.styles.ts",
     "copy": "copyfiles package.json README.md custom-elements.json dist/ && copyfiles -u 1 src/scss/**/*.scss dist/",
     "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
-    "lint:eslint": "eslint 'src/**/*.ts'",
+    "lint:eslint": "eslint src/**/*.ts",
     "lint:lit-analyzer": "lit-analyzer",
     "format": "prettier \"**/*.{cjs,html,js,json,md,ts}\" --ignore-path ./.eslintignore --write",
     "predocs": "run-p analyze docs:apis script:sass-to-ts",
@@ -39,7 +39,7 @@
     "analyze": "cem analyze --litelement --globs \"src/**/*.ts\"",
     "analyze:watch": "cem analyze --litelement --globs \"src/**/*.ts\" --watch",
     "checksize": "rollup -c ; cat my-element.bundled.js | gzip -9 | wc -c ; rm my-element.bundled.js",
-    "publish": "cd dist && npm publish",
+    "publish": "npm run lint:eslint && cd dist && npm publish",
     "postinstall": "node ./change-schematics-to-generate-pug.js && node ./change-compiler-to-add-custom-elements.js"
   },
   "author": "https://github.com/universal-material/universal-material/graphs/contributors",

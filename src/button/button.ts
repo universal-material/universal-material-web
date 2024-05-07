@@ -1,7 +1,6 @@
 import { CSSResult, html, HTMLTemplateResult, nothing } from 'lit';
 import { customElement, property, queryAssignedElements } from 'lit/decorators.js';
 
-import { styles as buttonWrapperStyles } from '../shared/button-wrapper.styles.js';
 import { UmButtonBase } from './button-base.js';
 import { styles } from './button.styles.js';
 import '../ripple/ripple.js';
@@ -12,7 +11,7 @@ export type UmButtonColor = 'primary' | 'secondary' | 'tertiary' | 'error' | und
 @customElement('u-button')
 export class UmButton extends UmButtonBase {
 
-  static override styles: CSSResult | CSSResult[] = [buttonWrapperStyles, styles];
+  static override styles: CSSResult | CSSResult[] = [styles];
 
   /**
    * The Button variant to render

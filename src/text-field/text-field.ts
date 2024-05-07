@@ -2,8 +2,8 @@ import { html, HTMLTemplateResult, LitElement, nothing } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { live } from 'lit/directives/live.js';
 
-import { config } from '../config';
-import { styles as baseStyles } from '../shared/base.styles';
+import { config } from '../config.js';
+import { styles as baseStyles } from '../shared/base.styles.js';
 import { styles } from './text-field.styles.js';
 
 import '../field/field.js';

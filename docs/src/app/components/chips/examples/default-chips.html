@@ -1,25 +1,29 @@
-<div class="d-flex">
-  <div class="u-chip">
-    <div class="u-chip-label">John Doe</div>
-  </div>
-  <div class="u-chip">
-    <div class="u-chip-icon u-chip-leading-icon"><i class="mdi mdi-calendar"></i></div>
-    <div class="u-chip-label">John Doe</div>
-  </div>
-  <div class="u-chip">
-    <div class="u-chip-label">John Doe</div>
-    <div class="u-chip-icon u-chip-trailing-icon u-chip-icon-action"><span class="material-symbols-outlined">close</span></div>
-  </div>
-  <div class="u-chip">
-    <div class="u-chip-avatar"></div>
-    <div class="u-chip-label">John Doe</div>
-    <div class="u-chip-icon u-chip-trailing-icon u-chip-icon-action"><span class="material-symbols-outlined">close</span></div>
-  </div>
-
-  <div class="u-chip">
-    <div class="u-chip-hover"></div>
-    <div class="u-chip-avatar"></div>
-    <div class="u-chip-label">John Doe</div>
-    <div class="u-chip-icon u-chip-trailing-icon u-chip-icon-action"><span class="material-symbols-outlined">close</span></div>
-  </div>
-</div>
+<u-chip-set>
+  <u-chip>John Doe</u-chip>
+  <u-chip>
+    <span slot="leading-icon" class="material-symbols-outlined">event</span>
+    John Doe
+    <span slot="trailing-icon" class="material-symbols-outlined">favorite</span>
+  </u-chip>
+  <u-chip action>
+    <span slot="leading-icon" class="material-symbols-outlined">event</span>
+    John Doe
+    <span slot="trailing-icon" class="material-symbols-outlined">favorite</span>
+  </u-chip>
+  <u-chip elevated toggle>
+    <span slot="selected-icon" class="material-symbols-outlined">done</span>
+    <span slot="leading-icon" class="material-symbols-outlined">event</span>
+    John Doe
+    <span slot="trailing-icon" class="material-symbols-outlined">favorite</span>
+  </u-chip>
+  <u-chip selected>
+    <span slot="leading-icon" class="material-symbols-outlined">event</span>
+    John Doe
+    <span slot="trailing-icon" class="material-symbols-outlined">favorite</span>
+  </u-chip>
+  <u-chip elevated selected>
+    <span slot="leading-icon" class="material-symbols-outlined">event</span>
+    John Doe
+    <span slot="trailing-icon" class="material-symbols-outlined">favorite</span>
+  </u-chip>
+</u-chip-set>

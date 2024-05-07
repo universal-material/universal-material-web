@@ -3,7 +3,6 @@ import { customElement, property, queryAssignedElements } from 'lit/decorators.j
 
 import { styles as baseStyles } from '../shared/base.styles.js';
 import { UmButtonWrapper } from '../shared/button-wrapper.js';
-import { styles as buttonWrapperStyles } from '../shared/button-wrapper.styles.js';
 import { styles } from './drawer-item.styles.js';
 
 @customElement('u-drawer-item')
@@ -11,7 +10,6 @@ export class UmDrawerItem extends UmButtonWrapper {
 
   static override styles = [
     baseStyles,
-    buttonWrapperStyles,
     styles
   ];
 

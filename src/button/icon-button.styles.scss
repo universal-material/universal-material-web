@@ -1,5 +1,7 @@
 @use "../scss/functions";
 
+@import "./button-base.styles";
+
 :host {
   --_icon-button-size: var(--u-icon-button-size, 2.5rem);
   --_color-surface-container-highest: #{functions.get-color-var(surface-container-highest)};

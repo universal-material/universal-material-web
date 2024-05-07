@@ -8,6 +8,7 @@
 }
 
 .focus-ring:focus-visible {
+  --_color-primary: #{functions.get-color-var(primary)};
   animation: u-focus-pulse 500ms ease;
   animation-fill-mode: forwards;
   outline-offset: 2px;
@@ -15,12 +16,12 @@
 
 @keyframes u-focus-pulse {
   0% {
-    outline: 0 solid var(--u-color-primary);
+    outline: 0 solid var(--_color-primary);
   }
   50% {
-    outline: 6px solid var(--u-color-primary);
+    outline: 6px solid var(--_color-primary);
   }
   100% {
-    outline: 4px solid var(--u-color-primary);
+    outline: 4px solid var(--_color-primary);
   }
 }

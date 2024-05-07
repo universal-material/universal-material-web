@@ -1,50 +1,66 @@
 docs-title(title="Text fields")
 
-.u-grid
+.u-column
   docs-example(
     sectionTitle="Live",
     [renderExample]="false",
     [html]="template")
-    u-radio-list-item.reapply-container-margin(
-      (change)="setVariant($event)",
-      checked,
-      name="variant",
-      value="filled") Filled
-    u-radio-list-item.reapply-container-margin(
-      (change)="setVariant($event)",
-      name="variant",
-      value="outlined") Outlined
 
-    br
-    u-switch-list-item.reapply-container-margin(
-      (change)="leadingIcon = $any($event.target).checked; updated$.next()",
-      [checked]="leadingIcon") Leading icon
-    u-switch-list-item.reapply-container-margin(
-      (change)="trailingIcon = $any($event.target).checked; updated$.next()",
-      [checked]="trailingIcon") Trailing icon
-    u-switch-list-item.reapply-container-margin(
-      (change)="invalid = $any($event.target).checked; updated$.next()",
-      [checked]="invalid") Invalid
+    h5.u-title-m Settings
+    u-chip-set
+      u-chip(
+        (click)="setVariant('filled')",
+        [selected]="variant === 'filled'")
+        span.material-symbols-outlined(slot="selected-icon") done
+        | Filled
+      u-chip(
+        (click)="setVariant('outlined')",
+        [selected]="variant === 'outlined'")
+        span.material-symbols-outlined(slot="selected-icon") done
+        | Outlined
+      u-chip(
+        toggle,
+        (change)="leadingIcon = $any($event.target).selected; updated$.next()",
+        [selected]="leadingIcon")
+        span.material-symbols-outlined(slot="selected-icon") done
+        | Leading icon
+      u-chip(
+        toggle,
+        (change)="trailingIcon = $any($event.target).selected; updated$.next()",
+        [selected]="trailingIcon")
+        span.material-symbols-outlined(slot="selected-icon") done
+        | Trailing icon
+      u-chip(
+        toggle,
+        (change)="invalid = $any($event.target).selected; updated$.next()",
+        [selected]="invalid")
+        span.material-symbols-outlined(slot="selected-icon") done
+        | Invalid
 
-    u-switch-list-item.reapply-container-margin(
-      (change)="disabled = $any($event.target).checked; updated$.next()",
-      [checked]="disabled") Disabled
+      u-chip(
+        toggle,
+        (change)="disabled = $any($event.target).selected; updated$.next()",
+        [selected]="disabled")
+        span.material-symbols-outlined(slot="selected-icon") done
+        | Disabled
 
-    u-switch-list-item.reapply-container-margin(
-      (change)="showCounter = $any($event.target).checked; updated$.next()",
-      [checked]="showCounter") Show counter
+      u-chip(
+        toggle,
+        (change)="showCounter = $any($event.target).selected; updated$.next()",
+        [selected]="showCounter")
+        span.material-symbols-outlined(slot="selected-icon") done
+        | Counter
 
-    .u-grid.u-mt-large(example)
+    .u-column.u-mt-small(example)
       u-text-field(label="Supporting text", [(ngModel)]="supportingText", (ngModelChange)="updated$.next()", ngDefaultControl)
       u-text-field(label="Error text", [(ngModel)]="errorText", (ngModelChange)="updated$.next()", ngDefaultControl)
 
-      u-text-field(
-        id="description",
-        label="Name",
-        [variant]="variant",
-        [invalid]="invalid",
-        [disabled]="disabled")
-    u-field(example, [variant]="variant", [invalid]="invalid", [disabled]="disabled")
+    h5.u-title-m Component
+    u-field(
+      example,
+      [variant]="variant",
+      [invalid]="invalid",
+      [disabled]="disabled")
       span.material-symbols-outlined(
         *ngIf="leadingIcon",
         slot="leading-icon") search
@@ -55,7 +71,7 @@ docs-title(title="Text fields")
         [disabled]="disabled")
         span.material-symbols-outlined cancel
       label(slot="label", for="description") Name
-      input(placeholder="A placeholder", [disabled]="disabled", aria-describedby="supporting-text")
+      input(id="description", placeholder="A placeholder", [disabled]="disabled", aria-describedby="supporting-text")
       span(
         *ngIf="supportingText",
         slot="supporting-text",
@@ -66,26 +82,3 @@ docs-title(title="Text fields")
       span(
         *ngIf="showCounter",
         slot="counter") 10/100
-  //
-  //u-field([variant]="variant", [invalid]="invalid", [disabled]="disabled")
-  //  span.material-symbols-outlined(slot="leading-icon") search
-  //  span.material-symbols-outlined(slot="trailing-icon") cancel
-  //  label(slot="label") Batata
-  //  input(type="number" placeholder="A placeholder")
-  //  span(slot="supporting-text") *required
-  //
-  //u-field([variant]="variant", [invalid]="invalid", [disabled]="disabled")
-  //  span.material-symbols-outlined(slot="leading-icon") search
-  //  span.material-symbols-outlined(slot="trailing-icon") cancel
-  //  label(slot="label") Batata
-  //  select
-  //    option(value="") Select an option
-  //    option A
-  //    option B
-  //
-  //
-  //u-field([variant]="variant", [invalid]="invalid", [disabled]="disabled")
-  //  span.material-symbols-outlined(slot="leading-icon") search
-  //  span.material-symbols-outlined(slot="trailing-icon") cancel
-  //  label(slot="label") Batata
-  //  textarea(placeholder="A placeholder")

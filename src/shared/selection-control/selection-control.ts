@@ -1,7 +1,7 @@
 import { html, HTMLTemplateResult, LitElement, nothing } from 'lit';
 import { property, query } from 'lit/decorators.js';
 
-import '../../ripple/ripple';
+import '../../ripple/ripple.js';
 
 export abstract class UmSelectionControl extends LitElement {
   static readonly formAssociated = true;
@@ -35,7 +35,6 @@ export abstract class UmSelectionControl extends LitElement {
     return this.#checked;
   }
   set checked(value: boolean) {
-    console.log(value);
     this.#checked = value;
     this.elementInternals.setFormValue(value ? this.value : null);
   }
@@ -62,17 +61,23 @@ export abstract class UmSelectionControl extends LitElement {
       <div class="container">
         ${this.renderRipple ? ripple : nothing}
         <input
+          id="input"
           type=${this.inputType}
           class="focus-ring"
-          ?name=${this.name}
+          .name=${this.name}
           .checked=${this.#checked}
           .disabled=${this.disabled} />
         <div class="indicator-container">${this.renderIndicator()}</div>
       </div>`;
   }
 
-  #handleClick() {
+  #handleClick(e: Event) {
+    if (e.defaultPrevented) {
+      return;
+    }
+
     this.checked = this.inputType === 'radio' || !this.checked;
+    this.dispatchEvent(new InputEvent('input', {bubbles: true, composed: true}));
     this.dispatchEvent(new Event('change', {bubbles: true}));
   }
 }

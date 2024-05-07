@@ -37,7 +37,7 @@ $control-name: checkbox;
     width: .75rem;
     height: .35rem;
     content: "";
-    border: var(--u-checkbox-indicator-border-width, .125rem) solid var(--u-color-on-primary);
+    border: var(--u-checkbox-indicator-border-width, .125rem) solid #{api.get-color-var(on-primary)};
     border-top-style: none;
     border-right-style: none;
     transform: rotate(-45deg);

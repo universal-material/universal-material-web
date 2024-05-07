@@ -1,21 +1,4 @@
-:host {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  flex-wrap: nowrap;
-}
-
-:host([alignment=start]) {
-  justify-content: flex-start;
-}
-
-:host([alignment=center]) {
-  justify-content: center;
-}
-
-:host([alignment=end]) {
-  justify-content: flex-end;
-}
+@import "../shared/sets/set-base.styles";
 
 :host([stack][alignment=start]) {
   align-items: flex-start;

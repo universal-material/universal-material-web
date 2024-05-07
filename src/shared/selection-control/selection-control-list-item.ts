@@ -1,6 +1,6 @@
 import { css, html, HTMLTemplateResult, LitElement } from 'lit';
 
-import { UmSelectionControl } from './selection-control';
+import { UmSelectionControl } from './selection-control.js';
 
 export type MixinBase<ExpectedBase = object> = abstract new (
   // Mixins must have a constructor with `...args: any[]`
@@ -27,12 +27,12 @@ export const mixinSelectionControlListItem = <T extends MixinBase<UmSelectionCon
 
     override render(): HTMLTemplateResult {
       return html`
-        <u-list-item ?selectable=${!this.disabled}>
-          <slot></slot>
-          <div slot="trailing">
-            ${super.render()}
-          </div>
-        </u-list-item>`;
+          <u-list-item ?selectable=${!this.disabled}>
+            <label for="input"><slot></slot></label>
+            <div slot="trailing">
+              ${super.render()}
+            </div>
+          </u-list-item>`;
     }
   }
 

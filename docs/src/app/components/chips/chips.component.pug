@@ -1,17 +1,63 @@
 docs-title(title="Chips")
 
 docs-example(
-  sectionTitle="Default chip",
-  [html]="defaultChipHtml")
+  sectionTitle="Live",
+  [renderExample]="false",
+  [html]="template")
+  h5.u-title-m Settings
+  u-chip-set
+    u-chip(
+      toggle,
+      (change)="elevated = $any($event.target).selected; updated$.next()",
+      [selected]="elevated")
+      span.material-symbols-outlined(slot="selected-icon") done
+      | Elevated
+    u-chip(
+      toggle,
+      (change)="leadingIcon = $any($event.target).selected; updated$.next()",
+      [selected]="leadingIcon")
+      span.material-symbols-outlined(slot="selected-icon") done
+      | Leading icon
+    u-chip(
+      toggle,
+      (change)="selectedIcon = $any($event.target).selected; updated$.next()",
+      [selected]="selectedIcon")
+      span.material-symbols-outlined(slot="selected-icon") done
+      | Selected icon
+    u-chip(
+      toggle,
+      (change)="trailingIcon = $any($event.target).selected; updated$.next()",
+      [selected]="trailingIcon")
+      span.material-symbols-outlined(slot="selected-icon") done
+      | Trailing icon
+    u-chip(
+      toggle,
+      (change)="action = $any($event.target).selected; updated$.next()",
+      [selected]="action")
+      span.material-symbols-outlined(slot="selected-icon") done
+      | Action
+    u-chip(
+      toggle,
+      (change)="toggle = $any($event.target).selected; updated$.next()",
+      [selected]="toggle")
+      span.material-symbols-outlined(slot="selected-icon") done
+      | Toggle
 
-docs-example(
-  sectionTitle="Elevated chip",
-  [html]="elevatedChipHtml")
+  h5.u-title-m.u-mt-large Component
+  div(style="display: flex")
+    u-chip(
+      [elevated]="elevated",
+      [action]="action",
+      [toggle]="toggle")
+      span.material-symbols-outlined(
+        *ngIf="selectedIcon"
+        slot="selected-icon") done
+      span.material-symbols-outlined(
+        *ngIf="leadingIcon"
+        slot="leading-icon") event
+      | Label
+      span.material-symbols-outlined(
+        *ngIf="trailingIcon"
+        slot="trailing-icon") {{action ? 'close' : 'arrow_drop_down'}}
 
-docs-example(
-  sectionTitle="Selected chip",
-  [html]="selectedChipHtml")
-
-docs-example(
-  sectionTitle="Chip input",
-  [html]="chipInputHtml")
+docs-apis-table(key="chip")

@@ -129,8 +129,8 @@ export class TextFieldsComponent {
     return nodes;
   }
 
-  setVariant($event: Event) {
-    this.variant = (<UmRadio>$event.target)!.value;
+  setVariant(variant: string) {
+    this.variant = variant;
     this.updated$.next();
   }
 }

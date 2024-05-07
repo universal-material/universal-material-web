@@ -59,7 +59,7 @@ export function setClassInfo(classDeclaration, classInfo) {
     classInfo.push({
       type: typeText.includes('|')
         ? 'string'
-        : typeText,
+        : typeText.replace(/import\(.+?\)\./, ''),
       attribute: attributeName,
       default: property.getInitializer
         ? property.getInitializer()?.getText() ?? 'undefined'

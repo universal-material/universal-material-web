@@ -1,0 +1,149 @@
+@use "../scss/api";
+
+@import "../shared/button-wrapper.styles";
+
+:host {
+  --_height: var(--u-chip-height, 32px);
+  --_outline-width: var(--u-chip-outline-width, 1px);
+  --_outline-color: var(--u-chip-outline-color, #{api.get-color-var(outline)});
+  --_shape: var(--u-chip-shape, #{api.get-shape-corner-var(small)});
+  --_gap: var(--u-chip-gap, 8px);
+  --_icon-size: var(--u-chip-icon-size, 1.125rem);
+  --_action-margin: var(--u-chip-action-margin, 2px);
+  --_action-size: calc(var(--_height) - var(--_action-margin) * 2);
+
+  display: inline-block;
+  height: var(--_height);
+  border-radius: var(--_shape);
+}
+
+:host(:not([disabled])) {
+  cursor: pointer;
+}
+
+:host(:not([disabled]):not([elevated]):not([selected])) {
+  .outline {
+    border: var(--_outline-width) solid var(--_outline-color);
+  }
+}
+
+:host([elevated]:not([disabled])) {
+  --u-elevation-level: var(--u-elevated-chip-elevation-level, 1);
+}
+
+@media (hover: hover) {
+  :host([elevated]:not([disabled]):hover) {
+    --u-elevation-level: var(--u-elevated-chip-hover-elevation-level, 2);
+  }
+}
+
+.outline {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  border-radius: inherit;
+  height: 100%;
+  padding-inline: var(--u-chip-padding, 16px);
+  gap: var(--_gap);
+}
+
+.icon {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--_icon-size);
+}
+
+.leading {
+  color: var(--u-chip-leading-icon-color, #{api.get-color-var(primary)});
+}
+
+.trailing {
+  color: var(--u-chip-trailing-icon-color, #{api.get-color-var(on-surface-variant)});
+}
+
+.action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: var(--_action-size);
+  height: var(--_action-size);
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  margin-inline: calc((var(--_action-size) - var(--_icon-size)) * -.5);
+  background: gray;
+  border: none;
+  border-radius: var(--u-chip-action-border-radius, #{api.get-shape-corner-var(full)});
+  background: none;
+  appearance: none;
+  outline: 0;
+  outline-offset: 0;
+  z-index: 1;
+}
+
+::slotted([slot=leading-icon]),
+::slotted([slot=trailing-icon]) {
+  font-size: inherit !important;
+}
+
+slot[name="selected-icon"] {
+  display: none;
+}
+
+:host([selected][has-selected-icon]) {
+
+  slot[name="leading-icon"] {
+    display: none;
+  }
+
+  slot[name="selected-icon"] {
+    display: flex;
+  }
+}
+
+:host([selected]:not([disabled])) {
+  background-color: var(--u-chip-selected-background-color, #{api.get-color-var(secondary-container)});
+
+  .leading {
+    color: var(--u-chip-selected-leading-icon-color, #{api.get-color-var(on-secondary-container)});
+  }
+
+  .trailing {
+    color: var(--u-chip-selected-trailing-icon-color, #{api.get-color-var(on-secondary-container)});
+  }
+}
+
+:host([has-leading-icon]) {
+  .container {
+    padding-inline-start: var(--_gap);
+  }
+}
+
+:host([has-trailing-icon]) {
+  .container {
+    padding-inline-end: var(--_gap);
+  }
+}
+
+:host(:not([has-leading-icon])) {
+  .leading {
+    display: none;
+  }
+}
+
+:host(:not([has-trailing-icon])) {
+  .trailing,
+  .action {
+    display: none;
+  }
+}
