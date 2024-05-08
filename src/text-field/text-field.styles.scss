@@ -1,0 +1,25 @@
+@use "../scss/api";
+
+:host {
+  cursor: text;
+}
+
+.prefix {
+  color: var(--u-field-prefix-color, var(--u-field-affix-color, #{api.get-color-var(on-surface-variant)}));
+  margin-inline-end: var(--u-prefix-margin, var(--u-affix-margin, 2px));
+}
+
+.suffix {
+  color: var(--u-field-suffix-color, var(--u-field-affix-color, #{api.get-color-var(on-surface-variant)}));
+  margin-inline-start: var(--u-suffix-margin, var(--u-affix-margin, 2px));
+}
+
+:host([disabled]) {
+  .prefix {
+    color: var(--u-text-field-prefix-color, var(--u-text-field-affix-color, rgba(#{api.get-color-rgb-var(on-surface)}, var(--u-field-disabled-opacity, .38))));
+  }
+
+  .suffix {
+    color: var(--u-text-field-suffix-color, var(--u-text-field-affix-color, rgba(#{api.get-color-rgb-var(on-surface)}, var(--u-field-disabled-opacity, .38))));
+  }
+}

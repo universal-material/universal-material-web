@@ -22,7 +22,6 @@
   --_focus-border-width: var(--u-text-field-focus-border-width, 2px);
 
   --_field-control-leading-padding: var(--_field-control-inline-padding);
-  --_field-control-trailing-padding: var(--_field-control-inline-padding);
 
   --_outlined-label-margin: var(--u-outlined-field-label-margin, 12px);
   --_outlined-label-padding: var(--u-outlined-field-label-padding, 4px);
@@ -34,7 +33,8 @@
 }
 
 .field {
-  display: block;
+  display: flex;
+  align-items: center;
   position: relative;
 
   &::before,
@@ -77,13 +77,11 @@
 }
 
 .icon {
-  position: absolute;
-  width: var(--_icon-size);
-  height: 100%;
-  top: 0;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--_icon-size);
   color: var(--_icon-color);
   font-size: var(--_icon-size);
   line-height: var(--_icon-size);
@@ -94,11 +92,11 @@
 }
 
 .leading-icon {
-  inset-inline-start: var(--_icon-padding);
+  margin-inline-start: var(--_icon-padding);
 }
 
 .trailing-icon {
-  inset-inline-end: var(--_icon-padding);
+  margin-inline-end: var(--_icon-padding);
 }
 
 .label {
@@ -114,9 +112,16 @@
   transition: inset 200ms, font-size 200ms;
 }
 
-.input {
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  padding-inline: var(--_field-control-inline-padding);
+  min-height: var(--_field-min-height);
+  transition: opacity 150ms;
+}
 
-  display: block;
+.input {
   color: var(--u-on-surface-color);
 
   &:focus {
@@ -127,10 +132,10 @@
     @include api.typo(body-l, field-control);
     width: 100%;
     color: var(--u-field-input-text-color, #{api.get-color-var(on-surface)});
-    min-height: var(--_field-min-height);
+    min-height: var(--_control-line-height);
     line-height: var(--_control-line-height);
-    padding-block: 0;
-    padding-inline: var(--_field-control-leading-padding) var(--_field-control-trailing-padding);
+    padding: 0;
+    margin: 0;
     appearance: none;
     background: transparent;
     border: none;
@@ -183,8 +188,16 @@
   --_field-control-leading-padding: calc(var(--_icon-padding) + var(--_icon-size) + var(--_field-control-inline-padding))
 }
 
-:host([has-trailing-icon]) {
-  --_field-control-trailing-padding: calc(var(--_icon-padding) + var(--_icon-size) + var(--_field-control-inline-padding))
+:host(:not([has-leading-icon])) {
+  .leading-icon {
+    display: none;
+  }
+}
+
+:host(:not([has-trailing-icon])) {
+  .trailing-icon {
+    display: none;
+  }
 }
 
 :host(:focus-within) {
@@ -213,12 +226,10 @@
   }
 
   .trailing-icon {
-    --u-standard-icon-button-color: var(--u-field-trailing-icon-error-color, var(--_color-error));
     color: var(--u-field-trailing-icon-error-color, var(--_color-error));
   }
 
   .leading-icon {
-    --u-standard-icon-button-color: var(--u-field-leading-icon-error-color, var(--_color-error));
     color: var(--u-field-leading-icon-error-color, var(--_icon-color));
   }
 }
@@ -281,8 +292,11 @@
 
   .input::slotted(:is(input, textarea, select, button)) {
     display: block;
-    border-top: calc(var(--_vertical-padding) + var(--_label-line-height)) solid transparent;
-    border-bottom: var(--_vertical-padding) solid transparent;
+  }
+
+  .input-wrapper {
+    padding-top: calc(var(--_vertical-padding) + var(--_label-line-height));
+    padding-bottom: var(--_vertical-padding);
   }
 }
 
@@ -350,6 +364,10 @@
     @include api.typo-prop(body-l, font-size, field-label);
     pointer-events: none;
     top: calc(var(--_field-min-height) / 2 - var(--_label-line-height) / 2);
+  }
+
+  .input-wrapper {
+    opacity: 0;
   }
 
   .input,

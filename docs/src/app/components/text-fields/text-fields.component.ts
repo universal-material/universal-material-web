@@ -34,6 +34,11 @@ export class TextFieldsComponent {
   value = '';
 
   updated$ = new Subject<void>();
+  source = [{name: 'Eric Hideyuki Kono'}, {name:'Suzana Coutinho Neves Pelca'}];
+  selection: { name: string } = {name: 'Eric Hideyuki Kono'};
+  formatter(person: {name: string}) {
+    return person.name;
+  }
 
   constructor() {
     this

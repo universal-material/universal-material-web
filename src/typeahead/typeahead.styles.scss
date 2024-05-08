@@ -1,0 +1,5 @@
+@use "../scss/api";
+
+u-menu-item {
+  font-weight: var(--u-typeahead-item-font-weight, #{api.get-font-weight-var(regular)});
+}

@@ -24,6 +24,8 @@ import './navigation/drawer-item.js';
 import './navigation/side-navigation.js';
 import './ripple/ripple.js';
 import './snackbar/snackbar.js';
+import './typeahead/highlight.js';
+import './typeahead/typeahead.js';
 
 export * from './app-bar/top-app-bar.js';
 export * from './button/button.js';
@@ -53,3 +55,5 @@ export * from './navigation/side-navigation.js';
 export * from './ripple/ripple.js';
 export * from './snackbar/snackbar.js';
 export * from './theme/theme-builder.js';
+export * from './typeahead/highlight.js';
+export * from './typeahead/typeahead.js';

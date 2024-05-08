@@ -1,17 +1,7 @@
 import { css, html, HTMLTemplateResult, LitElement } from 'lit';
 
+import { MixinBase, MixinReturn } from '../mixin.js';
 import { UmSelectionControl } from './selection-control.js';
-
-export type MixinBase<ExpectedBase = object> = abstract new (
-  // Mixins must have a constructor with `...args: any[]`
-  // @ts-ignore
-  ...args: any[]
-) => ExpectedBase;
-
-export type MixinReturn<MixinBase, MixinClass = object> =
-// Mixins must have a constructor with `...args: any[]`
-// tslint:disable-next-line:no-any
-  (abstract new (...args: any[]) => MixinClass) & MixinBase;
 
 // @ts-ignore
 export const mixinSelectionControlListItem = <T extends MixinBase<UmSelectionControl>>(base: T): MixinReturn<T> => {

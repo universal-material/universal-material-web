@@ -2,9 +2,10 @@ import { PropertyValues } from '@lit/reactive-element';
 import { html, HTMLTemplateResult, LitElement } from 'lit';
 import { customElement, property, query, queryAssignedElements } from 'lit/decorators.js';
 
-import { config } from '../config.js';
 import { styles as baseStyles } from '../shared/base.styles.js';
 import { styles } from './field.styles.js';
+
+import { config } from '../config.js';
 
 @customElement('u-field')
 export class UmField extends LitElement {
@@ -70,7 +71,11 @@ export class UmField extends LitElement {
           @slotchange="${this.handleLeadingIconSlotChange}">
         </slot>
         <slot class="label" name="label"></slot>
-        <slot class="input"></slot>
+        <div class="input-wrapper">
+          <slot name="prefix"></slot>
+          <slot class="input"></slot>
+          <slot name="suffix"></slot>
+        </div>
         <slot
           class="icon trailing-icon"
           name="trailing-icon"

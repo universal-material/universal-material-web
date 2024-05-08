@@ -35,8 +35,12 @@ export class UmMenu extends LitElement {
     this.calcDropdownPositioning();
     this.#open = open;
 
-    setTimeout(() => this.querySelector<HTMLElement>('u-menu-item:not([disabled])')?.focus());
+    if (!this.manualFocus) {
+      setTimeout(() => this.querySelector<HTMLElement>('u-menu-item:not([disabled])')?.focus());
+    }
   }
+
+  @property({type: Boolean}) manualFocus = false;
 
   /**
    * The corner of the anchor which to align the menu in the standard logical
@@ -98,6 +102,8 @@ export class UmMenu extends LitElement {
     super.connectedCallback();
     window.addEventListener('click', this.close);
     this.role = "listbox";
+    // eslint-disable-next-line no-self-assign
+    this.open = this.open;
   }
 
   override disconnectedCallback() {
@@ -133,6 +139,10 @@ export class UmMenu extends LitElement {
   }
 
   private calcDropdownPositioning() {
+    if (!this.parentElement) {
+      return;
+    }
+
     const anchorRect = this.getAnchorRect();
     const menuRect = this.getMenuRect()
 

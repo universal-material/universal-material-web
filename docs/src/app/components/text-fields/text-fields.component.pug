@@ -51,12 +51,43 @@ docs-title(title="Text fields")
         span.material-symbols-outlined(slot="selected-icon") done
         | Counter
 
-    .u-column.u-mt-small(example)
-      u-text-field(label="Supporting text", [(ngModel)]="supportingText", (ngModelChange)="updated$.next()", ngDefaultControl)
-      u-text-field(label="Error text", [(ngModel)]="errorText", (ngModelChange)="updated$.next()", ngDefaultControl)
+    .u-column.u-mt-small
+      u-text-field(
+        label="Supporting text",
+        [(ngModel)]="supportingText",
+        (ngModelChange)="updated$.next()",
+        ngDefaultControl)
+      u-text-field(
+        label="Error text",
+        [(ngModel)]="errorText",
+        (ngModelChange)="updated$.next()",
+        ngDefaultControl)
 
-    h5.u-title-m Component
-    u-field(
+    h5.u-title-m.u-mt-large Component
+    u-text-field(
+      label="Name"
+      example,
+      prefix-text="$",
+      suffix-text=".00",
+      [counter]="showCounter ? '10/100' : ''",
+      [supporting-text]="supportingText",
+      [error-text]="errorText",
+      [variant]="variant",
+      [invalid]="invalid",
+      [disabled]="disabled")
+      span.material-symbols-outlined(
+        *ngIf="leadingIcon",
+        slot="leading-icon") search
+      u-icon-button(
+        *ngIf="trailingIcon",
+        slot="trailing-icon",
+        [disabled]="disabled")
+        span.material-symbols-outlined cancel
+      span(
+        *ngIf="showCounter",
+        slot="counter") 10/100
+
+    u-text-field(
       example,
       [variant]="variant",
       [invalid]="invalid",
@@ -70,8 +101,7 @@ docs-title(title="Text fields")
         toggle,
         [disabled]="disabled")
         span.material-symbols-outlined cancel
-      label(slot="label", for="description") Name
-      input(id="description", placeholder="A placeholder", [disabled]="disabled", aria-describedby="supporting-text")
+      span(slot="label") Name
       span(
         *ngIf="supportingText",
         slot="supporting-text",
