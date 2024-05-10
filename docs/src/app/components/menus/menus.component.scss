@@ -1,0 +1,15 @@
+.anchor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 200px;
+  background: lightgray;
+  border: 1px solid var(--u-color-on-surface-variant);
+  margin-bottom: 16px;
+}
+
+u-menu::part(content) {
+  width: 300px;
+}

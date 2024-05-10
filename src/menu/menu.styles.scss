@@ -3,6 +3,22 @@
 
 :host {
   --u-elevation-level: var(--u-menu-elevation-level, 2);
+  display: block;
+  width: 0;
+}
+
+:host([positioning=relative]) {
+  position: relative;
+}
+
+:host([positioning=fixed]) {
+  position: fixed;
+}
+
+.ref {
+  position: absolute;
+  inset-inline-start: 0;
+  pointer-events: none;
 }
 
 .menu {
@@ -42,66 +58,5 @@
   .content {
     opacity: 1;
     transition: opacity 300ms 150ms;
-  }
-}
-
-:host([anchor-corner="start-start"]) .menu {
-  inset-inline-start: 0;
-  inset-block-start: 0;
-
-  &.up {
-    inset-block-start: auto;
-    inset-block-end: 100%;
-  }
-
-  &.start {
-    inset-inline-start: auto;
-    inset-inline-end: 100%;
-  }
-}
-
-:host([anchor-corner="start-end"]) .menu {
-  inset-inline-start: 100%;
-  inset-block-start: 0;
-
-  &.up {
-    inset-block-start: auto;
-    inset-block-end: 100%;
-  }
-
-  &.start {
-    inset-inline-start: auto;
-    inset-inline-end: 0;
-  }
-}
-
-:host([anchor-corner="end-start"]) .menu {
-  inset-inline-start: 0;
-  inset-block-start: 100%;
-
-  &.up {
-    inset-block-start: auto;
-    inset-block-end: 0;
-  }
-
-  &.start {
-    inset-inline-start: auto;
-    inset-inline-end: 100%;
-  }
-}
-
-:host([anchor-corner="end-end"]) .menu {
-
-  inset-inline-start: 100%;
-  inset-block-start: 100%;
-
-  &.up {
-    inset-block-start: auto;
-    inset-block-end: 0;
-  }
-
-  &.start {
-    inset-inline-start: auto;
-    inset-inline-end: 0;
   }
 }

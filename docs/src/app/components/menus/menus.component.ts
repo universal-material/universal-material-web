@@ -15,6 +15,9 @@ import downStartHtml from '!raw-loader!./examples/down-start.html';
 // @ts-ignore
 import downEndHtml from '!raw-loader!./examples/down-end.html';
 
+const anchors = ['start-start', 'start-end', 'end-end', 'end-start'];
+const directions = ['up-start', 'up-end', 'down-start', 'down-end'];
+
 @Component({
   selector: 'docs-menus',
   templateUrl: './menus.component.pug',
@@ -32,4 +35,26 @@ export class MenusComponent {
   downRightHtml = downRightHtml;
   downStartHtml = downStartHtml;
   downEndHtml = downEndHtml;
+
+  direction = 'down-end';
+  anchorCorner = 'start-start';
+
+  changeDirection() {
+    this.direction = this.getNextValue(this.direction, directions);
+  }
+
+  changeAnchor() {
+    this.anchorCorner = this.getNextValue(this.anchorCorner, anchors);
+  }
+
+  private getNextValue(currentValue: string, values: string[]) {
+
+    let nextIndex = values.indexOf(currentValue) + 1;
+
+    if (nextIndex === values.length) {
+      nextIndex = 0;
+    }
+
+    return values[nextIndex];
+  }
 }

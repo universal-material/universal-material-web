@@ -4,18 +4,40 @@ docs-example(
   sectionTitle="Down",
   [html]="downHtml")
 
-docs-example(
-  sectionTitle="Down left",
-  [html]="downLeftHtml")
+div(style="display: flex; flex-direction: column; align-items: center;")
+  u-button-set
+    u-button((click)="changeDirection()") Switch direction
+    u-button((click)="changeAnchor()") Change corner
+  .anchor(#anchor)
+    span Direction: {{direction}}
+    span Corner: {{anchorCorner}}
 
-docs-example(
-  sectionTitle="Down right",
-  [html]="downRightHtml")
+  u-button((click)="menu.toggle()") Toggle menu
+u-menu(
+  #menu,
+  [direction]="direction",
+  [anchorCorner]="anchorCorner",
+  [anchorElement]="anchor")
+  u-menu-item
+    span.material-symbols-outlined(slot="icon") brightness_4
+    span System
+  u-menu-item
+    span.material-symbols-outlined(slot="icon") light_mode
+    span Light Mode
+  u-menu-item
+    span.material-symbols-outlined(slot="icon") dark_mode
+    span Dark Mode
+  u-menu-item
+    span.material-symbols-outlined(slot="icon") dark_mode
+    span Dark Mode
+  u-menu-item
+    span.material-symbols-outlined(slot="icon") dark_mode
+    span Dark Mode
+  u-menu-item
+    span.material-symbols-outlined(slot="icon") dark_mode
+    span Dark Mode
+  u-menu-item
+    span.material-symbols-outlined(slot="icon") dark_mode
+    span Dark Mode
 
-docs-example(
-  sectionTitle="Down start",
-  [html]="downStartHtml")
-
-docs-example(
-  sectionTitle="Down end",
-  [html]="downEndHtml")
+docs-apis-table(key="menu")

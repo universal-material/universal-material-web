@@ -6,9 +6,33 @@ import { styles } from './menu.styles.js';
 
 import '../elevation/elevation.js';
 
-interface MenuRect {
-  x?: number;
-  y?: number;
+interface AnchorCornerBlockSide {
+  top: number;
+  bottom: number;
+  relativeY: number;
+}
+
+interface AnchorCornerInlineSide {
+  left: number;
+  right: number;
+  relativeX: number;
+}
+
+interface AnchorBounds {
+  top: AnchorCornerBlockSide;
+  bottom: AnchorCornerBlockSide;
+  start: AnchorCornerInlineSide;
+  end: AnchorCornerInlineSide;
+  width: number;
+  height: number;
+}
+
+interface MenuPosition {
+  bounds: AnchorBounds;
+  isRtl: boolean;
+}
+
+interface MenuSize {
   width: number;
   height: number;
 }
@@ -40,6 +64,8 @@ export class UmMenu extends LitElement {
     }
   }
 
+  @property({reflect: true}) positioning: 'relative' | 'fixed' = 'relative';
+
   @property({type: Boolean}) manualFocus = false;
 
   /**
@@ -49,17 +75,17 @@ export class UmMenu extends LitElement {
   @property({attribute: 'anchor-corner', reflect: true}) anchorCorner: 'start-start' | 'start-end' | 'end-start' | 'end-end' = 'end-start';
 
   /**
-   * The direction of the menu. e.g. `'end'`.
+   * The direction of the menu. e.g. `'down-end'`.
    *
    * NOTE: This value may not be respected by the menu positioning algorithm
    * if the menu would render outside the viewport.
    */
-  @property({reflect: true}) direction: 'start' | 'end' = 'end';
+  @property({reflect: true}) direction: 'up-start' | 'up-end' | 'down-start' | 'down-end' = 'down-end';
 
   /**
-   * Limit the height of the menu to not overflow the viewport
+   * Don't limit the height of the menu
    */
-  @property({type: Boolean, attribute: 'auto-scroll-block', reflect: true}) autoScrollBlock = true;
+  @property({type: Boolean, attribute: 'allow-overflow', reflect: true}) allowOverflow = false;
 
   /**
    * Set a selector to auto attach to a toggle element
@@ -80,15 +106,22 @@ export class UmMenu extends LitElement {
   }
 
   @query('.menu') menu!: HTMLElement;
+  @query('.ref') ref!: HTMLElement;
+
+  #anchorElement: HTMLElement | undefined;
 
   get anchorElement(): HTMLElement {
-    return this.parentElement!;
+    return this.#anchorElement ?? this.parentElement!;
+  }
+  set anchorElement(anchorElement: HTMLElement) {
+    this.#anchorElement = anchorElement;
   }
 
   private toggleElement: HTMLElement | null = null;
 
   protected override render(): HTMLTemplateResult {
     return html`
+      <div class="ref"></div>
       <div class="menu" part="menu" ?inert=${!this.open}>
         <u-elevation></u-elevation>
         <div role="menu" class="content" part="content">
@@ -143,89 +176,191 @@ export class UmMenu extends LitElement {
       return;
     }
 
-    const anchorRect = this.getAnchorRect();
-    const menuRect = this.getMenuRect()
+    const menuPosition = this.getMenuPosition();
+    const menuSize = this.getMenuSize()
+    console.log(menuPosition);
 
-    this.resetMenu();
-    this.setToOpenUpOrDown(anchorRect, menuRect);
-    this.setToOpenToStartOrEnd(anchorRect, menuRect);
+    this.#resetMenu();
+    this.#setToOpenUpOrDown(menuPosition, menuSize);
+    this.#setToOpenToStartOrEnd(menuPosition, menuSize);
   }
 
-  private resetMenu() {
+  #resetMenu() {
     this.menu.className = 'menu';
+    this.menu.style.top = '';
+    this.menu.style.bottom = '';
+    this.menu.style.left = '';
+    this.menu.style.right = '';
     this.menu.style.maxHeight = '';
   }
 
-  private setToOpenUpOrDown(anchorRect: MenuRect, menuRect: MenuRect): void {
+  #setToOpenUpOrDown(menuPosition: MenuPosition, menuSize: MenuSize): void {
+    const side = this.anchorCorner.startsWith('start-')
+      ? menuPosition.bounds.top
+      : menuPosition.bounds.bottom;
+
+    if (this.direction.startsWith('up-')) {
+      this.#tryOpenUp(side, menuSize);
+      return;
+    }
+
+    this.#tryOpenDown(side, menuSize);
+  }
+
+  #setToOpenToStartOrEnd(menuPosition: MenuPosition, menuSize: MenuSize): void {
+    const openStart = menuPosition.isRtl
+      ? this.trySetMenuToOpenToRight.bind(this)
+      : this.trySetMenuToOpenToLeft.bind(this);
+    const openEnd = menuPosition.isRtl
+      ? this.trySetMenuToOpenToLeft.bind(this)
+      : this.trySetMenuToOpenToRight.bind(this);
+
+    const side = this.anchorCorner.endsWith('-start')
+      ? menuPosition.bounds.start
+      : menuPosition.bounds.end;
+
+    if (this.direction.endsWith('-start')) {
+      openStart(side, menuSize);
+      return;
+    }
+
+    openEnd(side, menuSize);
+  }
+
+  #tryOpenUp(side: AnchorCornerBlockSide, menuSize: MenuSize): void {
+
+    if (side.top === side.bottom || side.top - menuSize.height >= 0) {
+      this.#openUp(side);
+      return;
+    }
+
+    this.openToLargestBlockSide(side);
+  }
+
+  #tryOpenDown(side: AnchorCornerBlockSide, menuSize: MenuSize): void {
+
     const viewPortHeight = window.innerHeight;
 
-    if (viewPortHeight - (anchorRect.y! + menuRect.height) >= 0) {
+    if (side.top === side.bottom || viewPortHeight - (side.top + menuSize.height) >= 0) {
+      this.#openDown(side);
       return;
     }
 
-    if (anchorRect.y! <= viewPortHeight / 2) {
-      this.menu.style.maxHeight = this.autoScrollBlock
-        ? `${viewPortHeight - anchorRect.y!}px`
-        : '';
+    this.openToLargestBlockSide(side);
+  }
+
+  private trySetMenuToOpenToLeft(side: AnchorCornerInlineSide, menuSize: MenuSize): void {
+
+    if (side.left === side.right || side.left - menuSize.width >= 0) {
+      this.menu.style.right = `${side.relativeX * -1}px`;
       return;
     }
 
+    this.openToLargestInlineSide(side);
+  }
+
+  private trySetMenuToOpenToRight(side: AnchorCornerInlineSide, menuSize: MenuSize): void {
+
+    const viewPortWidth = window.innerWidth;
+
+    if (side.left === side.right || viewPortWidth - (side.left + menuSize.width) >= 0) {
+      this.menu.style.left = `${side.relativeX}px`;
+      return;
+    }
+
+    this.openToLargestInlineSide(side);
+  }
+
+  private openToLargestInlineSide(side: AnchorCornerInlineSide) {
+    if (side.left > side.right) {
+      this.menu.style.right = `${side.relativeX * -1}px`;
+      return;
+    }
+
+    this.menu.style.left = `${side.relativeX}px`;
+  }
+
+  private openToLargestBlockSide(side: AnchorCornerBlockSide) {
+    if (side.top > side.bottom) {
+      this.#openUp(side);
+      return;
+    }
+
+    this.#openDown(side);
+  }
+
+  #openUp(side: AnchorCornerBlockSide) {
+    const viewPortHeight = window.innerHeight;
+
+    this.menu.style.bottom = `${side.relativeY * -1}px`;
     this.menu.classList.add('up');
-    this.menu.style.maxHeight = this.autoScrollBlock
-      ? `${anchorRect.y!}px`
-      : '';
+    this.menu.style.maxHeight = this.allowOverflow
+      ? ''
+      : `${viewPortHeight - side.bottom}px`;
   }
 
-  private setToOpenToStartOrEnd(anchorRect: MenuRect, menuRect: MenuRect): void {
-    if (this.direction === 'start') {
-      this.ensureMenuCanOpenToStart(anchorRect, menuRect);
-      return;
-    }
-
-    this.ensureMenuCanOpenToEnd(anchorRect, menuRect);
+  #openDown(side: AnchorCornerBlockSide) {
+    const viewPortHeight = window.innerHeight;
+    this.menu.style.top = `${side.relativeY}px`;
+    this.menu.style.maxHeight = this.allowOverflow
+      ? ''
+      : `${viewPortHeight - side.top}px`;
   }
 
-  private ensureMenuCanOpenToStart(anchorRect: MenuRect, menuRect: MenuRect): void {
+  private getMenuPosition(): MenuPosition {
     const viewPortWidth = window.innerWidth;
+    const viewPortHeight = window.innerHeight;
 
-    if (viewPortWidth - (anchorRect.x! - menuRect.width) >= 0) {
-      this.menu.classList.add('start');
-    }
-  }
-
-  private ensureMenuCanOpenToEnd(anchorRect: MenuRect, menuRect: MenuRect): void {
-    const viewPortWidth = window.innerWidth;
-
-    if (viewPortWidth - (anchorRect.x! + menuRect.width) >= 0) {
-      return;
-    }
-
-    this.menu.classList.add('start');
-  }
-
-  private getAnchorRect(): MenuRect {
     const anchorElement = this.anchorElement;
-    const rect = anchorElement.getBoundingClientRect() as DOMRect
-    const styles = getComputedStyle(anchorElement);
-    const width = parseInt(styles.width, 10);
-    const height = parseInt(styles.height, 10);
-    const xOffset = this.anchorCorner.endsWith('-end')
-      ? width
-      : 0;
+    const anchorRect = anchorElement.getBoundingClientRect() as DOMRect
+    const refRect = this.ref.getBoundingClientRect() as DOMRect
+    const anchorStyles = getComputedStyle(anchorElement);
+    const isRtl = anchorStyles.direction === 'rtl';
 
-    const yOffset = this.anchorCorner.startsWith('end-')
-      ? height
-      : 0;
+    const width = parseInt(anchorStyles.width, 10);
+    const height = parseInt(anchorStyles.height, 10);
+
+    const rectX = refRect.left;
+    const rectY = refRect.top;
+
+    const leftPoint: AnchorCornerInlineSide = {
+      left: anchorRect.left,
+      right: viewPortWidth - anchorRect.left,
+      relativeX: anchorRect.left - rectX
+    };
+
+    const rightPoint: AnchorCornerInlineSide = {
+      left: anchorRect.right,
+      right: viewPortWidth - anchorRect.right,
+      relativeX: leftPoint.relativeX + width
+    };
+
+    const topPoint: AnchorCornerBlockSide = {
+      top: anchorRect.top,
+      relativeY: anchorRect.top - rectY,
+      bottom: viewPortHeight - anchorRect.top
+    };
+
+    const anchorBounds: AnchorBounds = {
+      top: topPoint,
+      bottom: {
+        top: anchorRect.bottom,
+        relativeY: topPoint.relativeY + height,
+        bottom: viewPortHeight - anchorRect.bottom
+      },
+      start: isRtl ? rightPoint : leftPoint,
+      end: isRtl ? leftPoint : rightPoint,
+      width,
+      height
+    }
 
     return {
-      y: rect.y + yOffset,
-      x: rect.x + xOffset,
-      width: width,
-      height: height
+      isRtl: isRtl,
+      bounds: anchorBounds
     };
   }
 
-  private getMenuRect(): MenuRect {
+  private getMenuSize(): MenuSize {
     const menu = this.menu;
     const styles = getComputedStyle(menu);
     const width = parseInt(styles.width, 10);
