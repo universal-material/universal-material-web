@@ -1,0 +1,17 @@
+input {
+  appearance: none;
+  padding: none;
+}
+
+u-chip {
+  flex-basis: 0;
+}
+
+::part(wrapper) {
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+input {
+  flex-basis: 200px;
+}

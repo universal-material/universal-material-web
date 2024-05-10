@@ -19,9 +19,12 @@ import { TitleComponent } from '@docs/docs/title/title.component';
   ]
 })
 export class ChipsComponent {
-  action = false;
+  removable = true;
+  clickable = true;
   elevated = false;
   toggle = true;
+  hideSelectedIcon = false;
+  customRemove = true;
   selectedIcon = true;
   leadingIcon = true;
   trailingIcon = true;
@@ -40,7 +43,7 @@ export class ChipsComponent {
   updateTemplate(): void {
     this.template = `
 <u-chip${this.getProperties()}>${this.getLeadingIcons()}
-  Label${this.getTrailingIcon()}
+  Label${this.getTrailingIcons()}
 </u-chip>`
       .trimStart();
   }
@@ -48,12 +51,20 @@ export class ChipsComponent {
   private getProperties(): string {
     const properties: {[key: string]: any} = {};
 
-    if (this.action) {
-      properties['action'] = true;
+    if (this.removable) {
+      properties['removable'] = true;
+    }
+
+    if (this.hideSelectedIcon) {
+      properties['hide-selected-icon'] = true;
     }
 
     if (this.elevated) {
       properties['elevated'] = true;
+    }
+
+    if (this.clickable) {
+      properties['clickable'] = true;
     }
 
     if (this.toggle) {
@@ -82,7 +93,7 @@ export class ChipsComponent {
 
     if (this.selectedIcon) {
       icons += `
-  <span class="material-symbols-outlined" slot="selected-icon">done</span>`;
+  <span class="material-symbols-outlined material-symbols-fill u-text-warning" slot="selected-icon">star</span>`;
     }
 
     if (this.leadingIcon) {
@@ -93,13 +104,24 @@ export class ChipsComponent {
     return icons;
   }
 
-  private getTrailingIcon(): string {
-    if (!this.trailingIcon) {
+  private getTrailingIcons(): string {
+    if (!this.trailingIcon && !this.customRemove) {
       return '';
     }
 
-    return `
-  <span class="material-symbols-outlined" slot="trailing-icon">${this.action ? 'close' : 'arrow_drop_down'}</span>`;
+    let icons = '';
+
+    if (this.trailingIcon) {
+      icons += `
+  <span class="material-symbols-outlined" slot="trailing-icon"arrow_drop_down</span>`;
+    }
+
+    if (this.customRemove) {
+      icons += `
+  <span class="material-symbols-outlined" slot="remove-icon"cancel</span>`;
+    }
+
+    return icons;
   }
 
   template = '';

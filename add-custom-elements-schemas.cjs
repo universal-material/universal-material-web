@@ -25,6 +25,7 @@ function buildElementDefinition(name, properties) {
 }
 
 function mapSchema(customElementsDefinition, SCHEMAS) {
+
   for (const module of customElementsDefinition.modules) {
 
     const customElementDefinition = module.exports.find(e => e.kind === 'custom-element-definition');
@@ -35,14 +36,35 @@ function mapSchema(customElementsDefinition, SCHEMAS) {
     }
 
     const properties = [];
+    const attributeNames = [];
 
     if (classDeclaration.attributes) {
       for (const attr of classDeclaration.attributes) {
         properties.push(`${parsePropertyType(attr.type?.text)}${attr.name}`);
+        attributeNames.push(attr.name);
       }
     }
 
+    parseMembers(classDeclaration, properties, attributeNames)
+
     SCHEMAS.push(buildElementDefinition(customElementDefinition.name, properties));
+  }
+}
+
+function parseMembers(classDeclaration, properties, attributeNames) {
+  if (!classDeclaration.members) {
+    return;
+  }
+
+  for (const member of classDeclaration.members) {
+    if (member.kind !== 'field'
+      || member.static
+      || member.privacy
+      || attributeNames.includes(member.name)) {
+      continue;
+    }
+
+    properties.push(member.name);
   }
 }
 

@@ -1,10 +1,11 @@
 import { html, HTMLTemplateResult, LitElement } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 
-import { config } from '../config.js';
 import { styles as baseStyles } from '../shared/base.styles.js';
 import { styles as swiperStyles } from './side-navigation-swiper.styles.js';
 import { styles } from './side-navigation.styles.js';
+
+import { config } from '../config.js';
 
 import '../elevation/elevation.js';
 

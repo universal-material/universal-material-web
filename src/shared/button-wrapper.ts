@@ -1,5 +1,5 @@
 import { html, HTMLTemplateResult, LitElement, nothing } from 'lit';
-import { property, query } from 'lit/decorators.js';
+import { property, query, state } from 'lit/decorators.js';
 
 import { UmRipple } from '../ripple/ripple.js';
 import { redispatchEvent } from './redispatch-event.js';
@@ -13,6 +13,8 @@ export abstract class UmButtonWrapper extends LitElement {
    * Whether the button is disabled or not.
    */
   @property({type: Boolean, reflect: true}) disabled = false;
+
+  @state() renderRipple = true;
 
   /**
    * The URL that the link button points to.
@@ -53,7 +55,7 @@ export abstract class UmButtonWrapper extends LitElement {
         .role=${this.innerRole}
         type="button"
         @click=${this.#innerClickHandler}>
-        <u-ripple ?disabled=${this.disabled}></u-ripple>
+        <u-ripple ?disabled=${this.disabled || !this.renderRipple}></u-ripple>
         <u-elevation></u-elevation>
       </button>
       <div class="content">${this.renderContent()}</div>`;
@@ -71,7 +73,7 @@ export abstract class UmButtonWrapper extends LitElement {
       target=${this.target || nothing}
       @click=${this.#innerClickHandler}>
       <u-elevation></u-elevation>
-      <u-ripple ?disabled=${this.disabled}></u-ripple>
+      <u-ripple ?disabled=${this.disabled || !this.renderRipple}></u-ripple>
     </a>
     <div class="content">${this.renderContent()}</div>`;
   }

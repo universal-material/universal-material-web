@@ -3,8 +3,9 @@ import { html, HTMLTemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 import { styles as baseStyles } from '../shared/base.styles.js';
-import { UmSelectionControl } from '../shared/selection-control/selection-control.js';
 import { styles } from './radio.styles.js';
+
+import { UmSelectionControl } from '../shared/selection-control/selection-control.js';
 
 @customElement('u-radio')
 export class UmRadio extends UmSelectionControl {
@@ -122,7 +123,7 @@ export class UmRadio extends UmSelectionControl {
       return;
     }
 
-    const radios = [...document.querySelectorAll<UmRadio>(`${this.tagName}[name="${this.name}"]`)]
+    const radios = Array.from(document.querySelectorAll<UmRadio>(`${this.tagName}[name="${this.name}"]`));
     const lastChecked = radios
       .reverse()
       .find(r => r.checked);

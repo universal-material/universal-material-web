@@ -122,7 +122,7 @@
 }
 
 .input {
-  color: var(--u-on-surface-color);
+  color: var(--u-field-input-text-color, #{api.get-color-var(on-surface)});
 
   &:focus {
     outline: 0;
@@ -375,5 +375,11 @@
   ::slotted(select) {
     color: transparent;
     transition: color 150ms;
+  }
+}
+
+.field.no-label {
+  &::after {
+    clip-path: none !important;
   }
 }

@@ -3,8 +3,9 @@ import { html, HTMLTemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 import { styles as baseStyles } from '../shared/base.styles.js';
-import { UmSelectionControl } from '../shared/selection-control/selection-control.js';
 import { styles } from './checkbox.styles.js';
+
+import { UmSelectionControl } from '../shared/selection-control/selection-control.js';
 
 @customElement('u-checkbox')
 export class UmCheckbox extends UmSelectionControl {

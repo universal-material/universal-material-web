@@ -1,4 +1,5 @@
 import { html, HTMLTemplateResult, LitElement } from 'lit';
+import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import { customElement, property, query, state } from 'lit/decorators.js';
 
 import { styles } from './typeahead.styles.js';
@@ -19,10 +20,10 @@ export class UmTypeahead extends LitElement {
 
   static override styles = styles;
 
-  #for: string | undefined;
+  #targetId: string | undefined;
 
   #connected = false;
-  private target: HTMLElement & {value: string} | null = null;
+  private target: HTMLElement & {input?: HTMLInputElement; value: string} | null = null;
   #documentMutationObserver: MutationObserver | null = null;
   #termNormalized: string = '';
   #debounceTimeout: number | null = null;
@@ -32,8 +33,9 @@ export class UmTypeahead extends LitElement {
   // @ts-ignore
   @state() results: Data[];
 
-  @property() source: (any[] | (() => Promise<any[]>)) | undefined;
-  @property() formatter: ((value: any) => string) | undefined;
+  @property() source: (any[] | ((term: string) => Promise<any[]>)) | undefined;
+  formatter: ((value: any) => string) | undefined;
+  template: ((term: string, value: any) => string) | undefined;
 
   @property({type: Number, reflect: true}) debounce = 300;
   @property({type: Number, reflect: true}) limit = 10;
@@ -58,12 +60,25 @@ export class UmTypeahead extends LitElement {
     }
   }
 
-  @property({reflect: true})
-  get for(): string | undefined {
-    return this.#for;
+  override focus() {
+    this.target?.focus();
   }
-  set for(value: string | undefined) {
-    this.#for = value;
+
+  clear() {
+    if (!this.target) {
+      return;
+    }
+
+    this.#termNormalized = '';
+    this.setTargetValue('');
+  }
+
+  @property({reflect: true, attribute: "target-id"})
+  get targetId(): string | undefined {
+    return this.#targetId;
+  }
+  set targetId(value: string | undefined) {
+    this.#targetId = value;
 
     if (this.#connected) {
       this.#attach();
@@ -94,12 +109,12 @@ export class UmTypeahead extends LitElement {
   }
 
   #attach() {
-    if (!this.for) {
+    if (!this.targetId) {
       this.#detach();
       return;
     }
 
-    const newTarget = document.getElementById(this.for) as HTMLInputElement;
+    const newTarget = document.getElementById(this.targetId) as HTMLInputElement;
 
     if (newTarget === this.target) {
       return;
@@ -134,17 +149,31 @@ export class UmTypeahead extends LitElement {
   }
 
   #handleInput = () => {
+
     if (this.#debounceTimeout) {
       clearTimeout(this.#debounceTimeout);
     }
 
-    this.#setValueAndDispatchEvents(this.editable ? this.target!.value : null, true);
+    this.#setValueAndDispatchEvents(this.editable ? this.getTargetValue() : null, true);
 
     this.#debounceTimeout = setTimeout(async () => await this.#updateResults(true), this.debounce);
   }
 
   #getItemClickHandler(data: Data) {
-    return () => this.#setValueAndDispatchEvents(data.value)
+    return () => {
+      const selectedEvent = new CustomEvent('selected', {
+        cancelable: true,
+        detail: data.value
+      });
+
+      this.dispatchEvent(selectedEvent);
+
+      if (selectedEvent.defaultPrevented) {
+        return;
+      }
+
+      this.#setValueAndDispatchEvents(data.value);
+    }
   }
 
   #setValueAndDispatchEvents(value: any, direct = false) {
@@ -161,31 +190,34 @@ export class UmTypeahead extends LitElement {
   }
 
   protected override render(): HTMLTemplateResult {
-    console.log('render');
 
     if (!this.results?.length) {
       return html``;
     }
 
-    setTimeout(() => this.menu.open = true, 200);
+    setTimeout(() => this.menu.open = true);
     return html`
       <u-menu manualFocus>
         ${this.results
-          .map(result => html`
-            <u-menu-item @click=${this.#getItemClickHandler(result)}>
-              <u-highlight .term=${this.#termNormalized} .result=${result.label}></u-highlight>
-            </u-menu-item>`)}
+          .map(result => {
+            const content = this.template
+              ? unsafeHTML(this.template(this.#termNormalized, result.value))
+              : html`<u-highlight .term=${this.#termNormalized} .result=${result.label}></u-highlight>`;
+            
+            return html`
+              <u-menu-item @click=${this.#getItemClickHandler(result)}>${content}</u-menu-item>`;
+          })}
       </u-menu>
     `;
   }
 
   async #updateResults(lazy = false) {
 
-    const term = this.target!.value;
+    const term = this.getTargetValue();
 
     const termNormalized = normalizeText(term).toLowerCase();
 
-    if (lazy && termNormalized === this.#termNormalized) {
+    if (lazy && termNormalized === this.#termNormalized && this.menu?.open === true) {
       return;
     }
 
@@ -196,11 +228,7 @@ export class UmTypeahead extends LitElement {
       return;
     }
 
-    const data = await this.#getData();
-    this.results = data
-      .filter(t => normalizeText(t.label)
-        .toLowerCase()
-        .includes(termNormalized));
+    this.results = await this.#getData();
     this.results = this.results.slice(0, this.limit || this.results.length);
   }
 
@@ -211,20 +239,32 @@ export class UmTypeahead extends LitElement {
 
     let values: any[]
 
+    let filter = false;
+
     if (this.source instanceof Array) {
       values = this.source;
+      filter = true;
     } else {
-      const source = this.source as (() => Promise<any[]>);
-      values = await source();
+      const source = this.source as ((term: string) => Promise<any[]>);
+      values = await source(this.#termNormalized);
     }
 
-    return values
+    const result = values
       .map(source => ({
         label: this.formatter
           ? this.formatter(source)
           : source.toString(),
         value: source
       }));
+
+    if (!filter) {
+      return result;
+    }
+
+    return result
+      .filter(t => normalizeText(t.label)
+      .toLowerCase()
+      .includes(this.#termNormalized))
   }
 
   #setValueOnTarget() {
@@ -236,9 +276,25 @@ export class UmTypeahead extends LitElement {
       ? this.formatter(this.value)
       : this.value;
 
-    this.target.value = value;
+    if (this.target!.input) {
+      this.target.input.value = value;
+    } else {
+      this.target.value = value;
+    }
 
     this.#termNormalized = normalizeText(value)?.toLowerCase();
+  }
+
+  private getTargetValue(): string {
+    return this.target!.input?.value ?? this.target!.value;
+  }
+
+  private setTargetValue(value: string): void {
+    const targetInput = this.target?.input ?? this.target;
+
+    if (targetInput) {
+      targetInput.value = value;
+    }
   }
 }
 

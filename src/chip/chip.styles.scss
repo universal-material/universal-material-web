@@ -9,16 +9,14 @@
   --_shape: var(--u-chip-shape, #{api.get-shape-corner-var(small)});
   --_gap: var(--u-chip-gap, 8px);
   --_icon-size: var(--u-chip-icon-size, 1.125rem);
-  --_action-margin: var(--u-chip-action-margin, 2px);
-  --_action-size: calc(var(--_height) - var(--_action-margin) * 2);
+  --_remove-button-margin: var(--u-chip-remove-button-margin, 2px);
+  --_remove-button-size: calc(var(--_height) - var(--_remove-button-margin) * 2);
+
+  --_selected-icon-color: var(--u-chip-selected-icon-color, #{api.get-color-var(on-secondary-container)});
 
   display: inline-block;
   height: var(--_height);
   border-radius: var(--_shape);
-}
-
-:host(:not([disabled])) {
-  cursor: pointer;
 }
 
 :host(:not([disabled]):not([elevated]):not([selected])) {
@@ -66,24 +64,32 @@
   color: var(--u-chip-leading-icon-color, #{api.get-color-var(primary)});
 }
 
+.selected {
+  color: var(--_selected-icon-color);
+}
+
 .trailing {
   color: var(--u-chip-trailing-icon-color, #{api.get-color-var(on-surface-variant)});
 }
 
-.action {
+.label {
+  @include api.typo(label-l, chip-label);
+}
+
+.remove-button {
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  width: var(--_action-size);
-  height: var(--_action-size);
+  width: var(--_remove-button-size);
+  height: var(--_remove-button-size);
   cursor: pointer;
   padding: 0;
   margin: 0;
-  margin-inline: calc((var(--_action-size) - var(--_icon-size)) * -.5);
+  margin-inline: calc((var(--_remove-button-size) - var(--_icon-size)) * -.5);
   background: gray;
   border: none;
-  border-radius: var(--u-chip-action-border-radius, #{api.get-shape-corner-var(full)});
+  border-radius: var(--u-chip-remove-button-border-radius, #{api.get-shape-corner-var(full)});
   background: none;
   appearance: none;
   outline: 0;
@@ -91,6 +97,8 @@
   z-index: 1;
 }
 
+::slotted([slot=remove-icon]),
+::slotted([slot=selected-icon]),
 ::slotted([slot=leading-icon]),
 ::slotted([slot=trailing-icon]) {
   font-size: inherit !important;
@@ -100,36 +108,50 @@ slot[name="selected-icon"] {
   display: none;
 }
 
-:host([selected][has-selected-icon]) {
+:host(:not([clickable]):not([toggle])) .button {
+  cursor: auto;
+}
 
-  slot[name="leading-icon"] {
+:host([selected]:not([hide-selected-icon])) {
+
+  .leading {
     display: none;
   }
 
   slot[name="selected-icon"] {
-    display: flex;
+    display: contents;
   }
+}
+
+.default-select-icon {
+  display: contents;
+}
+
+:host([has-selected-icon]) .default-select-icon {
+  display: none;
 }
 
 :host([selected]:not([disabled])) {
   background-color: var(--u-chip-selected-background-color, #{api.get-color-var(secondary-container)});
 
   .leading {
-    color: var(--u-chip-selected-leading-icon-color, #{api.get-color-var(on-secondary-container)});
+    color: var(--u-chip-selected-leading-icon-color, var(--_selected-icon-color));
   }
 
   .trailing {
-    color: var(--u-chip-selected-trailing-icon-color, #{api.get-color-var(on-secondary-container)});
+    color: var(--u-chip-selected-trailing-icon-color, var(--_selected-icon-color));
   }
 }
 
-:host([has-leading-icon]) {
+:host([has-leading-icon]),
+:host([selected]:not([hide-selected-icon])) {
   .container {
     padding-inline-start: var(--_gap);
   }
 }
 
-:host([has-trailing-icon]) {
+:host([has-trailing-icon]),
+:host([removable]) {
   .container {
     padding-inline-end: var(--_gap);
   }
@@ -141,9 +163,19 @@ slot[name="selected-icon"] {
   }
 }
 
-:host(:not([has-trailing-icon])) {
-  .trailing,
-  .action {
+:host([hide-selected-icon]),
+:host(:not([selected])) {
+  .selected {
     display: none;
   }
+}
+
+:host(:not([has-trailing-icon])) {
+  .trailing {
+    display: none;
+  }
+}
+
+[part="default-selected-icon"] {
+  display: contents;
 }

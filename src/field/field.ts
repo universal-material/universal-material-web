@@ -12,7 +12,8 @@ export class UmField extends LitElement {
   static override styles = [baseStyles, styles];
 
   @property({reflect: true}) variant: 'filled' | 'outlined' = config.fields.defaultAppearance;
-  @property({type: Boolean, reflect: true}) empty = true;
+  @property({type: Boolean, reflect: true}) empty = false;
+  @property({type: Boolean}) autoEmpty = false;
   @property({type: Boolean, reflect: true}) disabled = false;
   @property({type: Boolean, reflect: true}) invalid = false;
 
@@ -58,6 +59,7 @@ export class UmField extends LitElement {
 
   @query('.counter') counter: HTMLElement | undefined;
   @query('.label') label!: HTMLElement;
+  @query('.field') field!: HTMLElement;
 
   private control: HTMLInputElement | null = null;
   private labelSizeObserver: ResizeObserver | null = null;
@@ -71,7 +73,7 @@ export class UmField extends LitElement {
           @slotchange="${this.handleLeadingIconSlotChange}">
         </slot>
         <slot class="label" name="label"></slot>
-        <div class="input-wrapper">
+        <div class="input-wrapper" part="wrapper">
           <slot name="prefix"></slot>
           <slot class="input"></slot>
           <slot name="suffix"></slot>
@@ -109,7 +111,10 @@ export class UmField extends LitElement {
     super.connectedCallback();
     this.control = <HTMLInputElement | null>this.querySelector('input, select, button, textarea');
     this.control?.addEventListener('input', this.handleControlInput);
-    this.empty = !this.control?.value;
+
+    if (this.autoEmpty) {
+      this.empty = !this.control?.value;
+    }
   }
 
   override disconnectedCallback() {
@@ -122,7 +127,9 @@ export class UmField extends LitElement {
   }
 
   private handleControlInput = () => {
-    this.empty = !this.control?.value;
+    if (this.autoEmpty) {
+      this.empty = !this.control?.value;
+    }
   }
 
   private handleLeadingIconSlotChange() {
@@ -149,8 +156,13 @@ export class UmField extends LitElement {
   private setLabelWidthProperties() {
 
     const width = this.label.offsetWidth;
+
     this.style.setProperty('--u-field-label-width', `${width}px`);
     this.style.setProperty('--u-field-label-half-width', `${width / 2}px`);
+
+    if (!width) {
+      this.field.classList.add('no-label');
+    }
   }
 }
 

@@ -1,0 +1,25 @@
+docs-title(title="Chips")
+
+docs-example(
+  sectionTitle="Live",
+  [renderExample]="false",
+  [html]="template")
+
+  //u-highlight.u-text-truncate(
+    style="max-width: 200px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis",
+    term="123",
+    result="123 dsadsao sadlkjhfjsalkj faslkjfsa lfkasj fsalkjfsa ")
+  div(style="position: relative")
+    u-chip-field(
+      #chipField,
+      variant="outlined",
+      id="chip-field",
+      manual,
+      [formatter]="formatter",
+      [leadingIconTemplate]="leadingIconTemplate")
+    u-typeahead(
+      target-id="chip-field",
+      (selected)="selected($event)",
+      [source]="states",
+      [formatter]="formatter",
+      [template]="resultTemplate")

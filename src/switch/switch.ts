@@ -2,8 +2,9 @@ import { html, HTMLTemplateResult } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
 import { styles as baseStyles } from '../shared/base.styles.js';
-import { UmSelectionControl } from '../shared/selection-control/selection-control.js';
 import { styles } from './switch.styles.js';
+
+import { UmSelectionControl } from '../shared/selection-control/selection-control.js';
 
 @customElement('u-switch')
 export class UmSwitch extends UmSelectionControl {

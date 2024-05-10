@@ -1,8 +1,9 @@
 import { CSSResult, html, HTMLTemplateResult, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-import { UmButtonBase } from './button-base.js';
 import { styles } from './fab.styles.js';
+
+import { UmButtonBase } from './button-base.js';
 
 export type UmFabColor = 'primary' | 'secondary' | 'tertiary' | 'surface' | 'branded';
 export type UmFabSize = 'small' | 'medium' | 'large';
