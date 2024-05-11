@@ -61,10 +61,9 @@
   }
 }
 
-
 @media (hover: hover) {
-  :host([variant=filled]:not([disabled]):not([invalid]):hover) {
-    .field::before {
+  :host(:not([disabled]):not([invalid]):hover) {
+    .field.filled::before {
       opacity: #{api.get-state-layer-opacity-var(hover)};
     }
   }
@@ -124,12 +123,14 @@
 
 .input {
   color: var(--u-field-input-text-color, #{api.get-color-var(on-surface)});
+  flex: 1;
 
   &:focus {
     outline: 0;
   }
 
-  &::slotted(*) {
+  input,
+  ::slotted(*) {
     @include api.typo(body-l, field-control);
     width: 100%;
     color: var(--u-field-input-text-color, #{api.get-color-var(on-surface)});
@@ -144,12 +145,12 @@
   }
 
   &,
-  &::slotted(select),
-  &::slotted(:is(input, textarea))::placeholder {
+  ::slotted(select),
+  ::slotted(:is(input, textarea))::placeholder {
     transition: color 150ms 100ms;
   }
 
-  &::slotted(:is(input, textarea))::placeholder {
+  ::slotted(:is(input, textarea))::placeholder {
     color: var(--_field-placeholder-color);
   }
 }
@@ -162,10 +163,11 @@
   padding-inline: 16px;
   gap: 16px;
 
-  .supporting-text-slot {
-    display: block;
+  div:empty {
+    display: none;
   }
 
+  div,
   ::slotted(*) {
     display: inline-block;
     margin-top: 4px;
@@ -177,12 +179,10 @@
 }
 
 .counter {
-  display: none;
-  margin-inline-start: auto;
-}
-
-:host([has-counter]) .counter {
-  display: block;
+  div,
+  &::slotted(*) {
+    margin-inline-start: auto;
+  }
 }
 
 :host([has-leading-icon]) {
@@ -235,50 +235,20 @@
   }
 }
 
+:host([invalid]) .supporting-text:has(.error-text div:not(:empty)),
 :host([invalid][has-error-text]) {
 
   .error-text {
-    display: block;
+    display: contents;
   }
 
-  .supporting-text-slot {
+  slot[name=supporting-text] {
     display: none
   }
 }
 
-:host([disabled]) {
-  .field::after {
-    border-color: var(--u-field-disabled-border-color, var(--_disabled-color));
-  }
-  .supporting-text {
-    color: var(--u-field-supporting-text-disabled-color, var(--_disabled-color));
-  }
-
-  .label {
-    color: var(--u-field-label-disabled-color, var(--_disabled-color));
-  }
-
-  .input {
-    &::slotted(*) {
-      color: var(--u-field-input-disabled-color, var(--_disabled-color));
-    }
-
-    &::slotted(:is(input, textarea))::placeholder {
-      color: var(--u-field-input-disabled-color, var(--_disabled-color));
-    }
-  }
-
-  .trailing-icon {
-    color: var(--u-field-trailing-icon-disabled-color, var(--_disabled-color));
-  }
-
-  .leading-icon {
-    color: var(--u-field-leading-icon-disabled-color, var(--_disabled-color));
-  }
-}
-
-:host([variant=filled]) {
-  .field {
+.field {
+  &.filled {
     border-radius: var(--u-field-filled-border-radius, 4px 4px 0 0);
     background-color: #{api.get-color-var(surface-container-highest)};
 
@@ -292,25 +262,19 @@
         padding-bottom: var(--_vertical-padding);
       }
     }
+
+    .label {
+      top: var(--_vertical-padding);
+    }
+
+    .input {
+      ::slotted(:is(input, textarea, select, button)) {
+        display: block;
+      }
+    }
   }
 
-  .label {
-    top: var(--_vertical-padding);
-  }
-
-  .input::slotted(:is(input, textarea, select, button)) {
-    display: block;
-  }
-}
-
-:host([variant=filled][disabled]) {
-  .field {
-    background-color: var(--u-filled-field-disabled-background-color, rgba(#{api.get-color-rgb-var(on-surface)}, var(--u-filled-field-background-disabled-opacity, .04)));
-  }
-}
-
-:host([variant=outlined]) {
-  .field {
+  &.outlined {
     &::after {
       --_mid-point: calc(var(--u-field-label-half-width) + var(--_outlined-label-margin) + var(--_outlined-label-padding));
       border-radius: var(--u-outlined-field-shape-corder, #{api.get-shape-corner-var(small)});
@@ -326,28 +290,26 @@
           0 100%);
       transition: clip-path 100ms;
     }
-  }
 
-  .label {
-    top: calc(var(--_label-line-height) / -2);
+    .label {
+      top: calc(var(--_label-line-height) / -2);
+    }
   }
 }
 
-:host([variant=outlined]:focus-within),
-:host([variant=outlined]:not([empty])) {
-  .field {
-    &::after {
-      --_end-point: calc(var(--u-field-label-width) + var(--_outlined-label-margin) + (var(--_outlined-label-padding) * 2));
-      clip-path: polygon(
-          0 0,
-          var(--_outlined-label-margin) 0,
-          var(--_outlined-label-margin) var(--_focus-border-width),
-          var(--_end-point) var(--_focus-border-width),
-          var(--_end-point) 0,
-          100% 0,
-          100% 100%,
-          0 100%);
-    }
+.field.outlined:focus-within,
+:host(:not([empty])) .field.outlined {
+  &::after {
+    --_end-point: calc(var(--u-field-label-width) + var(--_outlined-label-margin) + (var(--_outlined-label-padding) * 2));
+    clip-path: polygon(
+        0 0,
+        var(--_outlined-label-margin) 0,
+        var(--_outlined-label-margin) var(--_focus-border-width),
+        var(--_end-point) var(--_focus-border-width),
+        var(--_end-point) 0,
+        100% 0,
+        100% 100%,
+        0 100%);
   }
 
   .label {
@@ -384,5 +346,44 @@
 .field.no-label {
   &::after {
     clip-path: none !important;
+  }
+}
+
+:host([disabled]) {
+
+  .field {
+    .filled {
+      background-color: var(--u-filled-field-disabled-background-color, rgba(#{api.get-color-rgb-var(on-surface)}, var(--u-filled-field-background-disabled-opacity, .04)));
+    }
+
+    &::after {
+      border-color: var(--u-field-disabled-border-color, var(--_disabled-color));
+    }
+  }
+
+  .supporting-text {
+    color: var(--u-field-supporting-text-disabled-color, var(--_disabled-color));
+  }
+
+  .label {
+    color: var(--u-field-label-disabled-color, var(--_disabled-color));
+  }
+
+  .input {
+    ::slotted(*) {
+      color: var(--u-field-input-disabled-color, var(--_disabled-color));
+    }
+
+    ::slotted(:is(input, textarea))::placeholder {
+      color: var(--u-field-input-disabled-color, var(--_disabled-color));
+    }
+  }
+
+  .trailing-icon {
+    color: var(--u-field-trailing-icon-disabled-color, var(--_disabled-color));
+  }
+
+  .leading-icon {
+    color: var(--u-field-leading-icon-disabled-color, var(--_disabled-color));
   }
 }

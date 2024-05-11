@@ -276,17 +276,20 @@ export class UmTypeahead extends LitElement {
       return;
     }
 
-    const value = this.formatter
-      ? this.formatter(this.value)
-      : this.value;
+    const textValue = this.getTextValue();
+    this.#termNormalized = normalizeText(textValue)?.toLowerCase();
 
-    if (this.target!.input) {
-      this.target.input.value = value;
-    } else {
-      this.target.value = value;
+    if (this.target.tagName === 'U-TEXT-FIELD') {
+      this.target.value = textValue;
+      return;
     }
 
-    this.#termNormalized = normalizeText(value)?.toLowerCase();
+    if (this.target.input) {
+      this.target.input.value = textValue;
+      return;
+    }
+ 
+    this.target.value = textValue;
   }
 
   private getTargetValue(): string {
@@ -315,6 +318,16 @@ export class UmTypeahead extends LitElement {
     }
 
     return this.target;
+  }
+
+  private getTextValue(): string {
+    if (!this.value) {
+      return '';
+    }
+
+    return this.formatter
+      ? this.formatter(this.value)
+      : this.value
   }
 }
 

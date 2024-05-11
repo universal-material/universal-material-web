@@ -1,7 +1,7 @@
 import { CSSResultGroup } from '@lit/reactive-element/css-tag';
 import { html, HTMLTemplateResult, nothing } from 'lit';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
-import { customElement, property, query, state } from 'lit/decorators.js';
+import { customElement, property, query } from 'lit/decorators.js';
 
 import { styles } from './chip-field.styles.js';
 
@@ -28,8 +28,7 @@ export class UmChipField extends UmTextFieldBase {
   }
   set value(value: any[]) {
     this.#value = value;
-    this.setFormValue();
-    this.requestUpdate();
+    this.#valueUpdate();
   }
 
   private setFormValue() {
@@ -46,12 +45,7 @@ export class UmChipField extends UmTextFieldBase {
     this.input.focus();
   }
 
-  @state()
-  override get empty(): boolean {
-    return !this.value?.length && !this.input?.value;
-  }
-
-  protected override renderContent(): HTMLTemplateResult {
+  protected override renderControl(): HTMLTemplateResult {
 
     return html`
       ${(this.#getChips())}
@@ -62,7 +56,8 @@ export class UmChipField extends UmTextFieldBase {
         ?disabled=${this.disabled}
         placeholder=${this.placeholder || nothing}
         @blur=${this.#handleBlur}
-        @keydown=${this.#handleKeyDown}/>`
+        @keydown=${this.#handleKeyDown}
+        @input=${this.#handleInput}/>`
   }
 
   #getChips() {
@@ -86,6 +81,10 @@ export class UmChipField extends UmTextFieldBase {
     this.requestUpdate();
   }
 
+  #handleInput() {
+    this.#setEmpty();
+  }
+
   #handleKeyDown(e: KeyboardEvent) {
     if (!this.manual && e.key === 'Enter') {
       this.add(this.input.value);
@@ -101,7 +100,7 @@ export class UmChipField extends UmTextFieldBase {
 
   add(value: any) {
     this.value.push(value);
-    this.#updated();
+    this.#changed();
   }
 
   #removeChip = (index: number) =>
@@ -113,13 +112,22 @@ export class UmChipField extends UmTextFieldBase {
       }
 
       this.value.splice(index, 1);
-      this.#updated();
+      this.#changed();
     }
 
-  #updated() {
+  #changed() {
+    this.#valueUpdate();
+    this.dispatchEvent(new Event('change', {bubbles: true}));
+  }
+
+  #valueUpdate() {
+    this.#setEmpty();
     this.setFormValue();
     this.requestUpdate();
-    this.dispatchEvent(new Event('change', {bubbles: true}));
+  }
+
+  #setEmpty() {
+    this.empty = !this.value?.length && !this.input.value;
   }
 
   #dispatchRemoveEvent(index: number): boolean {

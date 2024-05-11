@@ -23,8 +23,11 @@ export class UmTextField extends UmTextFieldBase {
   }
   set value(value: string) {
     this.#value = value;
+    this.empty = !value;
     this.elementInternals.setFormValue(value);
   }
+
+  override empty = true;
 
   @property({attribute: 'prefix-text'}) prefixText: string | undefined;
   @property({attribute: 'suffix-text'}) suffixText: string | undefined;
@@ -35,7 +38,7 @@ export class UmTextField extends UmTextFieldBase {
     this.input.focus();
   }
 
-  protected override renderContent(): HTMLTemplateResult {
+  protected override renderControl(): HTMLTemplateResult {
 
     const prefix = html`<span class="prefix" slot="prefix">${this.prefixText || html`<slot name="prefix"></slot>`}</span>`;
     const suffix = html`<span class="suffix" slot="suffix">${this.suffixText || html`<slot name="suffix"></slot>`}</span>`;
@@ -51,10 +54,6 @@ export class UmTextField extends UmTextFieldBase {
         .value=${live(this.#value)}
         @input=${this.#handleInput} />
       ${suffix}`;
-  }
-
-  override get empty(): boolean {
-    return !this.#value
   }
 
   #handleInput() {

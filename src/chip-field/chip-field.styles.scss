@@ -1,17 +1,22 @@
-input {
-  appearance: none;
-  padding: 4px 0;
-}
+@use "../scss/api";
 
 u-chip {
   flex-basis: 0;
 }
 
-::part(wrapper) {
-  gap: 8px;
+.input {
+  display: flex;
+  gap: var(--u-chip-field-chips-gap, #{api.get-spacing-var(extra-small)});
   flex-wrap: wrap;
-}
 
-input {
-  flex-basis: 200px;
+  &:has(u-chip) {
+    margin-top: var(--u-chip-field-chips-margin, #{api.get-spacing-var(extra-small)});
+  }
+
+  input {
+    width: auto;
+    flex-basis: 200px;
+    padding: 4px 0;
+    margin-block: -4px;
+  }
 }
