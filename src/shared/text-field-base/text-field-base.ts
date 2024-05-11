@@ -1,11 +1,12 @@
 import { CSSResultGroup } from '@lit/reactive-element/css-tag';
 import { html, HTMLTemplateResult, LitElement } from 'lit';
-import { property, state } from 'lit/decorators.js';
+import { property, query, state } from 'lit/decorators.js';
 
 import { styles as baseStyles } from '../base.styles.js';
 import { styles } from './text-field-base.styles.js';
 
 import { config } from '../../config.js';
+import { UmField } from '../../field/field.js';
 
 import '../../field/field.js';
 
@@ -28,6 +29,8 @@ export abstract class UmTextFieldBase extends LitElement {
 
   @property({type: Boolean, reflect: true}) disabled = false;
   @property({type: Boolean, reflect: true}) invalid = false;
+
+  @query('u-field') field!: UmField;
 
   get form(): HTMLFormElement | null {
     return this.elementInternals.form;

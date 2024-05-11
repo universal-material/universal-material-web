@@ -72,7 +72,8 @@ export class UmMenu extends LitElement {
    * The corner of the anchor which to align the menu in the standard logical
    * property style of <block>-<inline> e.g. `'end-start'`.
    */
-  @property({attribute: 'anchor-corner', reflect: true}) anchorCorner: 'start-start' | 'start-end' | 'end-start' | 'end-end' = 'end-start';
+  @property({attribute: 'anchor-corner', reflect: true})
+  anchorCorner: 'auto-start' | 'auto-end' | 'start-start' | 'start-end' | 'end-start' | 'end-end' = 'end-start';
 
   /**
    * The direction of the menu. e.g. `'down-end'`.
@@ -87,37 +88,17 @@ export class UmMenu extends LitElement {
    */
   @property({type: Boolean, attribute: 'allow-overflow', reflect: true}) allowOverflow = false;
 
-  /**
-   * Set a selector to auto attach to a toggle element
-   */
-  @property({attribute: 'toggle-selector', reflect: true})
-  get toggleSelector(): string | undefined {
-    return this.attributes.getNamedItem('toggle-selector')?.value;
-  }
-  set toggleSelector(selector: string | undefined) {
-    this.toggleElement?.removeEventListener('click', this.toggle);
-
-    if (!selector) {
-      return;
-    }
-
-    this.toggleElement = document.querySelector(selector);
-    this.toggleElement?.addEventListener('click', this.toggle);
-  }
-
   @query('.menu') menu!: HTMLElement;
   @query('.ref') ref!: HTMLElement;
 
-  #anchorElement: HTMLElement | undefined;
+  #anchorElement: HTMLElement | null | undefined;
 
-  get anchorElement(): HTMLElement {
-    return this.#anchorElement ?? this.parentElement!;
+  get anchorElement(): HTMLElement | null | undefined {
+    return this.#anchorElement ?? this.parentElement! ?? (<ShadowRoot>this.getRootNode()).host;
   }
-  set anchorElement(anchorElement: HTMLElement) {
+  set anchorElement(anchorElement: HTMLElement | null | undefined) {
     this.#anchorElement = anchorElement;
   }
-
-  private toggleElement: HTMLElement | null = null;
 
   protected override render(): HTMLTemplateResult {
     return html`
@@ -172,13 +153,12 @@ export class UmMenu extends LitElement {
   }
 
   private calcDropdownPositioning() {
-    if (!this.parentElement) {
+    if (!this.anchorElement) {
       return;
     }
 
     const menuPosition = this.getMenuPosition();
     const menuSize = this.getMenuSize()
-    console.log(menuPosition);
 
     this.#resetMenu();
     this.#setToOpenUpOrDown(menuPosition, menuSize);
@@ -195,6 +175,11 @@ export class UmMenu extends LitElement {
   }
 
   #setToOpenUpOrDown(menuPosition: MenuPosition, menuSize: MenuSize): void {
+    if (this.anchorCorner.startsWith('auto-')) {
+      this.#openBlockAuto(menuPosition, menuSize);
+      return;
+    }
+
     const side = this.anchorCorner.startsWith('start-')
       ? menuPosition.bounds.top
       : menuPosition.bounds.bottom;
@@ -207,13 +192,58 @@ export class UmMenu extends LitElement {
     this.#tryOpenDown(side, menuSize);
   }
 
+  #openBlockAuto(menuPosition: MenuPosition, menuSize: MenuSize): void {
+    const topSide = menuPosition.bounds.top;
+    const bottomSide = menuPosition.bounds.bottom;
+
+    const viewPortHeight = window.innerHeight;
+
+    if (bottomSide.bottom >= topSide.top || viewPortHeight - (bottomSide.top + menuSize.height) >= 0) {
+      this.#openDown(bottomSide);
+      return;
+    }
+
+    this.#openUp(topSide);
+  }
+
+  #tryOpenUp(side: AnchorCornerBlockSide, menuSize: MenuSize): void {
+
+    if (side.top === side.bottom || side.top - menuSize.height >= 0) {
+      this.#openUp(side);
+      return;
+    }
+
+    this.#openToLargestBlockSide(side);
+  }
+
+  #tryOpenDown(side: AnchorCornerBlockSide, menuSize: MenuSize): void {
+
+    const viewPortHeight = window.innerHeight;
+
+    if (side.top === side.bottom || viewPortHeight - (side.top + menuSize.height) >= 0) {
+      this.#openDown(side);
+      return;
+    }
+
+    this.#openToLargestBlockSide(side);
+  }
+
+  #openToLargestBlockSide(side: AnchorCornerBlockSide) {
+    if (side.top > side.bottom) {
+      this.#openUp(side);
+      return;
+    }
+
+    this.#openDown(side);
+  }
+
   #setToOpenToStartOrEnd(menuPosition: MenuPosition, menuSize: MenuSize): void {
     const openStart = menuPosition.isRtl
-      ? this.trySetMenuToOpenToRight.bind(this)
-      : this.trySetMenuToOpenToLeft.bind(this);
+      ? this.#tryOpenRight.bind(this)
+      : this.#tryOpenLeft.bind(this);
     const openEnd = menuPosition.isRtl
-      ? this.trySetMenuToOpenToLeft.bind(this)
-      : this.trySetMenuToOpenToRight.bind(this);
+      ? this.#tryOpenLeft.bind(this)
+      : this.#tryOpenRight.bind(this);
 
     const side = this.anchorCorner.endsWith('-start')
       ? menuPosition.bounds.start
@@ -227,39 +257,17 @@ export class UmMenu extends LitElement {
     openEnd(side, menuSize);
   }
 
-  #tryOpenUp(side: AnchorCornerBlockSide, menuSize: MenuSize): void {
-
-    if (side.top === side.bottom || side.top - menuSize.height >= 0) {
-      this.#openUp(side);
-      return;
-    }
-
-    this.openToLargestBlockSide(side);
-  }
-
-  #tryOpenDown(side: AnchorCornerBlockSide, menuSize: MenuSize): void {
-
-    const viewPortHeight = window.innerHeight;
-
-    if (side.top === side.bottom || viewPortHeight - (side.top + menuSize.height) >= 0) {
-      this.#openDown(side);
-      return;
-    }
-
-    this.openToLargestBlockSide(side);
-  }
-
-  private trySetMenuToOpenToLeft(side: AnchorCornerInlineSide, menuSize: MenuSize): void {
+  #tryOpenLeft(side: AnchorCornerInlineSide, menuSize: MenuSize): void {
 
     if (side.left === side.right || side.left - menuSize.width >= 0) {
       this.menu.style.right = `${side.relativeX * -1}px`;
       return;
     }
 
-    this.openToLargestInlineSide(side);
+    this.#openToLargestInlineSide(side);
   }
 
-  private trySetMenuToOpenToRight(side: AnchorCornerInlineSide, menuSize: MenuSize): void {
+  #tryOpenRight(side: AnchorCornerInlineSide, menuSize: MenuSize): void {
 
     const viewPortWidth = window.innerWidth;
 
@@ -268,25 +276,16 @@ export class UmMenu extends LitElement {
       return;
     }
 
-    this.openToLargestInlineSide(side);
+    this.#openToLargestInlineSide(side);
   }
 
-  private openToLargestInlineSide(side: AnchorCornerInlineSide) {
+  #openToLargestInlineSide(side: AnchorCornerInlineSide) {
     if (side.left > side.right) {
       this.menu.style.right = `${side.relativeX * -1}px`;
       return;
     }
 
     this.menu.style.left = `${side.relativeX}px`;
-  }
-
-  private openToLargestBlockSide(side: AnchorCornerBlockSide) {
-    if (side.top > side.bottom) {
-      this.#openUp(side);
-      return;
-    }
-
-    this.#openDown(side);
   }
 
   #openUp(side: AnchorCornerBlockSide) {
@@ -311,7 +310,7 @@ export class UmMenu extends LitElement {
     const viewPortWidth = window.innerWidth;
     const viewPortHeight = window.innerHeight;
 
-    const anchorElement = this.anchorElement;
+    const anchorElement = this.anchorElement!;
     const anchorRect = anchorElement.getBoundingClientRect() as DOMRect
     const refRect = this.ref.getBoundingClientRect() as DOMRect
     const anchorStyles = getComputedStyle(anchorElement);

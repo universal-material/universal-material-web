@@ -15,7 +15,7 @@ import downStartHtml from '!raw-loader!./examples/down-start.html';
 // @ts-ignore
 import downEndHtml from '!raw-loader!./examples/down-end.html';
 
-const anchors = ['start-start', 'start-end', 'end-end', 'end-start'];
+const anchors = ['auto-start', 'auto-end', 'start-start', 'start-end', 'end-end', 'end-start'];
 const directions = ['up-start', 'up-end', 'down-start', 'down-end'];
 
 @Component({

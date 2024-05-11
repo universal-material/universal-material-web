@@ -4,6 +4,7 @@ import { customElement, property, query, state } from 'lit/decorators.js';
 
 import { styles } from './typeahead.styles.js';
 
+import { UmField } from '../field/field.js';
 import { UmMenu } from '../menu/menu.js';
 import { normalizeText } from '../shared/normalize-text.js';
 
@@ -23,7 +24,7 @@ export class UmTypeahead extends LitElement {
   #targetId: string | undefined;
 
   #connected = false;
-  private target: HTMLElement & {input?: HTMLInputElement; value: string} | null = null;
+  private target: HTMLElement & {input?: HTMLInputElement; field?: UmField; value: string} | null = null;
   #documentMutationObserver: MutationObserver | null = null;
   #termNormalized: string = '';
   #debounceTimeout: number | null = null;
@@ -195,9 +196,12 @@ export class UmTypeahead extends LitElement {
       return html``;
     }
 
-    setTimeout(() => this.menu.open = true);
+    setTimeout(() => {
+      this.menu.anchorElement = this.getMenuAnchor();
+      this.menu.open = true;
+    });
     return html`
-      <u-menu manualFocus>
+      <u-menu manualFocus anchor-corner="auto-start">
         ${this.results
           .map(result => {
             const content = this.template
@@ -295,6 +299,22 @@ export class UmTypeahead extends LitElement {
     if (targetInput) {
       targetInput.value = value;
     }
+  }
+
+  private getMenuAnchor() {
+    if (!this.target) {
+      return null;
+    }
+
+    if (this.target.tagName === 'U-CHIP-FIELD') {
+      return this.target.input;
+    }
+
+    if (this.target.tagName === 'U-TEXT-FIELD') {
+      return this.target.field!.field;
+    }
+
+    return this.target;
   }
 }
 

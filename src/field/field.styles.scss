@@ -116,6 +116,7 @@
   display: flex;
   align-items: center;
   flex: 1;
+  padding-block: var(--_vertical-padding);
   padding-inline: var(--_field-control-inline-padding);
   min-height: var(--_field-min-height);
   transition: opacity 150ms;
@@ -284,6 +285,13 @@
     &::after {
       border-bottom-style: solid;
     }
+
+    &:not(.no-label) {
+      .input-wrapper {
+        padding-top: calc(var(--_vertical-padding) + var(--_label-line-height));
+        padding-bottom: var(--_vertical-padding);
+      }
+    }
   }
 
   .label {
@@ -292,11 +300,6 @@
 
   .input::slotted(:is(input, textarea, select, button)) {
     display: block;
-  }
-
-  .input-wrapper {
-    padding-top: calc(var(--_vertical-padding) + var(--_label-line-height));
-    padding-bottom: var(--_vertical-padding);
   }
 }
 

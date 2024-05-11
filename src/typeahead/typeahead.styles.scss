@@ -1,5 +1,9 @@
 @use "../scss/api";
 
+:host {
+  display: inline-block;
+}
+
 u-menu-item {
   font-weight: var(--u-typeahead-item-font-weight, #{api.get-font-weight-var(regular)});
 }
