@@ -32,7 +32,7 @@
   --u-text-field-horizontal-padding: 12px;
 }
 
-.field {
+.container {
   display: flex;
   align-items: center;
   position: relative;
@@ -63,13 +63,13 @@
 
 @media (hover: hover) {
   :host(:not([disabled]):not([invalid]):hover) {
-    .field.filled::before {
+    .container.filled::before {
       opacity: #{api.get-state-layer-opacity-var(hover)};
     }
   }
 
   :host(:not([disabled]):not([invalid]):not(:focus-within):hover) {
-    .field::after {
+    .container::after {
       border-color: var(--u-field-hover-border-color, #{api.get-color-var(on-surface)});
     }
   }
@@ -204,7 +204,7 @@
 :host(:focus-within) {
   --u-field-border-width: var(--_focus-border-width);
 
-  .field::after {
+  .container::after {
     border-color: var(--u-field-focused-border-color, var(--_color-primary));
   }
 
@@ -214,7 +214,7 @@
 }
 
 :host([invalid]) {
-  .field::after {
+  .container::after {
     border-color: var(--u-field-error-border-color, var(--_color-error));
   }
 
@@ -247,7 +247,7 @@
   }
 }
 
-.field {
+.container {
   &.filled {
     border-radius: var(--u-field-filled-border-radius, 4px 4px 0 0);
     background-color: #{api.get-color-var(surface-container-highest)};
@@ -297,8 +297,8 @@
   }
 }
 
-.field.outlined:focus-within,
-:host(:not([empty])) .field.outlined {
+.container.outlined:focus-within,
+:host(:not([empty])) .container.outlined {
   &::after {
     --_end-point: calc(var(--u-field-label-width) + var(--_outlined-label-margin) + (var(--_outlined-label-padding) * 2));
     clip-path: polygon(
@@ -343,7 +343,7 @@
   }
 }
 
-.field.no-label {
+.container.no-label {
   &::after {
     clip-path: none !important;
   }
@@ -351,7 +351,7 @@
 
 :host([disabled]) {
 
-  .field {
+  .container {
     .filled {
       background-color: var(--u-filled-field-disabled-background-color, rgba(#{api.get-color-rgb-var(on-surface)}, var(--u-filled-field-background-disabled-opacity, .04)));
     }

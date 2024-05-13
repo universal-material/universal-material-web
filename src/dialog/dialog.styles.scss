@@ -1,0 +1,176 @@
+@use "../scss/api";
+@use "../scss/variables";
+
+:host {
+  --u-elevation-level: var(--u-dialog-elevation, 3);
+  --_icon-size: var(--u-dialog-icon-size, 24px);
+  --_divider-color: var(--u-dialog-divider-color, #{api.get-color-var(outline-variant)});
+  --_scrim-opacity: var(--u-dialog-scrim-opacity, .32);
+  --_padding: var(--u-dialog-padding, 24px);
+}
+
+:host(:not([has-headline])) {
+  .headline {
+    display: none;
+  }
+}
+
+:host([has-icon]) {
+  .icon {
+    display: flex;
+  }
+
+  .headline {
+    padding-top: 0;
+  }
+
+  .headline,
+  .container {
+    text-align: center;
+  }
+}
+
+:host([has-headline]),
+:host([has-icon]) {
+  .content.top-divider {
+    border-top: 1px solid var(--_divider-color);
+    margin-top: -1px;
+  }
+}
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  background-color: var(--u-dialog-scrim-color, #{api.get-color-var(scrim)});
+  animation: scrim-show-animation 300ms;
+  animation-fill-mode: forwards;
+  z-index: -1;
+}
+
+dialog {
+  align-items: center;
+  background: none;
+  border: none;
+  overflow: visible;
+  padding: var(--_padding);
+  max-width: none;
+  max-height: none;
+  width: 100%;
+  height: 100%;
+
+  &[open] {
+    display: flex;
+  }
+
+  &::backdrop {
+    background: none;
+  }
+}
+
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-inline: auto;
+  background-color: var(--u-dialog-container-background-color, #{api.get-color-var(surface-container-high)});
+  border-radius: var(--u-dialog-border-radius, #{api.get-shape-corner-var(extra-large)});
+  min-width: min(var(--u-dialog-min-width, 280px), 100%);
+  max-width: var(--u-dialog-max-width, 560px);
+  max-height: min(var(--u-dialog-max-height, 560px), 100%);
+  animation: show 250ms variables.$awesome-cubic-bezier;
+  z-index: 1;
+}
+
+.headline,
+.icon,
+.content,
+.actions {
+  padding: var(--_padding);
+}
+
+.headline {
+  @include api.typo(headline-s, dialog-headline);
+  padding-bottom: var(--u-headline-padding, 16px);
+}
+
+.icon {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--_icon-size);
+  line-height: var(--_icon-size);
+  color: var(--u-dialog-icon-color, #{api.get-color-var(secondary)});
+  padding-bottom: var(--u-icon-padding, 16px);
+}
+
+.content {
+  @include api.typo(body-m, dialog-content);
+  color: var(--u-dialog-content-text-color, #{api.get-color-var(on-surface-variant)});
+  padding-block: 0;
+  overflow: auto;
+
+  &.bottom-divider {
+    border-bottom: 1px solid var(--_divider-color);
+    margin-bottom: -1px;
+  }
+}
+
+:host(:not([has-headline]):not([has-icon])) {
+  .content {
+    padding-top: var(--_padding);
+  }
+}
+
+.actions {
+  display: flex;
+  flex-direction: row-reverse;
+  flex-wrap: wrap-reverse;
+  gap: var(--u-dialog-actions-gap, 8px);
+}
+
+:host(.closing) {
+  .container {
+    animation-name: close;
+  }
+
+  .scrim {
+    animation-name: scrim-close-animation;
+  }
+}
+
+@keyframes scrim-show-animation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: var(--_scrim-opacity);
+  }
+}
+
+
+@keyframes scrim-close-animation {
+  from {
+    opacity: var(--_scrim-opacity);
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes show {
+  from {
+    transform: scale3d(0, 0, 1);
+  }
+  to {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes close {
+  from {
+    transform: scale3d(1, 1, 1);
+  }
+  to {
+    transform: scale3d(0, 0, 1);
+  }
+}

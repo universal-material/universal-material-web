@@ -6,7 +6,6 @@ import { debounceTime, Subject } from 'rxjs';
 import { ApisTableComponent } from '@docs/docs/apis-table/apis-table.component';
 import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
-import { UmRadio } from '@universal-material/web';
 
 @Component({
   selector: 'docs-text-fields',
@@ -45,7 +44,6 @@ export class TextFieldsComponent {
       .updated$
       .pipe(debounceTime(50))
       .subscribe(() => this.updateTemplate());
-
     this.updateTemplate();
   }
 

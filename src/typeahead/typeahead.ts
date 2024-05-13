@@ -1,10 +1,10 @@
 import { html, HTMLTemplateResult, LitElement } from 'lit';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
-import { customElement, property, query, state } from 'lit/decorators.js';
+import { customElement, property, query, queryAll, state } from 'lit/decorators.js';
 
 import { styles } from './typeahead.styles.js';
 
-import { UmField } from '../field/field.js';
+import { UmMenuItem } from '../menu/menu-item.js';
 import { UmMenu } from '../menu/menu.js';
 import { normalizeText } from '../shared/normalize-text.js';
 
@@ -24,7 +24,7 @@ export class UmTypeahead extends LitElement {
   #targetId: string | undefined;
 
   #connected = false;
-  private target: HTMLElement & {input?: HTMLInputElement; field?: UmField; value: string} | null = null;
+  private target: HTMLElement & {input?: HTMLInputElement; container?: HTMLElement; value: string} | null = null;
   #documentMutationObserver: MutationObserver | null = null;
   #termNormalized: string = '';
   #debounceTimeout: number | null = null;
@@ -87,6 +87,7 @@ export class UmTypeahead extends LitElement {
   }
 
   @query('u-menu') menu!: UmMenu;
+  @queryAll('u-menu-item') menuItems!: UmMenuItem[];
 
   constructor() {
     super();
@@ -131,6 +132,7 @@ export class UmTypeahead extends LitElement {
     this.target = newTarget;
 
     newTarget.addEventListener('input', this.#handleInput);
+    newTarget.addEventListener('keydown', this.handleKeyDown);
     newTarget.addEventListener('focus', this.#handleFocus);
 
     if (this.value) {
@@ -140,6 +142,7 @@ export class UmTypeahead extends LitElement {
 
   #detach() {
     this.target?.removeEventListener('input', this.#handleInput);
+    this.target?.removeEventListener('keydown', this.handleKeyDown);
     this.target?.removeEventListener('focus', this.#handleFocus);
   }
 
@@ -158,6 +161,58 @@ export class UmTypeahead extends LitElement {
     this.#setValueAndDispatchEvents(this.editable ? this.getTargetValue() : null, true);
 
     this.#debounceTimeout = setTimeout(async () => await this.#updateResults(true), this.debounce);
+  }
+
+  private readonly handleKeyDown = (event: KeyboardEvent) => {
+    const isDown = event.key === 'ArrowDown';
+    const isUp = event.key === 'ArrowUp';
+
+    if (isDown || isUp) {
+      this.navigate(event, isDown);
+      return;
+    }
+
+    const isEnter = event.key === 'Enter';
+
+    if (isEnter) {
+      this.selectActiveItem(event);
+    }
+  };
+
+  private navigate(event: KeyboardEvent, forwards: boolean) {
+    const menuItems = Array.from(this.menuItems);
+
+    if (!menuItems.length) {
+      return;
+    }
+
+    event.preventDefault();
+
+    const activeMenu = menuItems.find(m => m.active);
+
+    if (activeMenu) {
+      activeMenu.active = false;
+    }
+
+    const nextMenu = forwards
+      ? (<UmMenuItem>activeMenu?.nextElementSibling) ?? menuItems[0]
+      : (<UmMenuItem>activeMenu?.previousElementSibling) ?? menuItems[menuItems.length - 1];
+
+    if (nextMenu) {
+      nextMenu.active = true;
+    }
+  }
+
+  private selectActiveItem(event: KeyboardEvent) {
+    const menuItems = Array.from(this.menuItems);
+    const activeMenu = menuItems.find(m => m.active)
+
+    if (!activeMenu) {
+      return;
+    }
+
+    event.preventDefault();
+    activeMenu.click();
   }
 
   #getItemClickHandler(data: Data) {
@@ -200,6 +255,7 @@ export class UmTypeahead extends LitElement {
       this.menu.anchorElement = this.getMenuAnchor();
       this.menu.open = true;
     });
+
     return html`
       <u-menu manualFocus anchor-corner="auto-start">
         ${this.results
@@ -209,7 +265,7 @@ export class UmTypeahead extends LitElement {
               : html`<u-highlight .term=${this.#termNormalized} .result=${result.label}></u-highlight>`;
             
             return html`
-              <u-menu-item @click=${this.#getItemClickHandler(result)}>${content}</u-menu-item>`;
+              <u-menu-item @click=${this.#getItemClickHandler(result)} tabindex="-1">${content}</u-menu-item>`;
           })}
       </u-menu>
     `;
@@ -314,7 +370,7 @@ export class UmTypeahead extends LitElement {
     }
 
     if (this.target.tagName === 'U-TEXT-FIELD') {
-      return this.target.field!.field;
+      return this.target.container;
     }
 
     return this.target;

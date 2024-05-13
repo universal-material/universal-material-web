@@ -7,6 +7,7 @@
   display: block;
   --_menu-item-icon-size: var(--u-menu-item-icon-size, 1.125rem);
   --_menu-item-padding: var(--u-menu-item-padding, 12px);
+  --u-focus-ring-outline-offset: -4px;
 
   height: var(--u-menu-item-height, 56px);
   padding-inline: var(--_menu-item-padding);
@@ -29,7 +30,7 @@
   justify-content: flex-start;
 }
 
+:host(.force-focus-ring) .button,
 .button:focus-visible {
-  outline-offset: -4px;
-  border-radius: #{functions.get-spacing-var(extra-small)};
+  border-radius: #{functions.get-spacing-var(small)};
 }

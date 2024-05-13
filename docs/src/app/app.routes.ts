@@ -98,6 +98,10 @@ export const routes: Routes = [
     loadComponent: () => import('@docs/components/text-fields/text-fields.component').then(c => c.TextFieldsComponent)
   },
   {
+    path: 'components/typeahead',
+    loadComponent: () => import('@docs/components/typeahead/typeahead.component').then(c => c.TypeaheadComponent)
+  },
+  {
     path: 'components/toolbars',
     loadComponent: () => import('@docs/components/toolbars/toolbars.component').then(c => c.ToolbarsComponent)
   },

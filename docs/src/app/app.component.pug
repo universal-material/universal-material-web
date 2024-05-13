@@ -16,10 +16,12 @@ u-side-navigation(#navigation)
         [ngModel]="themeColor",
         (ngModelChange)="$themeColorChange.next($event)")
     .position-relative(slot="trailing-icon")
-      u-icon-button#theme-button(aria-label="Theme")
+      u-icon-button(
+        aria-label="Theme",
+        (click)="themeMenu.toggle()")
         span.material-symbols-outlined palette
       u-menu(
-        toggle-selector="#theme-button"
+        #themeMenu,
         anchor-corner="end-end")
         u-menu-item((click)="setThemeMode(ThemeMode.Auto)")
           span.material-symbols-outlined(slot="icon") brightness_4
@@ -36,7 +38,7 @@ u-side-navigation(#navigation)
       href="/angular",
       title="Universal Material Angular")
       span.material-symbols-outlined angular
-    u-icon-button#rtl-toggle(
+    u-icon-button(
       slot="trailing-icon",
       type="button",
       title="Rtl",
@@ -121,7 +123,7 @@ u-side-navigation(#navigation)
         routerLink="components/chips",
         docsLinkActive) Chips
 
-      //u-drawer-item(
+      u-drawer-item(
         routerLink="components/dialogs",
         docsLinkActive) Dialogs
 
@@ -165,12 +167,13 @@ u-side-navigation(#navigation)
         routerLink="components/toolbars",
         docsLinkActive) Toolbars
 
-  .pane-layout
+  .u-container.chapter
+    router-outlet
+  //.pane-layout
     .pane
       u-elevation
       .scroll-wrapper(#scrollWrapper)
-        .u-container.chapter
-          router-outlet
+
 
     .side-pane
       u-card

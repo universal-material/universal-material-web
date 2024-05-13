@@ -27,8 +27,6 @@ export class UmTextField extends UmTextFieldBase {
     this.elementInternals.setFormValue(value);
   }
 
-  override empty = true;
-
   @property({attribute: 'prefix-text'}) prefixText: string | undefined;
   @property({attribute: 'suffix-text'}) suffixText: string | undefined;
 
@@ -40,20 +38,27 @@ export class UmTextField extends UmTextFieldBase {
 
   protected override renderControl(): HTMLTemplateResult {
 
-    const prefix = html`<span class="prefix" slot="prefix">${this.prefixText || html`<slot name="prefix"></slot>`}</span>`;
-    const suffix = html`<span class="suffix" slot="suffix">${this.suffixText || html`<slot name="suffix"></slot>`}</span>`;
+    // const prefix = html`<span class="prefix" slot="prefix">${this.prefixText || html`<slot name="prefix"></slot>`}</span>`;
+    // const suffix = html`<span class="suffix" slot="suffix">${this.suffixText || html`<slot name="suffix"></slot>`}</span>`;
 
     return html`
-      ${prefix}
-      <input
-        part="input"
-        id=${this.id || nothing}
-        aria-labelledby="label"
-        ?disabled=${this.disabled}
-        placeholder=${this.placeholder || nothing}
-        .value=${live(this.#value)}
-        @input=${this.#handleInput} />
-      ${suffix}`;
+      <slot class="prefix" name="prefix">
+        <span>${this.prefixText}</span>
+      </slot>
+      <div class="input">
+        <input
+          part="input"
+          id=${this.id || nothing}
+          aria-labelledby="label"
+          aria-describedBy="supporting-text"
+          ?disabled=${this.disabled}
+          placeholder=${this.placeholder || nothing}
+          .value=${live(this.#value)}
+          @input=${this.#handleInput} />
+      </div>
+      <slot class="suffix" name="suffix">
+        <span>${this.suffixText}</span>
+      </slot>`;
   }
 
   #handleInput() {

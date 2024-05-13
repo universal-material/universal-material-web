@@ -38,12 +38,22 @@ export abstract class UmButtonBase extends UmButtonWrapper {
 
     this.#elementInternals.setFormValue(this.value);
 
-    if (this.type === 'submit') {
-      this.form.requestSubmit();
+    if (this.type === 'reset') {
+      this.form.reset();
       return;
     }
-
-    this.form.reset();
+ 
+    this.form.addEventListener(
+      'submit',
+      (submitEvent) => {
+        Object.defineProperty(submitEvent, 'submitter', {
+          configurable: true,
+          enumerable: true,
+          get: () => this,
+        });
+      },
+      {capture: true, once: true},
+    );
+    this.form.requestSubmit();
   }
-
 }

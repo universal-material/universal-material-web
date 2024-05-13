@@ -1,20 +1,7 @@
-docs-title(title="Chips")
+docs-title(title="Chip field")
 
 docs-example(
   sectionTitle="Live",
   [renderExample]="false",
   [html]="template")
-
-  u-chip-field(
-    #chipField,
-    variant="outlined",
-    id="chip-field",
-    manual,
-    [formatter]="formatter",
-    [leadingIconTemplate]="leadingIconTemplate")
-  u-typeahead(
-    target-id="chip-field",
-    (selected)="selected($event)",
-    [source]="states",
-    [formatter]="formatter",
-    [template]="resultTemplate")
+  u-chip-field(label="Tags")

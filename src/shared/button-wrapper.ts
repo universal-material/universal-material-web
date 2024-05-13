@@ -29,7 +29,7 @@ export abstract class UmButtonWrapper extends LitElement {
 
   @property() name: string | undefined;
 
-  @query('.button') protected readonly buttonElement!: HTMLElement;
+  @query('.button') readonly buttonElement!: HTMLElement;
   @query('u-ripple') private readonly ripple!: UmRipple;
 
   protected innerRole: string | null = null;

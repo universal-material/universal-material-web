@@ -1,5 +1,4 @@
 import { consume, Context, ContextProvider } from '@lit/context';
-import { PropertyValues } from '@lit/reactive-element';
 import { CSSResultGroup } from '@lit/reactive-element/css-tag';
 import { html, HTMLTemplateResult, LitElement } from 'lit';
 import { property, query, queryAssignedElements, state } from 'lit/decorators.js';
@@ -66,7 +65,7 @@ export abstract class UmFieldBase extends LitElement {
   private readonly assignedErrorTexts!: HTMLElement[];
 
   @query('.label') labelElement!: HTMLElement;
-  @query('.field') field!: HTMLElement;
+  @query('.container') container!: HTMLElement;
 
   private labelSizeObserver: ResizeObserver | null = null;
 
@@ -77,7 +76,7 @@ export abstract class UmFieldBase extends LitElement {
 
   protected override render(): HTMLTemplateResult {
     return html`
-      <div class="field ${this.variant ?? this.config?.variant ?? 'filled'}">
+      <div class="container ${this.variant ?? this.config?.variant ?? 'filled'}">
         <slot
           class="icon leading-icon"
           name="leading-icon"
@@ -87,9 +86,7 @@ export abstract class UmFieldBase extends LitElement {
           <slot name="label">${this.label}</slot>
         </label>
         <div class="input-wrapper" part="wrapper">
-          <slot name="prefix"></slot>
-          <div class="input">${this.renderControl()}</div>
-          <slot name="suffix"></slot>
+          ${this.renderControl()}
         </div>
         <slot
           class="icon trailing-icon"
@@ -97,7 +94,7 @@ export abstract class UmFieldBase extends LitElement {
           @slotchange="${this.handleTrailingIconSlotChange}">
         </slot>
       </div>
-      <div class="supporting-text">
+      <div class="supporting-text" id="supporting-text">
         <slot
           class="error-text"
           name="error-text"
@@ -116,13 +113,15 @@ export abstract class UmFieldBase extends LitElement {
 
   protected abstract renderControl(): HTMLTemplateResult;
 
-  override firstUpdated(changedProperties: PropertyValues) {
-    super.firstUpdated(changedProperties);
+  override connectedCallback() {
+    super.connectedCallback();
     this.hasLeadingIcon = !!this.assignedLeadingIcons.length;
 
-    this.labelSizeObserver = new ResizeObserver(() => this.setLabelWidthProperties())
-    this.labelSizeObserver.observe(this.labelElement);
-    this.setLabelWidthProperties();
+    setTimeout(() => {
+      this.labelSizeObserver = new ResizeObserver(() => this.setLabelWidthProperties())
+      this.labelSizeObserver.observe(this.labelElement);
+      this.setLabelWidthProperties();
+    });
   }
 
   override disconnectedCallback() {
@@ -157,7 +156,7 @@ export abstract class UmFieldBase extends LitElement {
     this.style.setProperty('--u-field-label-half-width', `${width / 2}px`);
 
     if (!width) {
-      this.field.classList.add('no-label');
+      this.container.classList.add('no-label');
     }
   }
 }

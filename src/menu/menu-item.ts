@@ -2,7 +2,6 @@
 import { html, HTMLTemplateResult } from 'lit';
 import { customElement, property, queryAssignedElements } from 'lit/decorators.js';
 
-import { styles as baseStyles } from '../shared/base.styles.js';
 import { styles } from './menu-item.styles.js';
 
 import { UmButtonWrapper } from '../shared/button-wrapper.js';
@@ -10,10 +9,27 @@ import { UmButtonWrapper } from '../shared/button-wrapper.js';
 @customElement('u-menu-item')
 export class UmMenuItem extends UmButtonWrapper {
 
-  static override styles = [
-    baseStyles,
-    styles
-  ];
+  static override styles = styles;
+
+  #active = false;
+
+  /**
+   * Force show focus ring
+   */
+  @property({type: Boolean, reflect: true})
+  get active(): boolean {
+    return this.#active;
+  }
+  set active(active: boolean) {
+    this.#active = active;
+
+    if (active) {
+      this.classList.add('force-focus-ring');
+      return;
+    }
+
+    this.classList.remove('force-focus-ring');
+  }
 
   /**
    * Whether the drawer item has icon or not

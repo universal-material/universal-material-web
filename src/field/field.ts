@@ -33,7 +33,11 @@ export class UmField extends UmFieldBase {
   }
 
   protected override renderControl() {
-    return html`<slot></slot>`;
+    return html`
+      <slot name="prefix"></slot>
+      <div class="input"><slot></slot></div>
+      <slot name="suffix"></slot>
+    `;
   }
 }
 

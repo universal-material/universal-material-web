@@ -48,16 +48,18 @@ export class UmChipField extends UmTextFieldBase {
   protected override renderControl(): HTMLTemplateResult {
 
     return html`
-      ${(this.#getChips())}
-      <input 
-        part="input"
-        id=${this.id || nothing}
-        aria-labelledby="label"
-        ?disabled=${this.disabled}
-        placeholder=${this.placeholder || nothing}
-        @blur=${this.#handleBlur}
-        @keydown=${this.#handleKeyDown}
-        @input=${this.#handleInput}/>`
+      <div class="input">
+        ${(this.#getChips())}
+        <input 
+          part="input"
+          id=${this.id || nothing}
+          aria-labelledby="label"
+          ?disabled=${this.disabled}
+          placeholder=${this.placeholder || nothing}
+          @blur=${this.#handleBlur}
+          @keydown=${this.#handleKeyDown}
+          @input=${this.#handleInput}/>
+      </div>`
   }
 
   #getChips() {
@@ -127,7 +129,7 @@ export class UmChipField extends UmTextFieldBase {
   }
 
   #setEmpty() {
-    this.empty = !this.value?.length && !this.input.value;
+    this.empty = !this.value?.length && !this.input?.value;
   }
 
   #dispatchRemoveEvent(index: number): boolean {

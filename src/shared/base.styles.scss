@@ -2,16 +2,18 @@
 
 :host,
 * {
+  --_focus-ring-outline-offset: var(--u-focus-ring-outline-offset, 2px);
   font-family: #{functions.get-font-family-var()};
   box-sizing: border-box;
   outline: 0;
 }
 
+:host(.force-focus-ring) .focus-ring,
 .focus-ring:focus-visible {
   --_color-primary: #{functions.get-color-var(primary)};
   animation: u-focus-pulse 500ms ease;
   animation-fill-mode: forwards;
-  outline-offset: 2px;
+  outline-offset: var(--_focus-ring-outline-offset);
 }
 
 @keyframes u-focus-pulse {
