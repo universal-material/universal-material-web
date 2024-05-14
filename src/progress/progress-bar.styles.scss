@@ -1,0 +1,159 @@
+@use "../scss/api";
+
+:host {
+  --_border-radius: var(--u-progress-bar-border-radius, #{api.get-shape-corner-var(full)});
+  --_height: var(--u-progress-bar-height, 4px);
+}
+
+$duration: 2.1s;
+
+:host,
+.determinate,
+.indeterminate {
+  overflow: hidden;
+  border-radius: var(--_border-radius);
+}
+
+.determinate,
+.indeterminate {
+  display: flex;
+  gap: 4px;
+}
+
+.indeterminate {
+  flex: 1;
+  margin-inline: -8px;
+  border-radius: var(--_border-radius);
+}
+
+.determinate {
+  margin-inline-end: -4px;
+
+  .bar {
+    transition: flex-basis 200ms linear;
+  }
+}
+
+.last {
+  flex-shrink: 1;
+  flex-basis: 100%;
+  animation: last $duration infinite linear;
+}
+
+.slow {
+  animation: slow $duration infinite linear;
+}
+
+.middle {
+  animation: middle $duration infinite linear;
+}
+
+.fast {
+  animation: fast $duration infinite linear;
+}
+
+.first {
+  animation: first $duration infinite linear;
+}
+
+.bar {
+  height: var(--_height);
+  border-radius: var(--_border-radius);
+  background: var(--u-progress-bar-color, #{api.get-color-var(primary)});
+}
+
+.track {
+  background: var(--u-progress-bar-track-color, #{api.get-color-var(secondary-container)});
+  flex-shrink: 1;
+}
+
+@keyframes slow {
+  0% {
+    flex-basis: 0;
+  }
+  10% {
+    flex-basis: 50%;
+  }
+  20% {
+    flex-basis: 100%;
+  }
+  30% {
+    flex-basis: 0;
+  }
+}
+
+@keyframes last {
+  0% {
+    flex-basis: 100%;
+  }
+  10% {
+    flex-basis: 50%;
+  }
+  20% {
+    flex-basis: 0;
+  }
+  100% {
+    flex-basis: 0;
+  }
+}
+
+@keyframes middle {
+  10% {
+    flex-basis: 0;
+  }
+  20% {
+    flex-basis: 100%;
+  }
+  35% {
+    flex-basis: 100%;
+  }
+  45% {
+    flex-basis: 0;
+  }
+}
+
+@keyframes fast {
+  0% {
+    flex-basis: 0;
+  }
+  25% {
+    flex-basis: 0;
+  }
+  35% {
+    flex-basis: 100%;
+  }
+  45% {
+    flex-basis: 100%;
+  }
+  55% {
+    flex-basis: 0;
+  }
+}
+
+@keyframes first {
+  35% {
+    flex-basis: 0;
+  }
+  45% {
+    flex-basis: 100%;
+  }
+  100% {
+    flex-basis: 100%;
+  }
+}
+
+
+@keyframes fast-bar-pre {
+  0% {
+    flex-basis: 0;
+  }
+  60% {
+    flex-basis: 0;
+  }
+  90% {
+    flex-basis: 100%;
+  }
+  100% {
+    flex-basis: 100%;
+  }
+}

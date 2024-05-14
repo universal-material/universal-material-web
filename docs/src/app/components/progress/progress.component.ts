@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { ApisTableComponent } from '@docs/docs/apis-table/apis-table.component';
 import { ExampleComponent } from '@docs/docs/example/example.component';
@@ -17,6 +18,8 @@ import circularProgressHtml from '!raw-loader!./examples/circular-progress.html'
   styleUrl: './progress.component.scss',
   standalone: true,
   imports: [
+    FormsModule
+    ,
     ApisTableComponent,
     ExampleComponent,
     TitleComponent
@@ -26,4 +29,6 @@ export class ProgressComponent {
   determinateHtml = determinateHtml;
   indeterminateHtml = indeterminateHtml;
   circularProgressHtml = circularProgressHtml;
+  circularValue = 0.5;
+  barValue = 0.5;
 }

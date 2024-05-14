@@ -26,10 +26,7 @@ export class DialogsComponent {
   message = '';
 
   async showMessage() {
-    if (await UmDialog
-      .confirm(this.message)
-      .headline('Headline')
-      .show()) {
+    if (await UmDialog.confirm(this.message).show()) {
       alert('confirme');
     }
   }

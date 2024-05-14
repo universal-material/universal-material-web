@@ -1,0 +1,83 @@
+@use "sass:math";
+@use "../scss/api";
+
+:host {
+  position: relative;
+  display: inline-block;
+  width: var(--_size);
+  height: var(--_size);
+  margin-inline: auto;
+  --_size: var(--u-circular-progress-size, 3rem);
+}
+
+.circular {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  transform-origin: center;
+
+  &.indeterminate {
+    position: relative;
+    animation: rotate 2s linear infinite;
+  }
+
+  &:not(.indeterminate) {
+    .path {
+      transition: stroke-dashoffset 200ms linear;
+    }
+  }
+}
+
+.path {
+  stroke-linecap: round;
+  stroke: var(--u-circular-progress-color, #{api.get-color-var(primary)});
+}
+
+.track {
+  position: absolute;
+  inset: 0;
+
+  .path {
+    stroke: var(--u-circular-progress-track-color, #{api.get-color-var(secondary-container)});
+  }
+}
+
+.indeterminate {
+  .path {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+    animation: dash 1.5s ease-in-out infinite;
+  }
+}
+
+.on-going {
+  transform: rotate(-80deg);
+
+  &.track {
+    transform: rotate(-100deg);
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124;
+  }
+}
