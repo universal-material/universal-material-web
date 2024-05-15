@@ -144,6 +144,7 @@ export class UmMenu extends LitElement {
   }
 
   close = () => {
+
     if (this.open && !this.#justShow) {
       this.open = false;
       return;

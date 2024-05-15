@@ -10,6 +10,7 @@ import { routes } from './app.routes';
 config.navigationDrawer.useSwiperJs = true;
 
 export const appConfig: ApplicationConfig = {
+
   providers: [
     provideRouter(routes, withHashLocation()),
     provideHighlightOptions({

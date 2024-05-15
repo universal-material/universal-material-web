@@ -108,20 +108,20 @@ export abstract class UmFieldBase extends LitElement {
           <div>${this.counter}</div>
         </slot>
       </div>
+      ${this.renderAfterContent()}
     `;
   }
 
   protected abstract renderControl(): HTMLTemplateResult;
+  protected renderAfterContent(): HTMLTemplateResult {
+    return html``;
+  }
 
   override connectedCallback() {
     super.connectedCallback();
     this.hasLeadingIcon = !!this.assignedLeadingIcons.length;
 
-    setTimeout(() => {
-      this.labelSizeObserver = new ResizeObserver(() => this.setLabelWidthProperties())
-      this.labelSizeObserver.observe(this.labelElement);
-      this.setLabelWidthProperties();
-    });
+    this.#attach();
   }
 
   override disconnectedCallback() {
@@ -129,6 +129,13 @@ export abstract class UmFieldBase extends LitElement {
 
     this.labelSizeObserver!.disconnect();
     this.labelSizeObserver = null;
+  }
+
+  async #attach(): Promise<void> {
+    await this.updateComplete;
+    this.labelSizeObserver = new ResizeObserver(() => this.setLabelWidthProperties())
+    this.labelSizeObserver.observe(this.labelElement);
+    this.setLabelWidthProperties();
   }
 
   private handleLeadingIconSlotChange() {
@@ -157,6 +164,9 @@ export abstract class UmFieldBase extends LitElement {
 
     if (!width) {
       this.container.classList.add('no-label');
+      return;
     }
+
+    this.container.classList.remove('no-label');
   }
 }

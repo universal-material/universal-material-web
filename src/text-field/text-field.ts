@@ -38,9 +38,6 @@ export class UmTextField extends UmTextFieldBase {
 
   protected override renderControl(): HTMLTemplateResult {
 
-    // const prefix = html`<span class="prefix" slot="prefix">${this.prefixText || html`<slot name="prefix"></slot>`}</span>`;
-    // const suffix = html`<span class="suffix" slot="suffix">${this.suffixText || html`<slot name="suffix"></slot>`}</span>`;
-
     return html`
       <slot class="prefix" name="prefix">
         <span>${this.prefixText}</span>

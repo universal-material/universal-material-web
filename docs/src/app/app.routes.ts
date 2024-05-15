@@ -98,6 +98,10 @@ export const routes: Routes = [
     loadComponent: () => import('@docs/components/text-fields/text-fields.component').then(c => c.TextFieldsComponent)
   },
   {
+    path: 'components/select',
+    loadComponent: () => import('@docs/components/select/select.component').then(c => c.SelectComponent)
+  },
+  {
     path: 'components/typeahead',
     loadComponent: () => import('@docs/components/typeahead/typeahead.component').then(c => c.TypeaheadComponent)
   },

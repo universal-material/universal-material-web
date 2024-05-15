@@ -5,10 +5,10 @@ import { customElement, property, query, queryAssignedElements } from 'lit/decor
 import { styles as baseStyles } from '../shared/base.styles.js';
 import { styles } from './dialog.styles.js';
 
+import { ConfirmDialogBuilder } from './confirm-dialog-builder.js';
 import { MessageDialogBuilder } from './message-dialog-builder.js';
 
 import '../elevation/elevation.js';
-import { ConfirmDialogBuilder } from './confirm-dialog-builder';
 
 const topDividerClass = 'top-divider';
 const bottomDividerClass = 'bottom-divider';
@@ -78,15 +78,15 @@ export class UmDialog extends LitElement {
     return html`
       <dialog>
         <div class="scrim" @click=${this.#handleScrimClick}></div>
-        <div class="container">
+        <div class="container" part="container">
           <u-elevation></u-elevation>
-          <div class="icon">
+          <div class="icon" part="icon">
             <slot
               name="icon"
               @slotchange=${this.#handleIconSlotChange}>
             </slot>
           </div>
-          <div class="headline">
+          <div class="headline" part="headline">
             <slot
               name="headline"
               @slotchange=${this.#handleHeadlineSlotChange}>
@@ -94,10 +94,11 @@ export class UmDialog extends LitElement {
           </div>
           <div
             class="content"
+            part="content"
             @scroll=${this.#handleScroll}>
             <slot></slot>
           </div>
-          <div class="actions">
+          <div class="actions" part="actions">
             <slot name="actions"></slot>
           </div>
         </div>

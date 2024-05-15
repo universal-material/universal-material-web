@@ -30,6 +30,8 @@
   --u-label-input-span-leading-offset: 0;
   --u-label-input-span-trailing-offset: 0;
   --u-text-field-horizontal-padding: 12px;
+
+  display: block;
 }
 
 .container {
@@ -129,9 +131,11 @@
     outline: 0;
   }
 
+  select,
   input,
   ::slotted(*) {
     @include api.typo(body-l, field-control);
+    display: block;
     width: 100%;
     color: var(--u-field-input-text-color, #{api.get-color-var(on-surface)});
     min-height: var(--_control-line-height);
@@ -370,10 +374,11 @@
   }
 
   .input {
-    ::slotted(*) {
-      color: var(--u-field-input-disabled-color, var(--_disabled-color));
-    }
-
+    select,
+    select::placeholder,
+    input,
+    input::placeholder,
+    ::slotted(*),
     ::slotted(:is(input, textarea))::placeholder {
       color: var(--u-field-input-disabled-color, var(--_disabled-color));
     }

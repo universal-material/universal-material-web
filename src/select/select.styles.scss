@@ -1,0 +1,17 @@
+.container {
+  cursor: pointer;
+}
+
+u-menu {
+  display: block;
+  width: 100%;
+
+  &::part(menu) {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+select {
+  pointer-events: none;
+}
