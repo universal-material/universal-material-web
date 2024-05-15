@@ -43,25 +43,31 @@ export class UmMenu extends LitElement {
   static override styles = [baseStyles, styles];
 
   #open = false;
-  #justShow = false;
 
   /**
    * Opens the menu and makes it visible. Alternative to the `.show()`, `.close()` and `.toggle()` methods
    */
   @property({type: Boolean, reflect: true})
-  get open(): boolean { return this.#open }
+  get open(): boolean {
+    return this.#open
+  }
   set open(open: boolean) {
     if (!open) {
       this.#open = open;
+      document.removeEventListener('click', this.close);
       return;
     }
- 
+
     this.calcDropdownPositioning();
     this.#open = open;
 
-    if (!this.manualFocus) {
-      setTimeout(() => this.querySelector<HTMLElement>('u-menu-item:not([disabled])')?.focus());
+    setTimeout(() => document.addEventListener('click', this.close));
+
+    if (this.manualFocus) {
+      return;
     }
+
+    setTimeout(() => this.querySelector<HTMLElement>('u-menu-item:not([disabled])')?.focus());
   }
 
   @property({reflect: true}) positioning: 'relative' | 'fixed' = 'relative';
@@ -91,6 +97,10 @@ export class UmMenu extends LitElement {
   @query('.menu') menu!: HTMLElement;
   @query('.ref') ref!: HTMLElement;
 
+  get scrollContainer(): HTMLElement {
+    return this.menu;
+  }
+
   #anchorElement: HTMLElement | null | undefined;
 
   get anchorElement(): HTMLElement | null | undefined {
@@ -114,15 +124,9 @@ export class UmMenu extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    window.addEventListener('click', this.close);
     this.role = "listbox";
     // eslint-disable-next-line no-self-assign
     this.open = this.open;
-  }
-
-  override disconnectedCallback() {
-    super.disconnectedCallback();
-    window.removeEventListener('click', this.close);
   }
 
   toggle = () => {
@@ -135,22 +139,15 @@ export class UmMenu extends LitElement {
   };
 
   show(): void {
-    if (this.open) {
-      return;
+    if (!this.open) {
+      this.open = true;
     }
-
-    this.#justShow = true;
-    this.open = true;
   }
 
   close = () => {
-
-    if (this.open && !this.#justShow) {
+    if (this.open) {
       this.open = false;
-      return;
     }
-
-    this.#justShow = false;
   }
 
   private calcDropdownPositioning() {
@@ -159,7 +156,7 @@ export class UmMenu extends LitElement {
     }
 
     const menuPosition = this.getMenuPosition();
-    const menuSize = this.getMenuSize()
+    const menuSize = this.getMenuSize();
 
     this.#resetMenu();
     this.#setToOpenUpOrDown(menuPosition, menuSize);

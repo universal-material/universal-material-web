@@ -11,5 +11,3 @@ import('./app/app.component')
     bootstrapApplication(c.AppComponent, appConfig)
       .catch((err) => console.error(err));
   });
-
-

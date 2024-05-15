@@ -1,6 +1,7 @@
 import { consume, Context, ContextProvider } from '@lit/context';
 import { CSSResultGroup } from '@lit/reactive-element/css-tag';
-import { html, HTMLTemplateResult, LitElement } from 'lit';
+import { html, LitElement } from 'lit';
+import { TemplateResult } from 'lit-html';
 import { property, query, queryAssignedElements, state } from 'lit/decorators.js';
 
 import { styles as baseStyles } from '../shared/base.styles.js';
@@ -74,7 +75,7 @@ export abstract class UmFieldBase extends LitElement {
     this.variant = undefined;
   }
 
-  protected override render(): HTMLTemplateResult {
+  protected override render(): TemplateResult {
     return html`
       <div class="container ${this.variant ?? this.config?.variant ?? 'filled'}">
         <slot
@@ -112,8 +113,8 @@ export abstract class UmFieldBase extends LitElement {
     `;
   }
 
-  protected abstract renderControl(): HTMLTemplateResult;
-  protected renderAfterContent(): HTMLTemplateResult {
+  protected abstract renderControl(): TemplateResult;
+  protected renderAfterContent(): TemplateResult {
     return html``;
   }
 

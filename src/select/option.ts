@@ -8,118 +8,122 @@ import './select.js';
 @customElement('u-option')
 export class UmOption extends UmMenuItem {
 
-  #value: string = '';
+  #nativeOption: HTMLOptionElement = document.createElement('option');
+  #mutationObserver: MutationObserver | null = null;
 
   @property({reflect: true})
   get value(): string {
-    return this.#value;
+    return this.#nativeOption.value;
   }
   set value(value: string) {
-
-    if (typeof value !== 'string') {
-      value = String(value);
-      this.value = value;
-      return;
-    }
-
-    this.#value = value;
-
-    if (!this._nativeOption) {
-      return;
-    }
-
-    this._nativeOption.value = value;
+    this.#nativeOption.value = value;
   }
 
   @state()
   get selected(): boolean {
-    return this._nativeOption?.selected === true;
+    return this.#nativeOption.selected;
   }
   set selected(selected: boolean) {
-    if (selected === this.selected) {
+    if (this.selected === selected) {
       return;
     }
 
-    this.#setSelected(selected);
+    this.#nativeOption.selected = selected;
+
+    if (this.#select) {
+      this.#select.empty = !this.#nativeOption.textContent?.trim();
+    }
   }
 
-  #selectedAttribute = false;
   @property({type: Boolean, attribute: 'selected'})
   // @ts-ignore
-  get _selectedAttribute(): boolean {
-    return this.#selectedAttribute;
+  private get _selectedAttribute(): boolean {
+    return this.#nativeOption.hasAttribute('selected');
   }
-  set _selectedAttribute(selected: boolean) {
-    this.#selectedAttribute = selected;
-
-    if (!this._nativeOption) {
-      return;
-    }
-
+  // @ts-ignore
+  private set _selectedAttribute(selected: boolean) {
     if (selected) {
-      this._nativeOption.setAttribute('selected', '');
-
-      this.select?.requestUpdate();
+      this.#nativeOption.setAttribute('selected', '');
       return;
     }
 
-    this._nativeOption.removeAttribute('selected');
+    this.#nativeOption.removeAttribute('selected');
   }
 
-  private get _nativeOption(): HTMLOptionElement | null {
-    if (!this.select) {
-      return null;
-    }
-
-    const index = this.select.options.indexOf(this);
-    return this.select.nativeOptions[index];
-  }
-
-  select!: UmSelect | null;
+  #select!: UmSelect | null;
 
   override connectedCallback() {
     super.connectedCallback();
     this.addEventListener('click', this.#handleClick);
     this.setAttribute('tabindex', '-1');
 
-    this.select = this.parentElement!.tagName === 'U-SELECT'
-      ? this.parentElement as UmSelect
-      : null;
+    this.#attach();
   }
 
   override disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener('click', this.#handleClick);
-    this.select = null;
+
+    this.#mutationObserver!.disconnect();
+    this.#mutationObserver = null;
+    this.#nativeOption.remove();
+
+    if (!this.#select) {
+      return;
+    }
+
+    // eslint-disable-next-line no-self-assign
+    this.#select.value = this.#select.value;
+    this.#select = null;
+  }
+
+  async #attach(): Promise<void> {
+
+    this.#select = this.parentElement!.tagName === 'U-SELECT'
+      ? this.parentElement as UmSelect
+      : null;
+
+    if (!this.#select) {
+      return;
+    }
+
+    this.#mutationObserver = new MutationObserver(() => this.#updateContent())
+    this.#mutationObserver.observe(this, {characterData: true, childList: true, subtree: true});
+
+    await this.#setNativeOption();
   }
 
   #handleClick(e: Event) {
-    if (!this.select) {
+    if (!this.#select) {
       return;
     }
 
     e.stopPropagation();
 
-    this.#select();
-    this.select.menu?.close();
+    this.selected = true;
+    // eslint-disable-next-line no-self-assign
+    this.#select.value = this.#select.value;
+    this.#select.dispatchEvent(new InputEvent('input', {bubbles: true, composed: true}));
+    this.#select.dispatchEvent(new Event('change', {bubbles: true}));
 
-    this.select.dispatchEvent(new InputEvent('input', {bubbles: true, composed: true}));
-    this.select.dispatchEvent(new Event('change', {bubbles: true}));
+    this.#select.menu?.close();
   }
 
-  #setSelected(selected: boolean) {
-    if (!this._nativeOption) {
-      return;
+  #updateContent() {
+    this.#nativeOption.textContent = this.textContent;
+  }
+
+  async #setNativeOption(): Promise<void> {
+    if (this.hasAttribute('selected')) {
+      this.#nativeOption.setAttribute('selected', '');
+    } else {
+      this.#nativeOption.removeAttribute('selected');
     }
 
-    this._nativeOption.selected = selected;
-    this.select!.empty = !this._nativeOption.textContent?.trim();
-  }
+    this.#select!.nativeSelect.appendChild(this.#nativeOption);
 
-  #select() {
-    this.#setSelected(true);
-
-    this.select!.value = this.select!.value;
+    await this.updateComplete;
+    this.#updateContent();
   }
 }
 

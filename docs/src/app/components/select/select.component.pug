@@ -4,14 +4,6 @@ docs-example(
   sectionTitle="Select")
 
   .u-column
-    select(label="States")
-      ng-container(*ngFor="let option of options")
-        option(
-          *ngIf="option.render",
-          [class.d-none]="option.hide",
-          [value]="option.value",
-          [selected]="option.selected",
-          [attr.selected]="option.selectedAttr ? '' : undefined") {{option.label}}
 
     u-select(label="States")
       ng-container(*ngFor="let option of options")
@@ -21,7 +13,6 @@ docs-example(
           [value]="option.value",
           [selected]="option.selected",
           [attr.selected]="option.selectedAttr ? '' : undefined") {{option.label}}
-      u-option(value="dummy")
 
   ng-container(*ngFor="let option of options")
     .d-flex
@@ -33,3 +24,13 @@ docs-example(
         u-button((click)="option.selectedAttr = !option.selectedAttr") Selected
     div {{option.label}}: {{option | json}}
 
+
+
+  select(label="States")
+    ng-container(*ngFor="let option of options")
+      option(
+        *ngIf="option.render",
+        [class.d-none]="option.hide",
+        [value]="option.value",
+        [selected]="option.selected",
+        [attr.selected]="option.selectedAttr ? '' : undefined") {{option.label}}

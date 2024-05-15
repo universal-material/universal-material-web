@@ -63,7 +63,9 @@ export class UmMenuItem extends UmButtonWrapper {
           aria-hidden="true"
           @slotchange="${this.handleIconSlotChange}"></slot>
       </div>
-      <span class="label" id="text"><slot></slot></span>
+      <span class="label" id="text">
+        <slot></slot>
+      </span>
     `;
   }
 

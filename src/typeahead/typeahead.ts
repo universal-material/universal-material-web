@@ -6,6 +6,7 @@ import { styles } from './typeahead.styles.js';
 
 import { UmMenuItem } from '../menu/menu-item.js';
 import { UmMenu } from '../menu/menu.js';
+import { MenuFieldNavigationController } from '../shared/menu-field/menu-field-navigation-controller.js';
 import { normalizeText } from '../shared/normalize-text.js';
 
 import './highlight.js';
@@ -26,6 +27,7 @@ export class UmTypeahead extends LitElement {
   #connected = false;
   private target: HTMLElement & {input?: HTMLInputElement; container?: HTMLElement; value: string} | null = null;
   #documentMutationObserver: MutationObserver | null = null;
+  #navigationController = new MenuFieldNavigationController(this);
   #termNormalized: string = '';
   #debounceTimeout: number | null = null;
   #value: any;
@@ -131,8 +133,9 @@ export class UmTypeahead extends LitElement {
     // @ts-ignore
     this.target = newTarget;
 
+    newTarget.addEventListener('click', this.#handleClick);
     newTarget.addEventListener('input', this.#handleInput);
-    newTarget.addEventListener('keydown', this.handleKeyDown);
+    this.#navigationController.attach(newTarget);
     newTarget.addEventListener('focus', this.#handleFocus);
 
     if (this.value) {
@@ -141,8 +144,9 @@ export class UmTypeahead extends LitElement {
   }
 
   #detach() {
+    this.target?.removeEventListener('click', this.#handleClick);
     this.target?.removeEventListener('input', this.#handleInput);
-    this.target?.removeEventListener('keydown', this.handleKeyDown);
+    this.#navigationController.detach();
     this.target?.removeEventListener('focus', this.#handleFocus);
   }
 
@@ -161,58 +165,6 @@ export class UmTypeahead extends LitElement {
     this.#setValueAndDispatchEvents(this.editable ? this.getTargetValue() : null, true);
 
     this.#debounceTimeout = setTimeout(async () => await this.#updateResults(true), this.debounce);
-  }
-
-  private readonly handleKeyDown = (event: KeyboardEvent) => {
-    const isDown = event.key === 'ArrowDown';
-    const isUp = event.key === 'ArrowUp';
-
-    if (isDown || isUp) {
-      this.navigate(event, isDown);
-      return;
-    }
-
-    const isEnter = event.key === 'Enter';
-
-    if (isEnter) {
-      this.selectActiveItem(event);
-    }
-  };
-
-  private navigate(event: KeyboardEvent, forwards: boolean) {
-    const menuItems = Array.from(this.menuItems);
-
-    if (!menuItems.length) {
-      return;
-    }
-
-    event.preventDefault();
-
-    const activeMenu = menuItems.find(m => m.active);
-
-    if (activeMenu) {
-      activeMenu.active = false;
-    }
-
-    const nextMenu = forwards
-      ? (<UmMenuItem>activeMenu?.nextElementSibling) ?? menuItems[0]
-      : (<UmMenuItem>activeMenu?.previousElementSibling) ?? menuItems[menuItems.length - 1];
-
-    if (nextMenu) {
-      nextMenu.active = true;
-    }
-  }
-
-  private selectActiveItem(event: KeyboardEvent) {
-    const menuItems = Array.from(this.menuItems);
-    const activeMenu = menuItems.find(m => m.active)
-
-    if (!activeMenu) {
-      return;
-    }
-
-    event.preventDefault();
-    activeMenu.click();
   }
 
   #getItemClickHandler(data: Data) {
@@ -384,6 +336,10 @@ export class UmTypeahead extends LitElement {
     return this.formatter
       ? this.formatter(this.value)
       : this.value
+  }
+
+  #handleClick(e: Event) {
+    e.stopPropagation();
   }
 }
 

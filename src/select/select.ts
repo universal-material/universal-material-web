@@ -1,35 +1,47 @@
 import { PropertyValues } from '@lit/reactive-element';
-import { html, HTMLTemplateResult } from 'lit';
-import { customElement, query, queryAll, state } from 'lit/decorators.js';
+import { html } from 'lit';
+import { TemplateResult } from 'lit-html';
+import { customElement, query, state } from 'lit/decorators.js';
+import { html as staticHtml } from 'lit/static-html.js';
 
 import { styles } from './select.styles.js';
 
 import { UmMenu } from '../menu/menu.js';
+import { UmMenuField } from '../shared/menu-field/menu-field.js';
 import { UmTextFieldBase } from '../shared/text-field-base/text-field-base.js';
 import { UmOption } from './option.js';
+import { SelectNavigationController } from './select-navigation-controller.js';
 
 import './option.js';
 
 @customElement('u-select')
-export class UmSelect extends UmTextFieldBase {
+export class UmSelect extends UmTextFieldBase implements UmMenuField {
   static override styles = [UmTextFieldBase.styles, styles];
+
+  nativeSelect: HTMLSelectElement = document.createElement('select');
+  #navigationController = new SelectNavigationController(this);
+  #connected = false;
 
   @state()
   get value(): string {
-    return this.nativeSelect?.value ?? '';
+    return this.nativeSelect.value;
   }
   set value(value: string) {
     this.nativeSelect.value = value;
+
+    if (!this.#connected) {
+      return;
+    }
+
     this.elementInternals.setFormValue(value);
   }
 
   @query('u-menu') menu!: UmMenu;
-  @query('select') nativeSelect!: HTMLSelectElement;
-  @queryAll('option') nativeOptions!: HTMLOptionElement[];
+  @query('.input') input!: HTMLElement;
 
   @state()
   get selectedIndex(): number {
-    return this.nativeSelect?.selectedIndex ?? -1;
+    return this.nativeSelect.selectedIndex;
   }
   set selectedIndex(index: number) {
     this.nativeSelect.selectedIndex = index;
@@ -44,17 +56,13 @@ export class UmSelect extends UmTextFieldBase {
     return this._options;
   }
 
-  protected override renderControl(): HTMLTemplateResult {
-    return html`
-      <div class="input">
-        <select>
-          ${this.options.map(o => html`<option value="${o.value}" ?selected=${o._selectedAttribute}>${o.textContent}</option>`)}
-        </select>
-      </div>
-    `;
+  protected override renderControl(): TemplateResult {
+    return staticHtml`
+      <button class="button"></button>
+      <div class="input"></div>`;
   }
 
-  protected override renderAfterContent(): HTMLTemplateResult {
+  protected override renderAfterContent(): TemplateResult {
     return html`
       <u-menu>
         <slot @slotchange=${this.#handleSlotChange}></slot>
@@ -64,18 +72,23 @@ export class UmSelect extends UmTextFieldBase {
 
   protected override updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
-    this.empty = this.nativeSelect && !this.nativeSelect.options[this.nativeSelect.selectedIndex]?.label?.trim();
-    this.elementInternals.setFormValue(this.nativeSelect.value);
+    this.empty = !this.selectedOption?.textContent?.trim();
+    this.elementInternals.setFormValue(this.nativeSelect.value || null);
   }
 
   override connectedCallback() {
     super.connectedCallback();
 
+    this.#connected = true;
     this.#attach();
   }
 
   override disconnectedCallback() {
     super.disconnectedCallback();
+
+    this.#navigationController.detach();
+    this.#connected = false;
+    this.nativeSelect.remove();
     this.container.removeEventListener('click', this.#handleClick);
     this.menu.removeEventListener('click', this.#handleMenuClick);
   }
@@ -108,11 +121,19 @@ export class UmSelect extends UmTextFieldBase {
   async #attach(): Promise<void> {
     await this.updateComplete;
 
+    this.#navigationController.attach(this);
+    this.nativeSelect.setAttribute('tabindex', '-1');
+    this.input.appendChild(this.nativeSelect);
     this.container.addEventListener('click', this.#handleClick);
 
     this.menu.anchorElement = this.container;
     this.menu.addEventListener('click', this.#handleMenuClick);
   }
+
+  get menuItems(): UmOption[] {
+    return this.options;
+  }
+
 }
 
 declare global {

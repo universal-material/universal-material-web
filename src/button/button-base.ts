@@ -10,11 +10,6 @@ export abstract class UmButtonBase extends UmButtonWrapper {
 
   @property({reflect: true}) value: string = '';
 
-  /**
-   * The `<form>` element to associate the button with (its form owner). The value of this attribute must be the id of a `<form>` in the same document. (If this attribute is not set, the button is associated with its ancestor `<form>` element, if any.)
-   * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#form
-   */
-  @property()
   get form(): HTMLFormElement | null {
     return this.#elementInternals.form;
   }

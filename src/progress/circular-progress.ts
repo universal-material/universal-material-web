@@ -48,10 +48,6 @@ export class UmCircularProgress extends LitElement {
     const percentage = basePercentage - basePercentage * proportion;
     const trackPercentage = basePercentage - basePercentage * Math.max(1 - offset - proportion, 0) * -1;
 
-    console.log(this.value);
-    console.log(basePercentage);
-    console.log(percentage);
-
     return svg`
       <svg class="circular on-going" viewBox="0 0 50 50">
         <circle

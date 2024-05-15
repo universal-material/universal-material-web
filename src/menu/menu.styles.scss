@@ -45,6 +45,7 @@
   padding-block: var(--u-menu-padding, 8px);
   opacity: 0;
   transition: opacity 1ms 400ms;
+  scroll-padding-block: 32px;
   overflow: auto;
 }
 
