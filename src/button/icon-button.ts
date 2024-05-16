@@ -1,4 +1,4 @@
-import { CSSResult, html, HTMLTemplateResult } from 'lit';
+import { html, HTMLTemplateResult } from 'lit';
 import { customElement, property, queryAssignedElements } from 'lit/decorators.js';
 
 import { styles } from './icon-button.styles.js';
@@ -10,7 +10,7 @@ export type UmIconButtonVariant = 'standard' | 'filled' | 'tonal' | 'outlined';
 @customElement('u-icon-button')
 export class UmIconButton extends UmButtonBase {
 
-  static override styles: CSSResult | CSSResult[] = [styles];
+  static override styles = [UmButtonBase.styles, styles];
 
   @property({reflect: true}) variant: UmIconButtonVariant = 'standard';
 

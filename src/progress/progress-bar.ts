@@ -1,5 +1,4 @@
-import { html, LitElement } from 'lit';
-import { TemplateResult } from 'lit-html';
+import { html, LitElement, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 import { styles } from './progress-bar.styles.js';

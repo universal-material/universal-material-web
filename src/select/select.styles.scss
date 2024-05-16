@@ -1,15 +1,15 @@
-.container {
-  cursor: pointer;
-}
-
 u-menu {
   display: block;
   width: 100%;
 
   &::part(menu) {
-    width: 100%;
-    max-width: 100%;
+    min-width: 100%;
+    max-width: 50vw;
   }
+}
+
+:host(:not([disabled])) .button {
+  cursor: pointer;
 }
 
 .button {
@@ -24,4 +24,13 @@ u-menu {
 
 select {
   pointer-events: none;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.list {
+  width: 2px;
+  height: 2px;
+  margin: -1px;
+  overflow: hidden;
 }

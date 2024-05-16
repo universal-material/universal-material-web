@@ -25,7 +25,7 @@ export class UmTypeahead extends LitElement {
   #targetId: string | undefined;
 
   #connected = false;
-  private target: HTMLElement & {input?: HTMLInputElement; container?: HTMLElement; value: string} | null = null;
+  private target: HTMLElement & {autocomplete: AutoFill; input?: HTMLInputElement; container?: HTMLElement; value: string} | null = null;
   #documentMutationObserver: MutationObserver | null = null;
   #navigationController = new MenuFieldNavigationController(this);
   #termNormalized: string = '';
@@ -44,8 +44,9 @@ export class UmTypeahead extends LitElement {
   @property({type: Number, reflect: true}) limit = 10;
   @property({type: Number, reflect: true}) minLength = 2;
   @property({type: Boolean, attribute: 'open-on-focus', reflect: true}) openOnFocus = false;
-  @property({type: Boolean, reflect: true})
-  editable = false;
+  @property({type: Boolean, reflect: true}) editable = false;
+  @property({reflect: true}) autocomplete: AutoFill = 'off';
+  @property({reflect: true}) override spellcheck = false;
 
   get form(): HTMLFormElement | null {
     return this.#elementInternals.form;
@@ -96,6 +97,18 @@ export class UmTypeahead extends LitElement {
     this.#elementInternals = this.attachInternals();
   }
 
+  override attributeChangedCallback(name: string, _old: string | null, value: string | null) {
+    super.attributeChangedCallback(name, _old, value);
+
+    if (name === 'autocomplete') {
+      this.target!.autocomplete = <AutoFill>value;
+    }
+
+    if (name === 'spellcheck') {
+      this.target!.spellcheck = value === 'true';
+    }
+  }
+
   override connectedCallback() {
     super.connectedCallback();
     this.#connected = true;
@@ -132,6 +145,10 @@ export class UmTypeahead extends LitElement {
 
     // @ts-ignore
     this.target = newTarget;
+    newTarget.role = "combobox";
+    newTarget.autocomplete = this.autocomplete;
+    newTarget.spellcheck = this.spellcheck;
+    newTarget.autocapitalize = 'off';
 
     newTarget.addEventListener('click', this.#handleClick);
     newTarget.addEventListener('input', this.#handleInput);

@@ -1,4 +1,4 @@
-import { CSSResult, html, HTMLTemplateResult, nothing } from 'lit';
+import { html, HTMLTemplateResult, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 import { styles } from './fab.styles.js';
@@ -11,7 +11,7 @@ export type UmFabSize = 'small' | 'medium' | 'large';
 @customElement('u-fab')
 export class UmFab extends UmButtonBase {
 
-  static override styles: CSSResult | CSSResult[] = [styles];
+  static override styles = [UmButtonBase.styles, styles];
   
   /**
    * The FAB color variant to render.

@@ -1,7 +1,6 @@
 import { html, HTMLTemplateResult, nothing } from 'lit';
 import { customElement, property, query, queryAssignedElements } from 'lit/decorators.js';
 
-import { styles as baseStyles } from '../shared/base.styles.js';
 import { styles } from './chip.styles.js';
 
 import { UmRipple } from '../ripple/ripple.js';
@@ -14,7 +13,7 @@ import '../elevation/elevation.js';
 export class UmChip extends UmButtonWrapper {
 
   static override styles = [
-    baseStyles,
+    UmButtonWrapper.styles,
     styles
   ];
 

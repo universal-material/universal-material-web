@@ -199,7 +199,7 @@
   }
 }
 
-:host(:not([has-trailing-icon])) {
+:host(:not([has-trailing-icon])) .container:has(slot[name=trailing-icon] span:empty) {
   .trailing-icon {
     display: none;
   }

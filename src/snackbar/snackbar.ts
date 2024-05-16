@@ -53,7 +53,12 @@ export class UmSnackbar extends LitElement {
 
   private renderCloseButton() {
     return this.showClose
-      ? html`<u-icon-button><i class="mdi mdi-close">X</i></u-icon-button>`
+      ? html`
+        <u-icon-button @click=${this.dismiss.bind(this)}>
+          <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 -960 960 960" width="1em" fill="currentColor">
+            <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+          </svg>
+        </u-icon-button>`
       : nothing;
   }
 

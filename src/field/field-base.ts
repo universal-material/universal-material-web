@@ -1,7 +1,6 @@
 import { consume, Context, ContextProvider } from '@lit/context';
 import { CSSResultGroup } from '@lit/reactive-element/css-tag';
-import { html, LitElement } from 'lit';
-import { TemplateResult } from 'lit-html';
+import { html, TemplateResult, LitElement, nothing } from 'lit';
 import { property, query, queryAssignedElements, state } from 'lit/decorators.js';
 
 import { styles as baseStyles } from '../shared/base.styles.js';
@@ -93,6 +92,7 @@ export abstract class UmFieldBase extends LitElement {
           class="icon trailing-icon"
           name="trailing-icon"
           @slotchange="${this.handleTrailingIconSlotChange}">
+          <span>${this.renderDefaultTrailingIcon()}</span>
         </slot>
       </div>
       <div class="supporting-text" id="supporting-text">
@@ -169,5 +169,9 @@ export abstract class UmFieldBase extends LitElement {
     }
 
     this.container.classList.remove('no-label');
+  }
+
+  protected renderDefaultTrailingIcon(): TemplateResult | typeof nothing {
+    return nothing;
   }
 }

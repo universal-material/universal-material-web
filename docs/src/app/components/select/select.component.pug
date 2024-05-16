@@ -3,34 +3,8 @@ docs-title(title="Selection controls")
 docs-example(
   sectionTitle="Select")
 
-  .u-column
+  u-select(label="States")
+    u-option(
+      *ngFor="let state of states",
+      [value]="state") {{state}}
 
-    u-select(label="States")
-      ng-container(*ngFor="let option of options")
-        u-option(
-          *ngIf="option.render",
-          [class.d-none]="option.hide",
-          [value]="option.value",
-          [selected]="option.selected",
-          [attr.selected]="option.selectedAttr ? '' : undefined") {{option.label}}
-
-  ng-container(*ngFor="let option of options")
-    .d-flex
-      span
-      u-button-set
-        u-button((click)="option.hide = !option.hide") Hide
-        u-button((click)="option.render = !option.render") Render
-        u-button((click)="option.selected = !option.selected") Selected
-        u-button((click)="option.selectedAttr = !option.selectedAttr") Selected
-    div {{option.label}}: {{option | json}}
-
-
-
-  select(label="States")
-    ng-container(*ngFor="let option of options")
-      option(
-        *ngIf="option.render",
-        [class.d-none]="option.hide",
-        [value]="option.value",
-        [selected]="option.selected",
-        [attr.selected]="option.selectedAttr ? '' : undefined") {{option.label}}

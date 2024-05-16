@@ -29,6 +29,8 @@ export class UmTextField extends UmTextFieldBase {
 
   @property({attribute: 'prefix-text'}) prefixText: string | undefined;
   @property({attribute: 'suffix-text'}) suffixText: string | undefined;
+  @property({reflect: true}) autocomplete: AutoFill | undefined;
+  @property({reflect: true}) override autocapitalize!: string;
 
   @query('input') input!: HTMLInputElement;
 
@@ -50,6 +52,10 @@ export class UmTextField extends UmTextFieldBase {
           aria-describedBy="supporting-text"
           ?disabled=${this.disabled}
           placeholder=${this.placeholder || nothing}
+          spellcheck=${this.spellcheck}
+          autocomplete=${this.autocomplete}
+          autocapitalize=${this.autocapitalize}
+          role=${this.role}
           .value=${live(this.#value)}
           @input=${this.#handleInput} />
       </div>

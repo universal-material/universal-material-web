@@ -1,4 +1,4 @@
-import { CSSResult, html, HTMLTemplateResult, nothing } from 'lit';
+import { html, HTMLTemplateResult, nothing } from 'lit';
 import { customElement, property, queryAssignedElements } from 'lit/decorators.js';
 
 import { styles } from './button.styles.js';
@@ -12,7 +12,7 @@ export type UmButtonColor = 'primary' | 'secondary' | 'tertiary' | 'error' | und
 @customElement('u-button')
 export class UmButton extends UmButtonBase {
 
-  static override styles: CSSResult | CSSResult[] = [styles];
+  static override styles = [UmButtonBase.styles, styles];
 
   /**
    * The Button variant to render

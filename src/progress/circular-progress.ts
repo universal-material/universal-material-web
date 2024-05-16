@@ -1,5 +1,4 @@
-import { LitElement, svg } from 'lit';
-import { TemplateResult } from 'lit-html';
+import { LitElement, svg, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 import { styles } from './circular-progress.styles.js';

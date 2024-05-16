@@ -1,11 +1,9 @@
 @use '../scss/functions';
 @use '../scss/mixins';
 
-@import "../shared/button-wrapper.styles";
-
 :host {
   display: block;
-  --_menu-item-icon-size: var(--u-menu-item-icon-size, 1.125rem);
+  --_menu-item-icon-size: var(--u-menu-item-icon-size, 1.5rem);
   --_menu-item-padding: var(--u-menu-item-padding, 12px);
   --u-focus-ring-outline-offset: -4px;
 
@@ -15,22 +13,34 @@
   @include mixins.typo(label-l, menu-item-label);
 }
 
-:host(:not([has-icon])) .icon {
+:host(:not([has-leading-icon])) .leading {
+  display: none;
+}
+
+:host(:not([has-trailing-icon])) .trailing:has(slot[name=trailing-icon] span:empty) {
   display: none;
 }
 
 .icon {
   font-size: var(--_menu-item-icon-size);
   line-height: var(--_menu-item-icon-size);
-  margin-inline-end: var(--u-menu-item-icon-margin, 12px);
   color: var(--u-menu-item-label-color, #{functions.get-color-var(on-surface-variant)});
 }
 
 .content {
   justify-content: flex-start;
+  gap: var(--u-menu-item-icon-margin, 12px);
 }
 
 :host(.force-focus-ring) .button,
 .button:focus-visible {
   border-radius: #{functions.get-spacing-var(small)};
+}
+
+.label {
+  flex: 1;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

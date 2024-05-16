@@ -1,7 +1,5 @@
 @use "../scss/api";
 
-@import "../shared/button-wrapper.styles";
-
 :host {
   --_height: var(--u-chip-height, 32px);
   --_outline-width: var(--u-chip-outline-width, 1px);

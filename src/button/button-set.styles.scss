@@ -1,5 +1,3 @@
-@import "../shared/sets/set-base.styles";
-
 :host([stack][alignment=start]) {
   align-items: flex-start;
 }

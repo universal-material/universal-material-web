@@ -1,6 +1,6 @@
 
-import { html, HTMLTemplateResult } from 'lit';
-import { customElement, property, queryAssignedElements } from 'lit/decorators.js';
+import { html, HTMLTemplateResult, nothing, TemplateResult } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 
 import { styles } from './menu-item.styles.js';
 
@@ -9,7 +9,10 @@ import { UmButtonWrapper } from '../shared/button-wrapper.js';
 @customElement('u-menu-item')
 export class UmMenuItem extends UmButtonWrapper {
 
-  static override styles = styles;
+  static override styles = [
+    UmButtonWrapper.styles,
+    styles
+  ];
 
   #active = false;
 
@@ -32,11 +35,18 @@ export class UmMenuItem extends UmButtonWrapper {
   }
 
   /**
-   * Whether the drawer item has icon or not
+   * Whether the menu item has leading icon or not
    *
    * _Note:_ Readonly
    */
-  @property({type: Boolean, attribute: 'has-icon', reflect: true}) hasIcon = false;
+  @property({type: Boolean, attribute: 'has-leading-icon', reflect: true}) hasLeadingIcon = false;
+
+  /**
+   * Whether the menu item has trailing icon or not
+   *
+   * _Note:_ Readonly
+   */
+  @property({type: Boolean, attribute: 'has-trailing-icon', reflect: true}) hasTrailingIcon = false;
 
   /**
    * Whether the drawer item has badge or not
@@ -45,32 +55,54 @@ export class UmMenuItem extends UmButtonWrapper {
    */
   @property({type: Boolean, attribute: 'has-badge', reflect: true}) hasBadge = false;
 
-  @queryAssignedElements({slot: 'icon', flatten: true})
-  private readonly assignedIcons!: HTMLElement[];
-
   override innerRole = 'menuitem';
 
   override connectedCallback() {
     super.connectedCallback();
     this.role = 'presentation';
+    this.addEventListener('mouseenter', this.#handleMouseEnter);
   }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    this.removeEventListener('mouseenter', this.#handleMouseEnter);
+  }
+
+  #handleMouseEnter = () => this.dispatchEvent(
+    new CustomEvent<UmMenuItem>('menu-item-mouseenter', {bubbles: true}));
 
   protected override renderContent(): HTMLTemplateResult {
     return html`
-      <div class="icon">
+      <div class="icon leading">
         <slot
-          name="icon"
+          name="leading-icon"
           aria-hidden="true"
-          @slotchange="${this.handleIconSlotChange}"></slot>
+          @slotchange="${this.#handleLeadingIconSlotChange}"></slot>
       </div>
       <span class="label" id="text">
         <slot></slot>
       </span>
+      <div class="icon trailing">
+        <slot
+          name="leading-icon"
+          aria-hidden="true"
+          @slotchange="${this.#handleTrailingIconSlotChange}">
+          <span>${this.renderDefaultTrailingIcon()}</span>
+        </slot>
+      </div>
     `;
   }
 
-  private handleIconSlotChange() {
-    this.hasIcon = this.assignedIcons.length > 0;
+  protected renderDefaultTrailingIcon(): TemplateResult | typeof nothing {
+    return nothing;
+  }
+
+  #handleLeadingIconSlotChange(e: Event) {
+    this.hasLeadingIcon = (<HTMLSlotElement>e.target).assignedElements({flatten: true}).length > 0;
+  }
+
+  #handleTrailingIconSlotChange(e: Event) {
+    this.hasTrailingIcon = (<HTMLSlotElement>e.target).assignedElements({flatten: true}).length > 0;
   }
 }
 

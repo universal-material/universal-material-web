@@ -7,7 +7,7 @@ import { UmSetBase } from '../shared/sets/set-base.js';
 @customElement('u-button-set')
 export class UmButtonSet extends UmSetBase {
 
-  static override styles = styles;
+  static override styles = [UmSetBase.styles, styles];
 
   /**
    * Whether to render the buttons stacked or not

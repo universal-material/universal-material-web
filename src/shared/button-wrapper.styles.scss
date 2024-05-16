@@ -1,7 +1,5 @@
 @use '../scss/functions';
 
-@import "../shared/base.styles";
-
 :host {
   --_color-primary: #{functions.get-color-var(primary)};
 

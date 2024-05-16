@@ -24,13 +24,13 @@ u-side-navigation(#navigation)
         #themeMenu,
         anchor-corner="end-end")
         u-menu-item((click)="setThemeMode(ThemeMode.Auto)")
-          span.material-symbols-outlined(slot="icon") brightness_4
+          span.material-symbols-outlined(slot="leading-icon") brightness_4
           span System
         u-menu-item((click)="setThemeMode(ThemeMode.Light)")
-          span.material-symbols-outlined(slot="icon") light_mode
+          span.material-symbols-outlined(slot="leading-icon") light_mode
           span Light Mode
         u-menu-item((click)="setThemeMode(ThemeMode.Dark)")
-          span.material-symbols-outlined(slot="icon") dark_mode
+          span.material-symbols-outlined(slot="leading-icon") dark_mode
           span Dark Mode
 
     //u-icon-button(

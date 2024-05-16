@@ -1,7 +1,6 @@
 import { html, HTMLTemplateResult } from 'lit';
 import { customElement, property, queryAssignedElements } from 'lit/decorators.js';
 
-import { styles as baseStyles } from '../shared/base.styles.js';
 import { styles } from './drawer-item.styles.js';
 
 import { UmButtonWrapper } from '../shared/button-wrapper.js';
@@ -10,7 +9,7 @@ import { UmButtonWrapper } from '../shared/button-wrapper.js';
 export class UmDrawerItem extends UmButtonWrapper {
 
   static override styles = [
-    baseStyles,
+    UmButtonWrapper.styles,
     styles
   ];
 

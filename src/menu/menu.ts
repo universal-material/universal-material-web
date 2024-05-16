@@ -53,14 +53,30 @@ export class UmMenu extends LitElement {
   }
   set open(open: boolean) {
     if (!open) {
+      const closePrevented = !this.dispatchEvent(new Event('close', {cancelable: true}));
+
+      if (closePrevented) {
+        return;
+      }
+
       this.#open = open;
+      this.menu?.addEventListener('transitionend', () => this.dispatchEvent(new Event('closed')), {capture: true, once: true});
+
       document.removeEventListener('click', this.close);
+      return;
+    }
+
+    const openPrevented = !this.dispatchEvent(new Event('open', {cancelable: true}));
+
+    if (openPrevented) {
       return;
     }
 
     this.calcDropdownPositioning();
     this.#open = open;
 
+    this.menu?.addEventListener('transitionend', () =>
+      this.dispatchEvent(new Event('opened')), {capture: true, once: true});
     setTimeout(() => document.addEventListener('click', this.close));
 
     if (this.manualFocus) {

@@ -6,7 +6,7 @@ import { UmSetBase } from '../shared/sets/set-base.js';
 
 @customElement('u-chip-set')
 export class UmChipSet extends UmSetBase {
-  static override styles = styles;
+  static override styles = [UmSetBase.styles, styles];
 }
 
 declare global {

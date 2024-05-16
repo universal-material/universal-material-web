@@ -1,8 +1,6 @@
 @use '../scss/functions';
 @use '../scss/mixins';
 
-@import "../shared/button-wrapper.styles";
-
 :host {
   display: block;
   --_drawer-item-icon-size: var(--u-drawer-item-icon-size, 1.125rem);

@@ -1,6 +1,6 @@
-export function normalizeText(text: string): string {
+export function normalizeText(text: string | null): string {
   if (!text) {
-    return text;
+    return text ?? '';
   }
 
   return text
