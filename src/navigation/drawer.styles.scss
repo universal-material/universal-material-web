@@ -3,7 +3,7 @@
 
 :host {
   display: block;
-  background-color: var(--u-modal-drawer-background-color, #{functions.get-color-var(surface-container-low)});
+  background-color: var(--u-modal-drawer-bg-color, #{functions.get-color-var(surface-container-low)});
   color: var(--u-drawer-text-color, #{functions.get-color-var(on-secondary-container)});
   height: 100%;
   padding-inline: var(--u-drawer-padding, 28px);
@@ -11,6 +11,6 @@
 
 @include mixins.media-breakpoint-up(lg) {
   :host {
-    background-color: var(--u-standard-drawer-background-color, var(--u-color-body, #{functions.get-color-var(surface)}));
+    background-color: var(--u-standard-drawer-bg-color, var(--u-color-body, #{functions.get-color-var(surface)}));
   }
 }

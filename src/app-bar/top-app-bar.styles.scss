@@ -4,13 +4,13 @@
 
 :host {
   display: block;
-  background-color: var(--u-top-app-bar-background-color, var(--u-color-body, #{functions.get-color-var(surface)}));
+  background-color: var(--u-top-app-bar-bg-color, var(--u-color-body, #{functions.get-color-var(surface)}));
   color: var(--u-top-app-bar-text-color, #{functions.get-color-var(on-surface)});
   transition: background-color 100ms, inset 375ms variables.$awesome-cubic-bezier;
 }
 
 :host([container-scrolled]) {
-  background-color: var(--u-top-app-bar-elevated-background-color, #{functions.get-color-var(surface-container)});
+  background-color: var(--u-top-app-bar-elevated-bg-color, #{functions.get-color-var(surface-container)});
 }
 
 :host(:not([has-leading-icon])) .leading-icon {

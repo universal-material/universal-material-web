@@ -7,7 +7,8 @@
 }
 
 :host([variant=elevated]) {
-  background-color: #{functions.get-color-var(surface-container-low)};
+  --u-current-bg-color: var(--u-card-elevated-bg-color, var(#{functions.get-color-var(surface-container-low)}));
+  background-color: var(--u-current-bg-color);
 
   u-elevation {
     --u-elevation-level: var(--u-elevated-card-elevation-level, 1);
@@ -15,7 +16,8 @@
 }
 
 :host([variant=filled]) {
-  background-color: #{functions.get-color-var(surface-container-highest)};
+  --u-current-bg-color: var(--u-card-filled-bg-color, #{functions.get-color-var(surface-container-highest)});
+  background-color: var(--u-current-bg-color);
 }
 
 :host([variant=outlined]) {

@@ -8,7 +8,7 @@ $control-name: switch;
   --_width: 3.25rem;
   --_height: 2rem;
   --_state-layer-padding: 0;
-  --_selected-track-background: var(--u-switch-track-background-color, #{api.get-color-var(primary)});
+  --_selected-track-background: var(--u-switch-track-bg-color, #{api.get-color-var(primary)});
   --_state-layer-size: var(--u-switch-state-layer-size, 2.5rem);
   --_unselected-color: var(--u-switch-track-outline-color, #{api.get-color-var(outline)});
   --_unselected-handle-size: var(--u-swich-unselected-handle-size, 1rem);
@@ -53,7 +53,7 @@ $control-name: switch;
 
 input {
   border: var(--u-switch-track-width, .125rem) solid var(--u-switch-unselected-track-outline-color, var(--_unselected-color));
-  background-color: var(--u-switch-unselected-track-background-color, #{api.get-color-var(surface-container-highest)});
+  background-color: var(--u-switch-unselected-track-bg-color, #{api.get-color-var(surface-container-highest)});
   transition: background 200ms, border-color 200ms;
 
   &:checked {

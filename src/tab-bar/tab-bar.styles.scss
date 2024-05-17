@@ -1,0 +1,68 @@
+@use "../scss/api";
+
+:host {
+  position: relative;
+  display: block;
+  --_active-color: var(--u-tab-active-color, #{api.get-color-var(primary)});
+  overflow: hidden;
+}
+
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  min-height: var(--u-tab-bar-min-height, 48px);
+  overflow: auto;
+  scroll-padding-inline: 128px;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.scroll-indicator {
+  --u-elevation-level: 2;
+
+  position: absolute;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  width: var(--u-tab-bar-scroll-indicator-size, 32px);
+  background-color: var(--u-scroll-indicator-bg-color, var(--u-current-bg-color, #{api.get-color-var(surface)}));
+  font-size: 1.5rem;
+  height: 100%;
+  z-index: 1;
+
+  &.active {
+    @media (hover: hover) {
+      @at-root :host(:hover) & {
+       display: flex;
+      }
+    }
+  }
+}
+
+.scroll-left {
+  left: 0;
+}
+
+.scroll-right {
+  right: 0;
+}
+
+.tab-indicator {
+  position: absolute;
+  background-color: var(--_active-color);
+  height: 3px;
+  bottom: 0;
+  transition: inset 200ms ease-out, width 200ms ease-out;
+}
+
+.container:not(.secondary) {
+  .tab-indicator {
+    border-radius: var(--u-tab-bar-primary-border-radius, 9999px 9999px 0 0);
+  }
+}

@@ -13,7 +13,7 @@ import '../ripple/ripple.js';
 
 export abstract class UmButtonWrapper extends LitElement {
 
-  static override styles: CSSResultGroup = [baseStyles, styles]
+  static override styles: CSSResultGroup = [baseStyles, styles];
 
   /**
    * Whether the button is disabled or not.

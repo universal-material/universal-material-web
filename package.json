@@ -1,6 +1,6 @@
 {
   "name": "@universal-material/web",
-  "version": "3.0.69",
+  "version": "3.0.72",
   "description": "Material web components",
   "type": "module",
   "keywords": [
@@ -30,7 +30,7 @@
     "lint:lit-analyzer": "lit-analyzer",
     "format": "prettier \"**/*.{cjs,html,js,json,md,ts}\" --ignore-path ./.eslintignore --write",
     "predocs": "run-p analyze docs:apis script:sass-to-ts",
-    "docs": "run-p script:sass-to-ts:watch build:watch docs:serve",
+    "docs": "run-p build:watch docs:serve",
     "docs:apis": "gulp -f gulpfile.js docs:apis",
     "docs:apis:watch": "gulp -f gulpfile.js docs:apis:watch",
     "docs:serve": "cd docs && ng serve --disable-host-check",

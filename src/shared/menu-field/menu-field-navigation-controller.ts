@@ -17,13 +17,13 @@ export class MenuFieldNavigationController<TField extends UmMenuField, TMenuItem
     this.detach();
 
     element?.addEventListener('keydown', this.bindHandleKeyDown, {capture: true});
-    this.host.menu.addEventListener('close', this.#handleMenuClose);
+    this.host.menu?.addEventListener('close', this.#handleMenuClose);
     this.#element = element;
   }
 
   detach() {
     this.#element?.removeEventListener('keydown', this.bindHandleKeyDown);
-    this.host.menu.removeEventListener('close', this.#handleMenuClose);
+    this.host.menu?.removeEventListener('close', this.#handleMenuClose);
     this.#element = null;
   }
 

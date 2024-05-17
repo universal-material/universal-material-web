@@ -72,7 +72,7 @@ dialog {
   display: flex;
   flex-direction: column;
   margin-inline: auto;
-  background-color: var(--u-dialog-container-background-color, #{api.get-color-var(surface-container-high)});
+  background-color: var(--u-dialog-container-bg-color, #{api.get-color-var(surface-container-high)});
   border-radius: var(--u-dialog-border-radius, #{api.get-shape-corner-var(extra-large)});
   min-width: min(var(--u-dialog-min-width, 280px), 100%);
   max-width: var(--u-dialog-max-width, 560px);

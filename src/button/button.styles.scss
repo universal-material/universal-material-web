@@ -41,12 +41,12 @@
 }
 
 :host([variant=tonal]) {
-  background-color: var(--u-tonal-button-background-color, #{functions.get-color-var(secondary-container)});
+  background-color: var(--u-tonal-button-bg-color, #{functions.get-color-var(secondary-container)});
   color: var(--u-tonal-button-text-color, #{functions.get-color-var(on-secondary-container)});
 }
 
 :host([variant=elevated]) {
-  background-color: var(--u-elevated-button-background-color, #{functions.get-color-var(surface-container-low)});
+  background-color: var(--u-elevated-button-bg-color, #{functions.get-color-var(surface-container-low)});
   color: var(--u-tonal-button-text-color, #{functions.get-color-var(on-secondary-container)});
 }
 

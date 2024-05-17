@@ -46,7 +46,8 @@
 
   // scss-docs-start reboot-body-rules
   body {
-    background-color: var(--u-color-body);
+    --u-current-bg-color: var(--u-color-body);
+    background-color: var(--u-current-bg-color);
     color: rgba(var(--u-current-text-color-rgb), var(--u-text-opacity));
     margin: 0; // 1
     @include mixins.typo(body-l);

@@ -26,7 +26,7 @@
   display: flex;
   min-width: var(--u-menu-min-width, 112px);
   max-width: var(--u-menu-max-width, 280px);
-  background: var(--u-menu-background-color, #{functions.get-color-var(surface-container)});
+  background: var(--u-menu-bg-color, #{functions.get-color-var(surface-container)});
   border-radius: var(--u-menu-shape-corner, #{functions.get-shape-corner-var(extra-small)});
   opacity: 0;
   transition: transform 350ms variables.$awesome-cubic-bezier 350ms, opacity 350ms;

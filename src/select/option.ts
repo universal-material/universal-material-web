@@ -1,3 +1,4 @@
+import { svg, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 
 import { styles } from './option.styles.js';
@@ -7,7 +8,6 @@ import { ExtendedOption } from './extended-option.js';
 import { UmSelect } from './select.js';
 
 import './select.js';
-import { svg, TemplateResult } from 'lit';
 
 @customElement('u-option')
 export class UmOption extends UmMenuItem {

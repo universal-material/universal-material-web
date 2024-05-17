@@ -1,0 +1,26 @@
+@use "../scss/api";
+
+:host {
+  display: flex;
+  flex: 1;
+  height: var(--u-bar-height, 48px);
+  max-width: var(--u-tab-max-width, 360px);
+  padding-inline: var(--u-tab-padding, 16px);
+  --u-focus-ring-outline-offset: -4px;
+}
+
+:host(.force-focus-ring) .button,
+.button:focus-visible {
+  border-radius: #{api.get-spacing-var(small)};
+}
+
+.label {
+  @include api.typo(title-s, tab-label);
+  color: var(--u-tab-label-text-color, #{api.get-color-var(on-surface-variant)});
+}
+
+.active {
+  .label {
+    color: var(--_active-color);
+  }
+}

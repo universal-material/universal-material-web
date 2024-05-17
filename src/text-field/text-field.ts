@@ -29,7 +29,7 @@ export class UmTextField extends UmTextFieldBase {
 
   @property({attribute: 'prefix-text'}) prefixText: string | undefined;
   @property({attribute: 'suffix-text'}) suffixText: string | undefined;
-  @property({reflect: true}) autocomplete: AutoFill | undefined;
+  @property({reflect: true}) autocomplete: 'on' | 'off' | string | undefined;
   @property({reflect: true}) override autocapitalize!: string;
 
   @query('input') input!: HTMLInputElement;

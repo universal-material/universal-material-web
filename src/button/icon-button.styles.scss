@@ -32,24 +32,24 @@
 }
 
 :host([variant="filled"]) {
-  background-color: var(--u-filled-icon-button-unselected-background-color, var(--_color-surface-container-highest));
+  background-color: var(--u-filled-icon-button-unselected-bg-color, var(--_color-surface-container-highest));
   color: var(--u-filled-icon-button-unselected-text-color, var(--_color-primary));
 }
 
 :host([variant="tonal"]) {
-  background-color: var(--u-total-icon-button-unselected-background-color, var(--_color-surface-container-highest));
+  background-color: var(--u-total-icon-button-unselected-bg-color, var(--_color-surface-container-highest));
   color: var(--u-tonal-icon-button-unselected-text-color, #{functions.get-color-var(on-surface-variant)});
 }
 
 :host([selected][variant="filled"]),
 :host([variant="filled"]:not([has-selection-icon])) {
-  background-color: var(--u-filled-icon-button-background-color, var(--_color-primary));
+  background-color: var(--u-filled-icon-button-bg-color, var(--_color-primary));
   color: var(--u-filled-icon-button-text-color, #{functions.get-color-var(on-primary)});
 }
 
 :host([selected][variant="tonal"]),
 :host([variant="tonal"]:not([has-selection-icon])) {
-  background-color: var(--u-tonal-icon-button-background-color, #{functions.get-color-var(secondary-container)});
+  background-color: var(--u-tonal-icon-button-bg-color, #{functions.get-color-var(secondary-container)});
   color: var(--u-tonal-icon-button-text-color, #{functions.get-color-var(on-secondary-container)});
 }
 
@@ -65,13 +65,13 @@
 
 :host([selected][variant="outlined"]) {
   border: none;
-  background-color: var(--u-outlined-icon-button-selected-background-color, #{functions.get-color-var(inverse-surface)});
+  background-color: var(--u-outlined-icon-button-selected-bg-color, #{functions.get-color-var(inverse-surface)});
   color: var(--u-outlined-icon-button-selected-text-color, #{functions.get-color-var(on-inverse-surface)});
 }
 
 :host([selected][variant="standard"]) {
   color: var(--u-standard-icon-button-selected-text-color, var(--_color-primary));
-  background-color: var(--u-standard-icon-button-selected-background-color, transparent);
+  background-color: var(--u-standard-icon-button-selected-bg-color, transparent);
 }
 
 :host([disabled][variant=outlined]) {

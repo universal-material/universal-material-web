@@ -47,10 +47,6 @@ const allInSeries = gulp.series(sassToTs, buildScripts);
 const watch = () =>
   gulp.watch(['**/*.scss', '**/*.ts'], options, allInSeries);
 
-const watchSassToTs = () =>
-  gulp.watch('**/*.scss', options, sassToTs);
-
 gulp.task('scripts:build', buildScripts);
 gulp.task('scripts:sass-to-ts', sassToTs);
-gulp.task('scripts:sass-to-ts:watch', watchSassToTs);
 gulp.task('scripts:watch', gulp.series(allInSeries, watch));

@@ -25,7 +25,7 @@ export class UmTypeahead extends LitElement {
   #targetId: string | undefined;
 
   #connected = false;
-  private target: HTMLElement & {autocomplete: AutoFill; input?: HTMLInputElement; container?: HTMLElement; value: string} | null = null;
+  private target: HTMLElement & {autocomplete: 'on' | 'off' | string | null; input?: HTMLInputElement; container?: HTMLElement; value: string} | null = null;
   #documentMutationObserver: MutationObserver | null = null;
   #navigationController = new MenuFieldNavigationController(this);
   #termNormalized: string = '';
@@ -45,7 +45,7 @@ export class UmTypeahead extends LitElement {
   @property({type: Number, reflect: true}) minLength = 2;
   @property({type: Boolean, attribute: 'open-on-focus', reflect: true}) openOnFocus = false;
   @property({type: Boolean, reflect: true}) editable = false;
-  @property({reflect: true}) autocomplete: AutoFill = 'off';
+  @property({reflect: true}) autocomplete: 'on' | 'off' | string = 'off';
   @property({reflect: true}) override spellcheck = false;
 
   get form(): HTMLFormElement | null {
@@ -101,7 +101,7 @@ export class UmTypeahead extends LitElement {
     super.attributeChangedCallback(name, _old, value);
 
     if (name === 'autocomplete') {
-      this.target!.autocomplete = <AutoFill>value;
+      this.target!.autocomplete = value;
     }
 
     if (name === 'spellcheck') {
@@ -146,7 +146,7 @@ export class UmTypeahead extends LitElement {
     // @ts-ignore
     this.target = newTarget;
     newTarget.role = "combobox";
-    newTarget.autocomplete = this.autocomplete;
+    newTarget.autocomplete = <any>this.autocomplete;
     newTarget.spellcheck = this.spellcheck;
     newTarget.autocapitalize = 'off';
 

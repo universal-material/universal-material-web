@@ -29,6 +29,8 @@ import './progress/circular-progress.js';
 import './progress/progress-bar.js';
 import './ripple/ripple.js';
 import './snackbar/snackbar.js';
+import './tab-bar/tab-bar.js';
+import './tab-bar/tab.js';
 import './typeahead/highlight.js';
 import './typeahead/typeahead.js';
 
@@ -65,6 +67,8 @@ export * from './progress/circular-progress.js';
 export * from './progress/progress-bar.js';
 export * from './ripple/ripple.js';
 export * from './snackbar/snackbar.js';
+export * from './tab-bar/tab-bar.js';
+export * from './tab-bar/tab.js';
 export * from './theme/theme-builder.js';
 export * from './typeahead/highlight.js';
 export * from './typeahead/typeahead.js';

@@ -130,7 +130,7 @@ slot[name="selected-icon"] {
 }
 
 :host([selected]:not([disabled])) {
-  background-color: var(--u-chip-selected-background-color, #{api.get-color-var(secondary-container)});
+  background-color: var(--u-chip-selected-bg-color, #{api.get-color-var(secondary-container)});
 
   .leading {
     color: var(--u-chip-selected-leading-icon-color, var(--_selected-icon-color));

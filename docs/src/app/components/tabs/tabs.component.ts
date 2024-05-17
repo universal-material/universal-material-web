@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
 import { ApisTableComponent } from '@docs/docs/apis-table/apis-table.component';
@@ -10,11 +11,22 @@ import { TitleComponent } from '@docs/docs/title/title.component';
   styleUrl: './tabs.component.scss',
   standalone: true,
   imports: [
+    CommonModule,
     ApisTableComponent,
     ExampleComponent,
     TitleComponent
   ]
 })
 export class TabsComponent {
+  tabs: string[] = []
 
+  constructor() {
+    for (let i = 0; i < 15; i++) {
+      this.#addTab(`Tab ${i + 1}`)
+    }
+  }
+
+  #addTab(label: string) {
+    this.tabs.push(label);
+  }
 }
