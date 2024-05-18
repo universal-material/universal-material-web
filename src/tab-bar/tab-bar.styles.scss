@@ -4,6 +4,7 @@
   position: relative;
   display: block;
   --_active-color: var(--u-tab-active-color, #{api.get-color-var(primary)});
+  --_active-label-color: var(--u-tab-active-label-color, #{api.get-color-var(primary)});
   overflow: hidden;
 }
 
@@ -25,6 +26,7 @@
 .scroll-indicator {
   --u-elevation-level: 2;
 
+  cursor: pointer;
   position: absolute;
   display: none;
   align-items: center;
@@ -65,4 +67,11 @@
   .tab-indicator {
     border-radius: var(--u-tab-bar-primary-border-radius, 9999px 9999px 0 0);
   }
+}
+
+.secondary {
+  --_active-label-color: var(--u-tab-secondary-active-label-color, #{api.get-color-var(on-surface)});
+  --_tab-content-direction: row;
+  --_tab-content-gap: 8px;
+  --u-tab-with-icon-height: var(--u-tab-secondary-with-icon-height, 48px);
 }

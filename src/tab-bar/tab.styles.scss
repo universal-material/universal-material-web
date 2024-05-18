@@ -1,12 +1,26 @@
 @use "../scss/api";
 
 :host {
-  display: flex;
-  flex: 1;
-  height: var(--u-bar-height, 48px);
-  max-width: var(--u-tab-max-width, 360px);
-  padding-inline: var(--u-tab-padding, 16px);
   --u-focus-ring-outline-offset: -4px;
+  --_tab-height: var(--u-tab-height, 48px);
+
+  display: block;
+  flex: .5;
+  padding-inline: var(--u-tab-padding, 16px);
+}
+
+.tab-content {
+  display: flex;
+  flex-direction: var(--_tab-content-direction, column);
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  height: var(--_tab-height);
+  gap: var(--_tab-content-gap, 0);
+}
+
+.has-icon {
+  --_tab-height: var(--u-tab-with-icon-height, 64px);
 }
 
 :host(.force-focus-ring) .button,
@@ -17,10 +31,23 @@
 .label {
   @include api.typo(title-s, tab-label);
   color: var(--u-tab-label-text-color, #{api.get-color-var(on-surface-variant)});
+  max-width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: var(--u-tab-label-text-color, #{api.get-color-var(on-surface-variant)});
 }
 
 .active {
+  .icon,
   .label {
-    color: var(--_active-color);
+    color: var(--_active-label-color);
   }
 }

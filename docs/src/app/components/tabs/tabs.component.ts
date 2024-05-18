@@ -22,11 +22,11 @@ export class TabsComponent {
 
   constructor() {
     for (let i = 0; i < 15; i++) {
-      this.#addTab(`Tab ${i + 1}`)
+      this.addTab()
     }
   }
 
-  #addTab(label: string) {
-    this.tabs.push(label);
+  addTab() {
+    this.tabs.push(`Tab`);
   }
 }

@@ -22,7 +22,7 @@ export class UmTabBar extends LitElement {
   @query('.scroll-left') private _scrollLeft!: HTMLElement;
   @query('.scroll-right') private _scrollRight!: HTMLElement;
   @query('.container') private _container!: HTMLElement;
-  @query('.tab-indicator') private _tabIndicator!: HTMLElement;
+  @query('.tab-indicator') private _tabIndicator?: HTMLElement;
 
   @queryAssignedElements({flatten: true}) assignedElements!: HTMLElement[];
 
@@ -93,8 +93,7 @@ export class UmTabBar extends LitElement {
       <div
         class="container ${this.variant === 'secondary' ? 'secondary' : ''}"
         @scrollend=${this.#handleContainerScrollEnd}>
-        <slot
-            @slotchange=${this.#handleSlotChange}></slot>
+        <slot @slotchange=${this.#handleSlotChange}></slot>
         <div class="tab-indicator"></div>
       </div>
       <div
@@ -138,6 +137,10 @@ export class UmTabBar extends LitElement {
   }
 
   _updateTabIndicator() {
+    if (!this._tabIndicator) {
+      return;
+    }
+
     if (!this.activeTab) {
       this._tabIndicator.style.left = '0';
       this._tabIndicator.style.width = '0';
