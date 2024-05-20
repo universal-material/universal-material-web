@@ -1,0 +1,27 @@
+<u-chip-field
+  id="chip-field"
+  label="States"
+  supporting-text="Select a state"
+  manual>
+</u-chip-field>
+<u-typeahead target-id="text-field"></u-typeahead>
+
+<script>
+  const formatter = state => state.name;
+
+  const chipField = document.querySelector('u-chip-field');
+  chipField.formatter = formatter;
+
+  const typeahead = document.querySelector('u-typeahead');
+
+  typeahead.source = [];
+  typeahead.formatter = formatter;
+  typeahead.selected = e => {
+    e.preventDefault();
+
+    const typeahead = e.target;
+    typeahead.clear();
+    this.chipField.add(e.detail, true);
+    typeahead.focus();
+  };
+</script>

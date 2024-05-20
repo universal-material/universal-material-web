@@ -34,24 +34,71 @@ export class UmTypeahead extends LitElement {
   readonly #elementInternals: ElementInternals;
 
   // @ts-ignore
-  @state() results: Data[];
+  @state() private results: Data[];
 
-  @property() source: (any[] | ((term: string) => Promise<any[]>)) | undefined;
+  /**
+   * The datasource of the typeahead. Accepts an `Array` or a `Promise<[]>`.
+   */
+  @state() source: (any[] | ((term: string) => Promise<any[]>)) | undefined;
+
+  /**
+   * A function return a string based on a result from the `source`. Useful when the source results are objects.
+   */
   formatter: ((value: any) => string) | undefined;
+
+  /**
+   * A string representing an HTML to be rendered inside the menu item. If set, it will replace the `u-highlight`.
+   *
+   * _Note:_ Subject to signature change
+   */
   template: ((term: string, value: any) => string) | undefined;
 
+  /**
+   * The time in milliseconds before triggering an update in the results.
+   */
   @property({type: Number, reflect: true}) debounce = 300;
+
+  /**
+   * The number of suggestions to show
+   */
   @property({type: Number, reflect: true}) limit = 10;
+
+  /**
+   * How many characters must be typed before show suggestions
+   *
+   * _Note:_ Not used when the source is a `Promise`
+   */
   @property({type: Number, reflect: true}) minLength = 2;
+
+  /**
+   * Whether the menu will be show when the target get focus.
+   *
+   * _Note:_ The `minLength` will still be applied
+   */
   @property({type: Boolean, attribute: 'open-on-focus', reflect: true}) openOnFocus = false;
+
+  /**
+   * If `true`, model values will not be restricted only to items selected from the menu.
+   */
   @property({type: Boolean, reflect: true}) editable = false;
+
+  /**
+   * The value for the `autocomplete` attribute for the target element.
+   */
   @property({reflect: true}) autocomplete: 'on' | 'off' | string = 'off';
+
+  /**
+   * The value for the `spellcheck` attribute for the target element.
+   */
   @property({reflect: true}) override spellcheck = false;
 
   get form(): HTMLFormElement | null {
     return this.#elementInternals.form;
   }
 
+  /**
+   * Gets or sets the current value of the typeahead.
+   */
   get value(): any {
     return this.#value;
   }
@@ -77,6 +124,9 @@ export class UmTypeahead extends LitElement {
     this.setTargetValue('');
   }
 
+  /**
+   * The id of the target element to attach the typeahead.
+   */
   @property({reflect: true, attribute: "target-id"})
   get targetId(): string | undefined {
     return this.#targetId;
@@ -89,8 +139,8 @@ export class UmTypeahead extends LitElement {
     }
   }
 
-  @query('u-menu') menu!: UmMenu;
-  @queryAll('u-menu-item') menuItems!: UmMenuItem[];
+  @query('u-menu') _menu!: UmMenu;
+  @queryAll('u-menu-item') _menuItems!: UmMenuItem[];
 
   constructor() {
     super();
@@ -221,8 +271,8 @@ export class UmTypeahead extends LitElement {
     }
 
     setTimeout(() => {
-      this.menu.anchorElement = this.getMenuAnchor();
-      this.menu.open = true;
+      this._menu.anchorElement = this.getMenuAnchor();
+      this._menu.open = true;
     });
 
     return html`
@@ -246,7 +296,7 @@ export class UmTypeahead extends LitElement {
 
     const termNormalized = normalizeText(term).toLowerCase();
 
-    if (lazy && termNormalized === this.#termNormalized && this.menu?.open === true) {
+    if (lazy && termNormalized === this.#termNormalized && this._menu?.open === true) {
       return;
     }
 

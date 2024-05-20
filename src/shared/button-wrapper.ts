@@ -6,7 +6,7 @@ import { styles as baseStyles } from './base.styles.js';
 
 import { UmRipple } from '../ripple/ripple.js';
 import { styles } from './button-wrapper.styles';
-import { redispatchEvent } from './redispatch-event.js';
+import { redispatchEvent } from './events/redispatch-event.js';
 
 import '../elevation/elevation.js';
 import '../ripple/ripple.js';

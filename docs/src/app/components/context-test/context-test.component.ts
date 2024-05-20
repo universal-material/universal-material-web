@@ -19,9 +19,5 @@ export class ContextTestComponent {
     if (!variant) {
       return;
     }
-
-    console.log(UmField.setDefaults(elementRef.nativeElement, {
-      variant: variant as any
-    }));
   }
 }

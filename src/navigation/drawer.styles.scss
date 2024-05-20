@@ -3,14 +3,19 @@
 
 :host {
   display: block;
+  height: 100vh;
+}
+
+.container {
   background-color: var(--u-modal-drawer-bg-color, #{functions.get-color-var(surface-container-low)});
   color: var(--u-drawer-text-color, #{functions.get-color-var(on-secondary-container)});
   height: 100%;
+  overflow: auto;
   padding-inline: var(--u-drawer-padding, 28px);
 }
 
 @include mixins.media-breakpoint-up(lg) {
-  :host {
+  .container {
     background-color: var(--u-standard-drawer-bg-color, var(--u-color-body, #{functions.get-color-var(surface)}));
   }
 }

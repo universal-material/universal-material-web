@@ -17,36 +17,36 @@ export class MenuFieldNavigationController<TField extends UmMenuField, TMenuItem
     this.detach();
 
     element?.addEventListener('keydown', this.bindHandleKeyDown, {capture: true});
-    this.host.menu?.addEventListener('close', this.#handleMenuClose);
+    this.host._menu?.addEventListener('close', this.#handleMenuClose);
     this.#element = element;
   }
 
   detach() {
     this.#element?.removeEventListener('keydown', this.bindHandleKeyDown);
-    this.host.menu?.removeEventListener('close', this.#handleMenuClose);
+    this.host._menu?.removeEventListener('close', this.#handleMenuClose);
     this.#element = null;
   }
 
   #handleMenuClose = () => this.blurMenu();
 
   protected handleKeyDown(event: KeyboardEvent): boolean {
-    if (!this.host.menu.open) {
+    if (!this.host._menu.open) {
       return false;
     }
 
     const isEscape = event.key === 'Escape';
 
     if (isEscape) {
-      this.host.menu.close();
+      this.host._menu.close();
     }
 
     if (event.key === 'Home') {
-      this.navigateTo(event, <TMenuItem>this.host.menuItems[0]);
+      this.navigateTo(event, <TMenuItem>this.host._menuItems[0]);
       return true;
     }
 
     if (event.key === 'End') {
-      this.navigateTo(event, <TMenuItem>this.host.menuItems[this.host.menuItems.length - 1]);
+      this.navigateTo(event, <TMenuItem>this.host._menuItems[this.host._menuItems.length - 1]);
       return true;
     }
 
@@ -70,7 +70,7 @@ export class MenuFieldNavigationController<TField extends UmMenuField, TMenuItem
   }
 
   private navigate(event: KeyboardEvent, forwards: boolean) {
-    const menuItems = this.host.menuItems;
+    const menuItems = this.host._menuItems;
 
     if (!menuItems.length) {
       return;

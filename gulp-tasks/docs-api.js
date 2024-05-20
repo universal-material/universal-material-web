@@ -44,7 +44,8 @@ export function setClassInfo(classDeclaration, classInfo) {
     if (property.isStatic()
       || property.hasModifier(SyntaxKind.PrivateKeyword)
       || property.hasModifier(SyntaxKind.ProtectedKeyword)
-      || propertyName.startsWith('#')) {
+      || propertyName.startsWith('#')
+      || propertyName.startsWith('_')) {
       continue;
     }
 

@@ -18,13 +18,32 @@ export abstract class UmFieldBase extends LitElement {
 
   @property() variant: 'filled' | 'outlined' | undefined = 'filled';
 
+  /**
+   * The floating label for the field
+   */
   @property() label: string | undefined;
   @property() counter: string | undefined;
+
+  /**
+   * Supporting text conveys additional information about the field, such as how it will be used
+   */
   @property({attribute: 'supporting-text'}) supportingText: string | undefined;
+
+  /**
+   * For text fields that validate their content (such as passwords), replace supporting text with error text when applicable.
+   * If `errorText` is not an empty string, changing the property `invalid` to `true` will show the `errorText` instead of `supportingText`
+   */
   @property({attribute: 'error-text'}) errorText: string | undefined;
 
+  /**
+   * Whether the field is empty or not. This changes the behavior of the floating label when the field is not focused.
+   */
   @property({type: Boolean, reflect: true}) empty = false;
   @property({type: Boolean, reflect: true}) disabled = false;
+
+  /**
+   * Get or sets where or not the field is in a visually invalid state.
+   */
   @property({type: Boolean, reflect: true}) invalid = false;
 
   static setDefaults(contextRoot: HTMLElement, config: UmFieldDefaults): ContextProvider<Context<HTMLElement, UmFieldDefaults>> {
@@ -64,8 +83,8 @@ export abstract class UmFieldBase extends LitElement {
   @queryAssignedElements({slot: 'error-text', flatten: true})
   private readonly assignedErrorTexts!: HTMLElement[];
 
-  @query('.label') labelElement!: HTMLElement;
-  @query('.container') container!: HTMLElement;
+  @query('.label') private _labelElement!: HTMLElement;
+  @query('.container') protected _container!: HTMLElement;
 
   private labelSizeObserver: ResizeObserver | null = null;
 
@@ -135,16 +154,16 @@ export abstract class UmFieldBase extends LitElement {
   async #attach(): Promise<void> {
     await this.updateComplete;
     this.labelSizeObserver = new ResizeObserver(() => this.setLabelWidthProperties())
-    this.labelSizeObserver.observe(this.labelElement);
+    this.labelSizeObserver.observe(this._labelElement);
     this.setLabelWidthProperties();
   }
 
   private handleLeadingIconSlotChange() {
-    this.labelElement.style.transition = 'none';
+    this._labelElement.style.transition = 'none';
     this.hasLeadingIcon = this.assignedLeadingIcons.length > 0;
 
     setTimeout(() => {
-      this.labelElement.style.transition = '';
+      this._labelElement.style.transition = '';
     });
   }
 
@@ -158,17 +177,17 @@ export abstract class UmFieldBase extends LitElement {
 
   private setLabelWidthProperties() {
 
-    const width = this.labelElement.offsetWidth;
+    const width = this._labelElement.offsetWidth;
 
     this.style.setProperty('--u-field-label-width', `${width}px`);
     this.style.setProperty('--u-field-label-half-width', `${width / 2}px`);
 
     if (!width) {
-      this.container.classList.add('no-label');
+      this._container.classList.add('no-label');
       return;
     }
 
-    this.container.classList.remove('no-label');
+    this._container.classList.remove('no-label');
   }
 
   protected renderDefaultTrailingIcon(): TemplateResult | typeof nothing {

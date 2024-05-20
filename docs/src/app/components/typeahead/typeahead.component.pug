@@ -3,7 +3,7 @@ docs-title(title="Typeahead")
 docs-example(
   sectionTitle="Simple",
   [renderExample]="false",
-  [html]="template")
+  [html]="simpleHtml")
 
   u-text-field#text-field(
     label="States"
@@ -11,20 +11,33 @@ docs-example(
   u-typeahead(target-id="text-field", [source]="states")
 
 docs-example(
-  sectionTitle="With objects",
+  sectionTitle="Object results",
   [renderExample]="false",
-  [html]="template")
+  [html]="objectResultsHtml")
+
+  u-text-field#object-field(
+    label="States"
+    supporting-text="Select a state")
+  u-typeahead(
+    target-id="object-field",
+    [formatter]="formatter",
+    [source]="stateObjects")
+
+docs-example(
+  sectionTitle="Handling selection",
+  [renderExample]="false",
+  [html]="handlingSelectionHtml")
 
   u-chip-field#chip-field(
     #chipField,
     label="States",
     supporting-text="Select a state"
     manual,
-    [formatter]="formatter",
-    [leadingIconTemplate]="leadingIconTemplate")
+    [formatter]="formatter")
   u-typeahead(
     target-id="chip-field",
     (selected)="selected($event)",
-    [source]="objectStates",
-    [formatter]="formatter",
-    [template]="resultTemplate")
+    [source]="stateObjects",
+    [formatter]="formatter")
+
+docs-apis-table(key="typeahead")

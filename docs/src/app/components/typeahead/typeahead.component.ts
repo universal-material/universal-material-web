@@ -8,6 +8,13 @@ import { TitleComponent } from '@docs/docs/title/title.component';
 import { UmChipField, UmTypeahead } from '@universal-material/web';
 import { states } from '@docs/shared/states.model';
 
+// @ts-ignore
+import simpleHtml from '!raw-loader!./examples/simple.html';
+// @ts-ignore
+import objectResultsHtml from '!raw-loader!./examples/object-results.html';
+// @ts-ignore
+import handlingSelectionHtml from '!raw-loader!./examples/handling-selection.html';
+
 @Component({
   selector: 'docs-typeahead',
   templateUrl: './typeahead.component.pug',
@@ -21,103 +28,17 @@ import { states } from '@docs/shared/states.model';
   ]
 })
 export class TypeaheadComponent {
-  action = false;
-  clickable = true;
-  elevated = false;
-  toggle = true;
-  selectedIcon = true;
-  leadingIcon = true;
-  trailingIcon = true;
 
-  updated$ = new Subject<void>();
+  simpleHtml = simpleHtml;
+  objectResultsHtml = objectResultsHtml;
+  handlingSelectionHtml = handlingSelectionHtml;
 
   @ViewChild('chipField') chipField!: ElementRef<UmChipField>;
 
-  constructor() {
-    this
-      .updated$
-      .pipe(debounceTime(50))
-      .subscribe(() => this.updateTemplate());
-
-    this.updateTemplate();
-  }
-
-  updateTemplate(): void {
-    this.template = `
-<u-chip${this.getProperties()}>${this.getLeadingIcons()}
-  Label${this.getTrailingIcon()}
-</u-chip>`
-      .trimStart();
-  }
-
-  private getProperties(): string {
-    const properties: {[key: string]: any} = {};
-
-    if (this.action) {
-      properties['action'] = true;
-    }
-
-    if (this.elevated) {
-      properties['elevated'] = true;
-    }
-
-    if (this.clickable) {
-      properties['clickable'] = true;
-    }
-
-    if (this.toggle) {
-      properties['toggle'] = true;
-    }
-
-    let propertiesValue = ``;
-
-    for (const property in properties) {
-      const value = properties[property];
-
-      propertiesValue += value === true
-        ? ` ${property}`
-        : ` ${property}="${value}"`;
-    }
-
-    return propertiesValue;
-  }
-
-  private getLeadingIcons(): string {
-    if (!this.selectedIcon && !this.leadingIcon) {
-      return '';
-    }
-
-    let icons = '';
-
-    if (this.selectedIcon) {
-      icons += `
-  <span class="material-symbols-outlined" slot="selected-icon">done</span>`;
-    }
-
-    if (this.leadingIcon) {
-      icons += `
-  <span class="material-symbols-outlined" slot="leading-icon">event</span>`;
-    }
-
-    return icons;
-  }
-
-  private getTrailingIcon(): string {
-    if (!this.trailingIcon) {
-      return '';
-    }
-
-    return `
-  <span class="material-symbols-outlined" slot="trailing-icon">${this.action ? 'close' : 'arrow_drop_down'}</span>`;
-  }
-
-  template = '';
   states = states;
-  objectStates = states.map(s => ({name: s}));
+  stateObjects = states.map(s => ({name: s}));
 
   formatter = (state: {name: string}) => state.name;
-  leadingIconTemplate = (state: {name: string}) => `${state.name[0]}`;
-  resultTemplate = (_: string, state: {name: string}) => `<i>${state.name.toUpperCase()}</i>`;
 
   selected($event: Event) {
     $event.preventDefault();

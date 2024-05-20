@@ -15,7 +15,7 @@ export class SelectNavigationController extends MenuFieldNavigationController<Um
   #typeaheadStatus = getCleanTypeaheadStatus();
 
   protected override handleKeyDown(event: KeyboardEvent): boolean {
-    if (this.host.menu.open) {
+    if (this.host._menu.open) {
       const handled = super.handleKeyDown(event);
 
       return handled || this.handleType(event);
@@ -29,7 +29,7 @@ export class SelectNavigationController extends MenuFieldNavigationController<Um
     }
 
     event.preventDefault();
-    this.host.menu.show();
+    this.host._menu.show();
 
     if (!this.host.selectedOptions.length) {
       return true;
@@ -42,12 +42,12 @@ export class SelectNavigationController extends MenuFieldNavigationController<Um
 
   override attach(element: HTMLElement) {
     super.attach(element);
-    this.host.menu.addEventListener('menu-item-mouseenter', this.#handleMouseFocus);
+    this.host._menu.addEventListener('menu-item-mouseenter', this.#handleMouseFocus);
   }
 
   override detach() {
     super.detach();
-    this.host.menu.removeEventListener('menu-item-mouseenter', this.#handleMouseFocus);
+    this.host._menu.removeEventListener('menu-item-mouseenter', this.#handleMouseFocus);
   }
 
   #handleMouseFocus = (e: Event) => {
@@ -56,11 +56,11 @@ export class SelectNavigationController extends MenuFieldNavigationController<Um
   };
 
   protected override afterFocus(option: UmOption) {
-    this.host.button.setAttribute('aria-activedescendant', option._listItem.id);
+    this.host._button.setAttribute('aria-activedescendant', option._listItem.id);
   }
 
   protected override afterBlur() {
-    this.host.button.removeAttribute('aria-activedescendant');
+    this.host._button.removeAttribute('aria-activedescendant');
   }
 
   private handleType(event: KeyboardEvent) {
@@ -91,14 +91,14 @@ export class SelectNavigationController extends MenuFieldNavigationController<Um
     let nextMenu = <UmOption | undefined>lastFocusedMenu?.nextElementSibling
 
     if (!nextMenu || !normalizedStartsWith(nextMenu.textContent, term)) {
-      nextMenu = this.host.options.find(o => normalizedStartsWith(o.textContent, term));
+      nextMenu = this.host._options.find(o => normalizedStartsWith(o.textContent, term));
     }
 
     if (!nextMenu) {
       return;
     }
 
-    if (this.host.menu.open) {
+    if (this.host._menu.open) {
       this.blurMenu();
       this.focusMenu(nextMenu);
       return;

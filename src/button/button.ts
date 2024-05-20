@@ -22,7 +22,7 @@ export class UmButton extends UmButtonBase {
   /**
    * The Button color
    *
-   * _Note:_ Filled buttons only
+   1
    */
   @property({reflect: true}) color: UmButtonColor;
 

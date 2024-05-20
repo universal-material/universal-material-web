@@ -1,11 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
-import { debounceTime, Subject } from 'rxjs';
+import { Component } from '@angular/core';
 
 import { ApisTableComponent } from '@docs/docs/apis-table/apis-table.component';
 import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
-import { UmChipField, UmTypeahead } from '@universal-material/web';
+import { UmChipField } from '@universal-material/web';
+
+// @ts-ignore
+import simpleHtml from '!raw-loader!./examples/simple.html';
+// @ts-ignore
+import objectValuesHtml from '!raw-loader!./examples/object-values.html';
 
 @Component({
   selector: 'docs-chip-field',
@@ -20,108 +24,19 @@ import { UmChipField, UmTypeahead } from '@universal-material/web';
   ]
 })
 export class ChipFieldComponent {
-  action = false;
-  clickable = true;
-  elevated = false;
-  toggle = true;
-  selectedIcon = true;
-  leadingIcon = true;
-  trailingIcon = true;
 
-  updated$ = new Subject<void>();
-
-  @ViewChild('chipField') chipField!: ElementRef<UmChipField>;
-
-  constructor() {
-    this
-      .updated$
-      .pipe(debounceTime(50))
-      .subscribe(() => this.updateTemplate());
-
-    this.updateTemplate();
-  }
-
-  updateTemplate(): void {
-    this.template = `
-<u-chip${this.getProperties()}>${this.getLeadingIcons()}
-  Label${this.getTrailingIcon()}
-</u-chip>`
-      .trimStart();
-  }
-
-  private getProperties(): string {
-    const properties: {[key: string]: any} = {};
-
-    if (this.action) {
-      properties['action'] = true;
-    }
-
-    if (this.elevated) {
-      properties['elevated'] = true;
-    }
-
-    if (this.clickable) {
-      properties['clickable'] = true;
-    }
-
-    if (this.toggle) {
-      properties['toggle'] = true;
-    }
-
-    let propertiesValue = ``;
-
-    for (const property in properties) {
-      const value = properties[property];
-
-      propertiesValue += value === true
-        ? ` ${property}`
-        : ` ${property}="${value}"`;
-    }
-
-    return propertiesValue;
-  }
-
-  private getLeadingIcons(): string {
-    if (!this.selectedIcon && !this.leadingIcon) {
-      return '';
-    }
-
-    let icons = '';
-
-    if (this.selectedIcon) {
-      icons += `
-  <span class="material-symbols-outlined" slot="selected-icon">done</span>`;
-    }
-
-    if (this.leadingIcon) {
-      icons += `
-  <span class="material-symbols-outlined" slot="leading-icon">event</span>`;
-    }
-
-    return icons;
-  }
-
-  private getTrailingIcon(): string {
-    if (!this.trailingIcon) {
-      return '';
-    }
-
-    return `
-  <span class="material-symbols-outlined" slot="trailing-icon">${this.action ? 'close' : 'arrow_drop_down'}</span>`;
-  }
-
-  template = '';
+  simpleHtml = simpleHtml;
+  objectValuesHtml = objectValuesHtml;
 
   formatter = (state: {name: string}) => state.name;
-  leadingIconTemplate = (state: {name: string}) => `${state.name[0]}`;
 
-  selected($event: Event) {
-    $event.preventDefault();
+  keyDown($event: KeyboardEvent) {
+    if ($event.key !== 'Enter') {
+      return;
+    }
 
-    const customEvent = $event as CustomEvent<{name: string}>;
-    const typeahead = <UmTypeahead>customEvent.target;
-    typeahead.clear();
-    this.chipField.nativeElement.add(customEvent.detail);
-    typeahead.focus();
+    const chipField = <UmChipField>$event.target;
+    chipField.add({name: chipField.input.value}, true);
+    chipField.input.value = '';
   }
 }

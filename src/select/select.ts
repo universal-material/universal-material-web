@@ -16,11 +16,10 @@ import './option.js';
 
 @customElement('u-select')
 export class UmSelect extends UmTextFieldBase implements UmMenuField {
-  currentOptionIndex = 1;
 
   static override styles = [UmTextFieldBase.styles, styles];
 
-  nativeSelect: ExtendedSelect = (() => {
+  _nativeSelect: ExtendedSelect = (() => {
     const select = <ExtendedSelect>document.createElement('select');
     select.setAttribute('tabindex', '-1');
     select.setAttribute('part', 'select');
@@ -41,12 +40,15 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
   readonly #mutationObserver: MutationObserver;
   #connected = false;
 
+  /**
+   * The `value` of the selected option
+   */
   @state()
   get value(): string {
-    return this.nativeSelect.value;
+    return this._nativeSelect.value;
   }
   set value(value: string) {
-    this.nativeSelect.value = value;
+    this._nativeSelect.value = value;
 
     if (!this.#connected) {
       return;
@@ -55,25 +57,31 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
     this.elementInternals.setFormValue(value);
   }
 
-  @query('u-menu') menu!: UmMenu;
-  @query('.button') button!: HTMLButtonElement;
-  @query('.input') input!: HTMLElement;
+  @query('u-menu') _menu!: UmMenu;
+  @query('.button') _button!: HTMLButtonElement;
+  @query('.input') _input!: HTMLElement;
 
+  /**
+   * The index of the selected option. When there's no selected option the value is `-1`.
+   */
   @state()
   get selectedIndex(): number {
-    return this.nativeSelect.selectedIndex;
+    return this._nativeSelect.selectedIndex;
   }
   set selectedIndex(index: number) {
-    this.nativeSelect.selectedIndex = index;
+    this._nativeSelect.selectedIndex = index;
   }
 
+  /**
+   * An `Array` containing the selected `UmOption` or empty if there's no selected option. Multiple selection is not supported.
+   */
   get selectedOptions(): UmOption[] {
-    return this.nativeSelect.selectedOptions.length
-      ? [this.nativeSelect.selectedOptions[0]._parent]
+    return this._nativeSelect.selectedOptions.length
+      ? [this._nativeSelect.selectedOptions[0]._parent]
       : [];
   }
 
-  get options(): UmOption[] {
+  get _options(): UmOption[] {
     const options = Array.from(this.querySelectorAll<UmOption>('u-option'));
 
     return options
@@ -89,7 +97,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
 
   _updateOptions() {
 
-    const options = this.options;
+    const options = this._options;
 
     for (const option of options) {
       option._select = this;
@@ -107,15 +115,15 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
     // eslint-disable-next-line no-self-assign
     selectedOption.selected = selectedOption.selected;
     this.empty = !selectedOption.textContent?.trim();
-    this.button.setAttribute('aria-labelledby', selectedOption._listItem.id)
+    this._button.setAttribute('aria-labelledby', selectedOption._listItem.id)
   }
 
   #updateOptions(options: UmOption[]) {
-    const maxLength = Math.max(options.length, this.nativeSelect.children.length);
+    const maxLength = Math.max(options.length, this._nativeSelect.children.length);
 
     for (let i = 0; i < maxLength; i++) {
       const option = options[i];
-      const nativeOption = this.nativeSelect.children[i];
+      const nativeOption = this._nativeSelect.children[i];
 
       if (!option) {
         nativeOption.remove();
@@ -123,7 +131,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
       }
 
       if (!nativeOption) {
-        this.nativeSelect.appendChild(option._nativeOption);
+        this._nativeSelect.appendChild(option._nativeOption);
         continue;
       }
 
@@ -156,7 +164,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
   }
 
   #setSelectedOption() {
-    const options = this.options;
+    const options = this._options;
 
     const selectedClassOptions = options.filter(o => o.classList.contains('selected'));
 
@@ -211,7 +219,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
   protected override updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
     this.empty = !this.selectedOptions[0]?.textContent?.trim();
-    this.elementInternals.setFormValue(this.nativeSelect.value || null);
+    this.elementInternals.setFormValue(this._nativeSelect.value || null);
   }
 
   override attributeChangedCallback(name: string, _old: string | null, value: string | null) {
@@ -221,7 +229,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
       return;
     }
 
-    this.nativeSelect.disabled = value === null;
+    this._nativeSelect.disabled = value === null;
   }
 
   override connectedCallback() {
@@ -236,18 +244,18 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
 
     this.#navigationController.detach();
     this.#connected = false;
-    this.nativeSelect.remove();
-    this.button.removeEventListener('click', this.#handleClick);
-    this.menu.removeEventListener('click', this.#handleMenuClick);
-    this.menu.removeEventListener('open', this.#handleMenuOpen);
-    this.menu.removeEventListener('opened', this.#handleMenuOpened);
-    this.menu.removeEventListener('close', this.#handleMenuClose);
+    this._nativeSelect.remove();
+    this._button.removeEventListener('click', this.#handleClick);
+    this._menu.removeEventListener('click', this.#handleMenuClick);
+    this._menu.removeEventListener('open', this.#handleMenuOpen);
+    this._menu.removeEventListener('opened', this.#handleMenuOpened);
+    this._menu.removeEventListener('close', this.#handleMenuClose);
   }
 
   #handleClick = (e: MouseEvent) => {
-    this.menu.toggle();
+    this._menu.toggle();
 
-    if (!this.menu.open || !this.selectedOptions.length) {
+    if (!this._menu.open || !this.selectedOptions.length) {
       return;
     }
 
@@ -259,7 +267,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
   }
 
   #handleMenuOpen = () => {
-    this.button.setAttribute('aria-expanded', 'true');
+    this._button.setAttribute('aria-expanded', 'true');
     this.#setSelectedOption();
   };
 
@@ -273,31 +281,31 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
   };
 
   #handleMenuClose = () => {
-    this.button.setAttribute('aria-expanded', 'false');
+    this._button.setAttribute('aria-expanded', 'false');
     this.#navigationController.blurMenu();
   };
 
   async #attach(): Promise<void> {
     await this.updateComplete;
 
-    this.nativeSelect.disabled = this.hasAttribute('disabled');
+    this._nativeSelect.disabled = this.hasAttribute('disabled');
 
     this.#navigationController.attach(this);
     this._updateOptions();
 
-    this.input.appendChild(this.nativeSelect);
-    this.input.appendChild(this.#list);
-    this.button.addEventListener('click', this.#handleClick);
+    this._input.appendChild(this._nativeSelect);
+    this._input.appendChild(this.#list);
+    this._button.addEventListener('click', this.#handleClick);
 
-    this.menu.anchorElement = this.container;
-    this.menu.addEventListener('click', this.#handleMenuClick);
-    this.menu.addEventListener('open', this.#handleMenuOpen);
-    this.menu.addEventListener('opened', this.#handleMenuOpened);
-    this.menu.addEventListener('close', this.#handleMenuClose);
+    this._menu.anchorElement = this._container;
+    this._menu.addEventListener('click', this.#handleMenuClick);
+    this._menu.addEventListener('open', this.#handleMenuOpen);
+    this._menu.addEventListener('opened', this.#handleMenuOpened);
+    this._menu.addEventListener('close', this.#handleMenuClose);
   }
 
-  get menuItems(): UmOption[] {
-    return this.options;
+  get _menuItems(): UmOption[] {
+    return this._options;
   }
 }
 

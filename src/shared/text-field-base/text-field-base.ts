@@ -16,6 +16,9 @@ export abstract class UmTextFieldBase extends UmFieldBase {
     delegatesFocus: true,
   };
 
+  /**
+   * Whether the field is empty or not. This changes the behavior of the floating label when the field is not focused.
+   */
   override empty = true;
 
   @property({reflect: true}) placeholder: string | undefined;

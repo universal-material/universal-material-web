@@ -67,7 +67,7 @@ export class UmOption extends UmMenuItem {
       return;
     }
 
-    this._select.button.setAttribute('aria-labelledby', this._listItem.id);
+    this._select._button.setAttribute('aria-labelledby', this._listItem.id);
     this._select.empty = !this._nativeOption.textContent?.trim();
   }
 
@@ -155,7 +155,7 @@ export class UmOption extends UmMenuItem {
     this._select.dispatchEvent(new InputEvent('input', {bubbles: true, composed: true}));
     this._select.dispatchEvent(new Event('change', {bubbles: true}));
 
-    this._select.menu?.close();
+    this._select._menu?.close();
   }
 
   #updateContent() {

@@ -1,10 +1,15 @@
-docs-title(title="Selection controls")
+docs-title(title="Select")
+  markdown
+    = 'Represents a control that provides a menu of options. Mimic the behavior of the native `<select>`.'
 
 docs-example(
-  sectionTitle="Select")
+  sectionTitle="Example",
+  [html]="example",
+  [renderExample]="false")
 
   u-select(label="States")
     u-option(
       *ngFor="let state of states",
       [value]="state") {{state}}
 
+docs-apis-table(key="select")

@@ -16,13 +16,31 @@ export class UmChipField extends UmTextFieldBase {
 
   @query('input') input!: HTMLInputElement;
   @property() name!: string;
+
+  /**
+   * If true, ignore enter key input
+   */
   @property({type: Boolean}) manual = false;
 
+  /**
+   * A function return a string based on a item from the `value`. Useful when the items of value are objects.
+   */
   formatter: ((value: any) => string) | undefined;
+
+  /**
+   * A string representing an HTML to be rendered inside as leading icon of each chip.
+   *
+   * _Note:_ Subject to signature change
+   */
   leadingIconTemplate: ((value: any) => string) | undefined;
 
   #value: any[] = [];
 
+  /**
+   * An array containing the value representation of each chip.
+   *
+   * _Note:_ Add or remove items directly from value array won't trigger a render on Chip Field. Use the methods `add` or `removeAt`.
+   */
   get value(): any[] {
     return this.#value;
   }
@@ -89,7 +107,7 @@ export class UmChipField extends UmTextFieldBase {
 
   #handleKeyDown(e: KeyboardEvent) {
     if (!this.manual && e.key === 'Enter') {
-      this.add(this.input.value);
+      this.add(this.input.value, true);
       this.input.value = '';
       return;
     }
@@ -100,9 +118,15 @@ export class UmChipField extends UmTextFieldBase {
     }
   }
 
-  add(value: any) {
+  add(value: any, triggerChange = false) {
     this.value.push(value);
-    this.#changed();
+
+    this.#changed(triggerChange);
+  }
+
+  removeAt(index: number, triggerChange = false) {
+    this.value.splice(index, 1);
+    this.#changed(triggerChange);
   }
 
   #removeChip = (index: number) =>
@@ -113,13 +137,15 @@ export class UmChipField extends UmTextFieldBase {
         return;
       }
 
-      this.value.splice(index, 1);
-      this.#changed();
+      this.removeAt(index, true);
     }
 
-  #changed() {
+  #changed(triggerChange: boolean) {
     this.#valueUpdate();
-    this.dispatchEvent(new Event('change', {bubbles: true}));
+
+    if (triggerChange) {
+      this.dispatchEvent(new Event('change', {bubbles: true}));
+    }
   }
 
   #valueUpdate() {

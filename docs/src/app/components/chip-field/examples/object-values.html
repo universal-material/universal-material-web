@@ -1,0 +1,15 @@
+<u-chip-field label="Tags" manual></u-chip-field>
+
+<script>
+  const chipField = document.querySelector('u-chip-field');
+
+  chipField.formatter = state => state.name;
+  chipField.addEventListener('keydown', e => {
+    if (e.key !== 'Enter') {
+      return;
+    }
+
+    e.target.add({name: chipField.input.value}, true);
+    e.target.input.value = '';
+  });
+</script>
