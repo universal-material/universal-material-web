@@ -56,7 +56,7 @@ u-ripple {
 }
 
 input:checked ~ .indicator-container {
-  --_indicator-color: var(--u-#{$control-name}-indicator-unselected-color, #{api.get-color-var(primary)});
+  --_indicator-color: var(--u-#{$control-name}-indicator-selected-color, #{api.get-color-var(primary)});
 }
 
 :host([disabled]) {

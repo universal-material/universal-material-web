@@ -5,7 +5,7 @@ $control-name: checkbox;
 @import "../shared/selection-control/selection-control.styles";
 
 :host {
-  --_indicator-size: var(--u-checkbox-size, 1.125rem);
+  --_indicator-size: var(--u-checkbox-indicator-size, 1.125rem);
   --_width: var(--u-checkbox-size, 3rem);
   --_height: var(--_width);
 }

@@ -22,8 +22,12 @@
 }
 
 .icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_menu-item-icon-size);
+  height: var(--_menu-item-icon-size);
   font-size: var(--_menu-item-icon-size);
-  line-height: var(--_menu-item-icon-size);
   color: var(--u-menu-item-label-color, #{functions.get-color-var(on-surface-variant)});
 }
 
