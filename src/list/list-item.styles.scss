@@ -1,3 +1,5 @@
+@use "../scss/api";
+
 :host {
   position: relative;
   display: flex;
@@ -15,4 +17,17 @@ slot:not([name]) {
 
 slot {
   flex-shrink: 0;
+}
+
+.content {
+  flex: 1;
+}
+
+.headline {
+  @include api.typo(body-l, list-item-headline);
+}
+
+.supporting-text {
+  @include api.typo(body-m, list-item-supporting-text);
+  color: var(--u-list-item-supporting-text-color, #{api.get-color-var(on-surface-variant)});
 }

@@ -15,6 +15,7 @@
   > thead > tr,
   > tfoot > tr,
   > tr {
+    @at-root .u-table > tbody > tr,
     &:not(:first-child) {
       border-top: 1px solid rgba(var(--u-current-text-color-rgb), var(--u-table-divider-opacity, .2));
     }

@@ -1,6 +1,22 @@
-docs-title(title="Installation")
+docs-title(title="Quick start")
 
-p Include Universal Material source sass and TypeScript files via npm.
 
-pre
-  code(highlight="$ npm install @universal-material/web -S" language="shell")
+docs-example(sectionTitle="Install") Include Universal Material source sass and TypeScript files via npm.
+
+u-card(variant="outlined")
+  pre(slot="before-content")
+    code(highlight="npm install @universal-material/web -S" language="shell")
+
+docs-example(sectionTitle="Import")
+  markdown {{importText}}
+
+  u-card(variant="outlined")
+    pre(slot="before-content")
+      code([highlight]="importCode" language="javascript")
+
+docs-example(sectionTitle="Usage")
+  markdown= 'Use the `<component-name>` tag in HTML markup.'
+
+  u-card(variant="outlined")
+    pre(slot="before-content")
+      code([highlight]="usageCode" language="javascript")

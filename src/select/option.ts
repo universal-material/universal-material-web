@@ -126,7 +126,7 @@ export class UmOption extends UmMenuItem {
 
   async #attach(): Promise<void> {
 
-    this._select = this.parentElement!.constructor.name === 'UmSelect'
+    this._select = this.parentElement instanceof UmSelect
       ? this.parentElement as UmSelect
       : null;
 

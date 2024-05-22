@@ -1,0 +1,25 @@
+{
+  "trailingComma": "all",
+  "tabWidth": 2,
+  "singleQuote": true,
+  "bracketSameLine": true,
+  "bracketSpacing": true,
+  "htmlWhitespaceSensitivity": "ignore",
+  "arrowParens": "avoid",
+  "importOrder": [
+    "^(@angular|rxjs)/(.+)$",
+    "",
+    "^(lit|(lit|@lit)(.+))$",
+    "",
+    "^@docs/(.+)$",
+    "",
+    "^[./](.+?)\\.styles.js",
+    "",
+    "^[./]", "\\!raw-loader\\!",
+    ""
+  ],
+  "importOrderSortSpecifiers": true,
+  "importOrderCaseInsensitive": true,
+  "importOrderParserPlugins": ["typescript", "decorators-legacy"],
+  "plugins": ["@ianvs/prettier-plugin-sort-imports"]
+}

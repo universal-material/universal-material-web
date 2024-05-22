@@ -2,6 +2,12 @@
 
 .prefix,
 .suffix {
+
+  &::slotted(*),
+  span {
+    transition: opacity 150ms 100ms;
+  }
+
   span:empty {
     display: none;
   }
@@ -31,6 +37,19 @@
     span,
     &::slotted(*) {
       color: var(--u-text-field-suffix-color, var(--u-text-field-affix-color, rgba(#{api.get-color-rgb-var(on-surface)}, var(--u-field-disabled-opacity, .38))));
+    }
+  }
+}
+
+:host([empty]:not(:focus-within)) {
+  .container:not(.no-label) {
+    .suffix,
+    .prefix {
+      &::slotted(*),
+      span {
+        opacity: 0;
+        transition: opacity 150ms;
+      }
     }
   }
 }

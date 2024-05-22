@@ -1,3 +1,4 @@
+import { PropertyValues } from '@lit/reactive-element';
 import { html, HTMLTemplateResult, LitElement, nothing } from 'lit';
 import { property, query } from 'lit/decorators.js';
 
@@ -11,9 +12,6 @@ export abstract class UmSelectionControl extends LitElement {
   @property() name: string | undefined = '';
   @property({type: Boolean, reflect: true}) disabled = false;
   @query('input') input!: HTMLInputElement;
-
-  // eslint-disable-next-line
-  // #value: any = '';
 
   get form(): HTMLFormElement | null {
     return this.elementInternals.form;
@@ -32,20 +30,34 @@ export abstract class UmSelectionControl extends LitElement {
 
   @property({type: Boolean})
   get checked() {
-    return this.#checked;
+    return this.input ? this.input.checked : this.#checked;
   }
-  set checked(value: boolean) {
-    this.#checked = value;
-    this.elementInternals.setFormValue(value ? this.value : null);
+  set checked(checked: boolean) {
+    this.#checked = checked;
+
+    if (this.input) {
+      this.input.checked = checked;
+    }
+
+    this.elementInternals.setFormValue(checked ? this.value : null);
   }
+
+  @property({type: Boolean, attribute: 'checked'}) private _checkedAttribute = false;
 
   protected constructor() {
     super();
     this.elementInternals = this.attachInternals();
   }
 
+  override firstUpdated(changedProperties: PropertyValues) {
+    super.firstUpdated(changedProperties);
+
+    this.input.checked = this.#checked;
+  }
+
   override connectedCallback() {
     super.connectedCallback();
+
     this.addEventListener('click', this.#handleClick);
   }
 
@@ -64,8 +76,7 @@ export abstract class UmSelectionControl extends LitElement {
           id="input"
           type=${this.inputType}
           class="focus-ring"
-          .name=${this.name}
-          .checked=${this.#checked}
+          .checked=${this._checkedAttribute}
           .disabled=${this.disabled} />
         <div class="indicator-container">${this.renderIndicator()}</div>
       </div>`;

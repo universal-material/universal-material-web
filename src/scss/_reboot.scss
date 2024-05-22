@@ -50,7 +50,9 @@
     background-color: var(--u-current-bg-color);
     color: rgba(var(--u-current-text-color-rgb), var(--u-text-opacity));
     margin: 0; // 1
-    @include mixins.typo(body-l);
+    @include mixins.typo-prop(body-l, font-size);
+    @include mixins.typo-prop(body-l, font-weight);
+    line-height: 1.5;
     text-align: start;
     -webkit-text-size-adjust: 100%; // 3
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0); // 4

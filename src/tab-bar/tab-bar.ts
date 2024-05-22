@@ -1,5 +1,11 @@
 import { html, LitElement, TemplateResult } from 'lit';
-import { customElement, property, query, queryAssignedElements } from 'lit/decorators.js';
+import {
+  customElement,
+  property,
+  query,
+  queryAssignedElements,
+} from 'lit/decorators.js';
+import { classMap } from 'lit/directives/class-map.js';
 
 import { styles as baseStyles } from '../shared/base.styles.js';
 import { styles } from './tab-bar.styles.js';
@@ -17,14 +23,14 @@ export class UmTabBar extends LitElement {
     this._updateTabIndicator();
   });
 
-  @property({reflect: true}) variant: 'primary' | 'secondary' = 'primary';
+  @property({ reflect: true }) variant: 'primary' | 'secondary' = 'primary';
 
   @query('.scroll-left') private _scrollLeft!: HTMLElement;
   @query('.scroll-right') private _scrollRight!: HTMLElement;
   @query('.container') private _container!: HTMLElement;
   @query('.tab-indicator') private _tabIndicator?: HTMLElement;
 
-  @queryAssignedElements({flatten: true}) assignedElements!: HTMLElement[];
+  @queryAssignedElements({ flatten: true }) assignedElements!: HTMLElement[];
 
   get activeTabIndex(): number {
     if (!this.activeTab) {
@@ -47,7 +53,11 @@ export class UmTabBar extends LitElement {
       return;
     }
 
-    if (!activeTab || this.#activeTab === activeTab || this.#tabs.indexOf(activeTab) < 0) {
+    if (
+      !activeTab ||
+      this.#activeTab === activeTab ||
+      this.#tabs.indexOf(activeTab) < 0
+    ) {
       return;
     }
 
@@ -56,12 +66,16 @@ export class UmTabBar extends LitElement {
 
     previouslyActiveTab?.requestUpdate();
 
-    activeTab.scrollIntoView({block: 'nearest', behavior: 'smooth'});
+    activeTab.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
     activeTab.requestUpdate();
     this._updateTabIndicator();
   }
 
-  override attributeChangedCallback(name: string, _: string | null, __: string | null) {
+  override attributeChangedCallback(
+    name: string,
+    _: string | null,
+    __: string | null,
+  ) {
     if (name === 'variant') {
       this._updateTabIndicator();
     }
@@ -70,28 +84,31 @@ export class UmTabBar extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
 
-    this.updateComplete
-      .then(() => {
-        this._setScrollIndicatorsActive();
-      });
+    this.#attach();
   }
 
   protected override render(): TemplateResult {
-    return html`
+    const classes = { secondary: this.variant === 'secondary' };
 
+    return html`
       <div
         class="scroll-indicator scroll-left active"
         @click=${this.#scrollToLeft}>
         <u-elevation></u-elevation>
         <u-ripple></u-ripple>
         <slot name="scroll-left">
-          <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 -960 960 960" width="1em" fill="currentColor">
-            <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="1em"
+            viewBox="0 -960 960 960"
+            width="1em"
+            fill="currentColor">
+            <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" />
           </svg>
         </slot>
       </div>
       <div
-        class="container ${this.variant === 'secondary' ? 'secondary' : ''}"
+        class="container ${classMap(classes)}"
         @scrollend=${this.#handleContainerScrollEnd}>
         <slot @slotchange=${this.#handleSlotChange}></slot>
         <div class="tab-indicator"></div>
@@ -102,11 +119,17 @@ export class UmTabBar extends LitElement {
         <u-elevation></u-elevation>
         <u-ripple></u-ripple>
         <slot name="scroll-right">
-          <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 -960 960 960" width="1em" fill="currentColor">
-            <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="1em"
+            viewBox="0 -960 960 960"
+            width="1em"
+            fill="currentColor">
+            <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
           </svg>
         </slot>
-      </div>`;
+      </div>
+    `;
   }
 
   constructor() {
@@ -115,11 +138,10 @@ export class UmTabBar extends LitElement {
   }
 
   #handleSlotChange = (e: Event) => {
-
     const slot = <HTMLSlotElement>e.target;
-    this.#tabs = <UmTab[]>slot
-      .assignedElements({flatten: true})
-      .filter(e => e instanceof UmTab);
+    this.#tabs = <UmTab[]>(
+      slot.assignedElements({ flatten: true }).filter(e => e instanceof UmTab)
+    );
 
     for (const tab of this.#tabs) {
       tab._bar = this;
@@ -134,7 +156,7 @@ export class UmTabBar extends LitElement {
 
   #handleContainerScrollEnd = () => {
     this._setScrollIndicatorsActive();
-  }
+  };
 
   _updateTabIndicator() {
     if (!this._tabIndicator) {
@@ -148,26 +170,34 @@ export class UmTabBar extends LitElement {
     }
 
     const styles = getComputedStyle(this.activeTab);
-    const padding = this.variant === 'primary'
-      ? parseInt(styles.paddingInline, 10)
-      : 0;
+    const padding =
+      this.variant === 'primary' ? parseInt(styles.paddingInline, 10) : 0;
 
     this._tabIndicator.style.left = `${this.activeTab.offsetLeft + padding}px`;
-    this._tabIndicator.style.width = `${this.activeTab.offsetWidth - padding * 2}px`;
+    this._tabIndicator.style.width = `${
+      this.activeTab.offsetWidth - padding * 2
+    }px`;
   }
 
   #scrollToLeft = () => {
-    this._container.scrollBy({left: this._container.offsetWidth / -2, behavior: 'smooth'});
+    this._container.scrollBy({
+      left: this._container.offsetWidth / -2,
+      behavior: 'smooth',
+    });
   };
 
   #scrollToRight = () => {
-    this._container.scrollBy({left: this._container.offsetWidth / 2, behavior: 'smooth'});
+    this._container.scrollBy({
+      left: this._container.offsetWidth / 2,
+      behavior: 'smooth',
+    });
   };
 
   _setScrollIndicatorsActive() {
     const scrollSafeMargin = 1;
 
-    const scrollLength = this._container.scrollWidth - this._container.offsetWidth;
+    const scrollLength =
+      this._container.scrollWidth - this._container.offsetWidth;
 
     const isRtl = getComputedStyle(this._container).direction === 'rtl';
     const scrollStart = isRtl
@@ -187,6 +217,11 @@ export class UmTabBar extends LitElement {
     } else {
       this._scrollRight.classList.add('active');
     }
+  }
+
+  async #attach(): Promise<void> {
+    await this.updateComplete;
+    this._setScrollIndicatorsActive();
   }
 }
 

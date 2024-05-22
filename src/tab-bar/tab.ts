@@ -1,5 +1,6 @@
 import { html, HTMLTemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
+import { classMap } from 'lit/directives/class-map.js';
 
 import { styles } from './tab.styles.js';
 
@@ -23,7 +24,6 @@ export class UmTab extends UmButtonWrapper {
     return this._bar?.activeTab === this;
   }
   set active(active: boolean) {
-
     if (!this._bar) {
       return;
     }
@@ -36,7 +36,7 @@ export class UmTab extends UmButtonWrapper {
     this._bar.activeTabIndex = 0;
   }
 
-  @property({type: Boolean}) hasIcon = false;
+  @property({ type: Boolean }) hasIcon = false;
 
   constructor() {
     super();
@@ -44,17 +44,18 @@ export class UmTab extends UmButtonWrapper {
   }
 
   protected override renderContent(): HTMLTemplateResult {
+    const classes = { active: this.active, ['has-icon']: this.hasIcon };
+
     return html`
-      <div class="tab-content ${this.active ? 'active' : ''} ${this.hasIcon ? 'has-icon' : ''}">
+      <div class="tab-content ${classMap(classes)}">
         <div class="icon" part="icon">
-          <slot
-            name="icon"
-            @slotchange=${this.#iconSlotChange}></slot>
+          <slot name="icon" @slotchange=${this.#iconSlotChange}></slot>
         </div>
         <div class="label" part="label">
           <slot></slot>
         </div>
-      </div>`;
+      </div>
+    `;
   }
 
   override connectedCallback() {
@@ -87,19 +88,21 @@ export class UmTab extends UmButtonWrapper {
       return;
     }
 
-    const changePrevented = !this._bar.dispatchEvent(new Event('changing', {bubbles: true, cancelable: true}));
+    const changePrevented = !this._bar.dispatchEvent(
+      new Event('changing', { bubbles: true, cancelable: true }),
+    );
 
     if (changePrevented) {
       return;
     }
 
     this._bar.activeTab = this;
-    this._bar.dispatchEvent(new Event('change', {bubbles: true}));
+    this._bar.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
   #iconSlotChange(e: Event) {
     const slot = <HTMLSlotElement>e.target;
-    this.hasIcon = !!slot.assignedElements({flatten: true}).length;
+    this.hasIcon = !!slot.assignedElements({ flatten: true }).length;
   }
 }
 

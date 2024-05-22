@@ -1,5 +1,6 @@
 import { html, HTMLTemplateResult, LitElement } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
+import { classMap } from 'lit/directives/class-map.js';
 
 import { styles as baseStyles } from '../shared/base.styles.js';
 import { styles as swiperStyles } from './side-navigation-swiper.styles.js';
@@ -11,11 +12,10 @@ import '../elevation/elevation.js';
 
 @customElement('u-side-navigation')
 export class UmSideNavigation extends LitElement {
-
   static override styles = [
-      baseStyles,
-      config.navigationDrawer.useSwiperJs ? swiperStyles : styles
-    ];
+    baseStyles,
+    config.navigationDrawer.useSwiperJs ? swiperStyles : styles,
+  ];
 
   #toggleDrawer = false;
   private disableSlideAnimation = false;
@@ -26,8 +26,10 @@ export class UmSideNavigation extends LitElement {
    * _Modal drawer_: Open if `true`, closed if `false`
    * _Standard drawer_: Collapsed if `true`, visible if `false`
    */
-  @property({type: Boolean, attribute: 'toggle-drawer'})
-  get toggleDrawer() { return this.#toggleDrawer; }
+  @property({ type: Boolean, attribute: 'toggle-drawer' })
+  get toggleDrawer() {
+    return this.#toggleDrawer;
+  }
   set toggleDrawer(toggleDrawer: boolean) {
     this.#toggleDrawer = toggleDrawer;
 
@@ -48,12 +50,16 @@ export class UmSideNavigation extends LitElement {
   }
 
   private renderDefault() {
+    const classes = { toggle: this.toggleDrawer };
+
     return html`
       <div class="grid container">
         <div>
           <div class="navigation">
-            <div class="scrim ${this.toggleDrawer ? 'toggle' : ''}" @click="${this.scrimClick}"></div>
-            <div class="drawer ${this.toggleDrawer ? 'toggle' : ''}">
+            <div
+              class="scrim ${classMap(classes)}"
+              @click="${this.scrimClick}"></div>
+            <div class="drawer ${classMap(classes)}">
               <u-elevation></u-elevation>
               <div class="drawer-container">
                 <slot name="drawer"></slot>
@@ -70,6 +76,7 @@ export class UmSideNavigation extends LitElement {
   }
 
   private renderWithSwipe() {
+    const classes = { toggle: this.toggleDrawer };
     return html`
       <swiper-container
         class="container"
@@ -82,7 +89,7 @@ export class UmSideNavigation extends LitElement {
         @swipertransitionend="${this.swiperTransitionEnd}"
         @swipertransitionstart="${this.swiperTransitionStart}"
         @swiperslidesgridlengthchange="${this.slidesGridLengthChange}">
-        <swiper-slide class="drawer ${this.toggleDrawer ? 'toggle' : ''}">
+        <swiper-slide class="drawer ${classMap(classes)}">
           <u-elevation></u-elevation>
           <div class="drawer-container">
             <slot name="drawer"></slot>
@@ -93,12 +100,15 @@ export class UmSideNavigation extends LitElement {
         <div id="scroll-container" class="content" slot="container-end">
           <slot></slot>
         </div>
-        <div class="scrim ${this.toggleDrawer ? 'toggle' : ''}" @click="${this.scrimClick}" slot="container-end"></div>
-      </swiper-container>`;
+        <div
+          class="scrim ${classMap(classes)}"
+          @click="${this.scrimClick}"
+          slot="container-end"></div>
+      </swiper-container>
+    `;
   }
 
   private swiperActiveIndexChange() {
-
     if (!this.swiperContainer?.swiper) {
       return;
     }
@@ -123,8 +133,7 @@ export class UmSideNavigation extends LitElement {
     this.toggleDrawer = true;
     this.toggleDrawer = false;
     this.disableSlideAnimation = false;
-    setTimeout(() =>
-      this.classList.remove('disable-transition'));
+    setTimeout(() => this.classList.remove('disable-transition'));
   }
 
   private swiperTransitionEnd() {
@@ -135,7 +144,10 @@ export class UmSideNavigation extends LitElement {
   private swiperSliderMove(e: Event) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const swiper = (<any>e).detail[0];
-    this.scrim.style.setProperty('--_modal-drawer-open-progress', `${1 - swiper.progress}`);
+    this.scrim.style.setProperty(
+      '--_modal-drawer-open-progress',
+      `${1 - swiper.progress}`,
+    );
   }
 
   private scrimClick() {

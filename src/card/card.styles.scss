@@ -7,7 +7,7 @@
 }
 
 :host([variant=elevated]) {
-  --u-current-bg-color: var(--u-card-elevated-bg-color, var(#{functions.get-color-var(surface-container-low)}));
+  --u-current-bg-color: var(--u-card-elevated-bg-color, #{functions.get-color-var(surface-container-low)});
   background-color: var(--u-current-bg-color);
 
   u-elevation {

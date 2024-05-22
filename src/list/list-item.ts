@@ -15,9 +15,16 @@ export class UmListItem extends LitElement {
     const ripple = html`<u-ripple></u-ripple>`;
     return html`
       ${this.selectable ? ripple : nothing}
-      <slot name="leading"></slot>
-      <slot></slot>
-      <slot name="trailing"></slot>`;
+      <slot name="leading" part="leading"></slot>
+      <div class="content" part="content">
+        <div class="headline" part="headline">
+          <slot></slot>
+        </div>
+        <div class="supporting-text" part="supporting-text">
+          <slot name="supporting-text"></slot>
+        </div>
+      </div>
+      <slot name="trailing" part="trailing"></slot>`;
   }
 }
 

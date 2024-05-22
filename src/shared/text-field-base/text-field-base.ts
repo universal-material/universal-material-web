@@ -21,7 +21,7 @@ export abstract class UmTextFieldBase extends UmFieldBase {
    */
   override empty = true;
 
-  @property({reflect: true}) placeholder: string | undefined;
+  @property({ reflect: true }) placeholder: string = '';
 
   get form(): HTMLFormElement | null {
     return this.elementInternals.form;

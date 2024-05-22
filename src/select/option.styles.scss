@@ -1,11 +1,11 @@
 @use "../scss/api";
 
 :host(.selected) {
-  background-color: var(--u-select-option-selected-bg-color, #{api.get-color-var(primary-container)});
+  background-color: var(--u-select-option-selected-bg-color, rgba(#{api.get-color-rgb-var(primary)}, .12));
 
   .icon,
   .content {
-    color: var(--u-select-option-selected-text-color, #{api.get-color-var(on-primary-container)});
+    color: var(--u-select-option-selected-text-color, #{api.get-color-var(primary)});
   }
 }
 

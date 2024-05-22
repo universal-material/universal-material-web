@@ -3,30 +3,23 @@ import { html, HTMLTemplateResult, nothing } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { live } from 'lit/directives/live.js';
 
-import { styles } from './text-field.styles.js';
+import { styles } from './text-area.styles.js';
 
 import { UmNativeTextFieldWrapper } from '../shared/char-count-text-field/native-text-field-wrapper.js';
 import { UmTextFieldBase } from '../shared/text-field-base/text-field-base.js';
 
-@customElement('u-text-field')
-export class UmTextField extends UmNativeTextFieldWrapper {
+@customElement('u-text-area')
+export class UmTextArea extends UmNativeTextFieldWrapper {
   static override styles: CSSResultGroup = [UmTextFieldBase.styles, styles];
 
-  @property() type: string = 'text';
-  @property({ attribute: 'prefix-text' }) prefixText: string | undefined;
-  @property({ attribute: 'suffix-text' }) suffixText: string | undefined;
-  @property({ reflect: true }) override autocapitalize!: string;
+  @property({ type: Number }) rows = 2;
 
-  @query('input') input!: HTMLInputElement;
+  @query('textarea') override input!: HTMLTextAreaElement;
 
   protected override renderControl(): HTMLTemplateResult {
     return html`
-      <slot class="prefix" name="prefix">
-        <span>${this.prefixText}</span>
-      </slot>
       <div class="input">
-        <input
-          type=${this.type}
+        <textarea
           part="input"
           id=${this.id || nothing}
           aria-labelledby="label"
@@ -37,19 +30,17 @@ export class UmTextField extends UmNativeTextFieldWrapper {
           autocapitalize=${this.autocapitalize}
           role=${this.role}
           maxlength=${this.maxlength ?? nothing}
+          .rows=${this.rows}
           .placeholder=${this.placeholder}
           .value=${live(this._value)}
-          @input=${this._handleInput} />
+          @input=${this._handleInput}></textarea>
       </div>
-      <slot class="suffix" name="suffix">
-        <span>${this.suffixText}</span>
-      </slot>
     `;
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-text-field': UmTextField;
+    'u-text-area': UmTextArea;
   }
 }

@@ -18,10 +18,9 @@ export const mixinSelectionControlListItem = <T extends MixinBase<UmSelectionCon
     override render(): HTMLTemplateResult {
       return html`
           <u-list-item ?selectable=${!this.disabled}>
+            <div slot="trailing">${super.render()}</div>
             <label for="input"><slot></slot></label>
-            <div slot="trailing">
-              ${super.render()}
-            </div>
+            <slot name="supporting-text" slot="supporting-text"></slot>
           </u-list-item>`;
     }
   }

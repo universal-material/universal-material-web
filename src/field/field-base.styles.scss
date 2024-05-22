@@ -131,6 +131,7 @@
     outline: 0;
   }
 
+  textarea,
   select,
   input,
   ::slotted(*) {
@@ -146,14 +147,19 @@
     background: transparent;
     border: none;
     outline: 0 !important;
+    caret-color: var(--_color-primary);
   }
 
   &,
+  textarea::placeholder,
+  input::placeholder,
   ::slotted(select),
   ::slotted(:is(input, textarea))::placeholder {
     transition: color 150ms 100ms;
   }
 
+  textarea::placeholder,
+  input::placeholder,
   ::slotted(:is(input, textarea))::placeholder {
     color: var(--_field-placeholder-color);
   }
@@ -335,15 +341,16 @@
     top: calc(var(--_field-min-height) / 2 - var(--_label-line-height) / 2);
   }
 
-  .input-wrapper {
-    opacity: 0;
-  }
-
-  .input,
-  ::slotted(:is(input, textarea))::placeholder,
-  ::slotted(select) {
-    color: transparent;
-    transition: color 150ms;
+  .container:not(.no-label) {
+    .input-wrapper,
+    .input,
+    .input input::placeholder,
+    .input textarea::placeholder,
+    ::slotted(:is(input, textarea))::placeholder,
+    ::slotted(select) {
+      color: transparent;
+      transition: color 150ms;
+    }
   }
 }
 
@@ -376,6 +383,8 @@
   .input {
     select,
     select::placeholder,
+    textarea,
+    textarea::placeholder,
     input,
     input::placeholder,
     ::slotted(*),

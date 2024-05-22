@@ -1,0 +1,46 @@
+@use "../scss/api";
+
+:host {
+  resize: both;
+}
+
+.container,
+.input-wrapper {
+  resize: inherit;
+}
+
+.input-wrapper,
+.input,
+textarea,
+.container {
+  height: 100%;
+}
+
+.input-wrapper {
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+textarea {
+  margin: 0;
+  resize: none;
+}
+
+.input {
+  textarea {
+    border-block: var(--_vertical-padding) solid transparent;
+    padding-inline: var(--_field-control-inline-padding);
+  }
+}
+
+
+.container {
+  &.filled {
+    &:not(.no-label) {
+      textarea {
+        border-top: calc(var(--_vertical-padding) + var(--_label-line-height)) solid transparent;
+        border-bottom: var(--_vertical-padding) solid transparent;
+      }
+    }
+  }
+}

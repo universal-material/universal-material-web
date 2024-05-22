@@ -13,7 +13,6 @@
   "plugins": [
     "@typescript-eslint",
     "eslint-plugin-import",
-    "eslint-plugin-import-helpers",
     "unused-imports"
   ],
   "env": {
@@ -38,28 +37,6 @@
     "import/extensions": [
       "error",
       "ignorePackages"
-    ],
-    "import-helpers/order-imports": [
-      "error",
-      {
-        "alphabetize": {
-          "order": "asc",
-          "ignoreCase": true
-        },
-        "newlinesBetween": "always",
-        "groups": [
-          "/^@angular|^rxjs/",
-          "/^lit|^@lit/",
-          "module",
-          "/styles.js$/",
-          [
-            "parent",
-            "sibling",
-            "index",
-            "/^\\./"
-          ]
-        ]
-      }
     ],
     "no-else-return": ["error", { "allowElseIf": false }],
     "no-lonely-if": "error",

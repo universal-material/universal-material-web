@@ -1,5 +1,6 @@
-import { PropertyValues } from '@lit/reactive-element';
 import { html, svg, TemplateResult } from 'lit';
+
+import { PropertyValues } from '@lit/reactive-element';
 import { customElement, query, state } from 'lit/decorators.js';
 import { html as staticHtml } from 'lit/static-html.js';
 
@@ -16,7 +17,6 @@ import './option.js';
 
 @customElement('u-select')
 export class UmSelect extends UmTextFieldBase implements UmMenuField {
-
   static override styles = [UmTextFieldBase.styles, styles];
 
   _nativeSelect: ExtendedSelect = (() => {
@@ -47,6 +47,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
   get value(): string {
     return this._nativeSelect.value;
   }
+
   set value(value: string) {
     this._nativeSelect.value = value;
 
@@ -57,9 +58,9 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
     this.elementInternals.setFormValue(value);
   }
 
-  @query('u-menu') _menu!: UmMenu;
-  @query('.button') _button!: HTMLButtonElement;
-  @query('.input') _input!: HTMLElement;
+  @query('u-menu', true) _menu!: UmMenu;
+  @query('.button', true) _button!: HTMLButtonElement;
+  @query('.input', true) _input!: HTMLElement;
 
   /**
    * The index of the selected option. When there's no selected option the value is `-1`.
@@ -68,6 +69,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
   get selectedIndex(): number {
     return this._nativeSelect.selectedIndex;
   }
+
   set selectedIndex(index: number) {
     this._nativeSelect.selectedIndex = index;
   }
@@ -82,21 +84,23 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
   }
 
   get _options(): UmOption[] {
-    const options = Array.from(this.querySelectorAll<UmOption>('u-option'));
+    const options = Array.from(this.querySelectorAll<HTMLElement>('u-option'));
 
-    return options
-      .filter(o => o.constructor.name === 'UmOption');
+    return options.filter(o => o instanceof UmOption) as UmOption[];
   }
 
   constructor() {
     super();
 
-    this.#mutationObserver = new MutationObserver(() => this._updateOptions())
-    this.#mutationObserver.observe(this, {characterData: true, childList: true, subtree: true});
+    this.#mutationObserver = new MutationObserver(() => this._updateOptions());
+    this.#mutationObserver.observe(this, {
+      characterData: true,
+      childList: true,
+      subtree: true,
+    });
   }
 
   _updateOptions() {
-
     const options = this._options;
 
     for (const option of options) {
@@ -115,11 +119,14 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
     // eslint-disable-next-line no-self-assign
     selectedOption.selected = selectedOption.selected;
     this.empty = !selectedOption.textContent?.trim();
-    this._button.setAttribute('aria-labelledby', selectedOption._listItem.id)
+    this._button.setAttribute('aria-labelledby', selectedOption._listItem.id);
   }
 
   #updateOptions(options: UmOption[]) {
-    const maxLength = Math.max(options.length, this._nativeSelect.children.length);
+    const maxLength = Math.max(
+      options.length,
+      this._nativeSelect.children.length,
+    );
 
     for (let i = 0; i < maxLength; i++) {
       const option = options[i];
@@ -140,7 +147,6 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
   }
 
   #updateAccessibilityList(options: UmOption[]) {
-
     const maxLength = Math.max(options.length, this.#list.children.length);
 
     for (let i = 0; i < maxLength; i++) {
@@ -166,7 +172,9 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
   #setSelectedOption() {
     const options = this._options;
 
-    const selectedClassOptions = options.filter(o => o.classList.contains('selected'));
+    const selectedClassOptions = options.filter(o =>
+      o.classList.contains('selected'),
+    );
 
     let found = false;
 
@@ -175,7 +183,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
         found = true;
         continue;
       }
- 
+
       option.classList.remove('selected');
     }
 
@@ -222,7 +230,11 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
     this.elementInternals.setFormValue(this._nativeSelect.value || null);
   }
 
-  override attributeChangedCallback(name: string, _old: string | null, value: string | null) {
+  override attributeChangedCallback(
+    name: string,
+    _old: string | null,
+    value: string | null,
+  ) {
     super.attributeChangedCallback(name, _old, value);
 
     if (name !== 'disabled') {
@@ -242,14 +254,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
   override disconnectedCallback() {
     super.disconnectedCallback();
 
-    this.#navigationController.detach();
-    this.#connected = false;
-    this._nativeSelect.remove();
-    this._button.removeEventListener('click', this.#handleClick);
-    this._menu.removeEventListener('click', this.#handleMenuClick);
-    this._menu.removeEventListener('open', this.#handleMenuOpen);
-    this._menu.removeEventListener('opened', this.#handleMenuOpened);
-    this._menu.removeEventListener('close', this.#handleMenuClose);
+    this.#detach();
   }
 
   #handleClick = (e: MouseEvent) => {
@@ -259,7 +264,11 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
       return;
     }
 
-    this.#navigationController.focusMenu(this.selectedOptions[0], e.detail === 0, false);
+    this.#navigationController.focusMenu(
+      this.selectedOptions[0],
+      e.detail === 0,
+      false,
+    );
   };
 
   #handleMenuClick(e: Event) {
@@ -277,7 +286,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
     }
 
     const option = this.selectedOptions[0];
-    option.scrollIntoView({block: 'nearest'});
+    option.scrollIntoView({ block: 'nearest' });
   };
 
   #handleMenuClose = () => {
@@ -302,6 +311,19 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
     this._menu.addEventListener('open', this.#handleMenuOpen);
     this._menu.addEventListener('opened', this.#handleMenuOpened);
     this._menu.addEventListener('close', this.#handleMenuClose);
+  }
+
+  async #detach(): Promise<void> {
+    await this.updateComplete;
+
+    this.#navigationController.detach();
+    this.#connected = false;
+    this._nativeSelect.remove();
+    this._button.removeEventListener('click', this.#handleClick);
+    this._menu.removeEventListener('click', this.#handleMenuClick);
+    this._menu.removeEventListener('open', this.#handleMenuOpen);
+    this._menu.removeEventListener('opened', this.#handleMenuOpened);
+    this._menu.removeEventListener('close', this.#handleMenuClose);
   }
 
   get _menuItems(): UmOption[] {
