@@ -16,7 +16,7 @@ export class MenuFieldNavigationController<TField extends UmMenuField, TMenuItem
   attach(element: HTMLElement) {
     this.detach();
 
-    element?.addEventListener('keydown', this.bindHandleKeyDown, {capture: true});
+    element?.addEventListener('keydown', this.bindHandleKeyDown, { capture: true });
     this.host._menu?.addEventListener('close', this.#handleMenuClose);
     this.#element = element;
   }
@@ -30,7 +30,7 @@ export class MenuFieldNavigationController<TField extends UmMenuField, TMenuItem
   #handleMenuClose = () => this.blurMenu();
 
   protected handleKeyDown(event: KeyboardEvent): boolean {
-    if (!this.host._menu.open) {
+    if (this.host._menu?.open !== true) {
       return false;
     }
 
@@ -81,8 +81,8 @@ export class MenuFieldNavigationController<TField extends UmMenuField, TMenuItem
     const activeMenu = this.focusedMenu;
 
     const nextMenu = forwards
-      ? (<TMenuItem>activeMenu?.nextElementSibling) ?? menuItems[0]
-      : (<TMenuItem>activeMenu?.previousElementSibling) ?? menuItems[menuItems.length - 1];
+      ? <TMenuItem>activeMenu?.nextElementSibling ?? menuItems[0]
+      : <TMenuItem>activeMenu?.previousElementSibling ?? menuItems[menuItems.length - 1];
 
     if (!nextMenu) {
       return;
@@ -108,7 +108,7 @@ export class MenuFieldNavigationController<TField extends UmMenuField, TMenuItem
     menu.active = active;
 
     if (scroll) {
-      menu.scrollIntoView({block: 'nearest'});
+      menu.scrollIntoView({ block: 'nearest' });
     }
 
     this.afterFocus(menu);
@@ -133,11 +133,7 @@ export class MenuFieldNavigationController<TField extends UmMenuField, TMenuItem
     this.focusedMenu.click();
   }
 
-  protected afterFocus(_: TMenuItem) {
+  protected afterFocus(_: TMenuItem) {}
 
-  }
-
-  protected afterBlur() {
-
-  }
+  protected afterBlur() {}
 }

@@ -11,11 +11,7 @@ import '../elevation/elevation.js';
 
 @customElement('u-chip')
 export class UmChip extends UmButtonWrapper {
-
-  static override styles = [
-    UmButtonWrapper.styles,
-    styles
-  ];
+  static override styles = [UmButtonWrapper.styles, styles];
 
   #clickable = false;
   #toggle = false;
@@ -67,29 +63,29 @@ export class UmChip extends UmButtonWrapper {
    *
    * _Note:_ Readonly
    */
-  @property({type: Boolean, attribute: 'has-leading-icon', reflect: true}) hasLeadingIcon = false;
+  @property({ type: Boolean, attribute: 'has-leading-icon', reflect: true }) hasLeadingIcon = false;
 
   /**
    * Whether the chip has a selected icon or not
    *
    * _Note:_ Readonly
    */
-  @property({type: Boolean, attribute: 'has-selected-icon', reflect: true}) hasSelectedIcon = false;
+  @property({ type: Boolean, attribute: 'has-selected-icon', reflect: true }) hasSelectedIcon = false;
 
   /**
    * Whether the chip has a trailing icon or not
    *
    * _Note:_ Readonly
    */
-  @property({type: Boolean, attribute: 'has-trailing-icon', reflect: true}) hasTrailingIcon = false;
+  @property({ type: Boolean, attribute: 'has-trailing-icon', reflect: true }) hasTrailingIcon = false;
 
-  @queryAssignedElements({slot: 'leading-icon', flatten: true})
+  @queryAssignedElements({ slot: 'leading-icon', flatten: true })
   private readonly assignedLeadingIcons!: HTMLElement[];
 
-  @queryAssignedElements({slot: 'selected-icon', flatten: true})
+  @queryAssignedElements({ slot: 'selected-icon', flatten: true })
   private readonly assignedSelectedIcons!: HTMLElement[];
 
-  @queryAssignedElements({slot: 'trailing-icon', flatten: true})
+  @queryAssignedElements({ slot: 'trailing-icon', flatten: true })
   private readonly assignedTrailingIcons!: HTMLElement[];
 
   @query('#remove-ripple') removeRipple!: UmRipple;
@@ -106,7 +102,7 @@ export class UmChip extends UmButtonWrapper {
       this.removeRipple.createRipple();
     }
 
-    const removeEvent = new Event('remove', {cancelable: true});
+    const removeEvent = new Event('remove', { cancelable: true });
     this.dispatchEvent(removeEvent);
 
     if (!removeEvent.defaultPrevented) {
@@ -134,38 +130,37 @@ export class UmChip extends UmButtonWrapper {
     }
 
     this.selected = !this.selected;
-    this.dispatchEvent(new Event('change', {bubbles: true}));
+    this.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
   protected override renderContent(): HTMLTemplateResult {
-
     const remove = html`
-      <button
-        class="icon remove-button focus-ring"
-        @click=${this.#handleRemoveClick}>
+      <button class="icon remove-button focus-ring" @click=${this.#handleRemoveClick}>
         <u-ripple id="remove-ripple"></u-ripple>
         <slot name="remove-icon">
           <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 -960 960 960" width="1em" fill="currentColor">
-            <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+            <path
+              d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
           </svg>
         </slot>
-      </button>`;
+      </button>
+    `;
 
     return html`
       <div class="container">
         <div class="outline"></div>
-        <span class="icon leading">
-          <slot
-            name="leading-icon"
-            @slotchange="${this.#handleLeadingIconSlotChange}">
-          </slot>
+        <span class="icon leading" part="icon leading">
+          <slot name="leading-icon" @slotchange="${this.#handleLeadingIconSlotChange}"></slot>
         </span>
-        <span class="icon selected">
-          <slot
-            name="selected-icon"
-            @slotchange="${this.#handleSelectedIconSlotChange}">
-            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 -960 960 960" width="1em" fill="currentColor">
-              <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/>
+        <span class="icon selected" part="icon selected">
+          <slot name="selected-icon" @slotchange="${this.#handleSelectedIconSlotChange}">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="1em"
+              viewBox="0 -960 960 960"
+              width="1em"
+              fill="currentColor">
+              <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
             </svg>
           </slot>
         </span>
@@ -174,10 +169,12 @@ export class UmChip extends UmButtonWrapper {
         </div>
         <slot
           class="icon trailing"
+          part="icon trailing"
           name="trailing-icon"
           @slotchange="${this.#handleTrailingIconSlotChange}"></slot>
         ${this.removable ? remove : nothing}
-      </div>`;
+      </div>
+    `;
   }
 }
 

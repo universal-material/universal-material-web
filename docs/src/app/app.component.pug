@@ -1,11 +1,13 @@
 u-side-navigation(#navigation)
-  u-top-app-bar([scrollContainer]="navigation.scrollContainer || 'window'")
+  u-top-app-bar(
+    headline="Material",
+    size="medium",
+    [scrollContainer]="navigation.scrollContainer || 'window'")
     u-icon-button(
       type="button",
       slot="leading-icon",
       (click)="navigation.toggleDrawer = !navigation.toggleDrawer")
       span.material-symbols-outlined menu
-    span Material
 
     .color-picker(slot="trailing-icon")
       u-ripple((click)="colorInput.click()")

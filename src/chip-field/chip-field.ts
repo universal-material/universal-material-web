@@ -9,10 +9,7 @@ import { UmTextFieldBase } from '../shared/text-field-base/text-field-base.js';
 
 @customElement('u-chip-field')
 export class UmChipField extends UmTextFieldBase {
-  static override styles: CSSResultGroup = [
-    UmTextFieldBase.styles,
-    styles
-  ];
+  static override styles: CSSResultGroup = [UmTextFieldBase.styles, styles];
 
   @query('input') input!: HTMLInputElement;
   @property() name!: string;
@@ -20,7 +17,7 @@ export class UmChipField extends UmTextFieldBase {
   /**
    * If true, ignore enter key input
    */
-  @property({type: Boolean}) manual = false;
+  @property({ type: Boolean }) manual = false;
 
   /**
    * A function return a string based on a item from the `value`. Useful when the items of value are objects.
@@ -64,11 +61,10 @@ export class UmChipField extends UmTextFieldBase {
   }
 
   protected override renderControl(): HTMLTemplateResult {
-
     return html`
       <div class="input">
-        ${(this.#getChips())}
-        <input 
+        ${this.#getChips()}
+        <input
           part="input"
           id=${this.id || nothing}
           aria-labelledby="label"
@@ -76,25 +72,23 @@ export class UmChipField extends UmTextFieldBase {
           placeholder=${this.placeholder || nothing}
           @blur=${this.#handleBlur}
           @keydown=${this.#handleKeyDown}
-          @input=${this.#handleInput}/>
-      </div>`
+          @input=${this.#handleInput} />
+      </div>
+    `;
   }
 
   #getChips() {
-    return this.value
-      ?.map((item, index) => {
-        const leadingIcon = this.leadingIconTemplate
-          ? html`<span slot="leading-icon">${unsafeHTML(this.leadingIconTemplate(item))}</span>`
-          : nothing
+    return this.value?.map((item, index) => {
+      const leadingIcon = this.leadingIconTemplate
+        ? html`
+            <span slot="leading-icon">${unsafeHTML(this.leadingIconTemplate(item))}</span>
+          `
+        : nothing;
 
-        return html`
-          <u-chip
-            removable
-            @remove=${this.#removeChip(index)}>
-            ${leadingIcon}
-            ${this.getItemLabel(item)}
-          </u-chip>`;
-      });
+      return html`
+        <u-chip removable @remove=${this.#removeChip(index)}>${leadingIcon} ${this.getItemLabel(item)}</u-chip>
+      `;
+    });
   }
 
   #handleBlur() {
@@ -129,22 +123,24 @@ export class UmChipField extends UmTextFieldBase {
     this.#changed(triggerChange);
   }
 
-  #removeChip = (index: number) =>
-    () => {
-      const defaultPrevented = this.#dispatchRemoveEvent(index);
+  #removeChip = (index: number) => (e?: Event) => {
+    e?.preventDefault();
 
-      if (defaultPrevented) {
-        return;
-      }
+    this.input.focus();
+    const defaultPrevented = this.#dispatchRemoveEvent(index);
 
-      this.removeAt(index, true);
+    if (defaultPrevented) {
+      return;
     }
+
+    this.removeAt(index, true);
+  };
 
   #changed(triggerChange: boolean) {
     this.#valueUpdate();
 
     if (triggerChange) {
-      this.dispatchEvent(new Event('change', {bubbles: true}));
+      this.dispatchEvent(new Event('change', { bubbles: true }));
     }
   }
 
@@ -163,7 +159,7 @@ export class UmChipField extends UmTextFieldBase {
 
     const event = new CustomEvent('remove', {
       cancelable: true,
-      detail: item
+      detail: item,
     });
 
     this.dispatchEvent(event);
@@ -172,9 +168,7 @@ export class UmChipField extends UmTextFieldBase {
   }
 
   private getItemLabel(item: any) {
-    return this.formatter
-      ? this.formatter(item)
-      : item.toString();
+    return this.formatter ? this.formatter(item) : item.toString();
   }
 }
 

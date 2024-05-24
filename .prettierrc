@@ -5,6 +5,7 @@
   "bracketSameLine": true,
   "bracketSpacing": true,
   "htmlWhitespaceSensitivity": "ignore",
+  "printWidth": 120,
   "arrowParens": "avoid",
   "importOrder": [
     "^(@angular|rxjs)/(.+)$",
