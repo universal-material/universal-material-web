@@ -1,4 +1,4 @@
-import { argbFromHex, Hct, SchemeContent, TonalPalette } from '@material/material-color-utilities';
+import { argbFromHex, CorePalette, TonalPalette } from '@material/material-color-utilities';
 
 import { Color } from './color.js';
 import { CssVarBuilder } from './css-var-builder.js';
@@ -13,29 +13,23 @@ ${content}}`;
 export class ThemeBuilder {
   cssClass: string | null;
   colors: ThemeColor[] = [];
-  neutralColorPalette!: TonalPalette;
-  neutralVariantColorPalette!: TonalPalette;
 
   private partial = false;
-  private scheme: SchemeContent | null = null;
+  #corePalette: CorePalette;
 
-  private constructor(primaryColorHex?: string) {
+  private constructor(primaryColorHex: string) {
     this.cssClass = null;
 
-    if (!primaryColorHex) {
-      return;
-    }
-
-    this.scheme = new SchemeContent(Hct.fromInt(argbFromHex(primaryColorHex)), false, 0);
-    this.addColorFromPalette('primary', this.scheme.primaryPalette);
+    this.#corePalette = CorePalette.of(argbFromHex(primaryColorHex));
+    this.addColorFromPalette('primary', this.#corePalette.a1);
   }
 
   static create(primaryColorHex: string): ThemeBuilder {
     return new ThemeBuilder(primaryColorHex);
   }
 
-  static createPartial(): ThemeBuilder {
-    const themeBuilder = new ThemeBuilder();
+  static createPartial(primaryColorHex: string): ThemeBuilder {
+    const themeBuilder = new ThemeBuilder(primaryColorHex);
     themeBuilder.partial = true;
 
     return themeBuilder;
@@ -61,9 +55,9 @@ export class ThemeBuilder {
     return this;
   }
 
-  addFixedColor(name: string, hex: string): ThemeBuilder {
+  addStaticColor(name: string, hex: string, tone: number = 80): ThemeBuilder {
     const palette = TonalPalette.fromInt(argbFromHex(hex));
-    this.colors.push({ name, fixedTone: 80, tonalPalette: palette });
+    this.colors.push({ name, fixedTone: tone, tonalPalette: palette });
     this.colors.push({ name: `on-${name}`, fixedTone: 15, tonalPalette: palette });
     this.colors.push({ name: `${name}-container`, fixedTone: 90, tonalPalette: palette });
     this.colors.push({ name: `on-${name}-container`, fixedTone: 15, tonalPalette: palette });
@@ -85,42 +79,36 @@ export class ThemeBuilder {
 
   private ensureThemeColors(): void {
     if (!this.colors.find(c => c.name === 'secondary')) {
-      this.addColorFromPalette('secondary', this.scheme!.secondaryPalette);
+      this.addColorFromPalette('secondary', this.#corePalette.a2);
     }
 
     if (!this.colors.find(c => c.name === 'tertiary')) {
-      this.addColorFromPalette('tertiary', this.scheme!.tertiaryPalette);
+      this.addColorFromPalette('tertiary', this.#corePalette.a3);
     }
+  }
 
+  private ensureStatusColors(): void {
     if (!this.colors.find(c => c.name === 'success')) {
-      this.addFixedColor('success', '#007e33');
+      this.addStaticColor('success', '#198754', 60);
     }
 
     if (!this.colors.find(c => c.name === 'info')) {
-      this.addFixedColor('info', '#33b5e5');
+      this.addStaticColor('info', '#0dcaf0');
     }
 
     if (!this.colors.find(c => c.name === 'warning')) {
-      this.addFixedColor('warning', '#ffbb33');
+      this.addStaticColor('warning', '#ffc107');
     }
 
     if (!this.colors.find(c => c.name === 'error')) {
       this.addColorFromHex('error', '#b3261e');
-    }
-
-    if (!this.neutralColorPalette) {
-      this.neutralColorPalette = this.scheme!.neutralPalette;
-    }
-
-    if (!this.neutralVariantColorPalette) {
-      this.neutralVariantColorPalette = this.scheme!.neutralVariantPalette;
     }
   }
 
   private getNeutralVariables(dark: boolean): string {
     const builder = CssVarBuilder.create();
 
-    this.addColors(builder, neutralColors, this.neutralColorPalette, dark);
+    this.addColors(builder, neutralColors, this.#corePalette.n1, dark);
 
     builder
       .add('--u-color-body', 'var(--u-color-surface)')
@@ -140,7 +128,7 @@ export class ThemeBuilder {
   private getNeutralVariantVariables(dark: boolean): string {
     const builder = CssVarBuilder.create();
 
-    this.addColors(builder, neutralVariantColors, this.neutralColorPalette, dark);
+    this.addColors(builder, neutralVariantColors, this.#corePalette.n2, dark);
 
     return builder.build();
   }
@@ -160,13 +148,8 @@ export class ThemeBuilder {
       variables += this.getColorVariables(color, dark);
     }
 
-    if (this.neutralColorPalette) {
-      variables += this.getNeutralVariables(dark);
-    }
-
-    if (this.neutralVariantColorPalette) {
-      variables += this.getNeutralVariantVariables(dark);
-    }
+    variables += this.getNeutralVariables(dark);
+    variables += this.getNeutralVariantVariables(dark);
 
     return variables;
   }
@@ -215,8 +198,10 @@ export class ThemeBuilder {
 ${this.cssClass} .u-dark-mode`
       : '.u-dark-mode';
 
+    this.ensureThemeColors();
+
     if (!this.partial) {
-      this.ensureThemeColors();
+      this.ensureStatusColors();
     }
 
     const variables = `${getCss(lightCssClass, `${this.getColorsVariables(false)}`)}

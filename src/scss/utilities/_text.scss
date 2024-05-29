@@ -1,17 +1,56 @@
 @use "../variables";
+@use "../mixins";
 
+.u-text-monospace { font-family: var(--u-font-monospace); }
+
+// Alignment
+
+.u-text-justify  { text-align: justify !important; }
+.u-text-nowrap   { white-space: nowrap !important; }
+.u-text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Transformation
+
+.u-text-lowercase  { text-transform: lowercase !important; }
+.u-text-uppercase  { text-transform: uppercase !important; }
+.u-text-capitalize { text-transform: capitalize !important; }
+
+.u-font-italic        { font-style: italic !important; }
+
+// Contextual
 .u-text-high-emphasis {
-  --u-text-opacity: var(--u-high-emphasis-opacity);
-  color: rgba(var(--u-current-text-color-rgb), var(--u-text-opacity)) !important;
+  color: var(--u-color-high-emphasis) !important;
 }
 .u-text-low-emphasis {
-  --u-text-opacity: var(--u-low-emphasis-opacity);
-  color: rgba(var(--u-current-text-color-rgb), var(--u-text-opacity)) !important;
+  color: var(--u-color-low-emphasis) !important;
 }
 
 .u-text-lower-emphasis {
-  --u-text-opacity: var(--u-lower-emphasis-opacity);
-  color: rgba(var(--u-current-text-color-rgb), var(--u-text-opacity)) !important;
+  color: var(--u-color-lower-emphasis) !important;
+}
+
+// Responsive alignment
+
+@each $breakpoint in map-keys(variables.$breakpoints) {
+  @include mixins.media-breakpoint-up($breakpoint) {
+    $infix: mixins.breakpoint-infix($breakpoint);
+
+    .u-text#{$infix}-left   { text-align: left !important; }
+    .u-text#{$infix}-center { text-align: center !important; }
+    .u-text#{$infix}-right  { text-align: right !important; }
+
+    .u-text#{$infix}-start {
+      text-align: start !important;
+    }
+
+    .u-text#{$infix}-end {
+      text-align: end !important;
+    }
+  }
 }
 
 @each $weight, $value in variables.$font-weights {

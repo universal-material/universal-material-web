@@ -9,21 +9,28 @@ export const mixinSelectionControlListItem = <T extends MixinBase<UmSelectionCon
   abstract class SelectionControlListItem extends base {
     static styles = [
       (base as unknown as typeof LitElement).styles ?? [],
-      css`:host {
-        --u-list-item-block-padding: 0;
-        display: block;
-      }`
+      css`
+        :host {
+          --u-list-item-block-padding: 0;
+          display: block;
+        }
+
+        :host(:not([disabled])) {
+          cursor: pointer;
+        }
+      `,
     ];
 
     override render(): HTMLTemplateResult {
       return html`
-          <u-list-item ?selectable=${!this.disabled}>
-            <div slot="trailing">${super.render()}</div>
-            <label for="input"><slot></slot></label>
-            <slot name="supporting-text" slot="supporting-text"></slot>
-          </u-list-item>`;
+        <u-list-item ?selectable=${!this.disabled}>
+          <div slot="trailing">${super.render()}</div>
+          <label for="input"><slot></slot></label>
+          <slot name="supporting-text" slot="supporting-text"></slot>
+        </u-list-item>
+      `;
     }
   }
 
   return SelectionControlListItem;
-}
+};

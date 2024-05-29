@@ -1,13 +1,6 @@
 import { html, HTMLTemplateResult, LitElement } from 'lit';
-
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
-import {
-  customElement,
-  property,
-  query,
-  queryAll,
-  state,
-} from 'lit/decorators.js';
+import { customElement, property, query, queryAll, state } from 'lit/decorators.js';
 
 import { styles } from './typeahead.styles.js';
 
@@ -164,19 +157,19 @@ export class UmTypeahead extends LitElement {
     this.#elementInternals = this.attachInternals();
   }
 
-  override attributeChangedCallback(
-    name: string,
-    _old: string | null,
-    value: string | null,
-  ) {
+  override attributeChangedCallback(name: string, _old: string | null, value: string | null) {
     super.attributeChangedCallback(name, _old, value);
 
+    if (!this.target) {
+      return;
+    }
+
     if (name === 'autocomplete') {
-      this.target!.autocomplete = value;
+      this.target.autocomplete = value;
     }
 
     if (name === 'spellcheck') {
-      this.target!.spellcheck = value === 'true';
+      this.target.spellcheck = value === 'true';
     }
   }
 
@@ -205,9 +198,7 @@ export class UmTypeahead extends LitElement {
       return;
     }
 
-    const newTarget = document.getElementById(
-      this.targetId,
-    ) as HTMLInputElement;
+    const newTarget = document.getElementById(this.targetId) as HTMLInputElement;
 
     if (newTarget === this.target) {
       return;
@@ -254,15 +245,9 @@ export class UmTypeahead extends LitElement {
       clearTimeout(this.#debounceTimeout);
     }
 
-    this.#setValueAndDispatchEvents(
-      this.editable ? this.getTargetValue() : null,
-      true,
-    );
+    this.#setValueAndDispatchEvents(this.editable ? this.getTargetValue() : null, true);
 
-    this.#debounceTimeout = setTimeout(
-      async () => await this.#updateResults(true),
-      this.debounce,
-    );
+    this.#debounceTimeout = setTimeout(async () => await this.#updateResults(true), this.debounce);
   };
 
   #getItemClickHandler(data: Data) {
@@ -290,9 +275,7 @@ export class UmTypeahead extends LitElement {
       this.#elementInternals.setFormValue(value);
     }
 
-    this.dispatchEvent(
-      new InputEvent('input', { bubbles: true, composed: true }),
-    );
+    this.dispatchEvent(new InputEvent('input', { bubbles: true, composed: true }));
     this.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
@@ -311,16 +294,13 @@ export class UmTypeahead extends LitElement {
         ${this.results.map(result => {
           const content = this.template
             ? unsafeHTML(this.template(this.#termNormalized, result.value))
-            : html`<u-highlight
-                .term=${this.#termNormalized}
-                .result=${result.label}
-              ></u-highlight>`;
+            : html`
+                <u-highlight .term=${this.#termNormalized} .result=${result.label}></u-highlight>
+              `;
 
-          return html` <u-menu-item
-            @click=${this.#getItemClickHandler(result)}
-            tabindex="-1"
-            >${content}</u-menu-item
-          >`;
+          return html`
+            <u-menu-item @click=${this.#getItemClickHandler(result)} tabindex="-1">${content}</u-menu-item>
+          `;
         })}
       </u-menu>
     `;
@@ -331,11 +311,7 @@ export class UmTypeahead extends LitElement {
 
     const termNormalized = normalizeText(term).toLowerCase();
 
-    if (
-      lazy &&
-      termNormalized === this.#termNormalized &&
-      this._menu?.open === true
-    ) {
+    if (lazy && termNormalized === this.#termNormalized && this._menu?.open === true) {
       return;
     }
 
@@ -376,9 +352,7 @@ export class UmTypeahead extends LitElement {
       return result;
     }
 
-    return result.filter(t =>
-      normalizeText(t.label).toLowerCase().includes(this.#termNormalized),
-    );
+    return result.filter(t => normalizeText(t.label).toLowerCase().includes(this.#termNormalized));
   }
 
   #setValueOnTarget() {

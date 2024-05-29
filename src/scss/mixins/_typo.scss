@@ -12,7 +12,6 @@
     font-family: var(--u-font-family, #{functions.get-font-family-var()});
   } @else {
     font-family: var(--u-font-family);
-    color: rgba(var(--u-current-text-color-rgb), var(--u-text-opacity));
   }
 
   $props: map.get(variables.$typography-styles, $style);

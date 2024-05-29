@@ -8,7 +8,9 @@
 @import "typo/typo";
 
 @import "reboot";
+@import "global";
 
 @if $include-reboot {
   @include reboot;
+  @include global-styles;
 }

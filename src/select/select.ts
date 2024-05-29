@@ -1,6 +1,5 @@
-import { html, svg, TemplateResult } from 'lit';
-
 import { PropertyValues } from '@lit/reactive-element';
+import { html, svg, TemplateResult } from 'lit';
 import { customElement, query, state } from 'lit/decorators.js';
 import { html as staticHtml } from 'lit/static-html.js';
 
@@ -78,9 +77,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
    * An `Array` containing the selected `UmOption` or empty if there's no selected option. Multiple selection is not supported.
    */
   get selectedOptions(): UmOption[] {
-    return this._nativeSelect.selectedOptions.length
-      ? [this._nativeSelect.selectedOptions[0]._parent]
-      : [];
+    return this._nativeSelect.selectedOptions.length ? [this._nativeSelect.selectedOptions[0]._parent] : [];
   }
 
   get _options(): UmOption[] {
@@ -123,10 +120,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
   }
 
   #updateOptions(options: UmOption[]) {
-    const maxLength = Math.max(
-      options.length,
-      this._nativeSelect.children.length,
-    );
+    const maxLength = Math.max(options.length, this._nativeSelect.children.length);
 
     for (let i = 0; i < maxLength; i++) {
       const option = options[i];
@@ -172,9 +166,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
   #setSelectedOption() {
     const options = this._options;
 
-    const selectedClassOptions = options.filter(o =>
-      o.classList.contains('selected'),
-    );
+    const selectedClassOptions = options.filter(o => o.classList.contains('selected'));
 
     let found = false;
 
@@ -230,11 +222,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
     this.elementInternals.setFormValue(this._nativeSelect.value || null);
   }
 
-  override attributeChangedCallback(
-    name: string,
-    _old: string | null,
-    value: string | null,
-  ) {
+  override attributeChangedCallback(name: string, _old: string | null, value: string | null) {
     super.attributeChangedCallback(name, _old, value);
 
     if (name !== 'disabled') {
@@ -264,11 +252,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
       return;
     }
 
-    this.#navigationController.focusMenu(
-      this.selectedOptions[0],
-      e.detail === 0,
-      false,
-    );
+    this.#navigationController.focusMenu(this.selectedOptions[0], e.detail === 0, false);
   };
 
   #handleMenuClick(e: Event) {
@@ -302,7 +286,10 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
     this.#navigationController.attach(this);
     this._updateOptions();
 
-    this._input.appendChild(this._nativeSelect);
+    if (this._nativeSelect.parentElement !== this._input) {
+      this._input.appendChild(this._nativeSelect);
+    }
+
     this._input.appendChild(this.#list);
     this._button.addEventListener('click', this.#handleClick);
 
@@ -318,7 +305,6 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
 
     this.#navigationController.detach();
     this.#connected = false;
-    this._nativeSelect.remove();
     this._button.removeEventListener('click', this.#handleClick);
     this._menu.removeEventListener('click', this.#handleMenuClick);
     this._menu.removeEventListener('open', this.#handleMenuOpen);

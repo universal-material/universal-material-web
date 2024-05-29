@@ -12,10 +12,7 @@ import '../elevation/elevation.js';
 
 @customElement('u-side-navigation')
 export class UmSideNavigation extends LitElement {
-  static override styles = [
-    baseStyles,
-    config.navigationDrawer.useSwiperJs ? swiperStyles : styles,
-  ];
+  static override styles = [baseStyles, config.navigationDrawer.useSwiperJs ? swiperStyles : styles];
 
   #toggleDrawer = false;
   private disableSlideAnimation = false;
@@ -39,14 +36,12 @@ export class UmSideNavigation extends LitElement {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  @query('swiper-container') swiperContainer!: any;
+  @query('swiper-container') swiperContainer: any;
   @query('.scrim') scrim!: HTMLElement;
   @query('#scroll-container') scrollContainer: HTMLElement | undefined;
 
   override render(): HTMLTemplateResult {
-    return config.navigationDrawer.useSwiperJs
-      ? this.renderWithSwipe()
-      : this.renderDefault();
+    return config.navigationDrawer.useSwiperJs ? this.renderWithSwipe() : this.renderDefault();
   }
 
   private renderDefault() {
@@ -56,9 +51,7 @@ export class UmSideNavigation extends LitElement {
       <div class="grid container">
         <div>
           <div class="navigation">
-            <div
-              class="scrim ${classMap(classes)}"
-              @click="${this.scrimClick}"></div>
+            <div class="scrim ${classMap(classes)}" @click="${this.scrimClick}"></div>
             <div class="drawer ${classMap(classes)}">
               <u-elevation></u-elevation>
               <div class="drawer-container">
@@ -100,10 +93,7 @@ export class UmSideNavigation extends LitElement {
         <div id="scroll-container" class="content" slot="container-end">
           <slot></slot>
         </div>
-        <div
-          class="scrim ${classMap(classes)}"
-          @click="${this.scrimClick}"
-          slot="container-end"></div>
+        <div class="scrim ${classMap(classes)}" @click="${this.scrimClick}" slot="container-end"></div>
       </swiper-container>
     `;
   }
@@ -144,15 +134,12 @@ export class UmSideNavigation extends LitElement {
   private swiperSliderMove(e: Event) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const swiper = (<any>e).detail[0];
-    this.scrim.style.setProperty(
-      '--_modal-drawer-open-progress',
-      `${1 - swiper.progress}`,
-    );
+    this.scrim.style.setProperty('--_modal-drawer-open-progress', `${1 - swiper.progress}`);
   }
 
   private scrimClick() {
     this.toggleDrawer = false;
-    this.swiperContainer.swiper.slideTo(1);
+    this.swiperContainer?.swiper?.slideTo(1);
   }
 }
 

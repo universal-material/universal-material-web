@@ -1,16 +1,16 @@
 @use "functions";
+@import "mixins/text-bg";
 
 @mixin global-styles() {
   body {
-    --u-current-text-color-rgb: var(--u-color-on-body-rgb);
+    @include _current-color-vars(--u-color-on-body);
+
     background-color: var(--u-color-body);
-    color: rgba(var(--u-current-text-color-rgb), var(--u-text-opacity));
+    color: var(--u-color-high-emphasis);
   }
 
   a {
-    --u-current-text-color: var(--u-color-primary);
-    --u-current-text-color-rgb: var(--u-color-primary-rgb);
-    color: rgba(var(--u-current-text-color-rgb), var(--u-text-opacity));
+    color: rgba(var(--u-color-primary-rgb), var(--u-high-emphasis-opacity));
     border-radius: #{functions.get-spacing-var(extra-small)};
     text-decoration: none;
 

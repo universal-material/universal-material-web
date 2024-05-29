@@ -1,9 +1,10 @@
 import { html, HTMLTemplateResult, nothing } from 'lit';
-import { customElement, property, queryAssignedElements } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 
 import { styles } from './button.styles.js';
 
 import { UmButtonBase } from './button-base.js';
+
 import '../ripple/ripple.js';
 
 export type UmButtonVariant = 'filled' | 'tonal' | 'elevated' | 'outlined' | 'text';
@@ -11,41 +12,35 @@ export type UmButtonColor = 'primary' | 'secondary' | 'tertiary' | 'error' | und
 
 @customElement('u-button')
 export class UmButton extends UmButtonBase {
-
   static override styles = [UmButtonBase.styles, styles];
 
   /**
    * The Button variant to render
    */
-  @property({reflect: true}) variant: UmButtonVariant = 'filled';
+  @property({ reflect: true }) variant: UmButtonVariant = 'filled';
 
   /**
    * The Button color
    *
    1
    */
-  @property({reflect: true}) color: UmButtonColor;
+  @property({ reflect: true }) color: UmButtonColor;
 
-  @property({type: Boolean, attribute: 'trailing-icon', reflect: true}) trailingIcon = false;
+  @property({ type: Boolean, attribute: 'trailing-icon', reflect: true }) trailingIcon = false;
 
   /**
    * Whether the button has icon or not
    *
    * _Note:_ Readonly
    */
-  @property({type: Boolean, attribute: 'has-icon', reflect: true}) hasIcon = false;
-
-  @queryAssignedElements({slot: 'icon', flatten: true})
-  private readonly assignedIcons!: HTMLElement[];
+  @property({ type: Boolean, attribute: 'has-icon', reflect: true }) hasIcon = false;
 
   protected override renderContent(): HTMLTemplateResult {
     const icon = html`
       <span class="icon">
-        <slot
-          name="icon"
-          aria-hidden="true"
-          @slotchange="${this.handleSlotChange}"></slot>
-      </span>`;
+        <slot name="icon" aria-hidden="true" @slotchange="${this.handleSlotChange}"></slot>
+      </span>
+    `;
 
     return html`
       ${this.trailingIcon ? nothing : icon}
@@ -54,8 +49,8 @@ export class UmButton extends UmButtonBase {
     `;
   }
 
-  private handleSlotChange() {
-    this.hasIcon = this.assignedIcons.length > 0;
+  private handleSlotChange(e: Event) {
+    this.hasIcon = (<HTMLSlotElement>e.target).assignedElements({ flatten: true }).length > 0;
   }
 }
 

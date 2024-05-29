@@ -15,6 +15,7 @@
   color: var(--u-drawer-item-label-inactive-color,  #{functions.get-color-var(on-surface-variant)});
 }
 
+:host(.active),
 :host([active]) {
   color: var(--u-drawer-item-label-active-color, var(--_color-primary));
 }
@@ -25,8 +26,13 @@
 }
 
 .icon {
+  display: flex;
+  width: 1em;
+  height: 1em;
+  align-items: center;
+  justify-content: center;
   font-size: var(--_drawer-item-icon-size);
-  line-height: var(--_drawer-item-icon-size);
+  line-height: 1em;
   margin-inline-end: var(--u-drawer-item-icon-margin, 16px);
 }
 

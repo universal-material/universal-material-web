@@ -104,16 +104,16 @@ export class UmTopAppBar extends LitElement {
     return html`
       <div class="container" part="container">
         <div class="content" part="content">
-          <div class="icon leading-icon">
+          <div class="icon leading-icon" part="icon leading">
             <slot name="leading-icon" @slotchange="${this.handleLeadingIconSlotChange}"></slot>
           </div>
-          <div class="headline">
+          <div class="headline" part="headline">
             <slot>
               <span>${this.headline}</span>
             </slot>
           </div>
 
-          <div class="icon trailing-icon">
+          <div class="icon trailing-icon" part="icon trailing">
             <slot name="trailing-icon" @slotchange="${this.handleTrailingIconSlotChange}"></slot>
           </div>
         </div>

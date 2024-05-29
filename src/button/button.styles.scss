@@ -96,11 +96,9 @@
 
 .icon {
   font-size: var(--_common-button-icon-size);
-  padding-inline-end: var(--_common-button-icon-margin);
-  margin-inline-end: auto;
+  margin-inline-end: var(--_common-button-icon-margin);
 }
 
 :host([trailing-icon]) .icon {
-  padding-inline: var(--_common-button-icon-margin) 0;
-  margin-inline: auto 0;
+  margin-inline: var(--_common-button-icon-margin) 0;
 }
