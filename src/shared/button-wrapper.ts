@@ -12,13 +12,12 @@ import '../elevation/elevation.js';
 import '../ripple/ripple.js';
 
 export abstract class UmButtonWrapper extends LitElement {
-
   static override styles: CSSResultGroup = [baseStyles, styles];
 
   /**
    * Whether the button is disabled or not.
    */
-  @property({type: Boolean, reflect: true}) disabled = false;
+  @property({ type: Boolean, reflect: true }) disabled = false;
 
   @state() renderRipple = true;
 
@@ -41,17 +40,16 @@ export abstract class UmButtonWrapper extends LitElement {
   protected innerRole: string | null = null;
 
   get pathname(): string {
-    return (<HTMLAnchorElement>this.buttonElement)?.pathname
+    return (<HTMLAnchorElement>this.buttonElement)?.pathname;
   }
 
   protected override render(): HTMLTemplateResult {
-    return typeof this.href === 'string'
-      ? this.renderLink()
-      : this.renderButton();
+    return typeof this.href === 'string' ? this.renderLink() : this.renderButton();
   }
 
   private renderButton() {
     return html`
+      <div class="content">${this.renderContent()}</div>
       <button
         id="button"
         class="button focus-ring"
@@ -64,24 +62,26 @@ export abstract class UmButtonWrapper extends LitElement {
         <u-ripple ?disabled=${this.disabled || !this.renderRipple}></u-ripple>
         <u-elevation></u-elevation>
       </button>
-      <div class="content">${this.renderContent()}</div>`;
+    `;
   }
 
   private renderLink() {
-    return html`<a
-      id="link"
-      class="button"
-      href=${this.disabled ? nothing : this.href}
-      aria-disabled=${this.disabled || nothing}
-      aria-label=${this.ariaLabel || nothing}
-      aria-labelledby="${this.ariaLabel ? nothing : 'text'}"
-      .role=${this.innerRole}
-      target=${this.target || nothing}
-      @click=${this.#innerClickHandler}>
-      <u-elevation></u-elevation>
-      <u-ripple ?disabled=${this.disabled || !this.renderRipple}></u-ripple>
-    </a>
-    <div class="content">${this.renderContent()}</div>`;
+    return html`
+      <div class="content">${this.renderContent()}</div>
+      <a
+        id="link"
+        class="button"
+        href=${this.disabled ? nothing : this.href}
+        aria-disabled=${this.disabled || nothing}
+        aria-label=${this.ariaLabel || nothing}
+        aria-labelledby="${this.ariaLabel ? nothing : 'text'}"
+        .role=${this.innerRole}
+        target=${this.target || nothing}
+        @click=${this.#innerClickHandler}>
+        <u-elevation></u-elevation>
+        <u-ripple ?disabled=${this.disabled || !this.renderRipple}></u-ripple>
+      </a>
+    `;
   }
 
   protected abstract renderContent(): HTMLTemplateResult;
@@ -89,7 +89,7 @@ export abstract class UmButtonWrapper extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
 
-    this.addEventListener('focus', this.innerFocusHandler)
+    this.addEventListener('focus', this.innerFocusHandler);
   }
 
   override disconnectedCallback() {
@@ -103,7 +103,6 @@ export abstract class UmButtonWrapper extends LitElement {
   }
 
   override blur() {
-
     this.buttonElement?.blur();
   }
 
@@ -114,16 +113,15 @@ export abstract class UmButtonWrapper extends LitElement {
   private innerFocusHandler(): void {
     const tabIndexAttributeValue = this.getAttribute('tabindex');
 
-    if (tabIndexAttributeValue !== "0") {
+    if (tabIndexAttributeValue !== '0') {
       return;
     }
- 
+
     this.removeAttribute('tabindex');
     setTimeout(() => this.buttonElement?.focus());
   }
 
   #innerClickHandler(event: MouseEvent): void {
-    
     if (this.disabled) {
       return;
     }
@@ -141,7 +139,5 @@ export abstract class UmButtonWrapper extends LitElement {
     this.handleClick(event);
   }
 
-  protected handleClick(_: UIEvent): void {
-
-  }
+  protected handleClick(_: UIEvent): void {}
 }

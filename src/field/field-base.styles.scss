@@ -19,7 +19,9 @@
   --_icon-size: var(--u-field-icon-size, 1.5rem);
   --_icon-padding: var(--u-field-icon-padding, 12px);
   --_icon-color: var(--u-icon-color, #{api.get-color-var(on-surface-variant)});
-  --_focus-border-width: var(--u-text-field-focus-border-width, 2px);
+
+  --_border-width: var(--u-field-border-width, 1px);
+  --_border-color: var(--u-field-border-color, #{api.get-color-var(on-surface-variant)});
 
   --_field-control-leading-padding: var(--_field-control-inline-padding);
 
@@ -58,8 +60,8 @@
   }
 
   &::after {
-    border-width: var(--u-field-border-width, 1px);
-    border-color: var(--u-field-border-color, #{api.get-color-var(on-surface-variant)});
+    border-width: var(--_border-width);
+    border-color: var(--_border-color);
   }
 }
 
@@ -71,9 +73,7 @@
   }
 
   :host(:not([disabled]):not([invalid]):not(:focus-within):hover) {
-    .container::after {
-      border-color: var(--u-field-hover-border-color, #{api.get-color-var(on-surface)});
-    }
+    --_border-color: var(--u-field-hover-border-color, #{api.get-color-var(on-surface)});
   }
 }
 
@@ -100,10 +100,13 @@
   margin-inline-end: var(--_icon-padding);
 }
 
+.outline-notch-label,
 .label {
   @include api.typo(body-l, field-label);
   @include api.typo-prop(body-s, font-size, field-label);
+}
 
+.label {
   display: block;
   position: absolute;
   inset-inline-start: var(--_field-control-leading-padding);
@@ -212,11 +215,8 @@
 }
 
 :host(:focus-within) {
-  --u-field-border-width: var(--_focus-border-width);
-
-  .container::after {
-    border-color: var(--u-field-focused-border-color, var(--_color-primary));
-  }
+  --_border-width: var(--u-text-field-focus-border-width, 2px);
+  --_border-color: var(--u-field-focused-border-color, var(--_color-primary));
 
   .label {
     color: var(--u-field-label-focused-color, var(--_color-primary));
@@ -224,9 +224,7 @@
 }
 
 :host([invalid]) {
-  .container::after {
-    border-color: var(--u-field-error-border-color, var(--_color-error));
-  }
+  --_border-color: var(--u-field-error-border-color, var(--_color-error));
 
   .label {
     color: var(--u-field-label-error-color, var(--_color-error));
@@ -285,22 +283,6 @@
   }
 
   &.outlined {
-    &::after {
-      --_mid-point: calc(var(--u-field-label-half-width) + var(--_outlined-label-margin) + var(--_outlined-label-padding));
-      border-radius: var(--u-outlined-field-shape-corder, #{api.get-shape-corner-var(small)});
-      border-style: solid;
-      clip-path: polygon(
-          0 0,
-          var(--_mid-point) 0,
-          var(--_mid-point) var(--_focus-border-width),
-          var(--_mid-point) var(--_focus-border-width),
-          var(--_mid-point) 0,
-          100% 0,
-          100% 100%,
-          0 100%);
-      transition: clip-path 100ms;
-    }
-
     .label {
       top: calc(var(--_label-line-height) / -2);
     }
@@ -309,19 +291,6 @@
 
 .container.outlined:focus-within,
 :host(:not([empty])) .container.outlined {
-  &::after {
-    --_end-point: calc(var(--u-field-label-width) + var(--_outlined-label-margin) + (var(--_outlined-label-padding) * 2));
-    clip-path: polygon(
-        0 0,
-        var(--_outlined-label-margin) 0,
-        var(--_outlined-label-margin) var(--_focus-border-width),
-        var(--_end-point) var(--_focus-border-width),
-        var(--_end-point) 0,
-        100% 0,
-        100% 100%,
-        0 100%);
-  }
-
   .label {
     inset-inline-start: calc(var(--_outlined-label-margin) + var(--_outlined-label-padding));
   }
@@ -354,21 +323,12 @@
   }
 }
 
-.container.no-label {
-  &::after {
-    clip-path: none !important;
-  }
-}
-
 :host([disabled]) {
+  --_border-color: var(--u-field-disabled-border-color, var(--_disabled-color));
 
   .container {
     .filled {
       background-color: var(--u-filled-field-disabled-bg-color, rgba(#{api.get-color-rgb-var(on-surface)}, var(--u-filled-field-background-disabled-opacity, .04)));
-    }
-
-    &::after {
-      border-color: var(--u-field-disabled-border-color, var(--_disabled-color));
     }
   }
 
@@ -399,5 +359,70 @@
 
   .leading-icon {
     color: var(--u-field-leading-icon-disabled-color, var(--_disabled-color));
+  }
+}
+
+.outline {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  border-radius: var(--u-outlined-field-shape-corder, #{api.get-shape-corner-var(small)});
+  pointer-events: none;
+}
+
+.outline-start,
+.outline-end {
+  border: var(--_border-width) solid var(--_border-color);
+  border-radius: inherit;
+  flex-basis: var(--_outlined-label-margin);
+}
+
+.outline-start {
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
+  border-inline-end: none;
+}
+
+.outline-end {
+  flex: 1;
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+  border-inline-start: none;
+}
+
+.outline-notch {
+  min-width: 0;
+  border-bottom: var(--_border-width) solid var(--_border-color);
+}
+
+.outline-notch-label {
+  position: relative;
+  color: transparent;
+  padding-inline: var(--_outlined-label-padding);
+  user-select: none;
+}
+
+.outline-notch-label::before,
+.outline-notch-label::after {
+  content: "";
+  position: absolute;
+  border-top: var(--_border-width) solid var(--_border-color);
+  width: 50%;
+  transition: width 100ms;
+}
+
+.outline-notch-label::before {
+  left: 0;
+}
+
+.outline-notch-label::after {
+  right: 0;
+}
+
+.container:not(.no-label):focus-within,
+:host(:not([empty])) .container:not(.no-label) {
+  .outline-notch-label::before,
+  .outline-notch-label::after {
+    width: 0;
   }
 }

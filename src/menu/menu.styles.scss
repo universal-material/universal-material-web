@@ -21,25 +21,6 @@
   pointer-events: none;
 }
 
-.menu {
-  position: absolute;
-  display: flex;
-  min-width: var(--u-menu-min-width, 112px);
-  max-width: var(--u-menu-max-width, 280px);
-  background: var(--u-menu-bg-color, #{functions.get-color-var(surface-container)});
-  border-radius: var(--u-menu-shape-corner, #{functions.get-shape-corner-var(extra-small)});
-  opacity: 0;
-  transition: transform 350ms variables.$awesome-cubic-bezier 350ms, opacity 350ms;
-  transform: scale3d(0, 0, 1);
-  transform-origin: top;
-  z-index: var(--u-menu-z-index, 1020);
-
-  &.up {
-    transform: scale3d(1, 0, 0);
-    transform-origin: bottom;
-  }
-}
-
 .content {
   width: 100%;
   padding-block: var(--u-menu-padding, 8px);
@@ -49,15 +30,41 @@
   overflow: auto;
 }
 
-:host([open]) {
-  .menu {
+.menu {
+  position: absolute;
+  display: flex;
+  min-width: var(--u-menu-min-width, 112px);
+  max-width: var(--u-menu-max-width, 280px);
+  background: var(--u-menu-bg-color, #{functions.get-color-var(surface-container)});
+  border-radius: var(--u-menu-shape-corner, #{functions.get-shape-corner-var(extra-small)});
+  opacity: 0;
+  transition: transform 350ms variables.$awesome-cubic-bezier 350ms, opacity 350ms;
+  transform: scale3d(1, 0, 0);
+  transform-origin: top;
+  z-index: var(--u-menu-z-index, 1020);
+
+  &.up {
+    transform-origin: bottom;
+  }
+
+  &.open {
     opacity: 1;
     transition: transform 350ms variables.$awesome-cubic-bezier, opacity 250ms;
     transform: scale3d(1, 1, 1);
-  }
 
-  .content {
+    .content {
+      opacity: 1;
+      transition: opacity 300ms 150ms;
+    }
+  }
+}
+@keyframes menu-open {
+  from {
+    opacity: 0;
+    transform: scale3d(1, 0, 0);
+  }
+  to {
     opacity: 1;
-    transition: opacity 300ms 150ms;
+    transform: scale3d(1, 1, 1);
   }
 }

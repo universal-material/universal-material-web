@@ -9,17 +9,16 @@ import { UmSelectionControl } from '../shared/selection-control/selection-contro
 
 @customElement('u-radio')
 export class UmRadio extends UmSelectionControl {
-  static override styles = [
-    baseStyles,
-    styles
-  ];
+  static override styles = [baseStyles, styles];
 
-  @property({type: Boolean, attribute: 'hide-state-layer', reflect: true}) hideStateLayer = false;
+  @property({ type: Boolean, attribute: 'hide-state-layer', reflect: true }) hideStateLayer = false;
 
   protected override inputType: 'radio' | 'checkbox' = 'radio';
 
   protected override renderIndicator(): HTMLTemplateResult {
-    return html`<div class="indicator"></div>`;
+    return html`
+      <div class="indicator"></div>
+    `;
   }
 
   override get checked() {
@@ -35,7 +34,7 @@ export class UmRadio extends UmSelectionControl {
     this.uncheckSiblings();
 
     if (this.input) {
-      this.input.tabIndex = 0
+      this.input.tabIndex = 0;
     }
   }
 
@@ -44,8 +43,7 @@ export class UmRadio extends UmSelectionControl {
       return [this];
     }
 
-    return Array
-      .from((<Element>this.getRootNode()).querySelectorAll<UmRadio>(`${this.tagName}[name="${this.name}"]`));
+    return Array.from((<Element>this.getRootNode()).querySelectorAll<UmRadio>(`${this.tagName}[name="${this.name}"]`));
   }
 
   constructor() {
@@ -107,13 +105,24 @@ export class UmRadio extends UmSelectionControl {
 
       if (nextSibling.disabled) {
         nextIndex += factor;
-
         continue;
       }
 
-      nextSibling.checked = true;
+      const clickCanceled = !nextSibling.dispatchEvent(
+        new Event('click', {
+          bubbles: true,
+          cancelable: true,
+        }),
+      );
+
       nextSibling.input.focus();
-      nextSibling.dispatchEvent(new Event('change', {bubbles: true}));
+
+      if (clickCanceled) {
+        break;
+      }
+
+      nextSibling.checked = true;
+      nextSibling.dispatchEvent(new Event('change', { bubbles: true }));
       break;
     }
   }
@@ -124,9 +133,7 @@ export class UmRadio extends UmSelectionControl {
     }
 
     const radios = Array.from(document.querySelectorAll<UmRadio>(`${this.tagName}[name="${this.name}"]`));
-    const lastChecked = radios
-      .reverse()
-      .find(r => r.checked);
+    const lastChecked = radios.reverse().find(r => r.checked);
 
     if (!lastChecked) {
       return;

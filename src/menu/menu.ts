@@ -6,6 +6,8 @@ import { styles } from './menu.styles.js';
 
 import '../elevation/elevation.js';
 
+import { classMap } from 'lit/directives/class-map.js';
+
 interface AnchorCornerBlockSide {
   top: number;
   bottom: number;
@@ -39,7 +41,6 @@ interface MenuSize {
 
 @customElement('u-menu')
 export class UmMenu extends LitElement {
-
   static override styles = [baseStyles, styles];
 
   #open = false;
@@ -47,36 +48,52 @@ export class UmMenu extends LitElement {
   /**
    * Opens the menu and makes it visible. Alternative to the `.show()`, `.close()` and `.toggle()` methods
    */
-  @property({type: Boolean, reflect: true})
+  @property({ type: Boolean, reflect: true })
   get open(): boolean {
-    return this.#open
+    return this.#open;
   }
   set open(open: boolean) {
+    if (!this.menu) {
+      return;
+    }
+
+    this.menu.removeEventListener('transitionend', this.#onClosed, true);
+    this.menu.removeEventListener('transitionend', this.#onOpened, true);
+
     if (!open) {
-      const closePrevented = !this.dispatchEvent(new Event('close', {cancelable: true}));
+      const closePrevented = !this.dispatchEvent(new Event('close', { cancelable: true }));
 
       if (closePrevented) {
         return;
       }
 
       this.#open = open;
-      this.menu?.addEventListener('transitionend', () => this.dispatchEvent(new Event('closed')), {capture: true, once: true});
 
-      document.removeEventListener('click', this.close);
+      this.#hide();
+
       return;
     }
 
-    const openPrevented = !this.dispatchEvent(new Event('open', {cancelable: true}));
+    const openPrevented = !this.dispatchEvent(new Event('open', { cancelable: true }));
 
     if (openPrevented) {
       return;
     }
 
-    this.calcDropdownPositioning();
     this.#open = open;
 
-    this.menu?.addEventListener('transitionend', () =>
-      this.dispatchEvent(new Event('opened')), {capture: true, once: true});
+    this.#show();
+  }
+
+  #show() {
+    this.menu.style.display = '';
+    this.calcDropdownPositioning();
+
+    this.menu.addEventListener('transitionend', this.#onOpened, {
+      capture: true,
+      once: true,
+    });
+
     setTimeout(() => document.addEventListener('click', this.close));
 
     if (this.manualFocus) {
@@ -86,15 +103,26 @@ export class UmMenu extends LitElement {
     setTimeout(() => this.querySelector<HTMLElement>('u-menu-item:not([disabled])')?.focus());
   }
 
-  @property({reflect: true}) positioning: 'relative' | 'fixed' = 'relative';
+  #hide() {
+    this.menu.classList.remove('open');
 
-  @property({type: Boolean}) manualFocus = false;
+    document.removeEventListener('click', this.close);
+
+    this.menu.addEventListener('transitionend', this.#onClosed, {
+      capture: true,
+      once: true,
+    });
+  }
+
+  @property({ reflect: true }) positioning: 'relative' | 'fixed' = 'relative';
+
+  @property({ type: Boolean }) manualFocus = false;
 
   /**
    * The corner of the anchor which to align the menu in the standard logical
    * property style of <block>-<inline> e.g. `'end-start'`.
    */
-  @property({attribute: 'anchor-corner', reflect: true})
+  @property({ attribute: 'anchor-corner', reflect: true })
   anchorCorner: 'auto-start' | 'auto-end' | 'start-start' | 'start-end' | 'end-start' | 'end-end' = 'end-start';
 
   /**
@@ -103,12 +131,12 @@ export class UmMenu extends LitElement {
    * NOTE: This value may not be respected by the menu positioning algorithm
    * if the menu would render outside the viewport.
    */
-  @property({reflect: true}) direction: 'up-start' | 'up-end' | 'down-start' | 'down-end' = 'down-end';
+  @property({ reflect: true }) direction: 'up-start' | 'up-end' | 'down-start' | 'down-end' = 'down-end';
 
   /**
    * Don't limit the height of the menu
    */
-  @property({type: Boolean, attribute: 'allow-overflow', reflect: true}) allowOverflow = false;
+  @property({ type: Boolean, attribute: 'allow-overflow', reflect: true }) allowOverflow = false;
 
   @query('.menu') menu!: HTMLElement;
   @query('.ref') ref!: HTMLElement;
@@ -116,6 +144,13 @@ export class UmMenu extends LitElement {
   get scrollContainer(): HTMLElement {
     return this.menu;
   }
+
+  #onOpened = () => this.dispatchEvent(new Event('opened'));
+
+  #onClosed = () => {
+    this.menu.style.display = 'none';
+    this.dispatchEvent(new Event('closed'));
+  };
 
   #anchorElement: HTMLElement | null | undefined;
 
@@ -127,9 +162,11 @@ export class UmMenu extends LitElement {
   }
 
   protected override render(): HTMLTemplateResult {
+    const menuClasses = { open: this.open };
+
     return html`
       <div class="ref"></div>
-      <div class="menu" part="menu" ?inert=${!this.open}>
+      <div class="menu ${classMap(menuClasses)}" part="menu" style="display: none" ?inert=${!this.open}>
         <u-elevation></u-elevation>
         <div role="menu" class="content" part="content">
           <slot></slot>
@@ -140,7 +177,7 @@ export class UmMenu extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    this.role = "listbox";
+    this.role = 'listbox';
     // eslint-disable-next-line no-self-assign
     this.open = this.open;
   }
@@ -164,7 +201,7 @@ export class UmMenu extends LitElement {
     if (this.open) {
       this.open = false;
     }
-  }
+  };
 
   private calcDropdownPositioning() {
     if (!this.anchorElement) {
@@ -194,9 +231,7 @@ export class UmMenu extends LitElement {
       return;
     }
 
-    const side = this.anchorCorner.startsWith('start-')
-      ? menuPosition.bounds.top
-      : menuPosition.bounds.bottom;
+    const side = this.anchorCorner.startsWith('start-') ? menuPosition.bounds.top : menuPosition.bounds.bottom;
 
     if (this.direction.startsWith('up-')) {
       this.#tryOpenUp(side, menuSize);
@@ -221,7 +256,6 @@ export class UmMenu extends LitElement {
   }
 
   #tryOpenUp(side: AnchorCornerBlockSide, menuSize: MenuSize): void {
-
     if (side.top === side.bottom || side.top - menuSize.height >= 0) {
       this.#openUp(side);
       return;
@@ -231,7 +265,6 @@ export class UmMenu extends LitElement {
   }
 
   #tryOpenDown(side: AnchorCornerBlockSide, menuSize: MenuSize): void {
-
     const viewPortHeight = window.innerHeight;
 
     if (side.top === side.bottom || viewPortHeight - (side.top + menuSize.height) >= 0) {
@@ -252,16 +285,10 @@ export class UmMenu extends LitElement {
   }
 
   #setToOpenToStartOrEnd(menuPosition: MenuPosition, menuSize: MenuSize): void {
-    const openStart = menuPosition.isRtl
-      ? this.#tryOpenRight.bind(this)
-      : this.#tryOpenLeft.bind(this);
-    const openEnd = menuPosition.isRtl
-      ? this.#tryOpenLeft.bind(this)
-      : this.#tryOpenRight.bind(this);
+    const openStart = menuPosition.isRtl ? this.#tryOpenRight.bind(this) : this.#tryOpenLeft.bind(this);
+    const openEnd = menuPosition.isRtl ? this.#tryOpenLeft.bind(this) : this.#tryOpenRight.bind(this);
 
-    const side = this.anchorCorner.endsWith('-start')
-      ? menuPosition.bounds.start
-      : menuPosition.bounds.end;
+    const side = this.anchorCorner.endsWith('-start') ? menuPosition.bounds.start : menuPosition.bounds.end;
 
     if (this.direction.endsWith('-start')) {
       openStart(side, menuSize);
@@ -272,7 +299,6 @@ export class UmMenu extends LitElement {
   }
 
   #tryOpenLeft(side: AnchorCornerInlineSide, menuSize: MenuSize): void {
-
     if (side.left === side.right || side.left - menuSize.width >= 0) {
       this.menu.style.right = `${side.relativeX * -1}px`;
       return;
@@ -282,7 +308,6 @@ export class UmMenu extends LitElement {
   }
 
   #tryOpenRight(side: AnchorCornerInlineSide, menuSize: MenuSize): void {
-
     const viewPortWidth = window.innerWidth;
 
     if (side.left === side.right || viewPortWidth - (side.left + menuSize.width) >= 0) {
@@ -307,17 +332,13 @@ export class UmMenu extends LitElement {
 
     this.menu.style.bottom = `${side.relativeY * -1}px`;
     this.menu.classList.add('up');
-    this.menu.style.maxHeight = this.allowOverflow
-      ? ''
-      : `${viewPortHeight - side.bottom}px`;
+    this.menu.style.maxHeight = this.allowOverflow ? '' : `${viewPortHeight - side.bottom}px`;
   }
 
   #openDown(side: AnchorCornerBlockSide) {
     const viewPortHeight = window.innerHeight;
     this.menu.style.top = `${side.relativeY}px`;
-    this.menu.style.maxHeight = this.allowOverflow
-      ? ''
-      : `${viewPortHeight - side.top}px`;
+    this.menu.style.maxHeight = this.allowOverflow ? '' : `${viewPortHeight - side.top}px`;
   }
 
   private getMenuPosition(): MenuPosition {
@@ -325,8 +346,8 @@ export class UmMenu extends LitElement {
     const viewPortHeight = window.innerHeight;
 
     const anchorElement = this.anchorElement!;
-    const anchorRect = anchorElement.getBoundingClientRect() as DOMRect
-    const refRect = this.ref.getBoundingClientRect() as DOMRect
+    const anchorRect = anchorElement.getBoundingClientRect() as DOMRect;
+    const refRect = this.ref.getBoundingClientRect() as DOMRect;
     const anchorStyles = getComputedStyle(anchorElement);
     const isRtl = anchorStyles.direction === 'rtl';
 
@@ -339,19 +360,19 @@ export class UmMenu extends LitElement {
     const leftPoint: AnchorCornerInlineSide = {
       left: anchorRect.left,
       right: viewPortWidth - anchorRect.left,
-      relativeX: anchorRect.left - rectX
+      relativeX: anchorRect.left - rectX,
     };
 
     const rightPoint: AnchorCornerInlineSide = {
       left: anchorRect.right,
       right: viewPortWidth - anchorRect.right,
-      relativeX: leftPoint.relativeX + width
+      relativeX: leftPoint.relativeX + width,
     };
 
     const topPoint: AnchorCornerBlockSide = {
       top: anchorRect.top,
       relativeY: anchorRect.top - rectY,
-      bottom: viewPortHeight - anchorRect.top
+      bottom: viewPortHeight - anchorRect.top,
     };
 
     const anchorBounds: AnchorBounds = {
@@ -359,17 +380,17 @@ export class UmMenu extends LitElement {
       bottom: {
         top: anchorRect.bottom,
         relativeY: topPoint.relativeY + height,
-        bottom: viewPortHeight - anchorRect.bottom
+        bottom: viewPortHeight - anchorRect.bottom,
       },
       start: isRtl ? rightPoint : leftPoint,
       end: isRtl ? leftPoint : rightPoint,
       width,
-      height
-    }
+      height,
+    };
 
     return {
       isRtl: isRtl,
-      bounds: anchorBounds
+      bounds: anchorBounds,
     };
   }
 
@@ -381,7 +402,7 @@ export class UmMenu extends LitElement {
 
     return {
       width: width,
-      height: height
+      height: height,
     };
   }
 }

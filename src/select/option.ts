@@ -26,17 +26,6 @@ export class UmOption extends UmMenuItem {
     return option;
   })();
 
-  _listItem = (() => {
-    const listItem = document.createElement('div');
-    listItem.role = 'option';
-
-    listItem.textContent = this.textContent;
-
-    return listItem;
-  })();
-
-  readonly #mutationObserver: MutationObserver;
-
   @property({ reflect: true })
   get value(): string {
     return this._nativeOption.value;
@@ -66,7 +55,7 @@ export class UmOption extends UmMenuItem {
       return;
     }
 
-    this._select._button.setAttribute('aria-labelledby', this._listItem.id);
+    // this._select._button.setAttribute('aria-labelledby', this._listItem.id);
     this._select.empty = !this._nativeOption.textContent?.trim();
   }
 
@@ -93,12 +82,6 @@ export class UmOption extends UmMenuItem {
   }
 
   _select!: UmSelect | null;
-
-  constructor() {
-    super();
-    this.#mutationObserver = new MutationObserver(() => this.#updateContent());
-    this.#mutationObserver.observe(this, { characterData: true, childList: true, subtree: true });
-  }
 
   override connectedCallback() {
     super.connectedCallback();
@@ -164,7 +147,6 @@ export class UmOption extends UmMenuItem {
 
   #updateContent() {
     this._nativeOption.textContent = this.textContent;
-    this._listItem.textContent = this.textContent;
   }
 
   async #setNativeOption(): Promise<void> {

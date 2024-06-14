@@ -116,7 +116,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
     // eslint-disable-next-line no-self-assign
     selectedOption.selected = selectedOption.selected;
     this.empty = !selectedOption.textContent?.trim();
-    this._button.setAttribute('aria-labelledby', selectedOption._listItem.id);
+    // this._button.setAttribute('aria-labelledby', selectedOption._listItem.id);
   }
 
   #updateOptions(options: UmOption[]) {
@@ -130,6 +130,8 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
         nativeOption.remove();
         continue;
       }
+
+      option._nativeOption.textContent = option.textContent;
 
       if (!nativeOption) {
         this._nativeSelect.appendChild(option._nativeOption);
@@ -145,22 +147,30 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
 
     for (let i = 0; i < maxLength; i++) {
       const option = options[i];
-      const item = this.#list.children[i];
+      let item = this.#list.children[i];
 
       if (!option) {
         item.remove();
         continue;
       }
 
-      option._listItem.id = `item-${i + 1}`;
-
       if (!item) {
-        this.#list.appendChild(option._listItem);
-        continue;
+        item = this.#createListItem(`item-${i + 1}`);
+        this.#list.appendChild(item);
       }
 
-      item.insertAdjacentElement('beforebegin', option._listItem);
+      item.textContent = option.textContent;
     }
+  }
+
+  #createListItem(id: string): HTMLElement {
+    const item = document.createElement('div');
+    item.role = 'option';
+    item.id = id;
+
+    item.textContent = this.textContent;
+
+    return item;
   }
 
   #setSelectedOption() {
@@ -252,7 +262,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
       return;
     }
 
-    this.#navigationController.focusMenu(this.selectedOptions[0], e.detail === 0, false);
+    this.#navigationController.focusMenu(this.selectedOptions[0], 0, e.detail === 0, false);
   };
 
   #handleMenuClick(e: Event) {

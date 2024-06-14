@@ -7,11 +7,10 @@ const getCleanTypeaheadStatus = () => ({
   typing: false,
   repeating: false,
   buffer: '',
-  timeoutId: 0
+  timeoutId: 0,
 });
 
 export class SelectNavigationController extends MenuFieldNavigationController<UmSelect, UmOption> {
-
   #typeaheadStatus = getCleanTypeaheadStatus();
 
   protected override handleKeyDown(event: KeyboardEvent): boolean {
@@ -36,7 +35,7 @@ export class SelectNavigationController extends MenuFieldNavigationController<Um
     }
 
     const option = this.host.selectedOptions[0];
-    this.navigateTo(event, option);
+    this.navigateTo(event, option, this.host._menuItems.indexOf(option));
     return true;
   }
 
@@ -52,11 +51,12 @@ export class SelectNavigationController extends MenuFieldNavigationController<Um
 
   #handleMouseFocus = (e: Event) => {
     this.blurMenu();
-    this.focusMenu(<UmOption>e.target, false, false);
+    const option = <UmOption>e.target;
+    this.focusMenu(option, this.host._menuItems.indexOf(option), false, false);
   };
 
-  protected override afterFocus(option: UmOption) {
-    this.host._button.setAttribute('aria-activedescendant', option._listItem.id);
+  protected override afterFocus(_: UmOption, index: number) {
+    this.host._button.setAttribute('aria-activedescendant', `item-${index + 1}`);
   }
 
   protected override afterBlur() {
@@ -64,7 +64,6 @@ export class SelectNavigationController extends MenuFieldNavigationController<Um
   }
 
   private handleType(event: KeyboardEvent) {
-
     if (event.key.length > 1) {
       return false;
     }
@@ -77,30 +76,35 @@ export class SelectNavigationController extends MenuFieldNavigationController<Um
 
     this.#typeaheadStatus.buffer += event.key;
 
-    this.#typeaheadStatus.timeoutId = setTimeout(() => this.#typeaheadStatus = getCleanTypeaheadStatus(), 1000);
+    this.#typeaheadStatus.timeoutId = setTimeout(() => (this.#typeaheadStatus = getCleanTypeaheadStatus()), 1000);
 
-    const term = this.#typeaheadStatus.buffer.replaceAll(event.key, '') === ''
-      ? event.key
-      : this.#typeaheadStatus.buffer;
+    const term =
+      this.#typeaheadStatus.buffer.replaceAll(event.key, '') === '' ? event.key : this.#typeaheadStatus.buffer;
     this.findNextElementByTerm(term, lastFocusedMenu);
 
     return true;
   }
 
   private findNextElementByTerm(term: string, lastFocusedMenu: UmOption | null): void {
-    let nextMenu = <UmOption | undefined>lastFocusedMenu?.nextElementSibling
+    const options = this.host._options;
+    const lastFocusedMenuIndex = lastFocusedMenu ? options.indexOf(lastFocusedMenu) : -1;
+
+    let nextMenu =
+      lastFocusedMenuIndex > -1 ? <UmOption | undefined>this.host._options[lastFocusedMenuIndex + 1] : null;
 
     if (!nextMenu || !normalizedStartsWith(nextMenu.textContent, term)) {
-      nextMenu = this.host._options.find(o => normalizedStartsWith(o.textContent, term));
+      nextMenu = options.find(o => normalizedStartsWith(o.textContent, term));
     }
 
     if (!nextMenu) {
       return;
     }
 
+    const nextMenuIndex = options.indexOf(nextMenu);
+
     if (this.host._menu.open) {
       this.blurMenu();
-      this.focusMenu(nextMenu);
+      this.focusMenu(nextMenu, nextMenuIndex);
       return;
     }
 

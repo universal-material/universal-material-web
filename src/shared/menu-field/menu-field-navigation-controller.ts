@@ -41,12 +41,16 @@ export class MenuFieldNavigationController<TField extends UmMenuField, TMenuItem
     }
 
     if (event.key === 'Home') {
-      this.navigateTo(event, <TMenuItem>this.host._menuItems[0]);
+      this.navigateTo(event, <TMenuItem>this.host._menuItems[0], 0);
       return true;
     }
 
     if (event.key === 'End') {
-      this.navigateTo(event, <TMenuItem>this.host._menuItems[this.host._menuItems.length - 1]);
+      this.navigateTo(
+        event,
+        <TMenuItem>this.host._menuItems[this.host._menuItems.length - 1],
+        this.host._menuItems.length - 1,
+      );
       return true;
     }
 
@@ -80,18 +84,20 @@ export class MenuFieldNavigationController<TField extends UmMenuField, TMenuItem
 
     const activeMenu = this.focusedMenu;
 
+    const activeMenuIndex = menuItems.indexOf(<TMenuItem>activeMenu);
+
     const nextMenu = forwards
-      ? <TMenuItem>activeMenu?.nextElementSibling ?? menuItems[0]
-      : <TMenuItem>activeMenu?.previousElementSibling ?? menuItems[menuItems.length - 1];
+      ? <TMenuItem>menuItems[activeMenuIndex + 1] ?? menuItems[0]
+      : <TMenuItem>menuItems[activeMenuIndex - 1] ?? menuItems[menuItems.length - 1];
 
     if (!nextMenu) {
       return;
     }
 
-    this.navigateTo(event, nextMenu);
+    this.navigateTo(event, nextMenu, menuItems.indexOf(<TMenuItem>nextMenu));
   }
 
-  protected navigateTo(event: KeyboardEvent, menu: TMenuItem | undefined) {
+  protected navigateTo(event: KeyboardEvent, menu: TMenuItem | undefined, index: number) {
     event.preventDefault();
 
     this.blurMenu();
@@ -100,10 +106,10 @@ export class MenuFieldNavigationController<TField extends UmMenuField, TMenuItem
       return;
     }
 
-    this.focusMenu(menu);
+    this.focusMenu(menu, index);
   }
 
-  focusMenu(menu: TMenuItem, active = true, scroll = true) {
+  focusMenu(menu: TMenuItem, index: number, active = true, scroll = true) {
     this.focusedMenu = menu;
     menu.active = active;
 
@@ -111,7 +117,7 @@ export class MenuFieldNavigationController<TField extends UmMenuField, TMenuItem
       menu.scrollIntoView({ block: 'nearest' });
     }
 
-    this.afterFocus(menu);
+    this.afterFocus(menu, index);
   }
 
   blurMenu() {
@@ -133,7 +139,7 @@ export class MenuFieldNavigationController<TField extends UmMenuField, TMenuItem
     this.focusedMenu.click();
   }
 
-  protected afterFocus(_: TMenuItem) {}
+  protected afterFocus(_: TMenuItem, __: number) {}
 
   protected afterBlur() {}
 }
