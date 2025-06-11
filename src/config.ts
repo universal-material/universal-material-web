@@ -6,23 +6,23 @@ const _config = {
     alertDefaults: {
       acknowledgeButton: {
         label: 'Ok',
-        variant: 'text' as UmButtonVariant
-      } as DialogButtonDef
+        variant: 'text' as UmButtonVariant,
+      } as DialogButtonDef,
     },
     confirmDefaults: {
       confirmButton: {
         label: 'Ok',
-        variant: 'text' as UmButtonVariant
+        variant: 'text' as UmButtonVariant,
       } as DialogButtonDef,
       cancelButton: {
         label: 'Cancel',
-        variant: 'text' as UmButtonVariant
-      } as DialogButtonDef
-    }
+        variant: 'text' as UmButtonVariant,
+      } as DialogButtonDef,
+    },
   },
   navigationDrawer: {
-    useSwiperJs: false
-  }
+    useSwiperJs: false,
+  },
 };
 
 export const config = _config;

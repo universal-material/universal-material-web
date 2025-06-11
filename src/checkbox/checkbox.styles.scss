@@ -1,8 +1,8 @@
 @use "../scss/api";
 
-$control-name: checkbox;
-
-@import "../shared/selection-control/selection-control.styles";
+@use "../shared/selection-control/selection-control.styles" with (
+  $control-name: checkbox
+);
 
 :host {
   --_indicator-size: var(--u-checkbox-indicator-size, 1.125rem);

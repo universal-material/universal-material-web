@@ -49,9 +49,9 @@ export class SelectNavigationController extends MenuFieldNavigationController<Um
     this.host._menu.removeEventListener('menu-item-mouseenter', this.#handleMouseFocus);
   }
 
-  #handleMouseFocus = (e: Event) => {
+  readonly #handleMouseFocus = (e: Event) => {
     this.blurMenu();
-    const option = <UmOption>e.target;
+    const option = e.target as UmOption;
     this.focusMenu(option, this.host._menuItems.indexOf(option), false, false);
   };
 
@@ -76,7 +76,7 @@ export class SelectNavigationController extends MenuFieldNavigationController<Um
 
     this.#typeaheadStatus.buffer += event.key;
 
-    this.#typeaheadStatus.timeoutId = setTimeout(() => (this.#typeaheadStatus = getCleanTypeaheadStatus()), 1000);
+    this.#typeaheadStatus.timeoutId = setTimeout(() => this.#typeaheadStatus = getCleanTypeaheadStatus(), 1000);
 
     const term =
       this.#typeaheadStatus.buffer.replaceAll(event.key, '') === '' ? event.key : this.#typeaheadStatus.buffer;
@@ -90,7 +90,7 @@ export class SelectNavigationController extends MenuFieldNavigationController<Um
     const lastFocusedMenuIndex = lastFocusedMenu ? options.indexOf(lastFocusedMenu) : -1;
 
     let nextMenu =
-      lastFocusedMenuIndex > -1 ? <UmOption | undefined>this.host._options[lastFocusedMenuIndex + 1] : null;
+      lastFocusedMenuIndex > -1 ? this.host._options[lastFocusedMenuIndex + 1] as UmOption | undefined : null;
 
     if (!nextMenu || !normalizedStartsWith(nextMenu.textContent, term)) {
       nextMenu = options.find(o => normalizedStartsWith(o.textContent, term));

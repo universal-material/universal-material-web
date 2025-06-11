@@ -10,6 +10,10 @@
   gap: var(--u-list-item-gap, 16px);
 }
 
+:host([selectable]) {
+  cursor: pointer;
+}
+
 slot:not([name]) {
   display: block;
   margin-inline-end: auto;

@@ -1,8 +1,8 @@
 @use "../scss/api";
 
-$control-name: switch;
-
-@import "../shared/selection-control/selection-control.styles";
+@use "../shared/selection-control/selection-control.styles" with (
+  $control-name: switch
+);
 
 :host {
   --_width: 3.25rem;
@@ -75,7 +75,7 @@ input {
 @media (hover: hover) {
   :host(:not([disabled]):hover) {
     .state-layer {
-      background-color: rgba(#{api.get-color-var(on-surface-rgb)}, var(--u-switch-state-layer-hover-opacity, #{api.get-state-layer-opacity-var(hover)}));
+      background-color: #{api.get-color-transparency-mix(api.get-color-var(on-surface), var(--u-switch-state-layer-hover-opacity, api.get-state-layer-opacity-var(hover)))};
     }
   }
 }

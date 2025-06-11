@@ -9,7 +9,6 @@ import { classMap } from 'lit/directives/class-map.js';
 
 import { styles as baseStyles } from '../shared/base.styles.js';
 import { styles } from './tab-bar.styles.js';
-
 import { UmTab } from './tab.js';
 
 @customElement('u-tab-bar')
@@ -18,17 +17,17 @@ export class UmTabBar extends LitElement {
 
   #tabs: UmTab[] = [];
   #activeTab: UmTab | null = null;
-  #resizeObserver: ResizeObserver = new ResizeObserver(() => {
+  readonly #resizeObserver: ResizeObserver = new ResizeObserver(() => {
     this._setScrollIndicatorsActive();
     this._updateTabIndicator();
   });
 
   @property({ reflect: true }) variant: 'primary' | 'secondary' = 'primary';
 
-  @query('.scroll-left') private _scrollLeft!: HTMLElement;
-  @query('.scroll-right') private _scrollRight!: HTMLElement;
-  @query('.container') private _container!: HTMLElement;
-  @query('.tab-indicator') private _tabIndicator?: HTMLElement;
+  @query('.scroll-left') private readonly _scrollLeft!: HTMLElement;
+  @query('.scroll-right') private readonly _scrollRight!: HTMLElement;
+  @query('.container') private readonly _container!: HTMLElement;
+  @query('.tab-indicator') private readonly _tabIndicator?: HTMLElement;
 
   @queryAssignedElements({ flatten: true }) assignedElements!: HTMLElement[];
 
@@ -39,6 +38,7 @@ export class UmTabBar extends LitElement {
 
     return this.#tabs.indexOf(this.activeTab);
   }
+
   set activeTabIndex(index: number) {
     this.activeTab = this.#tabs[index];
   }
@@ -46,6 +46,7 @@ export class UmTabBar extends LitElement {
   get activeTab(): UmTab | null {
     return this.#activeTab;
   }
+
   set activeTab(activeTab: UmTab | null) {
     if (!this.#tabs.length) {
       this.#activeTab = null;
@@ -54,9 +55,9 @@ export class UmTabBar extends LitElement {
     }
 
     if (
-      !activeTab ||
-      this.#activeTab === activeTab ||
-      this.#tabs.indexOf(activeTab) < 0
+      !activeTab
+      || this.#activeTab === activeTab
+      || !this.#tabs.includes(activeTab)
     ) {
       return;
     }
@@ -137,11 +138,10 @@ export class UmTabBar extends LitElement {
     this.#resizeObserver.observe(this);
   }
 
-  #handleSlotChange = (e: Event) => {
-    const slot = <HTMLSlotElement>e.target;
-    this.#tabs = <UmTab[]>(
-      slot.assignedElements({ flatten: true }).filter(e => e instanceof UmTab)
-    );
+  readonly #handleSlotChange = (e: Event) => {
+    const slot = e.target as HTMLSlotElement;
+    this.#tabs =
+      slot.assignedElements({ flatten: true }).filter(element => element instanceof UmTab);
 
     for (const tab of this.#tabs) {
       tab._bar = this;
@@ -154,7 +154,7 @@ export class UmTabBar extends LitElement {
     this.activeTab = this.#tabs[0];
   };
 
-  #handleContainerScrollEnd = () => {
+  readonly #handleContainerScrollEnd = () => {
     this._setScrollIndicatorsActive();
   };
 
@@ -169,9 +169,9 @@ export class UmTabBar extends LitElement {
       return;
     }
 
-    const styles = getComputedStyle(this.activeTab);
+    const tabStyles = getComputedStyle(this.activeTab);
     const padding =
-      this.variant === 'primary' ? parseInt(styles.paddingInline, 10) : 0;
+      this.variant === 'primary' ? parseInt(tabStyles.paddingInline, 10) : 0;
 
     this._tabIndicator.style.left = `${this.activeTab.offsetLeft + padding}px`;
     this._tabIndicator.style.width = `${
@@ -179,14 +179,14 @@ export class UmTabBar extends LitElement {
     }px`;
   }
 
-  #scrollToLeft = () => {
+  readonly #scrollToLeft = () => {
     this._container.scrollBy({
       left: this._container.offsetWidth / -2,
       behavior: 'smooth',
     });
   };
 
-  #scrollToRight = () => {
+  readonly #scrollToRight = () => {
     this._container.scrollBy({
       left: this._container.offsetWidth / 2,
       behavior: 'smooth',

@@ -177,3 +177,9 @@ slot[name="selected-icon"] {
 [part="default-selected-icon"] {
   display: contents;
 }
+
+:host([disabled]) {
+  .remove-button {
+    cursor: default;
+  }
+}

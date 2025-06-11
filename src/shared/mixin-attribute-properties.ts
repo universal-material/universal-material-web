@@ -12,16 +12,16 @@ export const mixinAttributeProperties = <T extends MixinBase<LitElement>>(base: 
       for (const property of properties) {
         const propertyKey = property
           .split('-')
-          .map(((segment, index) => index
+          .map((segment, index) => index
             ? `${segment[0].toUpperCase()}${segment.substring(1)}`
-            : segment))
+            : segment)
           .join('');
 
         Object.defineProperty(this, property, {
-          get: function() {
+          get() {
             return this[propertyKey];
           },
-          set: function(value: any) {
+          set(value: any) {
             this[propertyKey] = value;
           },
         });
@@ -30,4 +30,4 @@ export const mixinAttributeProperties = <T extends MixinBase<LitElement>>(base: 
   }
 
   return AttributeProperties;
-}
+};

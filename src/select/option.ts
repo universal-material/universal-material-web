@@ -1,10 +1,9 @@
 import { svg, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 
-import { styles } from './option.styles.js';
-
 import { UmMenuItem } from '../menu/menu-item.js';
 import { ExtendedOption } from './extended-option.js';
+import { styles } from './option.styles.js';
 import { UmSelect } from './select.js';
 
 import './select.js';
@@ -14,7 +13,7 @@ export class UmOption extends UmMenuItem {
   static override styles = [UmMenuItem.styles, styles];
 
   _nativeOption: ExtendedOption = (() => {
-    const option = <ExtendedOption>document.createElement('option');
+    const option = document.createElement('option') as ExtendedOption;
     option._parent = this;
 
     if (this.hasAttribute('selected')) {
@@ -30,6 +29,7 @@ export class UmOption extends UmMenuItem {
   get value(): string {
     return this._nativeOption.value;
   }
+
   set value(value: string) {
     this._nativeOption.value = value;
   }
@@ -38,6 +38,7 @@ export class UmOption extends UmMenuItem {
   get selected(): boolean {
     return this._nativeOption.selected;
   }
+
   set selected(selected: boolean) {
     if (this.selected === selected) {
       return;
@@ -71,6 +72,7 @@ export class UmOption extends UmMenuItem {
   private get _selectedAttribute(): boolean {
     return this._nativeOption.hasAttribute('selected');
   }
+
   // @ts-ignore
   private set _selectedAttribute(selected: boolean) {
     if (selected) {
@@ -105,7 +107,6 @@ export class UmOption extends UmMenuItem {
       return;
     }
 
-    // eslint-disable-next-line no-self-assign
     this._select.value = this._select.value;
     this._select = null;
   }
@@ -115,7 +116,7 @@ export class UmOption extends UmMenuItem {
       return;
     }
 
-    this._select = this.parentElement instanceof UmSelect ? (this.parentElement as UmSelect) : null;
+    this._select = this.parentElement instanceof UmSelect ? this.parentElement : null;
 
     await this.#setNativeOption();
   }
@@ -137,7 +138,7 @@ export class UmOption extends UmMenuItem {
 
     this._select.selectedOptions[0]?.classList.remove('selected');
     this.selected = true;
-    // eslint-disable-next-line no-self-assign
+
     this._select.value = this._select.value;
     this._select.dispatchEvent(new InputEvent('input', { bubbles: true, composed: true }));
     this._select.dispatchEvent(new Event('change', { bubbles: true }));

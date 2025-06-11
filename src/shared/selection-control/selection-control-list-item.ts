@@ -1,4 +1,5 @@
 import { css, html, HTMLTemplateResult, LitElement } from 'lit';
+import { property } from 'lit/decorators.js';
 
 import { MixinBase, MixinReturn } from '../mixin.js';
 import { UmSelectionControl } from './selection-control.js';
@@ -21,13 +22,20 @@ export const mixinSelectionControlListItem = <T extends MixinBase<UmSelectionCon
       `,
     ];
 
+    @property({ type: Boolean }) leading = false;
+
+    protected override inputDescribedById = 'description';
+    protected override inputLabelledById = 'label';
+
     override render(): HTMLTemplateResult {
       return html`
-        <u-list-item ?selectable=${!this.disabled}>
-          <div slot="trailing">${super.render()}</div>
-          <label for="input"><slot></slot></label>
-          <slot name="supporting-text" slot="supporting-text"></slot>
-        </u-list-item>
+        <label>
+          <u-list-item ?selectable=${!this.disabled}>
+            <div slot="${this.leading ? 'leading' : 'trailing'}">${super.render()}</div>
+            <span id="label"><slot></slot></span>
+            <span id="description" slot="supporting-text"><slot name="supporting-text"></slot></span>
+          </u-list-item>
+        </label>
       `;
     }
   }

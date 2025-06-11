@@ -6,13 +6,13 @@ import { UmFieldBase } from './field-base.js';
 @customElement('u-field')
 export class UmField extends UmFieldBase {
 
-  @property({type: Boolean}) autoEmpty = false;
+  @property({ type: Boolean }) autoEmpty = false;
 
   private control: HTMLInputElement | null = null;
 
   override connectedCallback() {
     super.connectedCallback();
-    this.control = <HTMLInputElement | null>this.querySelector('input, select, button, textarea');
+    this.control = this.querySelector('input, select, button, textarea');
     this.control?.addEventListener('input', this.handleControlInput);
 
     if (this.autoEmpty) {
@@ -26,11 +26,11 @@ export class UmField extends UmFieldBase {
     this.control = null;
   }
 
-  private handleControlInput = () => {
+  private readonly handleControlInput = () => {
     if (this.autoEmpty) {
       this.empty = !this.control?.value;
     }
-  }
+  };
 
   protected override renderControl() {
     return html`

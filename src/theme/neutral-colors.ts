@@ -1,4 +1,4 @@
-import {Color} from './color.js';
+import { Color } from './color.js';
 
 export const neutralColors: Color[] = [
   { name: 'surface', lightTone: 98, darkTone: 6 },
@@ -16,11 +16,11 @@ export const neutralColors: Color[] = [
   { name: 'on-dark', fixedTone: 90 },
   { name: 'scrim', fixedTone: 0 },
   { name: 'shadow', fixedTone: 0 },
-]
+];
 
 export const neutralVariantColors: Color[] = [
   { name: 'surface-variant', lightTone: 90, darkTone: 30 },
   { name: 'on-surface-variant', lightTone: 30, darkTone: 80 },
   { name: 'outline', lightTone: 50, darkTone: 60 },
-  { name: 'outline-variant', lightTone: 80, darkTone: 30 }
-]
+  { name: 'outline-variant', lightTone: 80, darkTone: 30 },
+];

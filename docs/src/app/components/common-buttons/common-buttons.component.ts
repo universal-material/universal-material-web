@@ -7,6 +7,12 @@ import { TitleComponent } from '@docs/docs/title/title.component';
 // @ts-ignore
 import variantsHtml from '!raw-loader!./examples/buttons-variants.html';
 // @ts-ignore
+import togglesHtml from '!raw-loader!./examples/toggle-buttons.html';
+// @ts-ignore
+import shapesHtml from '!raw-loader!./examples/buttons-shapes.html';
+// @ts-ignore
+import sizesHtml from '!raw-loader!./examples/buttons-sizes.html';
+// @ts-ignore
 import filledColorsHtml from '!raw-loader!./examples/filled-colors.html';
 // @ts-ignore
 import anchorButtonsHtml from '!raw-loader!./examples/anchor-buttons.html';
@@ -28,6 +34,9 @@ import trailingIconsHtml from '!raw-loader!./examples/buttons-trailing-icons.htm
 })
 export class CommonButtonsComponent {
   variantsHtml = variantsHtml;
+  togglesHtml = togglesHtml;
+  shapesHtml = shapesHtml;
+  sizesHtml = sizesHtml;
   filledColorsHtml = filledColorsHtml;
   anchorButtonsHtml = anchorButtonsHtml;
   iconsHtml = iconsHtml;

@@ -1,10 +1,10 @@
 import { CSSResultGroup } from '@lit/reactive-element/css-tag';
+
 import { html, HTMLTemplateResult, LitElement, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 
-import { styles as baseStyles } from './base.styles.js';
-
 import { UmRipple } from '../ripple/ripple.js';
+import { styles as baseStyles } from './base.styles.js';
 import { styles } from './button-wrapper.styles';
 import { redispatchEvent } from './events/redispatch-event.js';
 
@@ -40,7 +40,7 @@ export abstract class UmButtonWrapper extends LitElement {
   protected innerRole: string | null = null;
 
   get pathname(): string {
-    return (<HTMLAnchorElement>this.buttonElement)?.pathname;
+    return (this.buttonElement as HTMLAnchorElement)?.pathname;
   }
 
   protected override render(): HTMLTemplateResult {
@@ -132,12 +132,13 @@ export abstract class UmButtonWrapper extends LitElement {
       return;
     }
 
-    if (!(<PointerEvent>event).pointerType) {
+    if (!(event as PointerEvent).pointerType) {
       this.ripple.createRipple();
     }
 
     this.handleClick(event);
   }
 
-  protected handleClick(_: UIEvent): void {}
+  protected handleClick(_: UIEvent): void {
+  }
 }

@@ -21,6 +21,8 @@
 }
 
 :host([variant=outlined]) {
+  --u-current-bg-color: var(--u-card-outlined-bg-color, #{functions.get-color-var(surface)});
+  background-color: var(--u-current-bg-color);
   border: var(--u-outlined-card-outline-width, 1px) solid var(--u-outlined-card-outline-color, #{functions.get-color-var(outline-variant)});
 }
 

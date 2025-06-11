@@ -1,3 +1,4 @@
+@use "functions";
 @use "mixins";
 
 @mixin reboot() {
@@ -48,7 +49,7 @@
   body {
     --u-current-bg-color: var(--u-color-body);
     background-color: var(--u-current-bg-color);
-    color: rgba(var(--u-current-text-color-rgb), var(--u-text-opacity));
+    color: #{functions.get-color-transparency-mix(var(--u-current-text-color), var(--u-text-opacity))};
     margin: 0; // 1
     @include mixins.typo-prop(body-l, font-size);
     @include mixins.typo-prop(body-l, font-weight);
@@ -218,8 +219,7 @@
 
   a {
     --u-current-text-color: var(--u-color-primary);
-    --u-current-text-color-rgb: var(--u-color-primary-rgb);
-    color: rgba(var(--u-current-text-color-rgb), var(--u-text-opacity));
+    color: #{functions.get-color-transparency-mix(var(--u-current-text-color), var(--u-text-opacity))};
     text-decoration: none;
 
     @media (hover: hover) {
@@ -293,7 +293,7 @@
   caption {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
-    color: rgba(var(--u-current-text-color-rgb), var(--u-low-emphasis-opacity));
+    color: #{functions.get-color-transparency-mix(var(--u-current-text-color), var(--u-low-emphasis-opacity))};
     text-align: left;
   }
 

@@ -29,14 +29,14 @@
   .prefix {
     span,
     &::slotted(*) {
-      color: var(--u-text-field-prefix-color, var(--u-text-field-affix-color, rgba(#{api.get-color-rgb-var(on-surface)}, var(--u-field-disabled-opacity, .38))));
+      color: var(--u-text-field-prefix-color, var(--u-text-field-affix-color, #{api.get-color-transparency-mix(api.get-color-var(on-surface), var(--u-field-disabled-opacity, 38%))}));
     }
   }
 
   .suffix {
     span,
     &::slotted(*) {
-      color: var(--u-text-field-suffix-color, var(--u-text-field-affix-color, rgba(#{api.get-color-rgb-var(on-surface)}, var(--u-field-disabled-opacity, .38))));
+      color: var(--u-text-field-suffix-color, var(--u-text-field-affix-color, #{api.get-color-transparency-mix(api.get-color-var(on-surface), var(--u-field-disabled-opacity, 38%))}));
     }
   }
 }

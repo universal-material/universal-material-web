@@ -2,10 +2,9 @@ import { html, HTMLTemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
-import { styles } from './tab.styles.js';
-
 import { UmButtonWrapper } from '../shared/button-wrapper.js';
 import { UmTabBar } from './tab-bar.js';
+import { styles } from './tab.styles.js';
 
 @customElement('u-tab')
 export class UmTab extends UmButtonWrapper {
@@ -13,7 +12,7 @@ export class UmTab extends UmButtonWrapper {
 
   _bar: UmTabBar | null = null;
 
-  #resizeObserver: ResizeObserver = new ResizeObserver(() => {
+  readonly #resizeObserver: ResizeObserver = new ResizeObserver(() => {
     if (this.active) {
       this._bar?._updateTabIndicator();
     }
@@ -23,6 +22,7 @@ export class UmTab extends UmButtonWrapper {
   get active(): boolean {
     return this._bar?.activeTab === this;
   }
+
   set active(active: boolean) {
     if (!this._bar) {
       return;
@@ -101,7 +101,7 @@ export class UmTab extends UmButtonWrapper {
   }
 
   #iconSlotChange(e: Event) {
-    const slot = <HTMLSlotElement>e.target;
+    const slot = e.target as HTMLSlotElement;
     this.hasIcon = !!slot.assignedElements({ flatten: true }).length;
   }
 }

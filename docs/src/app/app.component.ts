@@ -1,19 +1,19 @@
+import { ThemeBuilder } from '@universal-material/web';
+import { Subject, throttleTime } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ChildActivationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { Subject, throttleTime } from 'rxjs';
+import { ChildActivationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 
-import { ThemeBuilder } from '@universal-material/web';
+import { NavigationItem } from '@docs/components/navigation-item.model';
 
 import { LinkActiveDirective } from './docs/link-active.directive';
 import { SubmenuComponent } from './docs/submenu/submenu.component';
-import { NavigationItem } from '@docs/components/navigation-item.model';
 
 enum ThemeMode {
   Auto,
   Light,
-  Dark
+  Dark,
 }
 
 @Component({
@@ -23,23 +23,21 @@ enum ThemeMode {
     CommonModule,
     FormsModule,
     RouterLink,
-    RouterLinkActive,
     LinkActiveDirective,
     SubmenuComponent,
-    RouterOutlet
+    RouterOutlet,
   ],
   templateUrl: 'app.component.pug',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
-
   ThemeMode = ThemeMode;
 
   currentThemeMode = parseInt(localStorage['currentThemeMode'], 10) || 0;
   themeColor = '#6750a4';
   $themeColorChange = new Subject<string>();
 
-  anchorsNavigation: {hash: string, title: string}[] = [];
+  anchorsNavigation: { hash: string; title: string }[] = [];
 
   @ViewChild('scrollWrapper') scrollWrapper!: ElementRef<HTMLElement>;
 
@@ -50,12 +48,10 @@ export class AppComponent {
     this.setThemeColor(themeColor);
 
     this.$themeColorChange
-      .pipe(throttleTime(1000, undefined, {leading: true, trailing: true}))
+      .pipe(throttleTime(1000, undefined, { leading: true, trailing: true }))
       .subscribe(color => this.setThemeColor(color));
 
-    window
-      .matchMedia('(prefers-color-scheme: dark)')
-      .addEventListener('change', () => this.applyThemeMode());
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => this.applyThemeMode());
 
     router.events.subscribe(event => {
       if (!(event instanceof ChildActivationEnd)) {
@@ -71,12 +67,9 @@ export class AppComponent {
   }
 
   toggleRtl() {
-
     const currentDirection = localStorage['direction'];
 
-    localStorage['direction'] = currentDirection === 'rtl'
-      ? ''
-      : 'rtl';
+    localStorage['direction'] = currentDirection === 'rtl' ? '' : 'rtl';
 
     location.reload();
   }
@@ -108,23 +101,29 @@ export class AppComponent {
   }
 
   private applyThemeMode() {
-    const darkMode = this.currentThemeMode === ThemeMode.Dark ||
-      this.currentThemeMode === ThemeMode.Auto && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-    if (!darkMode) {
-      document.documentElement.classList.remove('u-dark-mode');
+    if (this.currentThemeMode === ThemeMode.Light) {
+      document.documentElement.classList.add('u-light');
+      document.documentElement.classList.remove('u-dark');
       return;
     }
 
-    document.documentElement.classList.add('u-dark-mode');
+    if (this.currentThemeMode === ThemeMode.Dark) {
+      document.documentElement.classList.add('u-dark');
+      document.documentElement.classList.remove('u-light');
+      return;
+    }
+
+    document.documentElement.classList.remove('u-light');
+    document.documentElement.classList.remove('u-dark');
   }
 
   private buildNavigation() {
     const anchors = Array.from(document.querySelectorAll('a'));
 
     this.anchorsNavigation.length = 0;
-    for (const anchor of anchors) {
 
+    for (const anchor of anchors) {
       if (anchor.host !== location.host) {
         anchor.target = '_blank';
         continue;
@@ -136,7 +135,7 @@ export class AppComponent {
 
       const navigationItem = {
         hash: anchor.hash,
-        title: anchor.textContent!
+        title: anchor.textContent!,
       };
 
       anchor.addEventListener('click', e => this.navigateToAnchor(e, navigationItem));
@@ -146,14 +145,14 @@ export class AppComponent {
 
   navigateToAnchor(e: Event, item: NavigationItem) {
     e.preventDefault();
-    const target = document.querySelector<HTMLElement>(`a[href="${item.hash}"]`)
+    const target = document.querySelector<HTMLElement>(`a[href="${item.hash}"]`);
 
     if (!target) {
       return;
     }
 
     this.scrollWrapper.nativeElement.scrollTo({
-      top: target.offsetTop - 24
-    })
+      top: target.offsetTop - 24,
+    });
   }
 }

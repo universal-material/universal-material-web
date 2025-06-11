@@ -1,11 +1,11 @@
 import { PropertyValues } from '@lit/reactive-element';
+
 import { html, HTMLTemplateResult, LitElement } from 'lit';
 import { customElement, property, query, queryAssignedElements } from 'lit/decorators.js';
 
 import { styles as baseStyles } from '../shared/base.styles.js';
-import { styles } from './dialog.styles.js';
-
 import { ConfirmDialogBuilder } from './confirm-dialog-builder.js';
+import { styles } from './dialog.styles.js';
 import { MessageDialogBuilder } from './message-dialog-builder.js';
 
 import '../elevation/elevation.js';
@@ -20,10 +20,11 @@ export class UmDialog extends LitElement {
   #open = false;
   #contentResizeObserver!: ResizeObserver | null;
 
-  @property({type: Boolean})
+  @property({ type: Boolean })
   get open(): boolean {
     return this.#open;
   }
+
   set open(open: boolean) {
     if (this.#open === open) {
       return;
@@ -46,24 +47,24 @@ export class UmDialog extends LitElement {
    *
    * _Note:_ Readonly
    */
-  @property({type: Boolean, attribute: 'has-headline', reflect: true}) hasHeadline = false;
+  @property({ type: Boolean, attribute: 'has-headline', reflect: true }) hasHeadline = false;
 
   /**
    * Whether dialog has icon
    *
    * _Note:_ Readonly
    */
-  @property({type: Boolean, attribute: 'has-icon', reflect: true}) hasIcon = false;
+  @property({ type: Boolean, attribute: 'has-icon', reflect: true }) hasIcon = false;
 
   @query('dialog') dialog!: HTMLDialogElement;
   @query('.scrim') scrim!: HTMLElement;
   @query('.content') content!: HTMLElement;
   @query('.container') container!: HTMLElement;
 
-  @queryAssignedElements({slot: 'headline', flatten: true})
+  @queryAssignedElements({ slot: 'headline', flatten: true })
   private readonly assignedHeadlines!: HTMLElement[];
 
-  @queryAssignedElements({slot: 'icon', flatten: true})
+  @queryAssignedElements({ slot: 'icon', flatten: true })
   private readonly assignedIcons!: HTMLElement[];
 
   static message(message: string): MessageDialogBuilder {
@@ -108,7 +109,7 @@ export class UmDialog extends LitElement {
   override firstUpdated(changedProperties: PropertyValues) {
     super.firstUpdated(changedProperties);
 
-    this.dialog.addEventListener('cancel', this.#handleCancel)
+    this.dialog.addEventListener('cancel', this.#handleCancel);
   }
 
   override connectedCallback() {
@@ -116,7 +117,7 @@ export class UmDialog extends LitElement {
     this.addEventListener('submit', this.#handleSubmit);
 
     setTimeout(() => {
-      this.#contentResizeObserver = new ResizeObserver(() => this.#setScrollDividers())
+      this.#contentResizeObserver = new ResizeObserver(() => this.#setScrollDividers());
       this.#contentResizeObserver.observe(this.content);
     });
   }
@@ -131,7 +132,7 @@ export class UmDialog extends LitElement {
 
   #handleSubmit(event: SubmitEvent) {
     const form = event.target as HTMLFormElement;
-    const {submitter} = event;
+    const { submitter } = event;
 
     if (form.method !== 'dialog' || !submitter) {
       return;
@@ -140,17 +141,17 @@ export class UmDialog extends LitElement {
     this.close(submitter.getAttribute('value') ?? this.returnValue);
   }
 
-  #handleCancel = (e: Event) => {
+  readonly #handleCancel = (e: Event) => {
     e.preventDefault();
 
-    const cancelPrevented = !this.dispatchEvent(new Event('cancel', {cancelable: true}));
+    const cancelPrevented = !this.dispatchEvent(new Event('cancel', { cancelable: true }));
 
     if (cancelPrevented) {
       return;
     }
 
     this.close();
-  }
+  };
 
   #handleIconSlotChange() {
     this.hasIcon = this.assignedIcons.length > 0;
@@ -176,7 +177,7 @@ export class UmDialog extends LitElement {
       this.content.classList.remove(bottomDividerClass);
       return;
     }
- 
+
     this.content.classList.add(bottomDividerClass);
   }
 
@@ -185,7 +186,7 @@ export class UmDialog extends LitElement {
       this.content.classList.add(topDividerClass);
       return;
     }
- 
+
     this.content.classList.remove(topDividerClass);
   }
 
@@ -210,7 +211,7 @@ export class UmDialog extends LitElement {
       return;
     }
 
-    const preventClose = !this.dispatchEvent(new Event('close', {cancelable: true}));
+    const preventClose = !this.dispatchEvent(new Event('close', { cancelable: true }));
 
     if (preventClose) {
       this.#open = true;
@@ -228,7 +229,7 @@ export class UmDialog extends LitElement {
           this.dialog.close(returnValue);
           this.dispatchEvent(new Event('closed'));
         },
-        {capture: true, once: true},
+        { capture: true, once: true },
       )
     );
 
@@ -237,7 +238,7 @@ export class UmDialog extends LitElement {
   }
 
   #handleScrimClick() {
-    const cancelPrevented = !this.dispatchEvent(new Event('cancel', {cancelable: true}));
+    const cancelPrevented = !this.dispatchEvent(new Event('cancel', { cancelable: true }));
 
     if (cancelPrevented) {
       return;

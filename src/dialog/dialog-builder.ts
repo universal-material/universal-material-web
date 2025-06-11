@@ -22,7 +22,7 @@ export abstract class DialogBuilder<TBuilder extends DialogBuilder<any, any>, TR
     this.addHeadline(dialog);
     this.addButtons(dialog);
 
-    return <TReturn>this.innerShow(dialog);
+    return this.innerShow(dialog) as TReturn;
   }
 
   protected innerShow(dialog: UmDialog): TReturn | void {

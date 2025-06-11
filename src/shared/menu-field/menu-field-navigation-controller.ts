@@ -6,28 +6,28 @@ export class MenuFieldNavigationController<TField extends UmMenuField, TMenuItem
   protected focusedMenu: TMenuItem | null = null;
   protected readonly host: TField;
 
-  private readonly bindHandleKeyDown: (event: KeyboardEvent) => void;
+  private readonly _bindHandleKeyDown: (event: KeyboardEvent) => void;
 
   constructor(host: TField) {
     this.host = host;
-    this.bindHandleKeyDown = this.handleKeyDown.bind(this);
+    this._bindHandleKeyDown = this.handleKeyDown.bind(this);
   }
 
   attach(element: HTMLElement) {
     this.detach();
 
-    element?.addEventListener('keydown', this.bindHandleKeyDown, { capture: true });
+    element?.addEventListener('keydown', this._bindHandleKeyDown, { capture: true });
     this.host._menu?.addEventListener('close', this.#handleMenuClose);
     this.#element = element;
   }
 
   detach() {
-    this.#element?.removeEventListener('keydown', this.bindHandleKeyDown);
+    this.#element?.removeEventListener('keydown', this._bindHandleKeyDown);
     this.host._menu?.removeEventListener('close', this.#handleMenuClose);
     this.#element = null;
   }
 
-  #handleMenuClose = () => this.blurMenu();
+  readonly #handleMenuClose = () => this.blurMenu();
 
   protected handleKeyDown(event: KeyboardEvent): boolean {
     if (this.host._menu?.open !== true) {
@@ -41,14 +41,14 @@ export class MenuFieldNavigationController<TField extends UmMenuField, TMenuItem
     }
 
     if (event.key === 'Home') {
-      this.navigateTo(event, <TMenuItem>this.host._menuItems[0], 0);
+      this.navigateTo(event, (this.host._menuItems[0] as TMenuItem), 0);
       return true;
     }
 
     if (event.key === 'End') {
       this.navigateTo(
         event,
-        <TMenuItem>this.host._menuItems[this.host._menuItems.length - 1],
+        (this.host._menuItems[this.host._menuItems.length - 1] as TMenuItem),
         this.host._menuItems.length - 1,
       );
       return true;
@@ -84,17 +84,17 @@ export class MenuFieldNavigationController<TField extends UmMenuField, TMenuItem
 
     const activeMenu = this.focusedMenu;
 
-    const activeMenuIndex = menuItems.indexOf(<TMenuItem>activeMenu);
+    const activeMenuIndex = activeMenu ? menuItems.indexOf(activeMenu) : -1;
 
     const nextMenu = forwards
-      ? <TMenuItem>menuItems[activeMenuIndex + 1] ?? menuItems[0]
-      : <TMenuItem>menuItems[activeMenuIndex - 1] ?? menuItems[menuItems.length - 1];
+      ? menuItems[activeMenuIndex + 1] as TMenuItem ?? menuItems[0]
+      : menuItems[activeMenuIndex - 1] as TMenuItem ?? menuItems[menuItems.length - 1];
 
     if (!nextMenu) {
       return;
     }
 
-    this.navigateTo(event, nextMenu, menuItems.indexOf(<TMenuItem>nextMenu));
+    this.navigateTo(event, nextMenu, menuItems.indexOf(nextMenu));
   }
 
   protected navigateTo(event: KeyboardEvent, menu: TMenuItem | undefined, index: number) {
@@ -110,6 +110,10 @@ export class MenuFieldNavigationController<TField extends UmMenuField, TMenuItem
   }
 
   focusMenu(menu: TMenuItem, index: number, active = true, scroll = true) {
+    if (this.focusedMenu) {
+      this.focusedMenu.active = false;
+    }
+
     this.focusedMenu = menu;
     menu.active = active;
 
@@ -137,9 +141,12 @@ export class MenuFieldNavigationController<TField extends UmMenuField, TMenuItem
 
     event.preventDefault();
     this.focusedMenu.click();
+    this.host._menu.open = false;
   }
 
-  protected afterFocus(_: TMenuItem, __: number) {}
+  protected afterFocus(_: TMenuItem, __: number) {
+  }
 
-  protected afterBlur() {}
+  protected afterBlur() {
+  }
 }

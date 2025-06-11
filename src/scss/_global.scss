@@ -2,6 +2,10 @@
 @import "mixins/text-bg";
 
 @mixin global-styles() {
+  :root {
+    color-scheme: light dark;
+  }
+
   body {
     @include _current-color-vars(--u-color-on-body);
 
@@ -10,7 +14,7 @@
   }
 
   a {
-    color: rgba(var(--u-color-primary-rgb), var(--u-high-emphasis-opacity));
+    color: #{functions.get-color-transparency-mix(var(--u-color-primary), var(--u-high-emphasis-opacity))};
     border-radius: #{functions.get-spacing-var(extra-small)};
     text-decoration: none;
 

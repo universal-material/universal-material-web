@@ -1,13 +1,12 @@
 import { html, HTMLTemplateResult, LitElement, nothing } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
+import { classMap } from 'lit/directives/class-map.js';
 
 import { styles as baseStyles } from '../shared/base.styles.js';
 import { styles } from './snackbar.styles.js';
 
 import '../button/button.js';
 import '../button/icon-button.js';
-
-import { classMap } from 'lit/directives/class-map.js';
 
 export interface SnackbarConfig {
   label: string;
@@ -26,14 +25,14 @@ export enum SnackbarDuration {
 export class UmSnackbar extends LitElement {
   static override styles = [baseStyles, styles];
 
-  @property({ reflect: true }) label: string = '';
-  @property({ reflect: true }) buttonLabel: string = '';
+  @property({ reflect: true }) label = '';
+  @property({ reflect: true }) buttonLabel = '';
   @property({ type: Boolean, attribute: 'show-close', reflect: true })
   showClose = false;
   @property({ type: Boolean, reflect: true }) dismissed = false;
 
-  private duration!: SnackbarDuration;
-  @query('.snackbar') private snackbar!: HTMLElement;
+  private duration!: SnackbarDuration | number;
+  @query('.snackbar') private readonly snackbar!: HTMLElement;
 
   override render(): HTMLTemplateResult {
     const classes = { dismiss: this.dismissed };
@@ -103,7 +102,7 @@ export class UmSnackbar extends LitElement {
 
     configOrLabel.duration ??= SnackbarDuration.short;
 
-    const snackbar = this.createSnackbar(<SnackbarConfig>configOrLabel);
+    const snackbar = this.createSnackbar(configOrLabel);
     UmSnackbar._queue.push(snackbar);
 
     if (!UmSnackbar._consuming) {

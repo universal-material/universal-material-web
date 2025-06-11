@@ -1,7 +1,5 @@
 import { hexFromArgb } from '@material/material-color-utilities';
 
-import { RgbColor } from './rgb-color.js';
-
 export class CssVarBuilder {
 
   private content = '';
@@ -18,14 +16,19 @@ export class CssVarBuilder {
     const cssVar = `  ${name}: ${value};
 `;
 
-    this.content += cssVar
+    this.content += cssVar;
 
     return this;
   }
 
   addFromArgb(name: string, argb: number): CssVarBuilder {
     this.add(`--u-color-${name}`, hexFromArgb(argb));
-    this.add(`--u-color-${name}-rgb`, RgbColor.fromArgb(argb).toString());
+
+    return this;
+  }
+
+  addLightAndDarkFromArgb(name: string, lightArgb: number, darkArgb: number): CssVarBuilder {
+    this.add(`--u-color-${name}`, `light-dark(${hexFromArgb(lightArgb)}, ${hexFromArgb(darkArgb)})`);
 
     return this;
   }

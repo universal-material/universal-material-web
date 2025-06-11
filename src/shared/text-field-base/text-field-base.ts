@@ -1,10 +1,10 @@
 import { CSSResultGroup } from '@lit/reactive-element/css-tag';
+
 import { LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { styles } from './text-field-base.styles.js';
-
 import { UmFieldBase } from '../../field/field-base.js';
+import { styles } from './text-field-base.styles.js';
 
 export abstract class UmTextFieldBase extends UmFieldBase {
   static readonly formAssociated = true;
@@ -21,7 +21,7 @@ export abstract class UmTextFieldBase extends UmFieldBase {
    */
   override empty = true;
 
-  @property({ reflect: true }) placeholder: string = '';
+  @property({ reflect: true }) placeholder = '';
 
   get form(): HTMLFormElement | null {
     return this.elementInternals.form;

@@ -25,12 +25,12 @@ export class ConfirmDialogBuilder extends DialogBuilder<ConfirmDialogBuilder, Pr
 
     this.addButton(
       dialog,
-      {...config.dialog.confirmDefaults.confirmButton, ...this.#confirmButtonDef},
+      { ...config.dialog.confirmDefaults.confirmButton, ...this.#confirmButtonDef },
       () => dialog.close('ok'));
 
     this.addButton(
       dialog,
-      {...config.dialog.confirmDefaults.cancelButton, ...this.#cancelButtonDef},
+      { ...config.dialog.confirmDefaults.cancelButton, ...this.#cancelButtonDef },
       () => dialog.close('cancel'));
   }
 
@@ -38,6 +38,6 @@ export class ConfirmDialogBuilder extends DialogBuilder<ConfirmDialogBuilder, Pr
     super.innerShow(dialog);
 
     return new Promise<boolean>(resolve =>
-      dialog.addEventListener('closed', () => resolve(dialog.returnValue === 'ok')))
+      dialog.addEventListener('closed', () => resolve(dialog.returnValue === 'ok')));
   }
 }

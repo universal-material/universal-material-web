@@ -1,0 +1,119 @@
+@use '../scss/functions';
+
+%highlighted-date {
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    margin-top: calc(var(--_date-size) * -.5);
+    height: var(--_date-size);
+    background: var(--u-color-secondary-container);
+    z-index: -1;
+    pointer-events: none;
+  }
+}
+
+%start-date-highlight {
+  &::before {
+    left: 50%;
+    width: 50%;
+  }
+}
+
+%end-date-highlight {
+  &::before {
+    width: 50%;
+  }
+}
+
+.selecting {
+
+  .calendar-item:hover {
+    &:has(.date) {
+      @extend %highlighted-date;
+    }
+
+    .date {
+      background-color: var(--u-calendar-selected-date-background-color, #{functions.get-color-var(primary)});
+      color: var(--u-calendar-selected-date-color, #{functions.get-color-var(on-primary)});
+    }
+  }
+
+  &:has(.selected-date) {
+    .selected-date:has(~ .calendar-item:hover .date) {
+      @extend %start-date-highlight;
+
+      &,
+      ~ .calendar-item:has(~ .calendar-item:hover .date) {
+        @extend %highlighted-date;
+      }
+
+      ~ .calendar-item:has(.date):hover {
+        @extend %end-date-highlight;
+      }
+    }
+
+    .calendar-item:hover:has(.date):has(~ .selected-date) {
+      @extend %start-date-highlight;
+
+      ~ .selected-date,
+      ~ .calendar-item:has(~ .selected-date) {
+        @extend %highlighted-date;
+      }
+
+      ~ .selected-date {
+        @extend %end-date-highlight;
+      }
+    }
+
+    .selected-date:hover::before {
+      display: none;
+    }
+  }
+
+  &.after-start-date-month:not(:has(.selected-date)) {
+    .calendar-item:has(.date):has(~ .calendar-item:hover .date) {
+      @extend %highlighted-date;
+    }
+
+    .calendar-item:has(.date):hover {
+      @extend %end-date-highlight;
+    }
+  }
+
+  &.before-start-date-month:not(:has(.selected-date)) {
+    .calendar-item:hover:has(.date) ~ .calendar-item:has(.date) {
+      @extend %highlighted-date;
+    }
+
+    .calendar-item:has(.date):hover {
+      @extend %start-date-highlight;
+    }
+  }
+}
+
+.selected {
+
+  &:not(:has(.start-date)):not(:has(.end-date)) .calendar-item:has(.date),
+  &:not(:has(.start-date)) .calendar-item:has(.date):has(~ .end-date),
+  &:not(:has(.end-date)) .start-date ~ .calendar-item:has(.date),
+  .start-date ~ .calendar-item:has(.date):has(~ .end-date),
+  .start-date:has(.date),
+  .end-date:has(.date) {
+    @extend %highlighted-date;
+  }
+
+  .start-date:has(.date) {
+    @extend %start-date-highlight;
+  }
+
+  .end-date:has(.date) {
+    @extend %end-date-highlight;
+  }
+
+  .start-date.end-date::before {
+    display: none;
+  }
+}

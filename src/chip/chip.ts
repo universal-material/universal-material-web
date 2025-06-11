@@ -1,10 +1,9 @@
 import { html, HTMLTemplateResult, nothing } from 'lit';
 import { customElement, property, query, queryAssignedElements } from 'lit/decorators.js';
 
-import { styles } from './chip.styles.js';
-
 import { UmRipple } from '../ripple/ripple.js';
 import { UmButtonWrapper } from '../shared/button-wrapper.js';
+import { styles } from './chip.styles.js';
 
 import '../ripple/ripple.js';
 import '../elevation/elevation.js';
@@ -25,6 +24,7 @@ export class UmChip extends UmButtonWrapper {
   get clickable(): boolean {
     return this.#clickable;
   }
+
   set clickable(value: boolean) {
     this.#clickable = value;
     this.renderRipple = this.#clickable || this.#toggle;
@@ -43,6 +43,7 @@ export class UmChip extends UmButtonWrapper {
   get toggle(): boolean {
     return this.#toggle;
   }
+
   set toggle(value: boolean) {
     this.#toggle = value;
     this.renderRipple = this.#clickable || this.#toggle;
@@ -82,7 +83,7 @@ export class UmChip extends UmButtonWrapper {
   @queryAssignedElements({ slot: 'leading-icon', flatten: true })
   private readonly assignedLeadingIcons!: HTMLElement[];
 
-  @queryAssignedElements({ slot: 'selected-icon', flatten: true })
+  @queryAssignedElements({ slot: 'icon-selected', flatten: true })
   private readonly assignedSelectedIcons!: HTMLElement[];
 
   @queryAssignedElements({ slot: 'trailing-icon', flatten: true })
@@ -98,7 +99,7 @@ export class UmChip extends UmButtonWrapper {
   #handleRemoveClick(e: Event) {
     e.stopPropagation();
 
-    if (!(<PointerEvent>e).pointerType) {
+    if (!(e as PointerEvent).pointerType) {
       this.removeRipple.createRipple();
     }
 
@@ -135,8 +136,8 @@ export class UmChip extends UmButtonWrapper {
 
   protected override renderContent(): HTMLTemplateResult {
     const remove = html`
-      <button class="icon remove-button focus-ring" @click=${this.#handleRemoveClick}>
-        <u-ripple id="remove-ripple"></u-ripple>
+      <button class="icon remove-button focus-ring" ?disabled=${this.disabled} @click=${this.#handleRemoveClick}>
+        <u-ripple id="remove-ripple" ?disabled=${this.disabled}></u-ripple>
         <slot name="remove-icon">
           <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 -960 960 960" width="1em" fill="currentColor">
             <path
@@ -153,7 +154,7 @@ export class UmChip extends UmButtonWrapper {
           <slot name="leading-icon" @slotchange="${this.#handleLeadingIconSlotChange}"></slot>
         </span>
         <span class="icon selected" part="icon selected">
-          <slot name="selected-icon" @slotchange="${this.#handleSelectedIconSlotChange}">
+          <slot name="icon-selected" @slotchange="${this.#handleSelectedIconSlotChange}">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="1em"

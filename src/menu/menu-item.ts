@@ -1,9 +1,8 @@
 import { html, HTMLTemplateResult, nothing, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-import { styles } from './menu-item.styles.js';
-
 import { UmButtonWrapper } from '../shared/button-wrapper.js';
+import { styles } from './menu-item.styles.js';
 
 @customElement('u-menu-item')
 export class UmMenuItem extends UmButtonWrapper {
@@ -18,6 +17,7 @@ export class UmMenuItem extends UmButtonWrapper {
   get active(): boolean {
     return this.#active;
   }
+
   set active(active: boolean) {
     this.#active = active;
 
@@ -63,7 +63,7 @@ export class UmMenuItem extends UmButtonWrapper {
     this.removeEventListener('mouseenter', this.#handleMouseEnter);
   }
 
-  #handleMouseEnter = () => this.dispatchEvent(new CustomEvent<UmMenuItem>('menu-item-mouseenter', { bubbles: true }));
+  readonly #handleMouseEnter = () => this.dispatchEvent(new CustomEvent<UmMenuItem>('menu-item-mouseenter', { bubbles: true }));
 
   protected override renderContent(): HTMLTemplateResult {
     return html`
@@ -86,11 +86,11 @@ export class UmMenuItem extends UmButtonWrapper {
   }
 
   #handleLeadingIconSlotChange(e: Event) {
-    this.hasLeadingIcon = (<HTMLSlotElement>e.target).assignedElements({ flatten: true }).length > 0;
+    this.hasLeadingIcon = (e.target as HTMLSlotElement).assignedElements({ flatten: true }).length > 0;
   }
 
   #handleTrailingIconSlotChange(e: Event) {
-    this.hasTrailingIcon = (<HTMLSlotElement>e.target).assignedElements({ flatten: true }).length > 0;
+    this.hasTrailingIcon = (e.target as HTMLSlotElement).assignedElements({ flatten: true }).length > 0;
   }
 }
 

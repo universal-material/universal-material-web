@@ -1,4 +1,4 @@
-export function normalizeText(text: string | null): string {
+export const normalizeText = (text: string | null): string => {
   if (!text) {
     return text ?? '';
   }
@@ -6,4 +6,4 @@ export function normalizeText(text: string | null): string {
   return text
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '');
-}
+};

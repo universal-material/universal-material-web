@@ -1,11 +1,11 @@
 import { CSSResultGroup } from '@lit/reactive-element/css-tag';
+
 import { html, HTMLTemplateResult, nothing } from 'lit';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import { customElement, property, query } from 'lit/decorators.js';
 
-import { styles } from './chip-field.styles.js';
-
 import { UmTextFieldBase } from '../shared/text-field-base/text-field-base.js';
+import { styles } from './chip-field.styles.js';
 
 @customElement('u-chip-field')
 export class UmChipField extends UmTextFieldBase {
@@ -41,6 +41,7 @@ export class UmChipField extends UmTextFieldBase {
   get value(): any[] {
     return this.#value;
   }
+
   set value(value: any[]) {
     this.#value = value;
     this.#valueUpdate();
@@ -86,7 +87,9 @@ export class UmChipField extends UmTextFieldBase {
         : nothing;
 
       return html`
-        <u-chip removable @remove=${this.#removeChip(index)}>${leadingIcon} ${this.getItemLabel(item)}</u-chip>
+        <u-chip removable ?disabled=${this.disabled} @remove=${this.#removeChip(index)}>
+          ${leadingIcon} ${this.getItemLabel(item)}
+        </u-chip>
       `;
     });
   }
@@ -123,7 +126,7 @@ export class UmChipField extends UmTextFieldBase {
     this.#changed(triggerChange);
   }
 
-  #removeChip = (index: number) => (e?: Event) => {
+  readonly #removeChip = (index: number) => (e?: Event) => {
     e?.preventDefault();
 
     this.input.focus();

@@ -10,8 +10,8 @@ const basePercentage = 255;
 export class UmCircularProgress extends LitElement {
   static override styles = [styles];
 
-  @property({type: Number}) value: number | undefined;
-  @property({type: Number}) max: number = 1;
+  @property({ type: Number }) value: number | undefined;
+  @property({ type: Number }) max = 1;
 
   protected override render(): TemplateResult {
     return this.value === undefined
@@ -43,7 +43,7 @@ export class UmCircularProgress extends LitElement {
     const offset = proportion === 0 || proportion === 1
       ? 0
       : 0.10625;
-    proportion = Math.floor(proportion! * 100) / 100;
+    proportion = Math.floor(proportion * 100) / 100;
     const percentage = basePercentage - basePercentage * proportion;
     const trackPercentage = basePercentage - basePercentage * Math.max(1 - offset - proportion, 0) * -1;
 

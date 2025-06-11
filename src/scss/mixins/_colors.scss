@@ -2,5 +2,4 @@
 
 @mixin _color-vars($color-name, $color-value) {
   --u-color-#{$color-name}: #{$color-value};
-  --u-color-#{$color-name}-rgb: #{color.red($color-value)},#{color.green($color-value)},#{color.blue($color-value)};
 }

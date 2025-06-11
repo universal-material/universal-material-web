@@ -2,11 +2,10 @@ import { html, HTMLTemplateResult, LitElement } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
+import { config } from '../config.js';
 import { styles as baseStyles } from '../shared/base.styles.js';
 import { styles as swiperStyles } from './side-navigation-swiper.styles.js';
 import { styles } from './side-navigation.styles.js';
-
-import { config } from '../config.js';
 
 import '../elevation/elevation.js';
 
@@ -27,6 +26,7 @@ export class UmSideNavigation extends LitElement {
   get toggleDrawer() {
     return this.#toggleDrawer;
   }
+
   set toggleDrawer(toggleDrawer: boolean) {
     this.#toggleDrawer = toggleDrawer;
 
@@ -35,7 +35,6 @@ export class UmSideNavigation extends LitElement {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @query('swiper-container') swiperContainer: any;
   @query('.scrim') scrim!: HTMLElement;
   @query('#scroll-container') scrollContainer: HTMLElement | undefined;
@@ -132,8 +131,8 @@ export class UmSideNavigation extends LitElement {
   }
 
   private swiperSliderMove(e: Event) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const swiper = (<any>e).detail[0];
+
+    const swiper = (e as any).detail[0];
     this.scrim.style.setProperty('--_modal-drawer-open-progress', `${1 - swiper.progress}`);
   }
 

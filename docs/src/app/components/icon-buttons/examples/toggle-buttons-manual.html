@@ -1,4 +1,4 @@
-<u-icon-button onclick="this.selected = !this.selected">
+<u-icon-button toggle onclick="event.preventDefault(); this.selected = !this.selected">
   <span class="material-symbols-outlined">close</span>
   <span slot="selected" class="material-symbols-outlined">done</span>
 </u-icon-button>

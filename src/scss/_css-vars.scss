@@ -6,24 +6,21 @@
 
 :root {
   --u-state-layer-color: currentColor;
-  --u-state-layer-hover-opacity: .08;
-  --u-state-layer-focus-opacity: .12;
-  --u-state-layer-pressed-opacity: .12;
-  --u-state-layer-dragged-opacity: .16;
+  --u-state-layer-hover-opacity: 8%;
+  --u-state-layer-focus-opacity: 12%;
+  --u-state-layer-pressed-opacity: 12%;
+  --u-state-layer-dragged-opacity: 16%;
 
-  --u-high-emphasis-opacity: 1;
-  --u-low-emphasis-opacity: .75;
-  --u-lower-emphasis-opacity: .5;
+  --u-high-emphasis-opacity: 100%;
+  --u-low-emphasis-opacity: 75%;
+  --u-lower-emphasis-opacity: 50%;
 
   --u-color-body: #{functions.get-color-var(surface)};
   --u-color-on-body: #{functions.get-color-var(on-surface)};
-  --u-color-body-rgb: #{functions.get-color-rgb-var(surface)};
-  --u-color-on-body-rgb: #{functions.get-color-rgb-var(on-surface)};
 
   --u-font-family: #{variables.$font-family};
   --u-font-monospace: #{variables.$font-mono};
   --u-current-text-color: var(--u-color-on-body);
-  --u-current-text-color-rgb: var(--u-color-on-body-rgb);
   --u-text-opacity: var(--u-high-emphasis-opacity);
   --u-layout-margin: var(--u-layout-margin-default);
   --u-layout-gutter: var(--u-layout-gutter-default);

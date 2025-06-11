@@ -1,20 +1,21 @@
 import { CSSResultGroup } from '@lit/reactive-element/css-tag';
+
 import { html, HTMLTemplateResult, nothing } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { live } from 'lit/directives/live.js';
 
-import { styles } from './text-field.styles.js';
-
 import { UmNativeTextFieldWrapper } from '../shared/char-count-text-field/native-text-field-wrapper.js';
 import { UmTextFieldBase } from '../shared/text-field-base/text-field-base.js';
+import { styles } from './text-field.styles.js';
 
 @customElement('u-text-field')
 export class UmTextField extends UmNativeTextFieldWrapper {
   static override styles: CSSResultGroup = [UmTextFieldBase.styles, styles];
 
-  @property() type: string = 'text';
+  @property() type = 'text';
   @property({ attribute: 'prefix-text' }) prefixText: string | undefined;
   @property({ attribute: 'suffix-text' }) suffixText: string | undefined;
+  @property({ type: Boolean, reflect: true }) readOnly = false;
   @property({ reflect: true }) override autocapitalize!: string;
 
   @query('input') input!: HTMLInputElement;
@@ -31,6 +32,7 @@ export class UmTextField extends UmNativeTextFieldWrapper {
           id=${this.id || nothing}
           aria-labelledby="label"
           aria-describedBy="supporting-text"
+          ?readonly=${this.readOnly}
           ?disabled=${this.disabled}
           spellcheck=${this.spellcheck}
           autocomplete=${this.autocomplete}

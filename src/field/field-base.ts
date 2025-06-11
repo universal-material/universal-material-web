@@ -1,12 +1,12 @@
 import { consume, Context, ContextProvider } from '@lit/context';
 import { CSSResultGroup } from '@lit/reactive-element/css-tag';
+
 import { html, LitElement, nothing, TemplateResult } from 'lit';
 import { property, query, queryAssignedElements, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
 import { styles as baseStyles } from '../shared/base.styles.js';
 import { styles } from './field-base.styles.js';
-
 import { fieldDefaultsContext } from './field-defaults-context.js';
 import { UmFieldDefaults } from './field-defaults.js';
 
@@ -15,7 +15,7 @@ export abstract class UmFieldBase extends LitElement {
 
   @consume({ context: fieldDefaultsContext, subscribe: true })
   @state()
-  private config: UmFieldDefaults | undefined;
+  private readonly config: UmFieldDefaults | undefined;
 
   @property() variant: 'filled' | 'outlined' | undefined = 'filled';
 
@@ -95,7 +95,7 @@ export abstract class UmFieldBase extends LitElement {
   @queryAssignedElements({ slot: 'error-text', flatten: true })
   private readonly assignedErrorTexts!: HTMLElement[];
 
-  @query('.label', true) private _labelElement!: HTMLElement;
+  @query('.label', true) private readonly _labelElement!: HTMLElement;
   @query('.container', true) protected _container!: HTMLElement;
 
   constructor() {

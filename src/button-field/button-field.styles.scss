@@ -1,0 +1,13 @@
+:host(:not([disabled])) .container {
+  cursor: pointer;
+}
+
+.button {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  appearance: none;
+}

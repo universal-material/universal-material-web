@@ -7,8 +7,8 @@ import { styles } from './progress-bar.styles.js';
 export class UmProgressBar extends LitElement {
   static override styles = [styles];
 
-  @property({type: Number}) value: number | undefined;
-  @property({type: Number}) max: number = 1;
+  @property({ type: Number }) value: number | undefined;
+  @property({ type: Number }) max = 1;
 
   protected override render(): TemplateResult {
     return this.value === undefined
@@ -31,7 +31,7 @@ export class UmProgressBar extends LitElement {
   #renderDeterminate(): TemplateResult {
     const proportion = this.value! / this.max;
 
-    const percentage = Math.floor(proportion! * 1000) / 10;
+    const percentage = Math.floor(proportion * 1000) / 10;
     const trackPercentage = 100 - percentage;
 
     return html`

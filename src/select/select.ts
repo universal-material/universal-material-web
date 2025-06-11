@@ -1,9 +1,8 @@
 import { PropertyValues } from '@lit/reactive-element';
+
 import { html, svg, TemplateResult } from 'lit';
 import { customElement, query, state } from 'lit/decorators.js';
 import { html as staticHtml } from 'lit/static-html.js';
-
-import { styles } from './select.styles.js';
 
 import { UmMenu } from '../menu/menu.js';
 import { UmMenuField } from '../shared/menu-field/menu-field.js';
@@ -11,6 +10,7 @@ import { UmTextFieldBase } from '../shared/text-field-base/text-field-base.js';
 import { ExtendedSelect } from './extended-select.js';
 import { UmOption } from './option.js';
 import { SelectNavigationController } from './select-navigation-controller.js';
+import { styles } from './select.styles.js';
 
 import './option.js';
 
@@ -19,14 +19,14 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
   static override styles = [UmTextFieldBase.styles, styles];
 
   _nativeSelect: ExtendedSelect = (() => {
-    const select = <ExtendedSelect>document.createElement('select');
+    const select = document.createElement('select') as ExtendedSelect;
     select.setAttribute('tabindex', '-1');
     select.setAttribute('part', 'select');
 
     return select;
   })();
 
-  #list: HTMLElement = (() => {
+  readonly #list: HTMLElement = (() => {
     const list = document.createElement('div');
     list.role = 'listbox';
     list.id = 'list';
@@ -35,7 +35,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
     return list;
   })();
 
-  #navigationController = new SelectNavigationController(this);
+  readonly #navigationController = new SelectNavigationController(this);
   readonly #mutationObserver: MutationObserver;
   #connected = false;
 
@@ -83,7 +83,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
   get _options(): UmOption[] {
     const options = Array.from(this.querySelectorAll<HTMLElement>('u-option'));
 
-    return options.filter(o => o instanceof UmOption) as UmOption[];
+    return options.filter(o => o instanceof UmOption);
   }
 
   constructor() {
@@ -113,7 +113,6 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
       return;
     }
 
-    // eslint-disable-next-line no-self-assign
     selectedOption.selected = selectedOption.selected;
     this.empty = !selectedOption.textContent?.trim();
     // this._button.setAttribute('aria-labelledby', selectedOption._listItem.id);
@@ -255,7 +254,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
     this.#detach();
   }
 
-  #handleClick = (e: MouseEvent) => {
+  readonly #handleClick = (e: MouseEvent) => {
     this._menu.toggle();
 
     if (!this._menu.open || !this.selectedOptions.length) {
@@ -269,12 +268,12 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
     e.stopPropagation();
   }
 
-  #handleMenuOpen = () => {
+  readonly #handleMenuOpen = () => {
     this._button.setAttribute('aria-expanded', 'true');
     this.#setSelectedOption();
   };
 
-  #handleMenuOpened = () => {
+  readonly #handleMenuOpened = () => {
     if (!this.selectedOptions.length) {
       return;
     }
@@ -283,7 +282,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
     option.scrollIntoView({ block: 'nearest' });
   };
 
-  #handleMenuClose = () => {
+  readonly #handleMenuClose = () => {
     this._button.setAttribute('aria-expanded', 'false');
     this.#navigationController.blurMenu();
   };

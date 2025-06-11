@@ -57,5 +57,5 @@ export const states = [
   'Washington',
   'West Virginia',
   'Wisconsin',
-  'Wyoming'
+  'Wyoming',
 ];

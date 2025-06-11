@@ -1,7 +1,7 @@
 @use "../scss/api";
 
 :host(.selected) {
-  background-color: var(--u-select-option-selected-bg-color, rgba(#{api.get-color-rgb-var(primary)}, .12));
+  background-color: var(--u-select-option-selected-bg-color, #{api.get-color-transparency-mix(api.get-color-var(primary), 12%)});
 
   .icon,
   .content {

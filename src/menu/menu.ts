@@ -1,12 +1,11 @@
 import { html, HTMLTemplateResult, LitElement } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
+import { classMap } from 'lit/directives/class-map.js';
 
 import { styles as baseStyles } from '../shared/base.styles.js';
 import { styles } from './menu.styles.js';
 
 import '../elevation/elevation.js';
-
-import { classMap } from 'lit/directives/class-map.js';
 
 interface AnchorCornerBlockSide {
   top: number;
@@ -44,6 +43,7 @@ export class UmMenu extends LitElement {
   static override styles = [baseStyles, styles];
 
   #open = false;
+  #preInitOpen = false;
 
   /**
    * Opens the menu and makes it visible. Alternative to the `.show()`, `.close()` and `.toggle()` methods
@@ -52,8 +52,14 @@ export class UmMenu extends LitElement {
   get open(): boolean {
     return this.#open;
   }
+
   set open(open: boolean) {
     if (!this.menu) {
+      this.#preInitOpen = open;
+      return;
+    }
+
+    if (this.open === open) {
       return;
     }
 
@@ -104,8 +110,6 @@ export class UmMenu extends LitElement {
   }
 
   #hide() {
-    this.menu.classList.remove('open');
-
     document.removeEventListener('click', this.close);
 
     this.menu.addEventListener('transitionend', this.#onClosed, {
@@ -145,9 +149,9 @@ export class UmMenu extends LitElement {
     return this.menu;
   }
 
-  #onOpened = () => this.dispatchEvent(new Event('opened'));
+  readonly #onOpened = () => this.dispatchEvent(new Event('opened'));
 
-  #onClosed = () => {
+  readonly #onClosed = () => {
     this.menu.style.display = 'none';
     this.dispatchEvent(new Event('closed'));
   };
@@ -155,8 +159,9 @@ export class UmMenu extends LitElement {
   #anchorElement: HTMLElement | null | undefined;
 
   get anchorElement(): HTMLElement | null | undefined {
-    return this.#anchorElement ?? this.parentElement! ?? (<ShadowRoot>this.getRootNode()).host;
+    return this.#anchorElement ?? this.parentElement! ?? (this.getRootNode() as ShadowRoot).host;
   }
+
   set anchorElement(anchorElement: HTMLElement | null | undefined) {
     this.#anchorElement = anchorElement;
   }
@@ -178,8 +183,8 @@ export class UmMenu extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
     this.role = 'listbox';
-    // eslint-disable-next-line no-self-assign
-    this.open = this.open;
+
+    this.#setInitOpen();
   }
 
   toggle = () => {
@@ -192,16 +197,20 @@ export class UmMenu extends LitElement {
   };
 
   show(): void {
-    if (!this.open) {
-      this.open = true;
-    }
+    this.open = true;
   }
 
   close = () => {
-    if (this.open) {
-      this.open = false;
-    }
+    this.open = false;
   };
+
+  async #setInitOpen() {
+    await this.updateComplete;
+
+    if (this.#preInitOpen) {
+      this.open = true;
+    }
+  }
 
   private calcDropdownPositioning() {
     if (!this.anchorElement) {
@@ -346,8 +355,8 @@ export class UmMenu extends LitElement {
     const viewPortHeight = window.innerHeight;
 
     const anchorElement = this.anchorElement!;
-    const anchorRect = anchorElement.getBoundingClientRect() as DOMRect;
-    const refRect = this.ref.getBoundingClientRect() as DOMRect;
+    const anchorRect = anchorElement.getBoundingClientRect();
+    const refRect = this.ref.getBoundingClientRect();
     const anchorStyles = getComputedStyle(anchorElement);
     const isRtl = anchorStyles.direction === 'rtl';
 
@@ -389,20 +398,20 @@ export class UmMenu extends LitElement {
     };
 
     return {
-      isRtl: isRtl,
+      isRtl,
       bounds: anchorBounds,
     };
   }
 
   private getMenuSize(): MenuSize {
     const menu = this.menu;
-    const styles = getComputedStyle(menu);
-    const width = parseInt(styles.width, 10);
-    const height = parseInt(styles.height, 10);
+    const menuStyles = getComputedStyle(menu);
+    const width = parseInt(menuStyles.width, 10);
+    const height = parseInt(menuStyles.height, 10);
 
     return {
-      width: width,
-      height: height,
+      width,
+      height,
     };
   }
 }

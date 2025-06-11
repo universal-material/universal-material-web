@@ -3,3 +3,9 @@
 .container {
   cursor: text;
 }
+
+:host([disabled]) {
+  .container {
+    cursor: default;
+  }
+}

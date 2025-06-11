@@ -1,10 +1,10 @@
 import { PropertyValues } from '@lit/reactive-element';
+
 import { html, HTMLTemplateResult, LitElement, nothing } from 'lit';
 import { customElement, property, query, queryAssignedElements } from 'lit/decorators.js';
 
-import { styles } from './top-app-bar.styles.js';
-
 import { styles as baseStyles } from '../shared/base.styles';
+import { styles } from './top-app-bar.styles.js';
 
 @customElement('u-top-app-bar')
 export class UmTopAppBar extends LitElement {
@@ -32,12 +32,13 @@ export class UmTopAppBar extends LitElement {
   @property({ reflect: true })
   size: 'small' | 'medium' | 'large' = 'small';
 
-  @property() headline: string = '';
+  @property() headline = '';
 
   @property({ reflect: true })
   get scrollContainer(): 'none' | 'window' | string | undefined {
     return this.attributes.getNamedItem('scrollContainer')?.value;
   }
+
   set scrollContainer(idOrElement: string | HTMLElement | undefined) {
     this.scrollContainerElement?.removeEventListener('scroll', this.#updateScroll);
 
@@ -50,7 +51,7 @@ export class UmTopAppBar extends LitElement {
   }
 
   @property({ type: Boolean, attribute: 'container-scrolled', reflect: true })
-  containerScrolled: boolean = false;
+  containerScrolled = false;
 
   @queryAssignedElements({ slot: 'leading-icon', flatten: true })
   private readonly assignedLeadingIcons!: HTMLElement[];
@@ -58,9 +59,9 @@ export class UmTopAppBar extends LitElement {
   @queryAssignedElements({ slot: 'trailing-icon', flatten: true })
   private readonly assignedTrailingIcons!: HTMLElement[];
 
-  @query('.container', true) private _container!: HTMLElement;
-  @query('.extended-content') private _extendedContent!: HTMLElement;
-  @query('.headline') private _headlineElement!: HTMLElement;
+  @query('.container', true) private readonly _container!: HTMLElement;
+  @query('.extended-content') private readonly _extendedContent!: HTMLElement;
+  @query('.headline') private readonly _headlineElement!: HTMLElement;
 
   private containerSizeObserver: ResizeObserver | null = null;
 
@@ -71,9 +72,9 @@ export class UmTopAppBar extends LitElement {
 
   private getScrollContainer(idOrElement: string | HTMLElement | undefined):
     | {
-        addEventListener: typeof window.addEventListener;
-        removeEventListener: typeof window.removeEventListener;
-      }
+      addEventListener: typeof window.addEventListener;
+      removeEventListener: typeof window.removeEventListener;
+    }
     | undefined {
     if (idOrElement instanceof HTMLElement) {
       return idOrElement;
@@ -148,7 +149,7 @@ export class UmTopAppBar extends LitElement {
     this.containerSizeObserver = null;
   }
 
-  #updateScroll = () => {
+  readonly #updateScroll = () => {
     const container = this.scrollContainerElement ?? window;
 
     const extendedContentHeight = Math.max(this._extendedContent?.offsetHeight ?? 0, 0);

@@ -1,11 +1,11 @@
 import { PropertyValues } from '@lit/reactive-element';
+
 import { html, HTMLTemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 import { styles as baseStyles } from '../shared/base.styles.js';
-import { styles } from './radio.styles.js';
-
 import { UmSelectionControl } from '../shared/selection-control/selection-control.js';
+import { styles } from './radio.styles.js';
 
 @customElement('u-radio')
 export class UmRadio extends UmSelectionControl {
@@ -24,6 +24,7 @@ export class UmRadio extends UmSelectionControl {
   override get checked() {
     return super.checked;
   }
+
   override set checked(value: boolean) {
     super.checked = value;
 
@@ -43,7 +44,7 @@ export class UmRadio extends UmSelectionControl {
       return [this];
     }
 
-    return Array.from((<Element>this.getRootNode()).querySelectorAll<UmRadio>(`${this.tagName}[name="${this.name}"]`));
+    return Array.from((this.getRootNode() as Element).querySelectorAll<UmRadio>(`${this.tagName}[name="${this.name}"]`));
   }
 
   constructor() {

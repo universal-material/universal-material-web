@@ -13,7 +13,7 @@ export class UmRipple extends LitElement {
   /**
    * Disables the ripple.
    */
-  @property({type: Boolean, reflect: true}) disabled = false;
+  @property({ type: Boolean, reflect: true }) disabled = false;
 
   @query('.ripple-container') private readonly rippleContainer!: HTMLElement;
 
@@ -22,14 +22,14 @@ export class UmRipple extends LitElement {
   }
 
   override render(): HTMLTemplateResult {
-    return html`<div class="ripple-container"></div><slot></slot>`
+    return html`<div class="ripple-container"></div><slot></slot>`;
   }
 
   override connectedCallback() {
     super.connectedCallback();
 
     this.attachEvents();
-    this.ariaHidden = "true";
+    this.ariaHidden = 'true';
   }
 
   override disconnectedCallback() {
@@ -69,7 +69,7 @@ export class UmRipple extends LitElement {
 
     const dismiss = this.createRipple(e.touches[0].clientX, e.touches[0].clientY, 'touchend')!;
 
-    this.addEventListener("touchmove", dismiss);
+    this.addEventListener('touchmove', dismiss);
   }
 
   private canCreateRipple(): boolean {
@@ -83,7 +83,7 @@ export class UmRipple extends LitElement {
 
     const ripple = document.createElement('DIV');
     ripple.classList.add('ripple');
-    this.rippleContainer!.appendChild(ripple);
+    this.rippleContainer.appendChild(ripple);
 
     requestAnimationFrame(() => {
       const clientRect = this.getBoundingClientRect();
@@ -93,8 +93,8 @@ export class UmRipple extends LitElement {
       UmRipple._setElementSquareSizeAndCenter(ripple, rippleSize);
       ripple.style.setProperty('--_ripple-transition-duration', `${1080 * Math.pow(rippleSize, 0.3)}ms`);
 
-      const x = (targetX! - clientRect.left) + ((rippleSize - this.rippleContainer.clientWidth) / 2);
-      const y = (targetY! - clientRect.top) + ((rippleSize - this.rippleContainer.clientHeight) / 2);
+      const x = (targetX - clientRect.left) + ((rippleSize - this.rippleContainer.clientWidth) / 2);
+      const y = (targetY - clientRect.top) + ((rippleSize - this.rippleContainer.clientHeight) / 2);
 
       ripple.style.transformOrigin = `${x}px ${y}px`;
       ripple.classList.add(releaseEventName ? 'show' : 'show-forced');
@@ -132,18 +132,18 @@ export class UmRipple extends LitElement {
       this.removeEventListener('dragover', dismiss);
       this.removeEventListener('mouseleave', dismiss);
       window.removeEventListener(releaseEventName, dismiss);
-    }
+    };
 
-    this.addEventListener("dragover", dismiss);
-    this.addEventListener("mouseleave", dismiss);
+    this.addEventListener('dragover', dismiss);
+    this.addEventListener('mouseleave', dismiss);
     window.addEventListener(releaseEventName, dismiss);
 
     return dismiss;
   }
 
   private static _setElementSquareSizeAndCenter(element: HTMLElement, size: number) {
-    element.style.top = "50%";
-    element.style.left = "50%";
+    element.style.top = '50%';
+    element.style.left = '50%';
     element.style.width = `${size}px`;
     element.style.height = `${size}px`;
     element.style.marginLeft = `${-size / 2}px`;

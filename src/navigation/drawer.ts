@@ -8,7 +8,7 @@ import { styles } from './drawer.styles.js';
 export class UmDrawer extends LitElement {
   static override styles = [
     baseStyles,
-    styles
+    styles,
   ];
 
   protected override render(): HTMLTemplateResult {
@@ -16,7 +16,7 @@ export class UmDrawer extends LitElement {
       <div class="container">
         <slot></slot>
       </div>
-    `
+    `;
   }
 }
 

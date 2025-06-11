@@ -1,0 +1,92 @@
+:host {
+  --_size: var(--_small-size);
+  --_square-shape-corner: var(--_small-square-shape-corner);
+  --_pressed-shape-corner: var(--_small-pressed-shape-corner);
+  --_icon-size: var(--_small-icon-size);
+
+  border-radius: var(--_round-shape-corner);
+  height: var(--_size);
+}
+
+:host([size=extra-small]) {
+  --_size: var(--_extra-small-size);
+  --_icon-size: var(--_extra-small-icon-size);
+  --_square-shape-corner: var(--_extra-small-square-shape-corner);
+  --_pressed-shape-corner: var(--_extra-small-pressed-shape-corner);
+}
+
+:host([size=medium]) {
+  --_size: var(--_medium-size);
+  --_icon-size: var(--_medium-icon-size);
+  --_square-shape-corner: var(--_medium-square-shape-corner);
+  --_pressed-shape-corner: var(--_medium-pressed-shape-corner);
+}
+
+:host([size=large]) {
+  --_size: var(--_large-size);
+  --_icon-size: var(--_large-icon-size);
+  --_square-shape-corner: var(--_large-square-shape-corner);
+  --_pressed-shape-corner: var(--_large-pressed-shape-corner);
+}
+
+:host([size=extra-large]) {
+  --_size: var(--_extra-large-size);
+  --_icon-size: var(--_extra-large-icon-size);
+  --_square-shape-corner: var(--_extra-large-square-shape-corner);
+  --_pressed-shape-corner: var(--_extra-large-pressed-shape-corner);
+}
+
+:host([selected][toggle-shape]) {
+  border-radius: var(--_square-shape-corner);
+}
+
+:host([shape=square]) {
+  border-radius: var(--_square-shape-corner);
+}
+
+:host([shape=square][selected][toggle-shape]) {
+  border-radius: var(--_round-shape-corner);
+}
+
+:host([toggle-shape]:not([disabled]):active) {
+  border-radius: var(--_pressed-shape-corner);
+}
+
+.icon-container {
+  position: relative;
+  width: var(--_icon-size);
+  height: 1px;
+}
+
+.icon-default {
+  opacity: 1;
+}
+
+.icon-selected {
+  opacity: 0;
+  transition-delay: calc(var(--_morph-duration) / 2);
+}
+
+:host([selected][has-selection-icon]) {
+  .icon-default {
+    opacity: 0;
+    transition-delay: 0ms;
+  }
+
+  .icon-selected {
+    opacity: 1;
+    transition-delay: calc(var(--_morph-duration) / 2);
+  }
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--_icon-size);
+  transform: translate3d(-50%, -50%, 0);
+  transition: opacity var(--_morph-duration) linear;
+}

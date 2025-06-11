@@ -1,6 +1,6 @@
-$control-name: radio;
-
-@import "../shared/selection-control/selection-control.styles";
+@use "../shared/selection-control/selection-control.styles" with (
+  $control-name: radio
+);
 
 :host {
   --_indicator-size: var(--u-radio-indicator-size, 1.25rem);

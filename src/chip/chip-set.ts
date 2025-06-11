@@ -1,8 +1,7 @@
 import { customElement } from 'lit/decorators.js';
 
-import { styles } from './chip-set.styles.js';
-
 import { UmSetBase } from '../shared/sets/set-base.js';
+import { styles } from './chip-set.styles.js';
 
 @customElement('u-chip-set')
 export class UmChipSet extends UmSetBase {

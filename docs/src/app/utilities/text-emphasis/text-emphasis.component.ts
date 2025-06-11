@@ -12,7 +12,7 @@ import usageHtml from '!raw-loader!./examples/usage.html';
   templateUrl: './text-emphasis.component.pug',
   styleUrl: './text-emphasis.component.scss',
   standalone: true,
-  imports: [ApisTableComponent, ExampleComponent, TitleComponent],
+  imports: [ExampleComponent, TitleComponent],
 })
 export class TextEmphasisComponent {
   usageHtml = usageHtml;

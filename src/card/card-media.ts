@@ -9,7 +9,7 @@ export class UmCardMedia extends LitElement {
 
   static override styles = [baseStyles, styles];
 
-  @property({type: Boolean, reflect: true}) wide = false;
+  @property({ type: Boolean, reflect: true }) wide = false;
 
   override render(): HTMLTemplateResult {
     return html`

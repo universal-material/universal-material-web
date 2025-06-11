@@ -12,6 +12,14 @@ import anchorButtonsHtml from '!raw-loader!./examples/anchor-buttons.html';
 import togglesHtml from '!raw-loader!./examples/toggle-buttons.html';
 // @ts-ignore
 import togglesManualHtml from '!raw-loader!./examples/toggle-buttons-manual.html';
+// @ts-ignore
+import shapesHtml from '!raw-loader!./examples/buttons-shapes.html';
+// @ts-ignore
+import sizesHtml from '!raw-loader!./examples/buttons-sizes.html';
+// @ts-ignore
+import narrowButtonsHtml from '!raw-loader!./examples/buttons-narrow.html';
+// @ts-ignore
+import wideButtonsHtml from '!raw-loader!./examples/buttons-wide.html';
 
 @Component({
   selector: 'docs-icon-buttons',
@@ -29,4 +37,8 @@ export class IconButtonsComponent {
   anchorButtonsHtml = anchorButtonsHtml;
   togglesHtml = togglesHtml;
   togglesManualHtml = togglesManualHtml;
+  shapesHtml = shapesHtml;
+  sizesHtml = sizesHtml;
+  narrowButtonsHtml = narrowButtonsHtml;
+  wideButtonsHtml = wideButtonsHtml;
 }

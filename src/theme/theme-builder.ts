@@ -5,17 +5,16 @@ import { CssVarBuilder } from './css-var-builder.js';
 import { neutralColors, neutralVariantColors } from './neutral-colors.js';
 import { ThemeColor } from './theme-color.js';
 
-function getCss(selector: string, content: string): string {
-  return `${selector} {
+const getCss = (selector: string, content: string): string =>
+  `${selector} {
 ${content}}`;
-}
 
 export class ThemeBuilder {
   cssClass: string | null;
   colors: ThemeColor[] = [];
 
   private partial = false;
-  #corePalette: CorePalette;
+  readonly #corePalette: CorePalette;
 
   private constructor(primaryColorHex: string) {
     this.cssClass = null;
@@ -105,77 +104,67 @@ export class ThemeBuilder {
     }
   }
 
-  private getNeutralVariables(dark: boolean): string {
+  private getNeutralVariables(): string {
     const builder = CssVarBuilder.create();
 
-    this.addColors(builder, neutralColors, this.#corePalette.n1, dark);
+    this.addColors(builder, neutralColors, this.#corePalette.n1);
 
     builder
       .add('--u-color-body', 'var(--u-color-surface)')
-      .add('--u-color-body-rgb', 'var(--u-color-surface-rgb)')
       .add('--u-color-inverse-body', 'var(--u-color-inverse-surface)')
-      .add('--u-color-inverse-body-rgb', 'var(--u-color-inverse-surface-rgb)')
       .add('--u-color-on-body', 'var(--u-color-on-surface)')
-      .add('--u-color-on-body-rgb', 'var(--u-color-on-surface-rgb)')
       .add('--u-color-on-inverse-body', 'var(--u-color-on-inverse-surface)')
-      .add('--u-color-on-inverse-body-rgb', 'var(--u-color-on-inverse-surface-rgb)')
-      .add('--u-current-text-color', 'var(--u-color-on-body)')
-      .add('--u-current-text-color-rgb', 'var(--u-color-on-body-rgb)');
+      .add('--u-current-text-color', 'var(--u-color-on-body)');
 
     return builder.build();
   }
 
-  private getNeutralVariantVariables(dark: boolean): string {
+  private getNeutralVariantVariables(): string {
     const builder = CssVarBuilder.create();
 
-    this.addColors(builder, neutralVariantColors, this.#corePalette.n2, dark);
+    this.addColors(builder, neutralVariantColors, this.#corePalette.n2);
 
     return builder.build();
   }
 
-  getColorVariables(color: ThemeColor, dark: boolean): string {
+  getColorVariables(color: ThemeColor): string {
     const builder = CssVarBuilder.create();
 
-    this.addToneColor(builder, color, color.tonalPalette, dark);
+    this.addToneColor(builder, color, color.tonalPalette);
 
     return builder.build();
   }
 
-  private getColorsVariables(dark: boolean): string {
+  private getColorsVariables(): string {
     let variables = '';
 
     for (const color of this.colors) {
-      variables += this.getColorVariables(color, dark);
+      variables += this.getColorVariables(color);
     }
 
-    variables += this.getNeutralVariables(dark);
-    variables += this.getNeutralVariantVariables(dark);
+    variables += this.getNeutralVariables();
+    variables += this.getNeutralVariantVariables();
 
     return variables;
   }
 
-  private addColors(builder: CssVarBuilder, colors: Color[], palette: TonalPalette, dark: boolean): void {
+  private addColors(builder: CssVarBuilder, colors: Color[], palette: TonalPalette): void {
     for (const color of colors) {
-      this.addToneColor(builder, color, palette, dark);
+      this.addToneColor(builder, color, palette);
     }
   }
 
-  private addToneColor(builder: CssVarBuilder, color: Color, palette: TonalPalette, dark: boolean): void {
+  private addToneColor(builder: CssVarBuilder, color: Color, palette: TonalPalette): void {
     if (color.fixedTone !== undefined) {
-      if (!dark) {
-        builder.addFromArgb(color.name, palette.tone(color.fixedTone));
-      }
-
+      builder.addFromArgb(color.name, palette.tone(color.fixedTone));
       return;
     }
 
-    const tone = dark ? color.darkTone! : color.lightTone!;
-
-    const inverseTone = dark ? color.lightTone! : color.darkTone!;
-
     const inverseName = `inverse-${color.name}`.replace('inverse-on', 'on-inverse');
 
-    builder.addFromArgb(color.name, palette.tone(tone)).addFromArgb(inverseName, palette.tone(inverseTone));
+    builder
+      .addLightAndDarkFromArgb(color.name, palette.tone(color.lightTone!), palette.tone(color.darkTone!))
+      .addLightAndDarkFromArgb(inverseName, palette.tone(color.darkTone!), palette.tone(color.lightTone!));
 
     if (color.name === 'surface' || color.name === 'on-surface') {
       const prefix = color.name.startsWith('on-') ? 'on-' : '';
@@ -183,20 +172,12 @@ export class ThemeBuilder {
       builder.addFromArgb(`${prefix}light-surface`, palette.tone(color.lightTone!));
       builder.addFromArgb(`${prefix}dark-surface`, palette.tone(color.darkTone!));
     }
-
-    if (dark) {
-      return;
-    }
   }
 
   build(): string {
     this.ensureCssClassStartsWithDot();
 
-    const lightCssClass = this.cssClass ?? ':root';
-    const darkCssClass = this.cssClass
-      ? `${this.cssClass}.u-dark-mode,
-${this.cssClass} .u-dark-mode`
-      : '.u-dark-mode';
+    const selector = this.cssClass ?? ':root';
 
     this.ensureThemeColors();
 
@@ -204,9 +185,7 @@ ${this.cssClass} .u-dark-mode`
       this.ensureStatusColors();
     }
 
-    const variables = `${getCss(lightCssClass, `${this.getColorsVariables(false)}`)}
-
-${getCss(darkCssClass, this.getColorsVariables(true))}
+    const variables = `${getCss(selector, this.getColorsVariables())}
 `;
     return variables;
   }

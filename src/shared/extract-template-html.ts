@@ -1,4 +1,4 @@
-export function extractTemplateHtml(template: HTMLTemplateElement) {
+export const extractTemplateHtml = (template: HTMLTemplateElement) => {
   let html = '';
 
   for (const child of Array.from(template.content.children)) {
@@ -6,4 +6,4 @@ export function extractTemplateHtml(template: HTMLTemplateElement) {
   }
 
   return html;
-}
+};

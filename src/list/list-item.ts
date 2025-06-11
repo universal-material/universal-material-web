@@ -9,10 +9,13 @@ import '../ripple/ripple.js';
 export class UmListItem extends LitElement {
   static override styles = styles;
 
-  @property({type: Boolean, reflect: true}) selectable = false;
+  @property({ type: Boolean, reflect: true }) selectable = false;
 
   override render(): HTMLTemplateResult {
-    const ripple = html`<u-ripple></u-ripple>`;
+    const ripple = html`
+      <u-ripple></u-ripple>
+    `;
+
     return html`
       ${this.selectable ? ripple : nothing}
       <slot name="leading" part="leading"></slot>
@@ -24,7 +27,8 @@ export class UmListItem extends LitElement {
           <slot name="supporting-text"></slot>
         </div>
       </div>
-      <slot name="trailing" part="trailing"></slot>`;
+      <slot name="trailing" part="trailing"></slot>
+    `;
   }
 }
 

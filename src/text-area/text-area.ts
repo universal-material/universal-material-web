@@ -1,12 +1,12 @@
 import { CSSResultGroup } from '@lit/reactive-element/css-tag';
+
 import { html, HTMLTemplateResult, nothing } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { live } from 'lit/directives/live.js';
 
-import { styles } from './text-area.styles.js';
-
 import { UmNativeTextFieldWrapper } from '../shared/char-count-text-field/native-text-field-wrapper.js';
 import { UmTextFieldBase } from '../shared/text-field-base/text-field-base.js';
+import { styles } from './text-area.styles.js';
 
 @customElement('u-text-area')
 export class UmTextArea extends UmNativeTextFieldWrapper {
@@ -28,7 +28,7 @@ export class UmTextArea extends UmNativeTextFieldWrapper {
           spellcheck=${this.spellcheck}
           autocomplete=${this.autocomplete}
           autocapitalize=${this.autocapitalize}
-          role=${this.role}
+          role=${this.role ?? nothing}
           maxlength=${this.maxlength ?? nothing}
           .rows=${this.rows}
           .placeholder=${this.placeholder}

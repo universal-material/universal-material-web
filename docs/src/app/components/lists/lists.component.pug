@@ -9,3 +9,11 @@ u-card(variant="outlined")
       span(slot="supporting-text") Supporting text
     u-list-item Item C
     u-list-item Item D
+    u-list-item(selectable)
+      span.material-symbols-outlined(slot="leading") palette
+      span Item D
+      u-icon-button(
+        slot="trailing",
+        disabled)
+        span.material-symbols-outlined palette
+      span.material-symbols-outlined(slot="trailing") palette

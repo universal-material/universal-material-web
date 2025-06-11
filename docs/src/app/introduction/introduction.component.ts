@@ -1,6 +1,6 @@
 import { Highlight } from 'ngx-highlightjs';
 import { MarkdownModule } from 'ngx-markdown';
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 
 import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';

@@ -9,7 +9,7 @@ export class UmElevation extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    this.ariaHidden = "true";
+    this.ariaHidden = 'true';
   }
 }
 

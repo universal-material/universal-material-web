@@ -1,3 +1,5 @@
+import '@bart-krakowski/get-week-info-polyfill';
+
 import './app-bar/top-app-bar.js';
 import './button/button.js';
 import './button/button-set.js';
@@ -41,6 +43,9 @@ export * from './button/button-base.js';
 export * from './button/button-set.js';
 export * from './button/fab.js';
 export * from './button/icon-button.js';
+export * from './button-field/button-field.js';
+export * from './calendar/calendar.js';
+export * from './calendar/range-calendar.js';
 export * from './card/card.js';
 export * from './card/card-content.js';
 export * from './card/card-media.js';

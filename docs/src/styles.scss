@@ -1,4 +1,5 @@
 @use "../../src/scss/mixins";
+@use "../../src/scss/functions";
 
 body {
   --u-font-family: Roboto;
@@ -6,11 +7,11 @@ body {
   min-height: 100vh;
 }
 
-@include mixins.media-breakpoint-up(md) {
-  body {
-    --u-color-body: var(--u-color-surface-container);
-  }
-}
+//@include mixins.media-breakpoint-up(md) {
+//  body {
+//    --u-color-body: var(--u-color-surface-container);
+//  }
+//}
 
 .hljs {
   background-color: var(--u-color-surface-container);
@@ -82,7 +83,7 @@ markdown {
   background-size: cover;
 
   u-card-content {
-    background-color: rgba(var(--u-scrim-color-rgb), .8);
+    background-color: #{functions.get-color-transparency-mix(var(--u-color-scrim), 50%)};
   }
 }
 
@@ -125,4 +126,8 @@ markdown {
 .reapply-container-margin {
   --u-list-item-inline-padding: var(--u-layout-margin);
   margin-inline: calc(var(--u-layout-margin) * -1);
+}
+
+.material-symbols-outlined {
+  font-size: inherit;
 }

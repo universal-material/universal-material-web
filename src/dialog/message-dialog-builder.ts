@@ -19,7 +19,7 @@ export class MessageDialogBuilder extends DialogBuilder<MessageDialogBuilder, vo
 
     this.addButton(
       dialog,
-      {...config.dialog.alertDefaults.acknowledgeButton, ...this.#acknowledgeButtonDef},
+      { ...config.dialog.alertDefaults.acknowledgeButton, ...this.#acknowledgeButtonDef },
       () => dialog.close());
   }
 }

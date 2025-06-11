@@ -1,0 +1,82 @@
+@use '../scss/functions';
+@use '../scss/api';
+
+:host {
+  --_date-size: var(--u-calendar-date-size, 40px);
+  display: inline-block;
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 48px);
+  align-items: center;
+}
+
+.calendar-item {
+  --u-ripple-border-radius: 9999px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+
+  &:has(.date) {
+    cursor: pointer;
+  }
+
+  u-ripple {
+    padding: 4px;
+  }
+}
+
+.month-button {
+  --u-common-button-padding: var(--u-calendar-month-button--padding, 16px);
+  color: var(--u-calendar-month-button-color, #{functions.get-color-var(on-surface-variant)});
+}
+
+.previous-month-button {
+  margin-inline-start: auto;
+}
+
+.week-day {
+  @include api.typo(body-l, calendar-week-day);
+
+  color: var(--u-calendar-week-day-color, #{functions.get-color-var(on-surface)});
+}
+
+.date {
+  @include api.typo(body-l, calendar-date);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_date-size);
+  height: var(--_date-size);
+  border-radius: var(--u-calendar-date-border-radius, 9999px);
+  color: var(--u-calendar-date-color, #{functions.get-color-var(on-surface)});
+}
+
+.date-outside-month {
+  .date {
+    color: var(--u-calendar-date-out-of-month-color, #{functions.get-color-var(on-surface-variant)});
+  }
+}
+
+
+.current-date {
+  .date {
+    border: 1px solid var(--u-calendar-current-date-color, #{functions.get-color-var(primary)});
+    color: var(--u-calendar-current-date-color, #{functions.get-color-var(primary)});
+  }
+}
+.selected-date {
+
+  .date {
+    background-color: var(--u-calendar-selected-date-background-color, #{functions.get-color-var(primary)});
+    color: var(--u-calendar-selected-date-color, #{functions.get-color-var(on-primary)});
+  }
+}
+
+.date-out-of-month {
+  color: var(--u-calendar-date-color, #{functions.get-color-var(on-surface-variant)});
+}

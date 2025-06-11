@@ -9,7 +9,7 @@ export class UmCardContent extends LitElement {
 
   static override styles = [baseStyles, styles];
 
-  @property({type: Boolean, attribute: 'has-content', reflect: true}) hasContent = false;
+  @property({ type: Boolean, attribute: 'has-content', reflect: true }) hasContent = false;
 
   override render(): HTMLTemplateResult {
     return html`
@@ -17,15 +17,15 @@ export class UmCardContent extends LitElement {
   }
 
   private handleSlotChange(e: Event) {
-    const slot = <HTMLSlotElement>e.target;
+    const slot = e.target as HTMLSlotElement;
 
-    this.hasContent = slot.assignedElements({flatten: true}).length > 0;
+    this.hasContent = slot.assignedElements({ flatten: true }).length > 0;
 
     if (this.hasContent) {
       return;
     }
 
-    const nodes = slot.assignedNodes({flatten: true});
+    const nodes = slot.assignedNodes({ flatten: true });
 
     for (const node of nodes) {
       if (node.nodeValue?.trim()) {

@@ -2,6 +2,7 @@
 
 :host,
 * {
+  --_focus-ring-color: var(--u-focus-ring-color, #{functions.get-color-var(secondary)});
   --_focus-ring-outline-offset: var(--u-focus-ring-outline-offset, 2px);
   font-family: #{functions.get-font-family-var()};
   box-sizing: border-box;
@@ -10,7 +11,6 @@
 
 :host(.force-focus-ring) .focus-ring,
 .focus-ring:focus-visible {
-  --_color-primary: #{functions.get-color-var(primary)};
   animation: u-focus-pulse 500ms ease;
   animation-fill-mode: forwards;
   outline-offset: var(--_focus-ring-outline-offset);
@@ -18,12 +18,12 @@
 
 @keyframes u-focus-pulse {
   0% {
-    outline: 0 solid var(--_color-primary);
+    outline: 0 solid var(--_focus-ring-color);
   }
   50% {
-    outline: 6px solid var(--_color-primary);
+    outline: 6px solid var(--_focus-ring-color);
   }
   100% {
-    outline: 4px solid var(--_color-primary);
+    outline: 4px solid var(--_focus-ring-color);
   }
 }

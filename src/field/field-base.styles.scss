@@ -10,8 +10,8 @@
   --_field-control-block-padding: var(--u-field-control-block-padding, var(--_field-control-padding));
   --_field-min-height: var(--u-field-min-height, 56px);
   --_field-placeholder-color: var(--u-field-placeholder-color, #{api.get-color-var(on-surface-variant)});
-  --_disabled-color: var(--u-field-disabled-color, rgba(#{api.get-color-rgb-var(on-surface)}, var(--u-field-disabled-opacity, .38)));
-  --_disabled-bg-color: var(--u-filled-field-disabled-bg-color, rgba(#{api.get-color-var(on-surface-rgb)}, var(--u-filled-field-background-disabled-opacity, .12)));
+  --_disabled-color: var(--u-field-disabled-color, #{api.get-color-transparency-mix(api.get-color-var(on-surface), var(--u-field-disabled-opacity, 38%))});
+  --_disabled-bg-color: var(--u-filled-field-disabled-bg-color, #{api.get-color-transparency-mix(api.get-color-var(on-surface), var(--u-filled-field-background-disabled-opacity, 12%))});
   --_color-primary: #{api.get-color-var(primary)};
   --_color-error: var(--u-field-error-color, #{api.get-color-var(error)});
   --_active-indicator-opacity: 1;
@@ -251,7 +251,7 @@
   }
 
   slot[name=supporting-text] {
-    display: none
+    display: none;
   }
 }
 
@@ -328,7 +328,7 @@
 
   .container {
     .filled {
-      background-color: var(--u-filled-field-disabled-bg-color, rgba(#{api.get-color-rgb-var(on-surface)}, var(--u-filled-field-background-disabled-opacity, .04)));
+      background-color: var(--u-filled-field-disabled-bg-color, #{api.get-color-transparency-mix(api.get-color-var(on-surface), var(--u-filled-field-background-disabled-opacity, 04%))});
     }
   }
 
@@ -341,6 +341,7 @@
   }
 
   .input {
+    &,
     select,
     select::placeholder,
     textarea,

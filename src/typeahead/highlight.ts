@@ -1,13 +1,11 @@
 import { html, HTMLTemplateResult, LitElement } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 
+import { normalizeText } from '../shared/normalize-text.js';
 import { styles } from './highlight.styles.js';
 
-import { normalizeText } from '../shared/normalize-text.js';
-
-function regExpEscape(text: string) {
-  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
-}
+const regExpEscape = (text: string) =>
+  text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
 
 @customElement('u-highlight')
 export class UmHighlight extends LitElement {
@@ -24,6 +22,7 @@ export class UmHighlight extends LitElement {
   get result(): string | undefined {
     return this.#result;
   }
+
   set result(value: string | undefined) {
     this.#result = value;
 
@@ -37,6 +36,7 @@ export class UmHighlight extends LitElement {
   get term(): string | undefined {
     return this.#term;
   }
+
   set term(value: string | undefined) {
     this.#term = value;
 
@@ -45,11 +45,9 @@ export class UmHighlight extends LitElement {
 
   protected override render(): HTMLTemplateResult | HTMLTemplateResult[] {
     return this.parts
-      ? this.parts.map((part, index) => {
-        return index % 2
-          ? html`<strong>${part}</strong>`
-          : html`<span>${part}</span>`;
-      })
+      ? this.parts.map((part, index) => index % 2
+        ? html`<strong>${part}</strong>`
+        : html`<span>${part}</span>`)
       : html`<span></span>`;
   }
 

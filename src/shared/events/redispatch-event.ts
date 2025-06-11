@@ -1,4 +1,4 @@
-export function redispatchEvent(element: Element, event: Event) {
+export const redispatchEvent = (element: Element, event: Event) => {
   // For bubbling events in SSR light DOM (or composed), stop their propagation
   // and dispatch the copy.
   if (event.bubbles && (!element.shadowRoot || event.composed)) {
@@ -13,4 +13,4 @@ export function redispatchEvent(element: Element, event: Event) {
   }
 
   return dispatched;
-}
+};

@@ -1,56 +1,53 @@
 docs-title(title="Text fields")
 
 .u-column
-  u-text-area(label="Text", rows="3")
-
   docs-example(
     sectionTitle="Live",
     [renderExample]="false",
     [html]="template")
-
     h5.u-title-m Settings
     u-chip-set
       u-chip(
         (click)="setVariant('filled')",
         [selected]="variant === 'filled'")
-        span.material-symbols-outlined(slot="selected-icon") done
+        span.material-symbols-outlined(slot="icon-selected") done
         | Filled
       u-chip(
         (click)="setVariant('outlined')",
         [selected]="variant === 'outlined'")
-        span.material-symbols-outlined(slot="selected-icon") done
+        span.material-symbols-outlined(slot="icon-selected") done
         | Outlined
       u-chip(
         toggle,
         (change)="leadingIcon = $any($event.target).selected; updated$.next()",
         [selected]="leadingIcon")
-        span.material-symbols-outlined(slot="selected-icon") done
+        span.material-symbols-outlined(slot="icon-selected") done
         | Leading icon
       u-chip(
         toggle,
         (change)="trailingIcon = $any($event.target).selected; updated$.next()",
         [selected]="trailingIcon")
-        span.material-symbols-outlined(slot="selected-icon") done
+        span.material-symbols-outlined(slot="icon-selected") done
         | Trailing icon
       u-chip(
         toggle,
         (change)="invalid = $any($event.target).selected; updated$.next()",
         [selected]="invalid")
-        span.material-symbols-outlined(slot="selected-icon") done
+        span.material-symbols-outlined(slot="icon-selected") done
         | Invalid
 
       u-chip(
         toggle,
         (change)="disabled = $any($event.target).selected; updated$.next()",
         [selected]="disabled")
-        span.material-symbols-outlined(slot="selected-icon") done
+        span.material-symbols-outlined(slot="icon-selected") done
         | Disabled
 
       u-chip(
         toggle,
         (change)="showCounter = $any($event.target).selected; updated$.next()",
         [selected]="showCounter")
-        span.material-symbols-outlined(slot="selected-icon") done
+        span.material-symbols-outlined(slot="icon-selected") done
         | Counter
 
     .u-column.u-mt-small
@@ -64,6 +61,13 @@ docs-title(title="Text fields")
         [(ngModel)]="errorText",
         (ngModelChange)="updated$.next()",
         ngDefaultControl)
+
+      u-button-field(
+        label="Button field",
+        (click)="someValue.count = someValue.count + 1",
+        [(ngModel)]="someValue",
+        ngDefaultControl)
+        span {{someValue.count}}
 
     h5.u-title-m.u-mt-large Component
     u-text-field(
@@ -91,6 +95,7 @@ docs-title(title="Text fields")
 
     u-text-field(
       example,
+      maxlength="100",
       [variant]="variant",
       [invalid]="invalid",
       [disabled]="disabled")
@@ -111,7 +116,7 @@ docs-title(title="Text fields")
       span(
         *ngIf="errorText",
         slot="error-text") {{errorText}}
-      span(
+      //span(
         *ngIf="showCounter",
         slot="counter") 10/100
 docs-apis-table(key="field")

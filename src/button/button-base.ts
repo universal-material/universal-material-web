@@ -1,18 +1,19 @@
+import { CSSResultGroup } from '@lit/reactive-element/css-tag';
+
 import { property } from 'lit/decorators.js';
 
-import { styles } from './button-base.styles.js';
-
 import { UmButtonWrapper } from '../shared/button-wrapper.js';
+import { styles } from './button-base.styles.js';
 
 export abstract class UmButtonBase extends UmButtonWrapper {
 
   static readonly formAssociated = true;
 
-  static override styles = [UmButtonWrapper.styles, styles]
+  static override styles: CSSResultGroup = [UmButtonWrapper.styles, styles];
 
-  @property() type: string = 'submit';
+  @property() type = 'submit';
 
-  @property({reflect: true}) value: string = '';
+  @property({ reflect: true }) value = '';
 
   get form(): HTMLFormElement | null {
     return this.#elementInternals.form;
@@ -41,17 +42,17 @@ export abstract class UmButtonBase extends UmButtonWrapper {
       this.form.reset();
       return;
     }
- 
+
     this.form.addEventListener(
       'submit',
-      (submitEvent) => {
+      submitEvent => {
         Object.defineProperty(submitEvent, 'submitter', {
           configurable: true,
           enumerable: true,
           get: () => this,
         });
       },
-      {capture: true, once: true},
+      { capture: true, once: true },
     );
     this.form.requestSubmit();
   }

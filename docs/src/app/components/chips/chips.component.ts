@@ -96,7 +96,7 @@ export class ChipsComponent {
 
     if (this.selectedIcon) {
       icons += `
-  <span class="material-symbols-outlined material-symbols-fill u-text-warning" slot="selected-icon">star</span>`;
+  <span class="material-symbols-outlined material-symbols-fill u-text-warning" slot="icon-selected">star</span>`;
     }
 
     if (this.leadingIcon) {

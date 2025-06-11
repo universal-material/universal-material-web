@@ -8,8 +8,8 @@
   @return var(--u-color-#{$name}, map.get(variables.$colors, $name));
 }
 
-@function get-color-rgb-var($name) {
-  @return var(--u-color-#{$name}-rgb, map.get(variables.$rgb-colors, $name));
+@function get-color-transparency-mix($color, $opacity) {
+  @return color-mix(in srgb, $color $opacity, transparent)
 }
 
 @function get-shape-corner-var($name) {

@@ -1,3 +1,8 @@
+:host {
+  --_morph-duration: var(--u-button-morph-duration, 125ms);
+  transition: background-color var(--_morph-duration) linear, border-radius var(--_morph-duration) linear, color var(--_morph-duration) linear;
+}
+
 .icon {
   display: flex;
   justify-content: center;
