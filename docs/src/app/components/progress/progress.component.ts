@@ -18,9 +18,7 @@ import circularProgressHtml from '!raw-loader!./examples/circular-progress.html'
   styleUrl: './progress.component.scss',
   standalone: true,
   imports: [
-    FormsModule
-    ,
-    ApisTableComponent,
+    FormsModule,
     ExampleComponent,
     TitleComponent
   ]

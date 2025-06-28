@@ -13,7 +13,6 @@ import sliderHtml from '!raw-loader!./examples/example.html';
   styleUrl: './sliders.component.scss',
   standalone: true,
   imports: [
-    ApisTableComponent,
     ExampleComponent,
     TitleComponent
   ]

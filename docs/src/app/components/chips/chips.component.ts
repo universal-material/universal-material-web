@@ -18,7 +18,6 @@ import { ContextTestComponent } from '@docs/components/context-test/context-test
     ApisTableComponent,
     ExampleComponent,
     TitleComponent,
-    ContextTestComponent
   ]
 })
 export class ChipsComponent {

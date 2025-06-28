@@ -18,7 +18,6 @@ import tableHoverHtml from '!raw-loader!./examples/table-hover.html';
   standalone: true,
   imports: [
     MarkdownComponent,
-    ApisTableComponent,
     ExampleComponent,
     TitleComponent
   ]

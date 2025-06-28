@@ -69,6 +69,7 @@ export * from './menu/menu.js';
 export * from './menu/menu-item.js';
 export * from './navigation/drawer.js';
 export * from './navigation/drawer-item.js';
+export * from './navigation/drawer-headline.js';
 export * from './navigation/side-navigation.js';
 export * from './progress/circular-progress.js';
 export * from './progress/progress-bar.js';

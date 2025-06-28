@@ -16,7 +16,6 @@ import { UmDialog } from '@universal-material/web';
   standalone: true,
   imports: [
     FormsModule,
-    ApisTableComponent,
     ExampleComponent,
     TitleComponent
   ]

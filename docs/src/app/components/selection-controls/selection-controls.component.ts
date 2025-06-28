@@ -17,7 +17,6 @@ import switchHtml from '!raw-loader!./examples/switch.html';
   styleUrl: './selection-controls.component.scss',
   standalone: true,
   imports: [
-    ApisTableComponent,
     ExampleComponent,
     TitleComponent
   ]

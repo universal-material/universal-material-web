@@ -12,8 +12,6 @@ import { TitleComponent } from '@docs/docs/title/title.component';
   standalone: true,
   imports: [
     CommonModule,
-    ApisTableComponent,
-    ExampleComponent,
     TitleComponent
   ]
 })

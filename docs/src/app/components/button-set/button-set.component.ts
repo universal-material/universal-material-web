@@ -17,7 +17,6 @@ import alignmentHtml from '!raw-loader!./examples/alignment.html';
   styleUrl: './button-set.component.scss',
   standalone: true,
   imports: [
-    ApisTableComponent,
     ExampleComponent,
     TitleComponent
   ]

@@ -20,7 +20,6 @@ import defaultContainerHtml from '!raw-loader!./examples/default-container.html'
   standalone: true,
   imports: [
     MarkdownComponent,
-    ApisTableComponent,
     ExampleComponent,
     TitleComponent
   ]

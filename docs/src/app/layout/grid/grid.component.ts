@@ -16,7 +16,6 @@ import overviewHtml from '!raw-loader!./examples/overview.html';
   standalone: true,
   imports: [
     MarkdownComponent,
-    ApisTableComponent,
     ExampleComponent,
     TitleComponent
   ]

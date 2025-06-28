@@ -13,7 +13,6 @@ import exampleHtml from '!raw-loader!./examples/example.html';
   styleUrl: './snackbars.component.scss',
   standalone: true,
   imports: [
-    ApisTableComponent,
     ExampleComponent,
     TitleComponent
   ]

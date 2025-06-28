@@ -13,7 +13,6 @@ import checkboxHtml from '!raw-loader!./examples/usage.html';
   styleUrl: './checkbox.component.scss',
   standalone: true,
   imports: [
-    ApisTableComponent,
     ExampleComponent,
     TitleComponent
   ]

@@ -10,8 +10,6 @@ import { TitleComponent } from '@docs/docs/title/title.component';
   styleUrl: './lists.component.scss',
   standalone: true,
   imports: [
-    ApisTableComponent,
-    ExampleComponent,
     TitleComponent
   ]
 })

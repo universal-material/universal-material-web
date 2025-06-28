@@ -13,7 +13,6 @@ import simpleToolbarHtml from '!raw-loader!./examples/simple-toolbar.html';
   styleUrl: './toolbars.component.scss',
   standalone: true,
   imports: [
-    ApisTableComponent,
     ExampleComponent,
     TitleComponent
   ]

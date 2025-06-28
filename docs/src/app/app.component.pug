@@ -48,7 +48,9 @@ u-side-navigation(#navigation)
       span.material-symbols-outlined format_align_right
 
   u-drawer(slot="drawer")
-    h6.navigation-headline.u-headline-s Material Design
+    //h6.navigation-headline.u-headline-s Material Design
+
+    u-drawer-headline Home
     u-drawer-item(
       routerLink="",
       docsLinkActive,
@@ -62,6 +64,8 @@ u-side-navigation(#navigation)
     //u-drawer-item Colors
       i.u-typo-title-l.mdi.mdi-chevron-down(slot="badge")
 
+    .u-divider
+    u-drawer-headline Home
     docs-submenu(label="CSS")
       u-drawer-item(
         routerLink="content/typography",
@@ -106,6 +110,7 @@ u-side-navigation(#navigation)
       u-drawer-item(
         routerLink="components/fab",
         docsLinkActive) Floating Action Button (FAB)
+
       u-drawer-item(
         routerLink="components/icon-buttons",
         docsLinkActive) Icon buttons

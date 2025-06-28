@@ -18,7 +18,6 @@ import noMarginHtml from '!raw-loader!./examples/no-margin.html';
   standalone: true,
   imports: [
     MarkdownComponent,
-    ApisTableComponent,
     ExampleComponent,
     TitleComponent
   ]

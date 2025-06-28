@@ -13,7 +13,6 @@ import colorsHtml from '!raw-loader!./examples/colors.html';
   styleUrl: './background-colors.component.scss',
   standalone: true,
   imports: [
-    ApisTableComponent,
     ExampleComponent,
     TitleComponent
   ]
