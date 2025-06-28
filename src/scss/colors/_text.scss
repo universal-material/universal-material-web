@@ -3,7 +3,7 @@
 @use "sass:string";
 
 @use "../variables";
-@import "../mixins/text-bg";
+@use "../mixins/text-bg";
 
 @mixin _text-variant-block($name, $color-name) {
 
@@ -23,7 +23,7 @@
   }
 
   .u-text-#{$prefix}#{$name} {
-    @include _current-color-vars-important(--u-color-#{$prefix}#{$color-name});
+    @include text-bg.current-color-vars-important(--u-color-#{$prefix}#{$color-name});
   }
 }
 

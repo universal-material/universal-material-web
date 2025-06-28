@@ -2,7 +2,7 @@
 
 @use "../functions";
 
-@mixin _current-color-vars-important($current-color-var-name) {
+@mixin current-color-vars-important($current-color-var-name) {
   --u-current-text-color: var(#{$current-color-var-name}) !important;
 
   --u-color-high-emphasis: #{functions.get-color-transparency-mix(var(--u-current-text-color), var(--u-high-emphasis-opacity))} !important;
@@ -11,7 +11,7 @@
   color: var(--u-color-high-emphasis) !important;
 }
 
-@mixin _current-color-vars($current-color-var-name) {
+@mixin current-color-vars($current-color-var-name) {
   --u-current-text-color: var(#{$current-color-var-name});
 
   --u-color-high-emphasis: #{functions.get-color-transparency-mix(var(--u-current-text-color), var(--u-high-emphasis-opacity))};
@@ -20,13 +20,13 @@
   color: var(--u-color-high-emphasis);
 }
 
-@mixin _bg-variant-important($color-name) {
+@mixin bg-variant-important($color-name) {
   .u-bg-#{$color-name} {
     background-color: var(--u-color-#{$color-name}) !important;
   }
 }
 
-@mixin _text-bg-variant-important($color-name, $on-color-name: null) {
+@mixin text-bg-variant-important($color-name, $on-color-name: null) {
 
   @if $on-color-name == null {
     $on-color-name: on-#{$color-name};
@@ -38,7 +38,7 @@
   }
 
   .u-text-bg-#{$color-name} {
-    @include _current-color-vars-important(--u-color-#{$on-color-name});
+    @include current-color-vars-important(--u-color-#{$on-color-name});
     background-color: var(--u-color-#{$color-name}) !important;
   }
 }

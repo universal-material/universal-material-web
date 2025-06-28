@@ -1,16 +1,16 @@
-@import "variables";
-@import "css-vars";
-@import "colors";
-@import "layout";
-@import "utilities";
-@import "table/table";
-@import "typo/font";
-@import "typo/typo";
+@use "variables";
+@use "css-vars";
+@use "colors";
+@use "layout";
+@use "utilities";
+@use "table/table";
+@use "typo/font";
+@use "typo/typo";
 
-@import "reboot";
-@import "global";
+@use "reboot";
+@use "global";
 
-@if $include-reboot {
-  @include reboot;
-  @include global-styles;
+@if variables.$include-reboot {
+  @include reboot.reboot;
+  @include global.global-styles;
 }

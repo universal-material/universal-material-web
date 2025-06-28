@@ -1,5 +1,5 @@
 @use "functions";
-@import "mixins/text-bg";
+@use "mixins/text-bg";
 
 @mixin global-styles() {
   :root {
@@ -7,7 +7,7 @@
   }
 
   body {
-    @include _current-color-vars(--u-color-on-body);
+    @include text-bg.current-color-vars(--u-color-on-body);
 
     background-color: var(--u-color-body);
     color: var(--u-color-high-emphasis);

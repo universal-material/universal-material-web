@@ -1,3 +1,4 @@
+@use "sass:string";
 @use "sass:map";
 
 $awesome-cubic-bezier: cubic-bezier(.19, 1, .22, 1) !default;
@@ -54,43 +55,43 @@ $color-roles: (
 );
 
 $rgb-colors: (
-  primary: unquote("103, 80, 164"),
-  on-primary: unquote("255, 255, 255"),
-  primary-container: unquote("234, 221, 255"),
-  on-primary-container: unquote("33, 0, 93"),
-  secondary: unquote("98, 91, 113"),
-  secondary-container: unquote("232, 222, 248"),
-  on-secondary-container: unquote("29, 25, 43"),
-  on-secondary: unquote("255, 255, 255"),
-  tertiary: unquote("125, 82, 96"),
-  on-tertiary: unquote("255, 255, 255"),
-  tertiary-container: unquote("255, 216, 228"),
-  on-tertiary-container: unquote("49, 17, 29"),
-  error: unquote("179, 38, 30"),
-  on-error: unquote("255, 255, 255"),
-  error-container: unquote("249, 222, 220"),
-  on-error-container: unquote("65, 14, 11"),
-  surface: unquote("254, 247, 255"),
-  on-surface: unquote("29, 27, 32"),
-  surface-variant: unquote("231, 224, 236"),
-  on-surface-variant: unquote("73, 69, 79"),
-  surface-container-highest: unquote("230, 224, 233"),
-  surface-container-high: unquote("236, 230, 240"),
-  surface-container: unquote("243, 237, 247"),
-  surface-container-low: unquote("247, 242, 250"),
-  surface-container-lowest: unquote("255, 255, 255"),
-  inverse-surface: unquote("50, 47, 53"),
-  on-inverse-surface: unquote("245, 239, 247"),
-  outline: unquote("121, 116, 126"),
-  outline-variant: unquote("202, 196, 208"),
-  scrim: unquote("0, 0, 0"),
-  shadow: unquote("0, 0, 0")
+  primary: string.unquote("103, 80, 164"),
+  on-primary: string.unquote("255, 255, 255"),
+  primary-container: string.unquote("234, 221, 255"),
+  on-primary-container: string.unquote("33, 0, 93"),
+  secondary: string.unquote("98, 91, 113"),
+  secondary-container: string.unquote("232, 222, 248"),
+  on-secondary-container: string.unquote("29, 25, 43"),
+  on-secondary: string.unquote("255, 255, 255"),
+  tertiary: string.unquote("125, 82, 96"),
+  on-tertiary: string.unquote("255, 255, 255"),
+  tertiary-container: string.unquote("255, 216, 228"),
+  on-tertiary-container: string.unquote("49, 17, 29"),
+  error: string.unquote("179, 38, 30"),
+  on-error: string.unquote("255, 255, 255"),
+  error-container: string.unquote("249, 222, 220"),
+  on-error-container: string.unquote("65, 14, 11"),
+  surface: string.unquote("254, 247, 255"),
+  on-surface: string.unquote("29, 27, 32"),
+  surface-variant: string.unquote("231, 224, 236"),
+  on-surface-variant: string.unquote("73, 69, 79"),
+  surface-container-highest: string.unquote("230, 224, 233"),
+  surface-container-high: string.unquote("236, 230, 240"),
+  surface-container: string.unquote("243, 237, 247"),
+  surface-container-low: string.unquote("247, 242, 250"),
+  surface-container-lowest: string.unquote("255, 255, 255"),
+  inverse-surface: string.unquote("50, 47, 53"),
+  on-inverse-surface: string.unquote("245, 239, 247"),
+  outline: string.unquote("121, 116, 126"),
+  outline-variant: string.unquote("202, 196, 208"),
+  scrim: string.unquote("0, 0, 0"),
+  shadow: string.unquote("0, 0, 0")
 );
 
 $colors: ();
 
 @each $name, $value in $rgb-colors {
-  $colors: map.set($colors, $name, unquote("rgb(#{$value})"));
+  $colors: map.set($colors, $name, string.unquote("rgb(#{$value})"));
 }
 
 $fixed-colors: (
