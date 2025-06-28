@@ -1,7 +1,7 @@
 @use "../scss/variables";
 @use "../scss/mixins";
 
-@import "side-navigation-base.styles";
+@use "side-navigation-base.styles" as *;
 
 .content {
   position: fixed;
