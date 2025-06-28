@@ -2,7 +2,7 @@
 
 @use "variables";
 
-@import "functions/font";
+@forward "functions/font";
 
 @function get-color-var($name) {
   @return var(--u-color-#{$name}, map.get(variables.$colors, $name));
