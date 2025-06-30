@@ -5,10 +5,10 @@ import { Project } from 'ts-morph';
 import { setClassInfo } from './docs-api.js';
 
 const watch = () => {
-  gulp.watch(['**/*.ts', '!**/*.styles.ts'], {cwd: 'src'}, buildPugApis);
+  gulp.watch(['**/*.ts', '!**/*.styles.ts'], {cwd: 'src'}, buildApis);
 }
 
-const buildPugApis = cb => {
+const buildApis = cb => {
 
   console.log('Generating APIs model....');
 
@@ -55,5 +55,5 @@ const buildPugApis = cb => {
   });
 };
 
-gulp.task('docs:apis', buildPugApis);
+gulp.task('docs:apis', buildApis);
 gulp.task('docs:apis:watch', watch);

@@ -5,13 +5,10 @@ import { ApisTableComponent } from '@docs/docs/apis-table/apis-table.component';
 import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
 
-// @ts-ignore
-import overviewMd from '!raw-loader!./overview.md';
+import overviewMd from './overview.md';
 
-// @ts-ignore
-import fluidContainerHtml from '!raw-loader!./examples/fluid-container.html';
-// @ts-ignore
-import defaultContainerHtml from '!raw-loader!./examples/default-container.html';
+import fluidContainerHtml from './examples/fluid-container.html';
+import defaultContainerHtml from './examples/default-container.html';
 
 @Component({
   selector: 'docs-container',

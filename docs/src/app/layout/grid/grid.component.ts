@@ -6,8 +6,7 @@ import { ApisTableComponent } from '@docs/docs/apis-table/apis-table.component';
 import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
 
-// @ts-ignore
-import overviewHtml from '!raw-loader!./examples/overview.html';
+import overviewHtml from './examples/overview.html';
 
 @Component({
   selector: 'docs-grid',

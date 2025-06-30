@@ -6,10 +6,8 @@ import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
 import { UmChipField } from '@universal-material/web';
 
-// @ts-ignore
-import simpleHtml from '!raw-loader!./examples/simple.html';
-// @ts-ignore
-import objectValuesHtml from '!raw-loader!./examples/object-values.html';
+import simpleHtml from './examples/simple.html';
+import objectValuesHtml from './examples/object-values.html';
 
 @Component({
   selector: 'docs-chip-field',

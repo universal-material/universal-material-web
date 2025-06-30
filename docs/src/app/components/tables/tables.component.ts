@@ -6,10 +6,8 @@ import { ApisTableComponent } from '@docs/docs/apis-table/apis-table.component';
 import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
 
-// @ts-ignore
-import overviewHtml from '!raw-loader!./examples/overview.html';
-// @ts-ignore
-import tableHoverHtml from '!raw-loader!./examples/table-hover.html';
+import overviewHtml from './examples/overview.html';
+import tableHoverHtml from './examples/table-hover.html';
 
 @Component({
   selector: 'docs-tables',

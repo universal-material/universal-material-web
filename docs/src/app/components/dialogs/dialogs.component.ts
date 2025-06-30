@@ -5,8 +5,7 @@ import { ApisTableComponent } from '@docs/docs/apis-table/apis-table.component';
 import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
 
-// @ts-ignore
-import simpleCardHtml from '!raw-loader!./examples/example.html';
+import simpleCardHtml from './examples/example.html';
 import { UmDialog } from '@universal-material/web';
 
 @Component({

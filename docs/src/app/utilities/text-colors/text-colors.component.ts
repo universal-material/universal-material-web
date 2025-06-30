@@ -4,8 +4,7 @@ import { ApisTableComponent } from '@docs/docs/apis-table/apis-table.component';
 import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
 
-// @ts-ignore
-import colorsHtml from '!raw-loader!./examples/colors.html';
+import colorsHtml from './examples/colors.html';
 
 @Component({
   selector: 'docs-text-colors',

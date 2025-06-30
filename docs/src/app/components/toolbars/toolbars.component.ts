@@ -4,8 +4,7 @@ import { ApisTableComponent } from '@docs/docs/apis-table/apis-table.component';
 import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
 
-// @ts-ignore
-import simpleToolbarHtml from '!raw-loader!./examples/simple-toolbar.html';
+import simpleToolbarHtml from './examples/simple-toolbar.html';
 
 @Component({
   selector: 'docs-toolbars',

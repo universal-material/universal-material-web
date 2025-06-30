@@ -1,13 +1,9 @@
 import { Component } from '@angular/core';
-
-import { ApisTableComponent } from '@docs/docs/apis-table/apis-table.component';
 import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
 
-// @ts-ignore
-import usageHtml from '!raw-loader!./examples/usage.html';
-// @ts-ignore
-import staticHtml from '!raw-loader!./examples/static.html';
+import usageHtml from './examples/usage.html';
+import staticHtml from './examples/static.html';
 
 @Component({
   selector: 'docs-badges',
@@ -22,4 +18,8 @@ import staticHtml from '!raw-loader!./examples/static.html';
 export class BadgesComponent {
   usageHtml = usageHtml;
   staticHtml = staticHtml;
+
+  constructor() {
+    console.log(usageHtml);
+  }
 }

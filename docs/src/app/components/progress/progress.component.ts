@@ -5,12 +5,9 @@ import { ApisTableComponent } from '@docs/docs/apis-table/apis-table.component';
 import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
 
-// @ts-ignore
-import determinateHtml from '!raw-loader!./examples/determinate-progress.html';
-// @ts-ignore
-import indeterminateHtml from '!raw-loader!./examples/indeterminate-progress.html';
-// @ts-ignore
-import circularProgressHtml from '!raw-loader!./examples/circular-progress.html';
+import determinateHtml from './examples/determinate-progress.html';
+import indeterminateHtml from './examples/indeterminate-progress.html';
+import circularProgressHtml from './examples/circular-progress.html';
 
 @Component({
   selector: 'docs-progress',

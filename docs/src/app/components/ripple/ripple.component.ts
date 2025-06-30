@@ -4,8 +4,7 @@ import { ApisTableComponent } from '@docs/docs/apis-table/apis-table.component';
 import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
 
-// @ts-ignore
-import usageHtml from '!raw-loader!./examples/usage.html';
+import usageHtml from './examples/usage.html';
 
 @Component({
   selector: 'docs-ripple',

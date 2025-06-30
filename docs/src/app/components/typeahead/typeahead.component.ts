@@ -8,12 +8,9 @@ import { TitleComponent } from '@docs/docs/title/title.component';
 import { UmChipField, UmTypeahead } from '@universal-material/web';
 import { states } from '@docs/shared/states.model';
 
-// @ts-ignore
-import simpleHtml from '!raw-loader!./examples/simple.html';
-// @ts-ignore
-import objectResultsHtml from '!raw-loader!./examples/object-results.html';
-// @ts-ignore
-import handlingSelectionHtml from '!raw-loader!./examples/handling-selection.html';
+import simpleHtml from './examples/simple.html';
+import objectResultsHtml from './examples/object-results.html';
+import handlingSelectionHtml from './examples/handling-selection.html';
 
 @Component({
   selector: 'docs-typeahead',

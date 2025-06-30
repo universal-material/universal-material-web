@@ -4,12 +4,9 @@ import { ApisTableComponent } from '@docs/docs/apis-table/apis-table.component';
 import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
 
-// @ts-ignore
-import checkboxHtml from '!raw-loader!./examples/checkbox.html';
-// @ts-ignore
-import radioHtml from '!raw-loader!./examples/radio-button.html';
-// @ts-ignore
-import switchHtml from '!raw-loader!./examples/switch.html';
+import checkboxHtml from './examples/checkbox.html';
+import radioHtml from './examples/radio-button.html';
+import switchHtml from './examples/switch.html';
 
 @Component({
   selector: 'docs-selection-controls',
