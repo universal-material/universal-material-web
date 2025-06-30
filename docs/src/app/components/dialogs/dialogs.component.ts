@@ -11,7 +11,7 @@ import { UmDialog } from '@universal-material/web';
 
 @Component({
   selector: 'docs-dialogs',
-  templateUrl: './dialogs.component.pug',
+  templateUrl: './dialogs.component.html',
   styleUrl: './dialogs.component.scss',
   standalone: true,
   imports: [

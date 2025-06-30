@@ -13,7 +13,7 @@ import switchHtml from '!raw-loader!./examples/switch.html';
 
 @Component({
   selector: 'docs-selection-controls',
-  templateUrl: './selection-controls.component.pug',
+  templateUrl: './selection-controls.component.html',
   styleUrl: './selection-controls.component.scss',
   standalone: true,
   imports: [

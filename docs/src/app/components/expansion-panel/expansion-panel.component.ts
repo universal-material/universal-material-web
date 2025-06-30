@@ -6,7 +6,7 @@ import { TitleComponent } from '@docs/docs/title/title.component';
 
 @Component({
   selector: 'docs-expansion-panel',
-  templateUrl: './expansion-panel.component.pug',
+  templateUrl: './expansion-panel.component.html',
   styleUrl: './expansion-panel.component.scss',
   standalone: true,
   imports: [

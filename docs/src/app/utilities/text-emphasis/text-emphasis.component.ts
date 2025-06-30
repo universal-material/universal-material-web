@@ -9,7 +9,7 @@ import usageHtml from '!raw-loader!./examples/usage.html';
 
 @Component({
   selector: 'docs-text-emphasis',
-  templateUrl: './text-emphasis.component.pug',
+  templateUrl: './text-emphasis.component.html',
   styleUrl: './text-emphasis.component.scss',
   standalone: true,
   imports: [ExampleComponent, TitleComponent],

@@ -13,7 +13,7 @@ import alignmentHtml from '!raw-loader!./examples/alignment.html';
 
 @Component({
   selector: 'docs-button-set',
-  templateUrl: './button-set.component.pug',
+  templateUrl: './button-set.component.html',
   styleUrl: './button-set.component.scss',
   standalone: true,
   imports: [

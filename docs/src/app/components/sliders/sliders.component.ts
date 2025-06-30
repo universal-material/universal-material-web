@@ -9,7 +9,7 @@ import sliderHtml from '!raw-loader!./examples/example.html';
 
 @Component({
   selector: 'docs-sliders',
-  templateUrl: './sliders.component.pug',
+  templateUrl: './sliders.component.html',
   styleUrl: './sliders.component.scss',
   standalone: true,
   imports: [

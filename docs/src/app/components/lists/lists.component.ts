@@ -6,7 +6,7 @@ import { TitleComponent } from '@docs/docs/title/title.component';
 
 @Component({
   selector: 'docs-lists',
-  templateUrl: './lists.component.pug',
+  templateUrl: './lists.component.html',
   styleUrl: './lists.component.scss',
   standalone: true,
   imports: [

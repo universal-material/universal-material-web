@@ -13,7 +13,7 @@ import noMarginHtml from '!raw-loader!./examples/no-margin.html';
 
 @Component({
   selector: 'docs-dividers',
-  templateUrl: './dividers.component.pug',
+  templateUrl: './dividers.component.html',
   styleUrl: './dividers.component.scss',
   standalone: true,
   imports: [

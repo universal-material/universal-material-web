@@ -9,7 +9,7 @@ import simpleToolbarHtml from '!raw-loader!./examples/simple-toolbar.html';
 
 @Component({
   selector: 'docs-toolbars',
-  templateUrl: './toolbars.component.pug',
+  templateUrl: './toolbars.component.html',
   styleUrl: './toolbars.component.scss',
   standalone: true,
   imports: [

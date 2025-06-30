@@ -8,7 +8,7 @@ import { UmField } from '@universal-material/web';
   imports: [
     FormsModule,
   ],
-  templateUrl: './context-test.component.pug',
+  templateUrl: './context-test.component.html',
   styleUrl: './context-test.component.scss'
 })
 export class ContextTestComponent {

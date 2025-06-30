@@ -15,7 +15,7 @@ import defaultContainerHtml from '!raw-loader!./examples/default-container.html'
 
 @Component({
   selector: 'docs-container',
-  templateUrl: './container.component.pug',
+  templateUrl: './container.component.html',
   styleUrl: './container.component.scss',
   standalone: true,
   imports: [

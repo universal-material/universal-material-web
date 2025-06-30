@@ -14,7 +14,7 @@ import circularProgressHtml from '!raw-loader!./examples/circular-progress.html'
 
 @Component({
   selector: 'docs-progress',
-  templateUrl: './progress.component.pug',
+  templateUrl: './progress.component.html',
   styleUrl: './progress.component.scss',
   standalone: true,
   imports: [

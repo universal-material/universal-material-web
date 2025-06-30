@@ -1,7 +1,10 @@
 <div class="u-form-field">
   <div class="u-text-field-container">
     <div class="u-text-field u-text-field-box">
-      <input class="u-text-input" id="snackbarText" />
+      <input
+        class="u-text-input"
+        id="snackbarText"
+      />
       <label>Snackbar text</label>
     </div>
   </div>
@@ -10,26 +13,39 @@
 <div class="u-form-field">
   <div class="u-text-field-container">
     <div class="u-text-field u-text-field-box">
-      <input class="u-text-input" id="snackbarButtonText" />
+      <input
+        class="u-text-input"
+        id="snackbarButtonText"
+      />
       <label>Snackbar button text</label>
     </div>
   </div>
 </div>
 
 <div class="u-text-end">
-  <button class="u-filled-btn" onclick="showSnackbar()">Show snackbar</button>
+  <button
+    class="u-filled-btn"
+    onclick="showSnackbar()"
+  >
+    Show snackbar
+  </button>
 </div>
 <script>
   function showSnackbar() {
+    const text = document.getElementById("snackbarText").value;
+    const buttonText = document.getElementById("snackbarButtonText").value;
 
-    const text = document.getElementById('snackbarText').value;
-    const buttonText = document.getElementById('snackbarButtonText').value;
-
-    umd.Snackbar.show(text, 30000, buttonText ? {
-      text: buttonText,
-      action: function () {
-        alert('Snackbar action!')
-      }
-    } : null);
+    umd.Snackbar.show(
+      text,
+      30000,
+      buttonText
+        ? {
+            text: buttonText,
+            action: function () {
+              alert("Snackbar action!");
+            },
+          }
+        : null,
+    );
   }
 </script>

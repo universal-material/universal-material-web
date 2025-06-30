@@ -4,7 +4,7 @@ import { AfterViewInit, Component, ElementRef, Input } from '@angular/core';
   selector: 'docs-submenu',
   standalone: true,
   imports: [],
-  templateUrl: './submenu.component.pug',
+  templateUrl: './submenu.component.html',
   styleUrl: './submenu.component.scss'
 })
 export class SubmenuComponent implements AfterViewInit {

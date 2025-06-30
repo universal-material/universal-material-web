@@ -11,7 +11,7 @@ import { states } from '@docs/shared/states.model';
 
 @Component({
   selector: 'docs-select',
-  templateUrl: './select.component.pug',
+  templateUrl: './select.component.html',
   styleUrl: './select.component.scss',
   imports: [
     CommonModule,

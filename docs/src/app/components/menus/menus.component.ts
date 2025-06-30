@@ -20,7 +20,7 @@ const directions = ['up-start', 'up-end', 'down-start', 'down-end'];
 
 @Component({
   selector: 'docs-menus',
-  templateUrl: './menus.component.pug',
+  templateUrl: './menus.component.html',
   styleUrl: './menus.component.scss',
   standalone: true,
   imports: [

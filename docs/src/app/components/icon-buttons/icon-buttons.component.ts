@@ -23,7 +23,7 @@ import wideButtonsHtml from '!raw-loader!./examples/buttons-wide.html';
 
 @Component({
   selector: 'docs-icon-buttons',
-  templateUrl: './icon-buttons.component.pug',
+  templateUrl: './icon-buttons.component.html',
   styleUrl: './icon-buttons.component.scss',
   standalone: true,
   imports: [

@@ -1,0 +1,43 @@
+<docs-title title="Progress"></docs-title>
+<docs-example
+  sectionTitle="Indeterminate"
+  [html]="indeterminateHtml"
+>
+  <u-progress-bar></u-progress-bar>
+</docs-example>
+<docs-example
+  sectionTitle="Determinate"
+  [html]="determinateHtml"
+>
+  <u-progress-bar [value]="barValue"></u-progress-bar>
+  <div>
+    <input
+      type="number"
+      min="0"
+      max="1"
+      step="0.01"
+      [(ngModel)]="barValue"
+    />
+  </div>
+</docs-example>
+<docs-example
+  sectionTitle="Indeterminate circular progress"
+  [html]="circularProgressHtml"
+>
+  <u-circular-progress></u-circular-progress>
+</docs-example>
+<docs-example
+  sectionTitle="Determinate circular progress"
+  [html]="circularProgressHtml"
+>
+  <u-circular-progress [value]="circularValue"></u-circular-progress>
+  <div>
+    <input
+      type="number"
+      min="0"
+      max="1"
+      step="0.01"
+      [(ngModel)]="circularValue"
+    />
+  </div>
+</docs-example>

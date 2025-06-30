@@ -9,7 +9,7 @@ import exampleHtml from '!raw-loader!./examples/example.html';
 
 @Component({
   selector: 'docs-snackbars',
-  templateUrl: './snackbars.component.pug',
+  templateUrl: './snackbars.component.html',
   styleUrl: './snackbars.component.scss',
   standalone: true,
   imports: [

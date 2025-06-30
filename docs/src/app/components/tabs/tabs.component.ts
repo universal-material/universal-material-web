@@ -7,7 +7,7 @@ import { TitleComponent } from '@docs/docs/title/title.component';
 
 @Component({
   selector: 'docs-tabs',
-  templateUrl: './tabs.component.pug',
+  templateUrl: './tabs.component.html',
   styleUrl: './tabs.component.scss',
   standalone: true,
   imports: [

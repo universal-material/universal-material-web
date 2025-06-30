@@ -1,0 +1,19 @@
+<docs-title title="Tabs"></docs-title>
+<div class="u-column">
+  <u-button-set alignment="start">
+    <u-icon-button (click)="addTab()"><span class="materi material-symbols-outlined">add</span></u-icon-button>
+    <u-icon-button (click)="tabs.splice(tabs.length - 1, 1)">
+      <span class="materi material-symbols-outlined">remove</span>
+    </u-icon-button>
+  </u-button-set>
+  <u-tab-bar>
+    <u-tab *ngFor="let tab of tabs; let i = index">
+      <span
+        class="material-symbols-outlined"
+        slot="icon"
+        >flight
+      </span>
+      <span>{{ tab }} {{ i + 1 }}</span>
+    </u-tab>
+  </u-tab-bar>
+</div>

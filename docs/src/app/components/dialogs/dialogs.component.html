@@ -1,0 +1,66 @@
+<docs-title title="Dialogs"></docs-title>
+<docs-example
+  sectionTitle="Usage"
+  [renderExample]="false"
+  [html]="simpleCardHtml"
+>
+  <u-button (click)="dialog.show()">Open dialog</u-button>
+  <u-dialog #dialog>
+    <span
+      class="material-symbols-outlined"
+      slot="icon"
+      >mobile_friendly
+    </span>
+    <span slot="headline">Headline</span>
+    <form
+      id="form-id"
+      method="dialog"
+    >
+      <input autofocus /><span
+        >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a arcu non odio dictum faucibus. Fusce turpis
+        ante, egestas eget pretium non, vestibulum aliquet leo. Pellentesque habitant morbi tristique senectus et netus
+        et malesuada fames ac turpis egestas. Fusce aliquet bibendum sem et mollis. Aliquam dignissim lectus consectetur
+        risus ultrices, et aliquam nisi aliquam. Donec quis diam vitae nunc rutrum lobortis. In suscipit nulla non
+        suscipit dapibus. Sed tellus est, gravida a velit et, cursus egestas felis. Suspendisse magna neque, viverra eu
+        metus at, sollicitudin finibus velit. Etiam in mi fringilla, accumsan justo at, suscipit lorem. Fusce mi neque,
+        pulvinar quis lorem sit amet, imperdiet tincidunt nunc. Morbi sit amet leo vitae ante sollicitudin pulvinar.
+        Nunc vitae neque quam.
+      </span>
+      <span
+        >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a arcu non odio dictum faucibus. Fusce turpis
+        ante, egestas eget pretium non, vestibulum aliquet leo. Pellentesque habitant morbi tristique senectus et netus
+        et malesuada fames ac turpis egestas. Fusce aliquet bibendum sem et mollis. Aliquam dignissim lectus consectetur
+        risus ultrices, et aliquam nisi aliquam. Donec quis diam vitae nunc rutrum lobortis. In suscipit nulla non
+        suscipit dapibus. Sed tellus est, gravida a velit et, cursus egestas felis. Suspendisse magna neque, viverra eu
+        metus at, sollicitudin finibus velit. Etiam in mi fringilla, accumsan justo at, suscipit lorem. Fusce mi neque,
+        pulvinar quis lorem sit amet, imperdiet tincidunt nunc. Morbi sit amet leo vitae ante sollicitudin pulvinar.
+        Nunc vitae neque quam.
+      </span>
+    </form>
+    <u-button
+      slot="actions"
+      variant="text"
+      form="form-id"
+      value="ok"
+      >Ok
+    </u-button>
+    <u-button
+      slot="actions"
+      variant="text"
+      form="form-id"
+      value="cancel"
+      >Cancel
+    </u-button>
+  </u-dialog>
+</docs-example>
+<docs-example
+  sectionTitle="Message dialog"
+  [renderExample]="false"
+  [html]="''"
+>
+  <u-text-field
+    [(ngModel)]="message"
+    ngDefaultControl
+  ></u-text-field>
+  <u-button (click)="showMessage()">Show message</u-button>
+</docs-example>

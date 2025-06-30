@@ -9,7 +9,7 @@ import { TitleComponent } from '@docs/docs/title/title.component';
   selector: 'docs-introduction',
   standalone: true,
   imports: [MarkdownModule, Highlight, ExampleComponent, TitleComponent],
-  templateUrl: './introduction.component.pug',
+  templateUrl: './introduction.component.html',
   styleUrl: './introduction.component.scss',
 })
 export class IntroductionComponent {

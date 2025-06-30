@@ -9,7 +9,7 @@ import checkboxHtml from '!raw-loader!./examples/usage.html';
 
 @Component({
   selector: 'docs-checkbox',
-  templateUrl: './checkbox.component.pug',
+  templateUrl: './checkbox.component.html',
   styleUrl: './checkbox.component.scss',
   standalone: true,
   imports: [

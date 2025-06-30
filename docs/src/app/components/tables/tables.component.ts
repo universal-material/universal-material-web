@@ -13,7 +13,7 @@ import tableHoverHtml from '!raw-loader!./examples/table-hover.html';
 
 @Component({
   selector: 'docs-tables',
-  templateUrl: './tables.component.pug',
+  templateUrl: './tables.component.html',
   styleUrl: './tables.component.scss',
   standalone: true,
   imports: [

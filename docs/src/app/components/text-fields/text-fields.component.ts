@@ -9,7 +9,7 @@ import { TitleComponent } from '@docs/docs/title/title.component';
 
 @Component({
   selector: 'docs-text-fields',
-  templateUrl: './text-fields.component.pug',
+  templateUrl: './text-fields.component.html',
   styleUrl: './text-fields.component.scss',
   standalone: true,
   imports: [CommonModule, FormsModule, ApisTableComponent, ExampleComponent, TitleComponent],

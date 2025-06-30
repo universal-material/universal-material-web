@@ -10,7 +10,7 @@ import { ContextTestComponent } from '@docs/components/context-test/context-test
 
 @Component({
   selector: 'docs-chips',
-  templateUrl: './chips.component.pug',
+  templateUrl: './chips.component.html',
   styleUrl: './chips.component.scss',
   standalone: true,
   imports: [

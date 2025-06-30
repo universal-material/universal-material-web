@@ -6,7 +6,7 @@ import { Apis } from '@docs/apis';
 
 @Component({
   selector: 'docs-apis-table',
-  templateUrl: './apis-table.component.pug',
+  templateUrl: './apis-table.component.html',
   styleUrl: './apis-table.component.scss',
   standalone: true,
   imports: [

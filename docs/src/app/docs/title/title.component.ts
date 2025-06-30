@@ -5,7 +5,7 @@ import { titleToHash } from '@docs/docs/shared/title-to-hash';
   selector: 'docs-title',
   standalone: true,
   imports: [],
-  templateUrl: './title.component.pug',
+  templateUrl: './title.component.html',
   styleUrl: './title.component.scss'
 })
 export class TitleComponent implements OnChanges {

@@ -19,7 +19,7 @@ import floatingMenuHtml from '!raw-loader!./examples/floating-menu.html';
 
 @Component({
   selector: 'docs-fab',
-  templateUrl: './fab.component.pug',
+  templateUrl: './fab.component.html',
   styleUrl: './fab.component.scss',
   standalone: true,
   imports: [

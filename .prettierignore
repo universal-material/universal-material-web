@@ -1,0 +1,10 @@
+# Ignore all HTML files:
+**/*.js
+**/*.mjs
+**/*.cjs
+**/*.ts
+**/*.css
+**/*.scss
+**/*.html
+**/*.json
+!/docs/**/*.html

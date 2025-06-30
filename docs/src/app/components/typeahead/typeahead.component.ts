@@ -17,7 +17,7 @@ import handlingSelectionHtml from '!raw-loader!./examples/handling-selection.htm
 
 @Component({
   selector: 'docs-typeahead',
-  templateUrl: './typeahead.component.pug',
+  templateUrl: './typeahead.component.html',
   styleUrl: './typeahead.component.scss',
   standalone: true,
   imports: [

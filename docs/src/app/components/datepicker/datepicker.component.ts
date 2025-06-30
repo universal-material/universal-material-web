@@ -6,7 +6,7 @@ import { TitleComponent } from '@docs/docs/title/title.component';
 
 @Component({
   selector: 'docs-datepicker',
-  templateUrl: './datepicker.component.pug',
+  templateUrl: './datepicker.component.html',
   styleUrl: './datepicker.component.scss',
   standalone: true,
   imports: [

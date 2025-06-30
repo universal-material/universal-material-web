@@ -23,7 +23,7 @@ import trailingIconsHtml from '!raw-loader!./examples/buttons-trailing-icons.htm
 
 @Component({
   selector: 'docs-common-buttons',
-  templateUrl: './common-buttons.component.pug',
+  templateUrl: './common-buttons.component.html',
   styleUrl: './common-buttons.component.scss',
   standalone: true,
   imports: [

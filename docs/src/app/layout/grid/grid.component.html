@@ -1,0 +1,56 @@
+<docs-title title="Grid">Grids are used to add gutter to your content</docs-title>
+<docs-example
+  sectionTitle="Overview"
+  [html]="overviewHtml"
+>
+  <markdown>
+    Universal Material uses the new [CSS Grid](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout) to add
+    spacing between columns inside a grid.&nbsp;Currently it has one column by default and it can be customized with
+    `--u-grid-columns`. &nbsp;Also, you can directly change the CSS property `grid-template-columns` to build a more
+    complex grid.
+  </markdown>
+</docs-example>
+<docs-example sectionTitle="CSS">
+  <h4 class="u-title-m">Variables</h4>
+  <u-card
+    class="api-card"
+    variant="outlined"
+  >
+    <table
+      class="u-table"
+      slot="before-content"
+    >
+      <thead>
+        <tr>
+          <th>Variable</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>--u-grid-columns</code></td>
+          <td><code>1</code></td>
+        </tr>
+        <tr>
+          <td><code>--u-layout-gutter-default</code></td>
+          <td>
+            <code>--u-spacing-medium</code><span>&nbsp;(compact),&nbsp;</span><code>--u-spacing-large</code>
+            <span>&nbsp;(expanded).</span>
+          </td>
+        </tr>
+        <tr>
+          <td><code>--u-layout-gutter</code></td>
+          <td><code>--u-layout-gutter-default</code></td>
+        </tr>
+        <tr>
+          <td><code>--u-layout-gutter-inline</code></td>
+          <td><code>--u-layout-gutter</code></td>
+        </tr>
+        <tr>
+          <td><code>--u-layout-gutter-block</code></td>
+          <td><code>--u-layout-gutter</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </u-card>
+</docs-example>

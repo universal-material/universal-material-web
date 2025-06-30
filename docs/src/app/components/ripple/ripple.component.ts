@@ -9,7 +9,7 @@ import usageHtml from '!raw-loader!./examples/usage.html';
 
 @Component({
   selector: 'docs-ripple',
-  templateUrl: './ripple.component.pug',
+  templateUrl: './ripple.component.html',
   styleUrl: './ripple.component.scss',
   standalone: true,
   imports: [

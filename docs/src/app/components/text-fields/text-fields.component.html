@@ -1,0 +1,180 @@
+<docs-title title="Text fields"></docs-title>
+<div class="u-column">
+  <docs-example
+    sectionTitle="Live"
+    [renderExample]="false"
+    [html]="template"
+  >
+    <h5 class="u-title-m">Settings</h5>
+    <u-chip-set>
+      <u-chip
+        [selected]="variant === 'filled'"
+        (click)="setVariant('filled')"
+      >
+        <span
+          class="material-symbols-outlined"
+          slot="icon-selected"
+          >done </span
+        >Filled
+      </u-chip>
+      <u-chip
+        [selected]="variant === 'outlined'"
+        (click)="setVariant('outlined')"
+      >
+        <span
+          class="material-symbols-outlined"
+          slot="icon-selected"
+          >done </span
+        >Outlined
+      </u-chip>
+      <u-chip
+        toggle
+        (change)="leadingIcon = $any($event.target).selected; updated$.next()"
+        [selected]="leadingIcon"
+      >
+        <span
+          class="material-symbols-outlined"
+          slot="icon-selected"
+          >done </span
+        >Leading icon
+      </u-chip>
+      <u-chip
+        toggle
+        (change)="trailingIcon = $any($event.target).selected; updated$.next()"
+        [selected]="trailingIcon"
+      >
+        <span
+          class="material-symbols-outlined"
+          slot="icon-selected"
+          >done </span
+        >Trailing icon
+      </u-chip>
+      <u-chip
+        toggle
+        (change)="invalid = $any($event.target).selected; updated$.next()"
+        [selected]="invalid"
+      >
+        <span
+          class="material-symbols-outlined"
+          slot="icon-selected"
+          >done </span
+        >Invalid
+      </u-chip>
+      <u-chip
+        toggle
+        (change)="disabled = $any($event.target).selected; updated$.next()"
+        [selected]="disabled"
+      >
+        <span
+          class="material-symbols-outlined"
+          slot="icon-selected"
+          >done </span
+        >Disabled
+      </u-chip>
+      <u-chip
+        toggle
+        (change)="showCounter = $any($event.target).selected; updated$.next()"
+        [selected]="showCounter"
+      >
+        <span
+          class="material-symbols-outlined"
+          slot="icon-selected"
+          >done </span
+        >Counter
+      </u-chip>
+    </u-chip-set>
+    <div class="u-column u-mt-small">
+      <u-text-field
+        label="Supporting text"
+        [(ngModel)]="supportingText"
+        (ngModelChange)="updated$.next()"
+        ngDefaultControl
+      ></u-text-field>
+      <u-text-field
+        label="Error text"
+        [(ngModel)]="errorText"
+        (ngModelChange)="updated$.next()"
+        ngDefaultControl
+      ></u-text-field>
+      <u-button-field
+        label="Button field"
+        [(ngModel)]="someValue"
+        ngDefaultControl
+        (click)="someValue.count = someValue.count + 1"
+      >
+        <span>{{ someValue.count }}</span>
+      </u-button-field>
+    </div>
+    <h5 class="u-title-m u-mt-large">Component</h5>
+    <u-text-field
+      label="Name"
+      example
+      prefix-text="$"
+      suffix-text=".00"
+      [counter]="showCounter ? '10/100' : ''"
+      [supportingText]="supportingText"
+      [errorText]="errorText"
+      [variant]="variant"
+      [invalid]="invalid"
+      [disabled]="disabled"
+    >
+      <span
+        class="material-symbols-outlined"
+        *ngIf="leadingIcon"
+        slot="leading-icon"
+        >search
+      </span>
+      <u-icon-button
+        *ngIf="trailingIcon"
+        slot="trailing-icon"
+        [disabled]="disabled"
+      >
+        <span class="material-symbols-outlined">cancel</span>
+      </u-icon-button>
+      <span
+        *ngIf="showCounter"
+        slot="counter"
+        >10/100
+      </span>
+    </u-text-field>
+    <u-text-field
+      example
+      maxlength="100"
+      [variant]="variant"
+      [invalid]="invalid"
+      [disabled]="disabled"
+    >
+      <span
+        class="material-symbols-outlined"
+        *ngIf="leadingIcon"
+        slot="leading-icon"
+        >search
+      </span>
+      <u-icon-button
+        *ngIf="trailingIcon"
+        slot="trailing-icon"
+        toggle
+        [disabled]="disabled"
+      >
+        <span class="material-symbols-outlined">cancel</span>
+      </u-icon-button>
+      <span slot="label">Name</span>
+      <span
+        *ngIf="supportingText"
+        slot="supporting-text"
+        id="supporting-text"
+        >{{ supportingText }}
+      </span>
+      <span
+        *ngIf="errorText"
+        slot="error-text"
+        >{{ errorText }}
+      </span>
+      <!--span(
+      *ngIf="showCounter",
+      slot="counter") 10/100
+      -->
+    </u-text-field>
+  </docs-example>
+</div>
+<docs-apis-table key="field"></docs-apis-table>

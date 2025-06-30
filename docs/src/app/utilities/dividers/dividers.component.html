@@ -1,0 +1,48 @@
+<docs-title title="Dividers">Dividers are thin lines that group content in lists or other containers</docs-title>
+<docs-example
+  sectionTitle="Usage"
+  [html]="usageHtml"
+>
+  <markdown
+    >Create an element with `.u-divider` to group content. The default divider class has a small margin.
+  </markdown>
+</docs-example>
+<docs-example
+  sectionTitle="No margin"
+  [html]="noMarginHtml"
+>
+  <markdown>Use `.u-divider-no-margin` if you don't need the margin.</markdown>
+</docs-example>
+<docs-example sectionTitle="CSS">
+  <h4 class="u-title-m">Variables</h4>
+  <u-card
+    class="api-card"
+    variant="outlined"
+  >
+    <table
+      class="u-table"
+      slot="before-content"
+    >
+      <thead>
+        <tr>
+          <th>Variable</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>--u-divider-thickness</code></td>
+          <td><code>1px</code></td>
+        </tr>
+        <tr>
+          <td><code>--u-divider-opacity</code></td>
+          <td><code>.4</code></td>
+        </tr>
+        <tr>
+          <td><code>--u-divider-color</code></td>
+          <td><code>--u-current-text-color</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </u-card>
+</docs-example>

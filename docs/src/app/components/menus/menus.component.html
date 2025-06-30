@@ -1,0 +1,83 @@
+<docs-title title="Menus"></docs-title>
+<docs-example
+  sectionTitle="Down"
+  [html]="downHtml"
+></docs-example>
+<div style="display: flex; flex-direction: column; align-items: center">
+  <u-button-set>
+    <u-button (click)="changeDirection()">Switch direction</u-button>
+    <u-button (click)="changeAnchor()">Change corner</u-button>
+  </u-button-set>
+  <div
+    class="anchor"
+    #anchor
+  >
+    <span>Direction: {{ direction }}</span>
+    <span>Corner: {{ anchorCorner }}</span>
+  </div>
+  <u-button (click)="menu.toggle()">Toggle menu</u-button>
+</div>
+<u-menu
+  #menu
+  [direction]="direction"
+  [anchorCorner]="anchorCorner"
+  [anchorElement]="anchor"
+>
+  <u-menu-item>
+    <span
+      class="material-symbols-outlined"
+      slot="leading-icon"
+      >brightness_4
+    </span>
+    <span>System</span>
+  </u-menu-item>
+  <u-menu-item>
+    <span
+      class="material-symbols-outlined"
+      slot="leading-icon"
+      >light_mode
+    </span>
+    <span>Light Mode</span>
+  </u-menu-item>
+  <u-menu-item>
+    <span
+      class="material-symbols-outlined"
+      slot="leading-icon"
+      >dark_mode
+    </span>
+    <span>Dark Mode</span>
+  </u-menu-item>
+  <u-menu-item>
+    <span
+      class="material-symbols-outlined"
+      slot="leading-icon"
+      >dark_mode
+    </span>
+    <span>Dark Mode</span>
+  </u-menu-item>
+  <u-menu-item>
+    <span
+      class="material-symbols-outlined"
+      slot="leading-icon"
+      >dark_mode
+    </span>
+    <span>Dark Mode</span>
+  </u-menu-item>
+  <u-menu-item>
+    <span
+      class="material-symbols-outlined"
+      slot="leading-icon"
+      >dark_mode
+    </span>
+    <span>Dark Mode</span>
+  </u-menu-item>
+  <u-menu-item>
+    <span
+      class="material-symbols-outlined"
+      slot="leading-icon"
+      >dark_mode
+    </span>
+    <span>Dark Mode</span>
+  </u-menu-item>
+</u-menu>
+<docs-apis-table key="menu"></docs-apis-table>

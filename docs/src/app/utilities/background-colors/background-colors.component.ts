@@ -9,7 +9,7 @@ import colorsHtml from '!raw-loader!./examples/colors.html';
 
 @Component({
   selector: 'docs-background-colors',
-  templateUrl: './background-colors.component.pug',
+  templateUrl: './background-colors.component.html',
   styleUrl: './background-colors.component.scss',
   standalone: true,
   imports: [

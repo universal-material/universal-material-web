@@ -1,0 +1,21 @@
+<docs-title title="Quick start"></docs-title>
+<!--u-calendar([dateRenderer]="createDummy")-->
+<!--u-range-calendar-->
+<!--ng-template(#dayTemplate, let-data)-->
+<!--  span {{data.day}}-->
+<docs-example sectionTitle="Install">Include Universal Material source sass and TypeScript files via npm.</docs-example>
+<u-card variant="outlined">
+  <pre slot="before-content"><code highlight="npm install @universal-material/web -S" language="shell"></code></pre>
+</u-card>
+<docs-example sectionTitle="Import">
+  <markdown>{{ importText }}</markdown>
+  <u-card variant="outlined">
+    <pre slot="before-content"><code [highlight]="importCode" language="javascript"></code></pre>
+  </u-card>
+</docs-example>
+<docs-example sectionTitle="Usage">
+  <markdown>Use the `&lt;component-name&gt;` tag in HTML markup.</markdown>
+  <u-card variant="outlined">
+    <pre slot="before-content"><code [highlight]="usageCode" language="javascript"></code></pre>
+  </u-card>
+</docs-example>

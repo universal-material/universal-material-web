@@ -27,7 +27,7 @@ enum ThemeMode {
     SubmenuComponent,
     RouterOutlet,
   ],
-  templateUrl: 'app.component.pug',
+  templateUrl: 'app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {

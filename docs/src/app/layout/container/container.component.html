@@ -1,0 +1,91 @@
+<docs-title title="Container"
+  >Containers are a fundamental building block of Universal Material that contain, pad, and align your content.
+  <p>
+    <span>Batata</span>
+    <caption>
+      Batata
+    </caption>
+    <mark>Batata</mark>
+  </p>
+  <p>Please press<kbd>Ctrl</kbd> +<kbd>Shift</kbd> +<kbd>R</kbd> to re-render an MDN page.</p>
+</docs-title>
+<docs-example sectionTitle="Overview">
+  <markdown>{{ overviewMd }}</markdown>
+</docs-example>
+<docs-example
+  sectionTitle="Default container"
+  [html]="defaultContainerHtml"
+>
+  <markdown
+    >The default `.container` class limit the width of the container and align it at the center of its parent.
+  </markdown>
+</docs-example>
+<docs-example
+  sectionTitle="Fluid container"
+  [html]="fluidContainerHtml"
+>
+  <markdown>Use `.container-fluid` for a full width container, spanning the entire width of the its parent.</markdown>
+</docs-example>
+<docs-example sectionTitle="CSS">
+  <h4 class="u-title-m">Containers variables</h4>
+  <u-card
+    class="api-card"
+    variant="outlined"
+  >
+    <table
+      class="u-table"
+      slot="before-content"
+    >
+      <thead>
+        <tr>
+          <th>Variable</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>--u-layout-margin-default</code></td>
+          <td>
+            <code>--u-spacing-medium</code><span>&nbsp;(compact),&nbsp;</span><code>--u-spacing-large</code>
+            <span>&nbsp;(expanded).</span>
+          </td>
+        </tr>
+        <tr>
+          <td><code>--u-layout-margin</code></td>
+          <td><code>--u-layout-margin-default</code></td>
+        </tr>
+        <tr>
+          <td><code>--u-layout-margin-inline</code></td>
+          <td><code>--u-layout-margin</code></td>
+        </tr>
+        <tr>
+          <td><code>--u-layout-margin-block</code></td>
+          <td><code>--u-layout-margin</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </u-card>
+  <h4 class="u-title-m">Default container variables</h4>
+  <u-card
+    class="api-card"
+    variant="outlined"
+  >
+    <table
+      class="u-table"
+      slot="before-content"
+    >
+      <thead>
+        <tr>
+          <th>Variable</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>--u-container-width</code></td>
+          <td><code>992px</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </u-card>
+</docs-example>

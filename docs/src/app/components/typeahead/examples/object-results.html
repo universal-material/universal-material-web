@@ -1,9 +1,13 @@
-<u-text-field id="text-field" label="States" supporting-text="Select a state"></u-text-field>
+<u-text-field
+  id="text-field"
+  label="States"
+  supporting-text="Select a state"
+></u-text-field>
 <u-typeahead target-id="text-field"></u-typeahead>
 
 <script>
-  const typeahead = document.querySelector('u-typeahead');
+  const typeahead = document.querySelector("u-typeahead");
 
   typeahead.source = [];
-  typeahead.formatter = state => state.name;
+  typeahead.formatter = (state) => state.name;
 </script>

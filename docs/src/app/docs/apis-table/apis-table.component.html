@@ -1,0 +1,41 @@
+<h5 class="u-headline-m article-title"><a href="#api">API</a></h5>
+<u-card
+  class="api-card"
+  variant="outlined"
+>
+  <table
+    class="u-table"
+    slot="before-content"
+  >
+    <thead>
+      <tr>
+        <th>Property</th>
+        <th>Attribute</th>
+        <th>Type</th>
+        <th>Default</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let property of properties">
+        <tr>
+          <td>
+            <code *ngIf="!!property.name?.trim()">{{ property.name }}</code>
+          </td>
+          <td>
+            <code *ngIf="!!property.attribute?.trim()">{{ property.attribute }}</code>
+          </td>
+          <td>
+            <code>{{ property.type }}</code>
+          </td>
+          <td>
+            <code *ngIf="!!property.default?.trim()">{{ property.default }}</code>
+          </td>
+          <td>
+            <markdown>{{ property.description }}</markdown>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</u-card>

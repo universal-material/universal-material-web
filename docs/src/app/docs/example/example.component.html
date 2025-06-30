@@ -1,0 +1,22 @@
+<h5 class="u-headline-m article-title">
+  <a [href]="anchorHash">{{ sectionTitle }}</a>
+</h5>
+<div class="description">
+  <ng-content></ng-content>
+</div>
+<div
+  class="u-column"
+  *ngIf="_html"
+>
+  <div
+    class="example"
+    *ngIf="renderExample"
+    slot="before-content"
+    #example
+    [innerHTML]="htmlSafe"
+  ></div>
+  <ng-content select="[example]"></ng-content>
+  <u-card variant="outlined">
+    <pre slot="after-content"><code [highlight]="_html!" language="html"></code></pre>
+  </u-card>
+</div>

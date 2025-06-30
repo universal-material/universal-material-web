@@ -13,7 +13,7 @@ import typosHtml from '!raw-loader!./examples/typos.html';
     TitleComponent,
     ExampleComponent
   ],
-  templateUrl: './typography.component.pug',
+  templateUrl: './typography.component.html',
   styleUrl: './typography.component.scss'
 })
 export class TypographyComponent {

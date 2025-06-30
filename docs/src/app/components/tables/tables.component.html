@@ -1,0 +1,77 @@
+<docs-title title="Tables">Simple styling of tables using old material design specs</docs-title>
+<docs-example
+  sectionTitle="Overview"
+  [html]="overviewHtml"
+>
+  <markdown
+    >Due to the widespread use of `&lt;table&gt;`, Universal Material provides a simple Material Design table. Add the
+    class `.u-table` to any `&lt;table&gt;`
+  </markdown>
+</docs-example>
+<docs-example
+  sectionTitle="Hover"
+  [html]="tableHoverHtml"
+>
+  <markdown>Add `.u-table-hover` to enable a hover state on table rows within a `&lt;tbody&gt;`.</markdown>
+</docs-example>
+<docs-example sectionTitle="CSS">
+  <h4 class="u-title-m">Variables</h4>
+  <u-card
+    class="api-card"
+    variant="outlined"
+  >
+    <table
+      class="u-table"
+      slot="before-content"
+    >
+      <thead>
+        <tr>
+          <th>Variable</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>--u-table-hover-opacity</code></td>
+          <td><code>--u-state-layer-hover-opacity</code></td>
+        </tr>
+        <tr>
+          <td><code>--u-table-divider-opacity</code></td>
+          <td><code>.2</code></td>
+        </tr>
+        <tr>
+          <td><code>--u-table-cell-padding</code></td>
+          <td><code>13px 16px</code></td>
+        </tr>
+        <tr>
+          <td><code>--u-td-padding</code></td>
+          <td><code>--u-table-cell-padding</code></td>
+        </tr>
+        <tr>
+          <td><code>--u-th-padding</code></td>
+          <td><code>--u-table-cell-padding</code></td>
+        </tr>
+        <tr>
+          <td><code>--u-table-cell-font-weight</code></td>
+          <td><code>--u-font-weight-medium</code></td>
+        </tr>
+        <tr>
+          <td><code>--u-td-font-weight</code></td>
+          <td><code>--u-table-cell-font-weight</code></td>
+        </tr>
+        <tr>
+          <td><code>--u-th-font-weight</code></td>
+          <td><code>--u-table-cell-font-weight</code></td>
+        </tr>
+        <tr>
+          <td><code>--u-td-font-size</code></td>
+          <td><code>.875rem</code></td>
+        </tr>
+        <tr>
+          <td><code>--u-th-font-size</code></td>
+          <td><code>.8125rem</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </u-card>
+</docs-example>

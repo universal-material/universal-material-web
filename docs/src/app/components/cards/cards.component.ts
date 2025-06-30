@@ -13,7 +13,7 @@ import cardMediaHtml from '!raw-loader!./examples/card-media.html';
 
 @Component({
   selector: 'docs-cards',
-  templateUrl: './cards.component.pug',
+  templateUrl: './cards.component.html',
   styleUrl: './cards.component.scss',
   standalone: true,
   imports: [

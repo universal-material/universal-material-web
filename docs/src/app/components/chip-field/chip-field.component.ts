@@ -13,7 +13,7 @@ import objectValuesHtml from '!raw-loader!./examples/object-values.html';
 
 @Component({
   selector: 'docs-chip-field',
-  templateUrl: './chip-field.component.pug',
+  templateUrl: './chip-field.component.html',
   styleUrl: './chip-field.component.scss',
   standalone: true,
   imports: [

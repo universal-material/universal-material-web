@@ -1,0 +1,281 @@
+<u-side-navigation #navigation>
+  <u-top-app-bar
+    headline="Material"
+    size="medium"
+    [scrollContainer]="navigation.scrollContainer || 'window'"
+  >
+    <u-icon-button
+      slot="leading-icon"
+      type="button"
+      (click)="navigation.toggleDrawer = !navigation.toggleDrawer"
+    >
+      <span class="material-symbols-outlined">menu</span>
+    </u-icon-button>
+    <div
+      class="color-picker"
+      slot="trailing-icon"
+    >
+      <u-ripple (click)="colorInput.click()"></u-ripple>
+      <input
+        type="color"
+        #colorInput
+        [ngModel]="themeColor"
+        (ngModelChange)="$themeColorChange.next($event)"
+        aria-label="Theme color"
+      />
+    </div>
+    <div
+      class="position-relative"
+      slot="trailing-icon"
+    >
+      <u-icon-button
+        aria-label="Theme"
+        (click)="themeMenu.toggle()"
+      >
+        <span class="material-symbols-outlined">palette</span>
+      </u-icon-button>
+      <u-menu
+        #themeMenu
+        anchor-corner="end-end"
+      >
+        <u-menu-item (click)="setThemeMode(ThemeMode.Auto)">
+          <span
+            class="material-symbols-outlined"
+            slot="leading-icon"
+            >brightness_4
+          </span>
+          <span>System</span>
+        </u-menu-item>
+        <u-menu-item (click)="setThemeMode(ThemeMode.Light)">
+          <span
+            class="material-symbols-outlined"
+            slot="leading-icon"
+            >light_mode
+          </span>
+          <span>Light Mode</span>
+        </u-menu-item>
+        <u-menu-item (click)="setThemeMode(ThemeMode.Dark)">
+          <span
+            class="material-symbols-outlined"
+            slot="leading-icon"
+            >dark_mode
+          </span>
+          <span>Dark Mode</span>
+        </u-menu-item>
+      </u-menu>
+    </div>
+    <!--u-icon-button(
+    slot="trailing-icon",
+    href="/angular",
+    title="Universal Material Angular")
+    span.material-symbols-outlined angular
+    -->
+    <u-icon-button
+      slot="trailing-icon"
+      type="button"
+      title="Rtl"
+      (click)="toggleRtl()"
+    >
+      <span class="material-symbols-outlined">format_align_right</span>
+    </u-icon-button>
+  </u-top-app-bar>
+  <u-drawer slot="drawer">
+    <!--h6.navigation-headline.u-headline-s Material Design-->
+    <u-drawer-item
+      routerLink=""
+      docsLinkActive
+      [routerLinkActiveOptions]="{ exact: true }"
+      >Introduction
+    </u-drawer-item>
+    <!--u-drawer-item(
+    routerLink="layout/grid",
+    docsLinkActive) Grid
+    
+    
+    -->
+    <!--u-drawer-item Colors
+    i.u-typo-title-l.mdi.mdi-chevron-down(slot="badge")
+    
+    -->
+    <docs-submenu label="CSS">
+      <u-drawer-item
+        routerLink="content/typography"
+        docsLinkActive
+        >Typography
+      </u-drawer-item>
+      <docs-submenu label="Colors">
+        <u-drawer-item
+          role="menuitem"
+          routerLink="utilities/text-colors"
+          docsLinkActive
+          >Text
+        </u-drawer-item>
+        <u-drawer-item
+          routerLink="utilities/text-emphasis"
+          docsLinkActive
+          >Text emphasis
+        </u-drawer-item>
+        <u-drawer-item
+          routerLink="utilities/background-colors"
+          docsLinkActive
+          >Background
+        </u-drawer-item>
+        <u-drawer-item
+          routerLink="utilities/text-and-background-colors"
+          docsLinkActive
+          >Color & background
+        </u-drawer-item>
+      </docs-submenu>
+      <u-drawer-item
+        routerLink="utilities/dividers"
+        docsLinkActive
+        >Dividers
+      </u-drawer-item>
+      <u-drawer-item
+        routerLink="components/tables"
+        docsLinkActive
+        >Tables
+      </u-drawer-item>
+      <u-drawer-item
+        routerLink="layout/container"
+        docsLinkActive
+        >Container
+      </u-drawer-item>
+      <u-drawer-item
+        routerLink="layout/grid"
+        docsLinkActive
+        >Grid
+      </u-drawer-item>
+    </docs-submenu>
+    <docs-submenu label="Components">
+      <u-drawer-item
+        routerLink="components/badges"
+        docsLinkActive
+        >Badges
+      </u-drawer-item>
+      <u-drawer-item
+        routerLink="components/common-buttons"
+        docsLinkActive
+        >Common buttons
+      </u-drawer-item>
+      <u-drawer-item
+        routerLink="components/fab"
+        docsLinkActive
+        >Floating Action Button (FAB)
+      </u-drawer-item>
+      <u-drawer-item
+        routerLink="components/icon-buttons"
+        docsLinkActive
+        >Icon buttons
+      </u-drawer-item>
+      <u-drawer-item
+        routerLink="components/button-set"
+        docsLinkActive
+        >Button set
+      </u-drawer-item>
+      <u-drawer-item
+        routerLink="components/cards"
+        docsLinkActive
+        >Cards
+      </u-drawer-item>
+      <!--u-drawer-item(
+      routerLink="components/checkbox",
+      docsLinkActive) Checkbox
+      
+      -->
+      <u-drawer-item
+        routerLink="components/chips"
+        docsLinkActive
+        >Chips
+      </u-drawer-item>
+      <u-drawer-item
+        routerLink="components/dialogs"
+        docsLinkActive
+        >Dialogs
+      </u-drawer-item>
+      <u-drawer-item
+        routerLink="components/lists"
+        docsLinkActive
+        >Lists
+      </u-drawer-item>
+      <!--u-drawer-item(
+      routerLink="components/menus",
+      docsLinkActive) Menus
+      
+      -->
+      <u-drawer-item
+        routerLink="components/progress"
+        docsLinkActive
+        >Progress
+      </u-drawer-item>
+      <u-drawer-item
+        routerLink="components/ripple"
+        docsLinkActive
+        >Ripple
+      </u-drawer-item>
+      <!--u-drawer-item(
+      routerLink="components/selection-controls",
+      docsLinkActive) Selection controls
+      
+      -->
+      <!--u-drawer-item(
+      routerLink="components/sliders",
+      docsLinkActive) Sliders
+      
+      -->
+      <!--u-drawer-item(
+      routerLink="components/snackbars",
+      docsLinkActive) Snackbars
+      
+      -->
+      <!--u-drawer-item(
+      routerLink="components/tabs",
+      docsLinkActive) Tabs
+      
+      -->
+      <u-drawer-item
+        routerLink="components/text-fields"
+        docsLinkActive
+        >Text fields
+      </u-drawer-item>
+      <u-drawer-item
+        routerLink="components/select"
+        docsLinkActive
+        >Select
+      </u-drawer-item>
+      <u-drawer-item
+        routerLink="components/chip-field"
+        docsLinkActive
+        >Chip field
+      </u-drawer-item>
+      <u-drawer-item
+        routerLink="components/typeahead"
+        docsLinkActive
+        >Typeahead
+      </u-drawer-item>
+      <!--u-drawer-item(
+      routerLink="components/toolbars",
+      docsLinkActive) Toolbars
+      
+      -->
+    </docs-submenu>
+  </u-drawer>
+  <div class="u-container chapter">
+    <router-outlet></router-outlet>
+  </div>
+  <!--.pane-layout
+  .pane
+    u-elevation
+    .scroll-wrapper(#scrollWrapper)
+  
+  
+  .side-pane
+    u-card
+      .u-label-m On this page:
+      a.hash-navigation-item.u-title-s(
+        href="#",
+        *ngFor="let item of anchorsNavigation",
+        tabindex="0",
+        (click)="navigateToAnchor($event, item)") {{item.title}}
+  -->
+</u-side-navigation>

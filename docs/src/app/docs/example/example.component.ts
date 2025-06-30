@@ -13,7 +13,7 @@ import { titleToHash } from '@docs/docs/shared/title-to-hash';
     CommonModule,
     Highlight
   ],
-  templateUrl: './example.component.pug',
+  templateUrl: './example.component.html',
   styleUrl: './example.component.scss'
 })
 export class ExampleComponent implements OnChanges {

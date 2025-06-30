@@ -11,7 +11,7 @@ import overviewHtml from '!raw-loader!./examples/overview.html';
 
 @Component({
   selector: 'docs-grid',
-  templateUrl: './grid.component.pug',
+  templateUrl: './grid.component.html',
   styleUrl: './grid.component.scss',
   standalone: true,
   imports: [

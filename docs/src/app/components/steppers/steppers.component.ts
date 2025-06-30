@@ -6,7 +6,7 @@ import { TitleComponent } from '@docs/docs/title/title.component';
 
 @Component({
   selector: 'docs-steppers',
-  templateUrl: './steppers.component.pug',
+  templateUrl: './steppers.component.html',
   styleUrl: './steppers.component.scss',
   standalone: true,
   imports: [
