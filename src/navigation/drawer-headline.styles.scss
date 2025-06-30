@@ -1,0 +1,8 @@
+@use '../scss/functions';
+@use '../scss/mixins';
+
+:host {
+  @include mixins.typo(title-s, drawer-headline);
+  color: var(--u-drawer-headline-color,  #{functions.get-color-var(on-surface-variant)});
+  margin-block: var(--u-drawer-headline-margin-block, 16px 24px);
+}

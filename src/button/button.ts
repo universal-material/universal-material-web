@@ -2,7 +2,8 @@ import { PropertyValues } from '@lit/reactive-element';
 import { CSSResultGroup } from '@lit/reactive-element/css-tag';
 
 import { html, HTMLTemplateResult } from 'lit';
-import { customElement, property, query } from 'lit/decorators.js';
+import { customElement, property, query, state } from 'lit/decorators.js';
+import { classMap } from 'lit/directives/class-map.js';
 
 import { styles } from './button.styles.js';
 import { UmToggleButton } from './toggle-button.js';
@@ -37,6 +38,8 @@ export class UmButton extends UmToggleButton {
 
   @property({ type: Boolean, attribute: 'has-selection-label', reflect: true }) hasSelectionLabel = false;
 
+  @state() animateTextChange = false;
+
   @query('.label-container', true) private readonly _textWrapper!: HTMLElement;
   @query('#label', true) private readonly _text!: HTMLElement;
 
@@ -51,10 +54,23 @@ export class UmButton extends UmToggleButton {
   }
 
   #setTextWrapperWidth(): void {
-    this._textWrapper.style.width = `${this._text.offsetWidth}px`;
+
+    const width = `${this._text.offsetWidth}px`;
+    this._textWrapper.style.width = width;
+
+    const animateTextChange = !!parseInt(width, 10);
+
+    if (this.animateTextChange === animateTextChange) {
+      return;
+    }
+
+    setTimeout(() =>
+      this.animateTextChange = animateTextChange);
   }
 
   protected override renderContent(): HTMLTemplateResult {
+    const labelContainerClasses = { animate: this.animateTextChange };
+
     return html`
       <span class="icon-container" aria-hidden="true">
         <span class="icon icon-default">
@@ -65,7 +81,7 @@ export class UmButton extends UmToggleButton {
         </span>
       </span>
 
-      <span class="label-container">
+      <span class="label-container ${classMap(labelContainerClasses)}">
         <span id="label">
           <span class="label label-default">
             <slot></slot>

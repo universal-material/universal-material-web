@@ -38,6 +38,7 @@ import './typeahead/highlight.js';
 import './typeahead/typeahead.js';
 
 export * from './app-bar/top-app-bar.js';
+export * from './badge/badge.js';
 export * from './button/button.js';
 export * from './button/button-base.js';
 export * from './button/button-set.js';
@@ -71,6 +72,8 @@ export * from './navigation/drawer.js';
 export * from './navigation/drawer-item.js';
 export * from './navigation/drawer-headline.js';
 export * from './navigation/side-navigation.js';
+export * from './overflow-menu/overflow-menu.js';
+export * from './overflow-menu/overflow-menu-item.js';
 export * from './progress/circular-progress.js';
 export * from './progress/progress-bar.js';
 export * from './ripple/ripple.js';

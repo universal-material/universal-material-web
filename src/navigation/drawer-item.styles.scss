@@ -17,7 +17,8 @@
 
 :host(.active),
 :host([active]) {
-  color: var(--u-drawer-item-label-active-color, var(--_color-primary));
+  background-color: var(--u-drawer-item-label-active-color,  #{functions.get-color-var(secondary-container)});
+  color: var(--u-drawer-item-label-active-color,  #{functions.get-color-var(on-secondary-container)});
 }
 
 :host(:not([has-icon])) .icon,

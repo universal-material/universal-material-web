@@ -13,7 +13,7 @@ export class UmDrawer extends LitElement {
 
   protected override render(): HTMLTemplateResult {
     return html`
-      <div class="container">
+      <div class="container" part="container">
         <slot></slot>
       </div>
     `;

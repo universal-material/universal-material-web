@@ -211,7 +211,10 @@
 
 .label-container  {
   position: relative;
-  transition: width var(--_morph-duration) linear
+
+  &.animate {
+    transition: width var(--_morph-duration) linear
+  }
 }
 
 .label-default {

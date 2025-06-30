@@ -1,0 +1,21 @@
+.grid {
+  --_cell-size: var(--u-icon-button-small-height, 40px);
+  display: grid;
+  column-gap: 8px;
+  grid-template-columns: repeat(auto-fit, var(--_cell-size));
+  justify-content: end;
+  height: var(--_cell-size);
+  overflow: hidden;
+}
+
+.items-set {
+  flex-wrap: wrap;
+  max-height: var(--u-icon-button-small-height, 40px);
+  overflow: hidden;
+}
+
+.inner-menu {
+  position: relative;
+  grid-row: 1;
+  grid-column: -2;
+}

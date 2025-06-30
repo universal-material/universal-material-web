@@ -51,7 +51,7 @@
   "homepage": "https://universal-material.github.io",
   "dependencies": {
     "@bart-krakowski/get-week-info-polyfill": "^1.0.8",
-    "@lit/context": "^1.1.4",
+    "@lit/context": "^1.1.5",
     "@material/material-color-utilities": "^0.3.0",
     "lit": "^3.2.1",
     "swiper": "^11.2.4"
