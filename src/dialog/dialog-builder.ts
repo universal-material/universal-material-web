@@ -1,3 +1,5 @@
+import DOMPurify from 'dompurify';
+
 import { DialogButtonDef } from './dialog-button-def.js';
 import { UmDialog } from './dialog.js';
 
@@ -17,10 +19,10 @@ export abstract class DialogBuilder<TBuilder extends DialogBuilder<any, any>, TR
 
   show(): TReturn {
     const dialog = document.createElement('u-dialog');
-    dialog.innerText = this.message;
+    dialog.innerHTML = DOMPurify.sanitize(this.message);
 
-    this.addHeadline(dialog);
-    this.addButtons(dialog);
+    this._addHeadline(dialog);
+    this._addButtons(dialog);
 
     return this.innerShow(dialog) as TReturn;
   }
@@ -33,22 +35,23 @@ export abstract class DialogBuilder<TBuilder extends DialogBuilder<any, any>, TR
     return;
   }
 
-  protected abstract addButtons(dialog: UmDialog): void;
+  protected abstract _addButtons(dialog: UmDialog): void;
 
-  private addHeadline(dialog: HTMLElement) {
+  private _addHeadline(dialog: HTMLElement) {
     if (!this.#headline) {
       return;
     }
 
     const headlineElement = document.createElement('span');
     headlineElement.slot = 'headline';
-    headlineElement.textContent = this.#headline;
+    headlineElement.innerHTML = DOMPurify.sanitize(this.#headline);
     dialog.appendChild(headlineElement);
   }
 
-  protected addButton(dialog: UmDialog, buttonDef: DialogButtonDef, click: () => void) {
+  protected _addButton(dialog: UmDialog, buttonDef: DialogButtonDef, click: () => void) {
     const button = document.createElement('u-button');
     button.variant = buttonDef.variant!;
+    button.color = buttonDef.color!;
     button.textContent = buttonDef.label!;
     button.slot = 'actions';
     button.addEventListener('click', click);

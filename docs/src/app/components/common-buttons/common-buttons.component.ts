@@ -22,7 +22,7 @@ import trailingIconsHtml from './examples/buttons-trailing-icons.html';
     ApisTableComponent,
     ExampleComponent,
     TitleComponent
-  ]
+  ],
 })
 export class CommonButtonsComponent {
   variantsHtml = variantsHtml;

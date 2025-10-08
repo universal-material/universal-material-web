@@ -1,84 +1,156 @@
 <u-side-navigation #navigation>
-  <u-top-app-bar
-    headline="Material"
-    size="medium"
-    [scrollContainer]="navigation.scrollContainer || 'window'"
-  >
-    <u-icon-button
-      slot="leading-icon"
-      type="button"
-      (click)="navigation.toggleDrawer = !navigation.toggleDrawer"
+  <form (submit)="submit()">
+    <u-search
+      autofocus
+      placeholder="Enter a text..."
     >
-      <span class="material-symbols-outlined">menu</span>
-    </u-icon-button>
-    <div
-      class="color-picker"
-      slot="trailing-icon"
-    >
-      <u-ripple (click)="colorInput.click()"></u-ripple>
-      <input
-        type="color"
-        #colorInput
-        [ngModel]="themeColor"
-        (ngModelChange)="$themeColorChange.next($event)"
-        aria-label="Theme color"
-      />
-    </div>
-    <div
-      class="position-relative"
-      slot="trailing-icon"
-    >
+      <u-icon slot="leading-icon">
+        <span class="material-symbols-outlined">menu</span>
+      </u-icon>
+      <div
+        class="color-picker"
+        slot="trailing-icon"
+      >
+        <u-ripple (click)="colorInput.click()"></u-ripple>
+        <input
+          type="color"
+          #colorInput
+          [ngModel]="themeColor"
+          (ngModelChange)="$themeColorChange.next($event)"
+          aria-label="Theme color"
+        />
+      </div>
+      <div
+        class="position-relative"
+        slot="trailing-icon"
+      >
+        <u-icon-button
+          aria-label="Theme"
+          (click)="themeMenu.toggle()"
+        >
+          <span class="material-symbols-outlined">palette</span>
+        </u-icon-button>
+        <u-menu
+          #themeMenu
+          anchor-corner="end-end"
+        >
+          <u-menu-item (click)="setThemeMode(ThemeMode.Auto)">
+            <span
+              class="material-symbols-outlined"
+              slot="leading-icon"
+              >brightness_4
+            </span>
+            <span>System</span>
+          </u-menu-item>
+          <u-menu-item (click)="setThemeMode(ThemeMode.Light)">
+            <span
+              class="material-symbols-outlined"
+              slot="leading-icon"
+              >light_mode
+            </span>
+            <span>Light Mode</span>
+          </u-menu-item>
+          <u-menu-item (click)="setThemeMode(ThemeMode.Dark)">
+            <span
+              class="material-symbols-outlined"
+              slot="leading-icon"
+              >dark_mode
+            </span>
+            <span>Dark Mode</span>
+          </u-menu-item>
+        </u-menu>
+      </div>
+
       <u-icon-button
-        aria-label="Theme"
-        (click)="themeMenu.toggle()"
+        slot="trailing-icon"
+        type="button"
+        title="Rtl"
+        (click)="toggleRtl()"
       >
-        <span class="material-symbols-outlined">palette</span>
+        <span class="material-symbols-outlined">format_align_right</span>
       </u-icon-button>
-      <u-menu
-        #themeMenu
-        anchor-corner="end-end"
-      >
-        <u-menu-item (click)="setThemeMode(ThemeMode.Auto)">
-          <span
-            class="material-symbols-outlined"
-            slot="leading-icon"
-            >brightness_4
-          </span>
-          <span>System</span>
-        </u-menu-item>
-        <u-menu-item (click)="setThemeMode(ThemeMode.Light)">
-          <span
-            class="material-symbols-outlined"
-            slot="leading-icon"
-            >light_mode
-          </span>
-          <span>Light Mode</span>
-        </u-menu-item>
-        <u-menu-item (click)="setThemeMode(ThemeMode.Dark)">
-          <span
-            class="material-symbols-outlined"
-            slot="leading-icon"
-            >dark_mode
-          </span>
-          <span>Dark Mode</span>
-        </u-menu-item>
-      </u-menu>
-    </div>
-    <!--u-icon-button(
-    slot="trailing-icon",
-    href="/angular",
-    title="Universal Material Angular")
-    span.material-symbols-outlined angular
-    -->
-    <u-icon-button
-      slot="trailing-icon"
-      type="button"
-      title="Rtl"
-      (click)="toggleRtl()"
-    >
-      <span class="material-symbols-outlined">format_align_right</span>
-    </u-icon-button>
-  </u-top-app-bar>
+    </u-search>
+  </form>
+  <!--  <u-top-app-bar-->
+  <!--    headline="Material"-->
+  <!--    size="medium"-->
+  <!--    [scrollContainer]="navigation.scrollContainer || 'window'"-->
+  <!--  >-->
+  <!--    <u-icon-button-->
+  <!--      slot="leading-icon"-->
+  <!--      type="button"-->
+  <!--      (click)="navigation.toggleDrawer = !navigation.toggleDrawer"-->
+  <!--    >-->
+  <!--      <span class="material-symbols-outlined">menu</span>-->
+  <!--    </u-icon-button>-->
+  <!--    <div-->
+  <!--      class="color-picker"-->
+  <!--      slot="trailing-icon"-->
+  <!--    >-->
+  <!--      <u-ripple (click)="colorInput.click()"></u-ripple>-->
+  <!--      <input-->
+  <!--        type="color"-->
+  <!--        #colorInput-->
+  <!--        [ngModel]="themeColor"-->
+  <!--        (ngModelChange)="$themeColorChange.next($event)"-->
+  <!--        aria-label="Theme color"-->
+  <!--      />-->
+  <!--    </div>-->
+  <!--    <div-->
+  <!--      class="position-relative"-->
+  <!--      slot="trailing-icon"-->
+  <!--    >-->
+  <!--      <u-icon-button-->
+  <!--        aria-label="Theme"-->
+  <!--        (click)="themeMenu.toggle()"-->
+  <!--      >-->
+  <!--        <span class="material-symbols-outlined">palette</span>-->
+  <!--      </u-icon-button>-->
+  <!--      <u-menu-->
+  <!--        #themeMenu-->
+  <!--        anchor-corner="end-end"-->
+  <!--      >-->
+  <!--        <u-menu-item (click)="setThemeMode(ThemeMode.Auto)">-->
+  <!--          <span-->
+  <!--            class="material-symbols-outlined"-->
+  <!--            slot="leading-icon"-->
+  <!--            >brightness_4-->
+  <!--          </span>-->
+  <!--          <span>System</span>-->
+  <!--        </u-menu-item>-->
+  <!--        <u-menu-item (click)="setThemeMode(ThemeMode.Light)">-->
+  <!--          <span-->
+  <!--            class="material-symbols-outlined"-->
+  <!--            slot="leading-icon"-->
+  <!--            >light_mode-->
+  <!--          </span>-->
+  <!--          <span>Light Mode</span>-->
+  <!--        </u-menu-item>-->
+  <!--        <u-menu-item (click)="setThemeMode(ThemeMode.Dark)">-->
+  <!--          <span-->
+  <!--            class="material-symbols-outlined"-->
+  <!--            slot="leading-icon"-->
+  <!--            >dark_mode-->
+  <!--          </span>-->
+  <!--          <span>Dark Mode</span>-->
+  <!--        </u-menu-item>-->
+  <!--      </u-menu>-->
+  <!--    </div>-->
+  <!--    &lt;!&ndash;u-icon-button(-->
+  <!--    slot="trailing-icon",-->
+  <!--    href="/angular",-->
+  <!--    title="Universal Material Angular")-->
+  <!--    span.material-symbols-outlined angular-->
+  <!--    &ndash;&gt;-->
+  <!--    <u-icon-button-->
+  <!--      slot="trailing-icon"-->
+  <!--      type="button"-->
+  <!--      title="Rtl"-->
+  <!--      (click)="toggleRtl()"-->
+  <!--    >-->
+  <!--      <span class="material-symbols-outlined">format_align_right</span>-->
+  <!--    </u-icon-button>-->
+  <!--  </u-top-app-bar>-->
   <u-drawer slot="drawer">
     <!--h6.navigation-headline.u-headline-s Material Design-->
     <u-drawer-item
@@ -86,6 +158,11 @@
       docsLinkActive
       [routerLinkActiveOptions]="{ exact: true }"
       >Introduction
+      <span
+        class="material-symbols-outlined"
+        slot="icon"
+        >info</span
+      >
     </u-drawer-item>
     <!--u-drawer-item(
     routerLink="layout/grid",

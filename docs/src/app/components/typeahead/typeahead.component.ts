@@ -1,5 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  ApplicationRef,
+  Component,
+  createComponent,
+  ElementRef,
+  inject,
+  ViewChild,
+  ViewContainerRef,
+  ViewEncapsulation
+} from '@angular/core';
 import { debounceTime, Subject } from 'rxjs';
 
 import { ApisTableComponent } from '@docs/docs/apis-table/apis-table.component';
@@ -11,6 +20,8 @@ import { states } from '@docs/shared/states.model';
 import simpleHtml from './examples/simple.html';
 import objectResultsHtml from './examples/object-results.html';
 import handlingSelectionHtml from './examples/handling-selection.html';
+import { html } from 'lit';
+import { TypeaheadTemplate } from '@docs/components/typeahead/typeahead-template/typeahead-template';
 
 @Component({
   selector: 'docs-typeahead',
@@ -26,6 +37,10 @@ import handlingSelectionHtml from './examples/handling-selection.html';
 })
 export class TypeaheadComponent {
 
+
+  readonly #appRef = inject(ApplicationRef);
+  readonly #viewContainerRef = inject(ViewContainerRef);
+
   simpleHtml = simpleHtml;
   objectResultsHtml = objectResultsHtml;
   handlingSelectionHtml = handlingSelectionHtml;
@@ -36,6 +51,24 @@ export class TypeaheadComponent {
   stateObjects = states.map(s => ({name: s}));
 
   formatter = (state: {name: string}) => state.name;
+  // resultTemplate = (term: string, state: {name: string}) => {
+  //   const templateRef = createComponent(TypeaheadTemplate, {
+  //     environmentInjector: this.#appRef.injector,
+  //   });
+  //
+  //   templateRef.setInput('state', state);
+  //   this.#appRef.attachView(templateRef.hostView);
+  //
+  //   const mutationObserver = new MutationObserver(() => {
+  //     console.log('mutationObserver');
+  //   });
+  //   mutationObserver.observe(templateRef.location.nativeElement, {childList: true});
+  //   return templateRef.location.nativeElement;
+  // };
+  resultTemplate = (term: string, state: {name: string}) => {
+
+    return html`<typeahead-template .state=${state}></typeahead-template>`;
+  };
 
   selected($event: Event) {
     $event.preventDefault();

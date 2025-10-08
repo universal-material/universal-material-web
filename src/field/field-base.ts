@@ -87,10 +87,10 @@ export abstract class UmFieldBase extends LitElement {
   hasErrorText = false;
 
   @queryAssignedElements({ slot: 'leading-icon', flatten: true })
-  private readonly assignedLeadingIcons!: HTMLElement[];
+  protected readonly assignedLeadingIcons!: HTMLElement[];
 
   @queryAssignedElements({ slot: 'trailing-icon', flatten: true })
-  private readonly assignedTrailingIcons!: HTMLElement[];
+  protected readonly assignedTrailingIcons!: HTMLElement[];
 
   @queryAssignedElements({ slot: 'error-text', flatten: true })
   private readonly assignedErrorTexts!: HTMLElement[];

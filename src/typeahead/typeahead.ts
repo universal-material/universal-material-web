@@ -1,5 +1,4 @@
-import { html, HTMLTemplateResult, LitElement } from 'lit';
-import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
+import { html, HTMLTemplateResult, LitElement, TemplateResult } from 'lit';
 import { customElement, property, query, queryAll, state } from 'lit/decorators.js';
 
 import { UmMenuItem } from '../menu/menu-item.js';
@@ -11,6 +10,7 @@ import { styles } from './typeahead.styles.js';
 import '../menu/menu.js';
 import '../menu/menu-item.js';
 import './highlight.js';
+import './typeahead-template-render.js';
 
 export interface Data {
   label: string;
@@ -26,15 +26,16 @@ export class UmTypeahead extends LitElement {
   #targetId: string | undefined;
 
   #connected = false;
-  private target:
+  #target:
     | (HTMLElement & {
       autocomplete: 'on' | 'off' | string | null;
       input?: HTMLInputElement;
-      container?: HTMLElement;
+      _container?: HTMLElement;
       value: string;
     })
     | null = null;
   #documentMutationObserver: MutationObserver | null = null;
+  #targetResizeObserver: ResizeObserver | null = null;
   readonly #navigationController = new MenuFieldNavigationController(this);
   #termNormalized = '';
   #debounceTimeout: number | null = null;
@@ -59,7 +60,7 @@ export class UmTypeahead extends LitElement {
    *
    * _Note:_ Subject to signature change
    */
-  template: ((term: string, value: any) => string) | undefined;
+  template: ((term: string, value: any) => string | HTMLElement | TemplateResult) | undefined;
 
   /**
    * The time in milliseconds before triggering an update in the results.
@@ -101,6 +102,10 @@ export class UmTypeahead extends LitElement {
    */
   @property({ reflect: true }) override spellcheck = false;
 
+  @property({ type: Boolean, attribute: 'fit-target', reflect: true }) fitTarget = false;
+
+  @property({ reflect: true }) positioning: 'relative' | 'fixed' = 'relative';
+
   get form(): HTMLFormElement | null {
     return this.#elementInternals.form;
   }
@@ -122,16 +127,16 @@ export class UmTypeahead extends LitElement {
   }
 
   override focus() {
-    this.target?.focus();
+    this.#target?.focus();
   }
 
   clear() {
-    if (!this.target) {
+    if (!this.#target) {
       return;
     }
 
     this.#termNormalized = '';
-    this.setTargetValue('');
+    this.#setTargetValue('');
   }
 
   /**
@@ -165,16 +170,16 @@ export class UmTypeahead extends LitElement {
   override attributeChangedCallback(name: string, _old: string | null, value: string | null) {
     super.attributeChangedCallback(name, _old, value);
 
-    if (!this.target) {
+    if (!this.#target) {
       return;
     }
 
     if (name === 'autocomplete') {
-      this.target.autocomplete = value;
+      this.#target.autocomplete = value;
     }
 
     if (name === 'spellcheck') {
-      this.target.spellcheck = value === 'true';
+      this.#target.spellcheck = value === 'true';
     }
   }
 
@@ -200,12 +205,14 @@ export class UmTypeahead extends LitElement {
   #attach() {
     if (!this.targetId) {
       this.#detach();
+      this.#target = null;
+      this.#setMenuAnchor();
       return;
     }
 
     const newTarget = document.getElementById(this.targetId) as HTMLInputElement;
 
-    if (newTarget === this.target) {
+    if (newTarget === this.#target) {
       return;
     }
 
@@ -215,8 +222,8 @@ export class UmTypeahead extends LitElement {
       return;
     }
 
-    // @ts-ignore
-    this.target = newTarget;
+    this.#target = newTarget;
+    this.#setMenuAnchor();
     newTarget.role = 'combobox';
     newTarget.autocomplete = this.autocomplete as any;
     newTarget.spellcheck = this.spellcheck;
@@ -226,6 +233,8 @@ export class UmTypeahead extends LitElement {
     newTarget.addEventListener('input', this.#handleInput);
     this.#navigationController.attach(newTarget);
     newTarget.addEventListener('focus', this.#handleFocus);
+    this.#targetResizeObserver = new ResizeObserver(() => this.#setMenuWidthProperty());
+    this.#targetResizeObserver.observe(newTarget);
 
     if (this.value) {
       this.#setValueOnTarget();
@@ -233,10 +242,10 @@ export class UmTypeahead extends LitElement {
   }
 
   #detach() {
-    this.target?.removeEventListener('click', this.#handleClick);
-    this.target?.removeEventListener('input', this.#handleInput);
+    this.#target?.removeEventListener('click', this.#handleClick);
+    this.#target?.removeEventListener('input', this.#handleInput);
     this.#navigationController.detach();
-    this.target?.removeEventListener('focus', this.#handleFocus);
+    this.#target?.removeEventListener('focus', this.#handleFocus);
   }
 
   #handleItemMouseDown(e: Event) {
@@ -258,7 +267,7 @@ export class UmTypeahead extends LitElement {
       clearTimeout(this.#debounceTimeout);
     }
 
-    this.#setValueAndDispatchEvents(this.editable ? this.getTargetValue() : null, true);
+    this.#setValueAndDispatchEvents(this.editable ? this.#getTargetValue() : null, true);
 
     this.#debounceTimeout = setTimeout(async () => await this.#updateResults(true), this.debounce);
   };
@@ -298,16 +307,16 @@ export class UmTypeahead extends LitElement {
     }
 
     setTimeout(() => {
-      this._menu.anchorElement = this.getMenuAnchor();
+      this.#setMenuAnchor();
       this._menu.open = true;
       this.#navigationController.focusMenu(this._menuItems[0], 0);
     });
 
     return html`
-      <u-menu manualFocus manualClose anchor-corner="auto-start">
+      <u-menu manualFocus manualClose anchor-corner="auto-start" positioning="${this.positioning}">
         ${this.results.map(result => {
           const content = this.template
-            ? unsafeHTML(this.template(this.#termNormalized, result.value))
+            ? this.#renderTemplate(result.value)
             : html`
                 <u-highlight .term=${this.#termNormalized} .result=${result.label}></u-highlight>
               `;
@@ -325,8 +334,14 @@ export class UmTypeahead extends LitElement {
     `;
   }
 
+  #renderTemplate(value: any): TemplateResult {
+    const content = this.template!(this.#termNormalized, value);
+
+    return html`${content}`;
+  }
+
   async #updateResults(lazy = false) {
-    const term = this.getTargetValue();
+    const term = this.#getTargetValue();
 
     const termNormalized = normalizeText(term).toLowerCase();
 
@@ -376,60 +391,81 @@ export class UmTypeahead extends LitElement {
   }
 
   #setValueOnTarget() {
-    if (!this.target) {
+    if (!this.#target) {
       return;
     }
 
-    const textValue = this.getTextValue();
+    const textValue = this.#getTextValue();
     this.#termNormalized = normalizeText(textValue)?.toLowerCase();
 
-    if (this.target.tagName === 'U-TEXT-FIELD') {
-      this.target.value = textValue;
+    if (this.#target.tagName === 'U-TEXT-FIELD') {
+      this.#target.value = textValue;
       return;
     }
 
-    if (this.target.input) {
-      this.target.input.value = textValue;
+    if (this.#target.input) {
+      this.#target.input.value = textValue;
       return;
     }
 
-    this.target.value = textValue;
+    this.#target.value = textValue;
   }
 
-  private getTargetValue(): string {
-    return this.target!.input?.value ?? this.target!.value;
+  #getTargetValue(): string {
+    return this.#target!.input?.value ?? this.#target!.value;
   }
 
-  private setTargetValue(value: string): void {
-    const targetInput = this.target?.input ?? this.target;
+  #setTargetValue(value: string): void {
+    const targetInput = this.#target?.input ?? this.#target;
 
     if (targetInput) {
       targetInput.value = value;
     }
   }
 
-  private getMenuAnchor() {
-    if (!this.target) {
+  #setMenuAnchor() {
+    if (!this._menu) {
+      return;
+    }
+
+    this._menu.anchorElement = this.#getMenuAnchor();
+  }
+
+  #getMenuAnchor() {
+    if (!this.#target) {
       return null;
     }
 
-    if (this.target.tagName === 'U-CHIP-FIELD') {
-      return this.target.input;
+    if (this.#target.tagName === 'U-CHIP-FIELD') {
+      return this.#target.input;
     }
 
-    if (this.target.tagName === 'U-TEXT-FIELD') {
-      return this.target.container;
+    if (this.#target.tagName === 'U-SEARCH') {
+      return this.#target.input;
     }
 
-    return this.target;
+    if (this.#target.tagName === 'U-TEXT-FIELD') {
+      return this.#target._container;
+    }
+
+    return this.#target;
   }
 
-  private getTextValue(): string {
+  #getTextValue(): string {
     if (!this.value) {
       return '';
     }
 
     return this.formatter ? this.formatter(this.value) : this.value;
+  }
+
+  #setMenuWidthProperty(): void {
+    if (!this.fitTarget || !this.#target) {
+      this.style.removeProperty('--_menu-width');
+      return;
+    }
+
+    this.style.setProperty('--_menu-width', `${this.#target.clientWidth}px`);
   }
 }
 

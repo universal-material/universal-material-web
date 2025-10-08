@@ -12,14 +12,16 @@
   z-index: var(--u-snackbar-z-index, 1070);
   display: flex;
   justify-content: center;
+  pointer-events: none;
 }
 
-.snackbar {
+.container {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
   min-height: var(--u-snackbar-height, 48px);
-  color: var(--u-snackbar-text-color, #{api.get-color-var(on-inverse-surface)});
-  background-color: var(--u-snackbar-bg-color, #{api.get-color-var(inverse-surface)});
+  background-color: var(--u-snackbar-container-color, #{api.get-color-var(inverse-surface)});
   border-radius: var(--u-snackbar-shape, #{api.get-shape-corner-var(extra-small)});
   animation-name: snackbar-fade-in;
   animation-duration: 450ms;
@@ -27,6 +29,7 @@
   animation-fill-mode: forwards;
   min-width: var(--u-snackbar-min-width, 100%);
   max-width: var(--u-snackbar-max-width, 100%);
+  pointer-events: auto;
 
   &.dismiss {
     animation-name: snackbar-fade-out;
@@ -35,7 +38,7 @@
 
 u-button {
   color: #{api.get-color-var(inverse-primary)};
-  margin-inline: var(--u-snackbar-text-button-margin, #{api.get-spacing-var(small)});
+  margin: var(--u-snackbar-action-margin, #{api.get-spacing-var(extra-small)});
 }
 
 u-icon-button {
@@ -43,12 +46,19 @@ u-icon-button {
   margin-inline: var(--u-snackbar-close-button-margin, #{api.get-spacing-var(extra-small)});;
 }
 
-.label {
-  flex: 1;
+.message-container {
+  flex: 1 1 auto;
   overflow: hidden;
-  color: var(--u-on-inverse-surface-color);
+  color: var(--u-snackbar-message-color, #{api.get-color-var(on-inverse-surface)});
   padding: var(--u-snackbar-text-margin, #{api.get-spacing-var(medium)});
   line-height: 18px;
+}
+
+.message {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 @include api.media-breakpoint-up(md) {
@@ -56,9 +66,8 @@ u-icon-button {
     --_snackbar-margin: var(--u-snackbar-margin, #{api.get-spacing-var(large)});
   }
 
-  .snackbar {
-    min-width: var(--u-snackbar-min-width, 288px);
-    max-width: var(--u-snackbar-max-width, 568px);
+  .container {
+    min-width: var(--u-snackbar-min-width, 344px);
   }
 }
 

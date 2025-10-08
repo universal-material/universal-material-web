@@ -15,9 +15,9 @@ export class MessageDialogBuilder extends DialogBuilder<MessageDialogBuilder, vo
     return this;
   }
 
-  override addButtons(dialog: UmDialog): void {
+  override _addButtons(dialog: UmDialog): void {
 
-    this.addButton(
+    this._addButton(
       dialog,
       { ...config.dialog.alertDefaults.acknowledgeButton, ...this.#acknowledgeButtonDef },
       () => dialog.close());

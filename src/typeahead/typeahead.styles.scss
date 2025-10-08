@@ -4,6 +4,15 @@
   display: block;
 }
 
+:host([fit-target]) {
+  u-menu {
+    &::part(menu) {
+      width: var(--_menu-width);
+      max-width: none;
+    }
+  }
+}
+
 u-menu-item {
   font-weight: var(--u-typeahead-item-font-weight, #{api.get-font-weight-var(regular)});
 }

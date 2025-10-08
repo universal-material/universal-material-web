@@ -45,6 +45,8 @@ export class UmMenu extends LitElement {
   #open = false;
   #preInitOpen = false;
 
+  @property() autoclose: boolean | 'outside' = true;
+
   /**
    * Opens the menu and makes it visible. Alternative to the `.show()`, `.close()` and `.toggle()` methods
    */
@@ -100,7 +102,7 @@ export class UmMenu extends LitElement {
       once: true,
     });
 
-    setTimeout(() => document.addEventListener('click', this.close));
+    setTimeout(() => document.addEventListener('click', this.#clickClose));
 
     if (this.manualFocus) {
       return;
@@ -110,7 +112,7 @@ export class UmMenu extends LitElement {
   }
 
   #hide() {
-    document.removeEventListener('click', this.close);
+    document.removeEventListener('click', this.#clickClose);
 
     this.menu.addEventListener('transitionend', this.#onClosed, {
       capture: true,
@@ -171,7 +173,12 @@ export class UmMenu extends LitElement {
 
     return html`
       <div class="ref"></div>
-      <div class="menu ${classMap(menuClasses)}" part="menu" style="display: none" ?inert=${!this.open}>
+      <div
+        class="menu ${classMap(menuClasses)}" 
+        part="menu"
+        style="display: none"
+        ?inert=${!this.open}
+        @click=${this.#handleMenuClick}>
         <u-elevation></u-elevation>
         <div role="menu" class="content" part="content">
           <slot></slot>
@@ -204,6 +211,12 @@ export class UmMenu extends LitElement {
     this.open = false;
   };
 
+  readonly #clickClose = () => {
+    if (this.autoclose !== false) {
+      this.open = false;
+    }
+  };
+
   async #setInitOpen() {
     await this.updateComplete;
 
@@ -211,6 +224,12 @@ export class UmMenu extends LitElement {
       this.open = true;
     }
   }
+
+  readonly #handleMenuClick = (e: Event) => {
+    if (this.autoclose === 'outside') {
+      e.stopPropagation();
+    }
+  };
 
   private calcDropdownPositioning() {
     if (!this.anchorElement) {

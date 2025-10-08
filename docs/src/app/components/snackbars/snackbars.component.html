@@ -1,5 +1,18 @@
 <docs-title title="Snackbars"></docs-title>
-<docs-example
-  sectionTitle="Example"
-  [html]="exampleHtml"
-></docs-example>
+
+<!--<docs-example-->
+<!--  sectionTitle="Example"-->
+<!--  [html]="exampleHtml"-->
+<!--&gt;</docs-example>-->
+
+<u-text-field
+  label="Message"
+  [(ngModel)]="message"
+  ngDefaultControl
+></u-text-field>
+<u-text-field
+  label="Action"
+  [(ngModel)]="action"
+  ngDefaultControl
+></u-text-field>
+<u-button (click)="showSnackbar()">Show snackbar</u-button>

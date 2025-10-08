@@ -4,6 +4,8 @@ import { Component, TemplateRef, ViewChild } from '@angular/core';
 
 import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
+import { UmSnackbar } from '@universal-material/web';
+import { states } from '@docs/shared/states.model';
 
 @Component({
   selector: 'docs-introduction',
@@ -36,4 +38,10 @@ import '@universal-material/web/checkbox/checkbox.js';
   <u-button>Next</u-button>
 </u-button-set>
 `.trim();
+
+  constructor() {
+    console.log(UmSnackbar);
+  }
+
+  protected readonly states = states;
 }

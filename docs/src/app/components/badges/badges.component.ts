@@ -18,8 +18,4 @@ import staticHtml from './examples/static.html';
 export class BadgesComponent {
   usageHtml = usageHtml;
   staticHtml = staticHtml;
-
-  constructor() {
-    console.log(usageHtml);
-  }
 }

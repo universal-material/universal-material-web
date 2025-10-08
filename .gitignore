@@ -47,3 +47,5 @@ Thumbs.db
 /src/**/*.styles.ts
 /src/scss/**/*.ts
 custom-elements.json
+vscode.css-custom-data.json
+vscode.html-custom-data.json

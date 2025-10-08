@@ -21,14 +21,14 @@ export class ConfirmDialogBuilder extends DialogBuilder<ConfirmDialogBuilder, Pr
     return this;
   }
 
-  override addButtons(dialog: UmDialog): void {
+  override _addButtons(dialog: UmDialog): void {
 
-    this.addButton(
+    this._addButton(
       dialog,
       { ...config.dialog.confirmDefaults.confirmButton, ...this.#confirmButtonDef },
       () => dialog.close('ok'));
 
-    this.addButton(
+    this._addButton(
       dialog,
       { ...config.dialog.confirmDefaults.cancelButton, ...this.#cancelButtonDef },
       () => dialog.close('cancel'));

@@ -155,4 +155,8 @@ export class AppComponent {
       top: target.offsetTop - 24,
     });
   }
+
+  submit() {
+    console.log('submit');
+  }
 }

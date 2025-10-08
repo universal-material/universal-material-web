@@ -35,13 +35,15 @@ export class UmTextField extends UmNativeTextFieldWrapper {
           ?readonly=${this.readOnly}
           ?disabled=${this.disabled}
           spellcheck=${this.spellcheck}
-          autocomplete=${this.autocomplete}
-          autocapitalize=${this.autocapitalize}
-          role=${this.role}
+          autocomplete=${this.autocomplete ?? nothing}
+          autocapitalize=${this.autocapitalize || nothing}
+          ?autofocus=${this.autofocus}
+          role=${this.role ?? nothing}
           maxlength=${this.maxlength ?? nothing}
-          .placeholder=${this.placeholder}
+          .placeholder=${this.placeholder ?? nothing}
           .value=${live(this._value)}
-          @input=${this._handleInput} />
+          @input=${this._handleInput}
+          @keydown=${this._handleKeyDown} />
       </div>
       <slot class="suffix" name="suffix">
         <span>${this.suffixText}</span>

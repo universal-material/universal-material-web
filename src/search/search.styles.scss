@@ -1,0 +1,102 @@
+@use "../scss/api";
+
+:host {
+  display: block;
+}
+
+:host(:not([has-leading-icon])) .leading-icon {
+  display: none;
+}
+
+:host(:not([has-trailing-icon])) .trailing-icon {
+  display: none;
+}
+
+slot[name="leading-icon"],
+slot[name="trailing-icon"] {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--u-search-icons-gap, 8px);
+}
+
+slot[name="leading-icon"]::slotted(u-icon-button) {
+  color: inherit;
+}
+
+:host([position=absolute]) .container {
+  position: absolute;
+}
+
+:host([position=fixed]) .container {
+  position: fixed;
+  inset-inline: 0;
+  inset-block-start: 0;
+  inset-inline-start: var(--u-app-bar-offset, 0);
+}
+
+:host([position=absolute]),
+:host([position=fixed]) {
+  padding-top: var(--_content-height);
+
+  .container {
+    z-index: var(--u-fixed-search-z-index, 1010);
+  }
+}
+
+.input {
+  @include api.typo(body-l, search-input);
+  margin: 0;
+  margin-inline: var(--u-search-placeholder-margin, 16px);
+  display: block;
+  width: 100%;
+  color: var(--u-search-input-text-color, #{api.get-color-var(on-surface)});
+  padding: 0;
+  appearance: none;
+  background: transparent;
+  border: none;
+  outline: 0 !important;
+  caret-color: #{api.get-color-var(primary)};
+
+  &::placeholder {
+    color: var(--u-search-input-placeholder-color, #{api.get-color-var(on-surface-variant)});
+  }
+
+  @at-root :host([has-leading-icon]) & {
+    margin-inline-start: 0;
+  }
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  background-color: var(--u-search-container-color, #{api.get-color-var(surface-container-high)});
+  border-radius: var(--u-search-border-radius, 9999px);
+  height: var(--u-search-height, 56px);
+}
+
+.inner-container {
+  padding-inline: var(--u-layout-margin-inline, var(--u-layout-margin));
+  padding-block: var(--u-search-margin-block, 8px);
+  width: 100%;
+}
+
+.inner-container {
+  max-width: var(--u-container-width, 992px);
+  margin-inline: auto;
+}
+
+//.icon {
+//  display: flex;
+//  align-items: center;
+//  justify-content: center;
+//  font-size: var(--u-search-icon-size, 1.5rem);
+//}
+
+.leading-icon {
+  margin-inline: var(--u-search-leading-icon-margin, 8px);
+}
+
+.trailing-icon {
+  padding-inline: var(--u-search-trailing-icon-margin, 8px);
+  margin-inline-start: auto;
+}

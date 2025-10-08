@@ -90,6 +90,8 @@ slot[name="leading-icon"]::slotted(u-icon-button) {
 }
 
 .headline {
+  overflow: hidden;
+
   @include api.typo(title-l, top-app-bar-headline);
   margin-inline: var(--u-headline-margin, 16px);
 

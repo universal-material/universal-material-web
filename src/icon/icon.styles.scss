@@ -1,0 +1,12 @@
+@use "../scss/functions";
+
+:host {
+  --_container-size: var(--u-icon-container-size, 40px);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_container-size);
+  height: var(--_container-size);
+  font-size: var(--u-icon-size, 24px);
+}

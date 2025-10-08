@@ -1,7 +1,7 @@
 import { PropertyValues } from '@lit/reactive-element';
 
 import { html, svg, TemplateResult } from 'lit';
-import { customElement, query, state } from 'lit/decorators.js';
+import { customElement, property, query, state } from 'lit/decorators.js';
 import { html as staticHtml } from 'lit/static-html.js';
 
 import { UmMenu } from '../menu/menu.js';
@@ -36,6 +36,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
   })();
 
   readonly #navigationController = new SelectNavigationController(this);
+  readonly #resizeObserver: ResizeObserver;
   readonly #mutationObserver: MutationObserver;
   #connected = false;
 
@@ -60,6 +61,8 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
   @query('u-menu', true) _menu!: UmMenu;
   @query('.button', true) _button!: HTMLButtonElement;
   @query('.input', true) _input!: HTMLElement;
+
+  @property({ reflect: true, attribute: 'menu-positioning' }) menuPositioning: 'relative' | 'fixed' = 'relative';
 
   /**
    * The index of the selected option. When there's no selected option the value is `-1`.
@@ -89,12 +92,19 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
   constructor() {
     super();
 
+    this.#resizeObserver = new ResizeObserver(() => this.#setMenuWidthProperty());
+    this.#resizeObserver.observe(this);
+
     this.#mutationObserver = new MutationObserver(() => this._updateOptions());
     this.#mutationObserver.observe(this, {
       characterData: true,
       childList: true,
       subtree: true,
     });
+  }
+
+  #setMenuWidthProperty(): void {
+    this.style.setProperty('--_menu-width', `${this.clientWidth}px`);
   }
 
   _updateOptions() {
@@ -126,7 +136,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
       const nativeOption = this._nativeSelect.children[i];
 
       if (!option) {
-        nativeOption.remove();
+        nativeOption?.remove();
         continue;
       }
 
@@ -149,7 +159,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
       let item = this.#list.children[i];
 
       if (!option) {
-        item.remove();
+        item?.remove();
         continue;
       }
 
@@ -212,7 +222,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
 
   protected override renderAfterContent(): TemplateResult {
     return html`
-      <u-menu>
+      <u-menu positioning="${this.menuPositioning}">
         <slot></slot>
       </u-menu>
     `;

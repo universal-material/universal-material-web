@@ -23,7 +23,7 @@ export class UmCard extends LitElement {
     return html`
       <u-elevation></u-elevation>
       <slot name="before-content"></slot>
-      <u-card-content>
+      <u-card-content part="content">
         <slot></slot>
       </u-card-content>
       <slot name="after-content"></slot>

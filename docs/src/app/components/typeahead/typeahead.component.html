@@ -1,23 +1,60 @@
 <docs-title title="Typeahead"></docs-title>
+
+<!--<docs-example-->
+<!--  sectionTitle="Simple"-->
+<!--  [renderExample]="false"-->
+<!--  [html]="simpleHtml"-->
+<!--&gt;-->
+<!--  <u-text-field-->
+<!--    id="text-field"-->
+<!--    label="States"-->
+<!--    supporting-text="Select a state"-->
+<!--  ></u-text-field>-->
+<!--  <u-typeahead-->
+<!--    target-id="text-field"-->
+<!--    [source]="states"-->
+<!--  ></u-typeahead>-->
+<!--</docs-example>-->
+<!--<docs-example-->
+<!--  sectionTitle="Object results"-->
+<!--  [renderExample]="false"-->
+<!--  [html]="objectResultsHtml"-->
+<!--&gt;-->
+<!--  <u-text-field-->
+<!--    id="object-field"-->
+<!--    label="States"-->
+<!--    supporting-text="Select a state"-->
+<!--  ></u-text-field>-->
+<!--  <u-typeahead-->
+<!--    target-id="object-field"-->
+<!--    [formatter]="formatter"-->
+<!--    [source]="stateObjects"-->
+<!--  ></u-typeahead>-->
+<!--</docs-example>-->
+<!--<docs-example-->
+<!--  sectionTitle="Handling selection"-->
+<!--  [renderExample]="false"-->
+<!--  [html]="handlingSelectionHtml"-->
+<!--&gt;-->
+<!--  <u-chip-field-->
+<!--    id="chip-field"-->
+<!--    #chipField-->
+<!--    label="States"-->
+<!--    supporting-text="Select a state"-->
+<!--    manual-->
+<!--    [formatter]="formatter"-->
+<!--  ></u-chip-field>-->
+<!--  <u-typeahead-->
+<!--    target-id="chip-field"-->
+<!--    (selected)="selected($event)"-->
+<!--    [source]="stateObjects"-->
+<!--    [formatter]="formatter"-->
+<!--  ></u-typeahead>-->
+<!--</docs-example>-->
 <docs-example
-  sectionTitle="Simple"
+  sectionTitle="Items template"
   [renderExample]="false"
-  [html]="simpleHtml"
->
-  <u-text-field
-    id="text-field"
-    label="States"
-    supporting-text="Select a state"
-  ></u-text-field>
-  <u-typeahead
-    target-id="text-field"
-    [source]="states"
-  ></u-typeahead>
-</docs-example>
-<docs-example
-  sectionTitle="Object results"
-  [renderExample]="false"
-  [html]="objectResultsHtml"
+  [html]="handlingSelectionHtml"
 >
   <u-text-field
     id="object-field"
@@ -26,28 +63,10 @@
   ></u-text-field>
   <u-typeahead
     target-id="object-field"
-    [formatter]="formatter"
-    [source]="stateObjects"
-  ></u-typeahead>
-</docs-example>
-<docs-example
-  sectionTitle="Handling selection"
-  [renderExample]="false"
-  [html]="handlingSelectionHtml"
->
-  <u-chip-field
-    id="chip-field"
-    #chipField
-    label="States"
-    supporting-text="Select a state"
-    manual
-    [formatter]="formatter"
-  ></u-chip-field>
-  <u-typeahead
-    target-id="chip-field"
-    (selected)="selected($event)"
+    [template]="resultTemplate"
     [source]="stateObjects"
     [formatter]="formatter"
   ></u-typeahead>
 </docs-example>
+
 <docs-apis-table key="typeahead"></docs-apis-table>

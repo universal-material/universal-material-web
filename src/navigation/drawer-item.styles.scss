@@ -3,7 +3,7 @@
 
 :host {
   display: block;
-  --_drawer-item-icon-size: var(--u-drawer-item-icon-size, 1.125rem);
+  --_drawer-item-icon-size: var(--u-drawer-item-icon-size, 1.5rem);
   --_drawer-item-padding: var(--u-drawer-item-padding, 16px);
 
   @include mixins.typo(label-l, drawer-item);

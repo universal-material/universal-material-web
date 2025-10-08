@@ -1,4 +1,39 @@
 <docs-title title="Quick start"></docs-title>
+
+<u-dialog open>
+  <u-select menu-positioning="fixed">
+    <u-option>Batata</u-option>
+  </u-select>
+
+  <u-text-field
+    id="text-field"
+    label="States"
+    supporting-text="Select a state"
+  ></u-text-field>
+  <u-typeahead
+    target-id="text-field"
+    positioning="fixed"
+    fit-target
+    [source]="states"
+  ></u-typeahead>
+</u-dialog>
+
+<u-highlight
+  term="a 1"
+  result="batata frita 123"
+></u-highlight>
+<u-overflow-menu>
+  <u-overflow-menu-item label="Favorite"><span class="material-symbols-outlined">star</span></u-overflow-menu-item>
+  <u-overflow-menu-item label="Add comment">
+    <span class="material-symbols-outlined">add_comment</span>
+  </u-overflow-menu-item>
+  <u-overflow-menu-item label="Print"><span class="material-symbols-outlined">print</span></u-overflow-menu-item>
+  <u-overflow-menu-item label="Download"><span class="material-symbols-outlined">download</span></u-overflow-menu-item>
+  <u-overflow-menu-item label="Detail">
+    <span class="material-symbols-outlined">info</span>
+  </u-overflow-menu-item>
+  <u-overflow-menu-item label="Edit"><span class="material-symbols-outlined">edit</span></u-overflow-menu-item>
+</u-overflow-menu>
 <!--u-calendar([dateRenderer]="createDummy")-->
 <!--u-range-calendar-->
 <!--ng-template(#dayTemplate, let-data)-->

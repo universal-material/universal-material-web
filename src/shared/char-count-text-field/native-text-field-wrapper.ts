@@ -38,6 +38,12 @@ export abstract class UmNativeTextFieldWrapper extends UmTextFieldBase {
 
   abstract input: HTMLInputElement | HTMLTextAreaElement;
 
+  protected _handleKeyDown(e: KeyboardEvent) {
+    if (e.key === 'Enter') {
+      this.elementInternals.form?.requestSubmit();
+    }
+  }
+
   protected _handleInput() {
     this.value = this.input.value;
     this.#updateCounter();

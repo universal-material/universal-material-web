@@ -5,6 +5,7 @@
   --u-elevation-level: var(--u-menu-elevation-level, 2);
   display: block;
   width: 0;
+  z-index: var(--u-menu-z-index, 1020);
 }
 
 :host([positioning=relative]) {
@@ -41,7 +42,6 @@
   transition: transform 350ms variables.$awesome-cubic-bezier 350ms, opacity 350ms;
   transform: scale3d(1, 0, 0);
   transform-origin: top;
-  z-index: var(--u-menu-z-index, 1020);
 
   &.up {
     transform-origin: bottom;
