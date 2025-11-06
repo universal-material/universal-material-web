@@ -2,6 +2,7 @@
 
 :host {
   display: block;
+  --u-menu-item-label-font-weight: var(--u-typeahead-item-font-weight, #{api.get-font-weight-var(regular)});
 }
 
 :host([fit-target]) {
@@ -11,8 +12,4 @@
       max-width: none;
     }
   }
-}
-
-u-menu-item {
-  font-weight: var(--u-typeahead-item-font-weight, #{api.get-font-weight-var(regular)});
 }

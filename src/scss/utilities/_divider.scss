@@ -4,7 +4,7 @@
 .u-divider-no-margin {
   display: block;
   height: var(--u-divider-thickness, 1px);
-  background-color: var(--u-divider-color, var(--u-current-text-color));
+  background-color: var(--u-divider-color, currentColor);
   opacity: var(--u-divider-opacity, .4);
 }
 

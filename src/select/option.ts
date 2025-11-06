@@ -60,7 +60,7 @@ export class UmOption extends UmMenuItem {
     this._select.empty = !this._nativeOption.textContent?.trim();
   }
 
-  protected override renderDefaultTrailingIcon(): TemplateResult {
+  protected override _renderDefaultTrailingIcon(): TemplateResult {
     return svg`
       <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 -960 960 960" width="1em" fill="currentColor">
         <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/>

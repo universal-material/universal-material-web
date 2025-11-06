@@ -1,6 +1,6 @@
 @use "../scss/api";
 
-:host {
+.container {
   --_badge-size: var(--u-badge-small-size, 6px);
 
   @include api.typo(label-s, badge);
@@ -13,18 +13,18 @@
   background-color: var(--u-badge-color, #{api.get-color-var(error)});
   color: var(--u-badge-color, #{api.get-color-var(on-error)});
   border-radius: calc(var(--_badge-size) / 2);
-}
 
-:host(:not([static])) {
-  --_badge-inline-start: calc(100% - var(--_badge-size));
-  position: absolute;
-  top: 0;
-  inset-inline-start: var(--_badge-inline-start);
-}
+  &:not(.static) {
+    --_badge-inline-start: calc(100% - var(--_badge-size));
+    position: absolute;
+    top: 0;
+    inset-inline-start: var(--_badge-inline-start);
+  }
 
-:host(:not(:empty)) {
-  --_badge-size: var(--u-badge-large-size, 16px);
-  top: var(--u-badge-top-offset, -2px);
-  inset-inline-start: calc(var(--_badge-inline-start) - var(--u-badge-inline-offset, -4px));
-  padding-inline: var(--u-badge-padding, 4px);
+  &:not(.empty) {
+    --_badge-size: var(--u-badge-large-size, 16px);
+    top: var(--u-badge-top-offset, -2px);
+    inset-inline-start: calc(var(--_badge-inline-start) - var(--u-badge-inline-offset, -4px));
+    padding-inline: var(--u-badge-padding, 4px);
+  }
 }

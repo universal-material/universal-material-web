@@ -2,6 +2,7 @@ import { CSSResultGroup } from '@lit/reactive-element/css-tag';
 
 import { html, HTMLTemplateResult, LitElement, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
+import { classMap } from 'lit/directives/class-map.js';
 
 import { UmRipple } from '../ripple/ripple.js';
 import { styles as baseStyles } from './base.styles.js';
@@ -35,7 +36,7 @@ export abstract class UmButtonWrapper extends LitElement {
   @property() name: string | undefined;
 
   @query('.button') readonly buttonElement!: HTMLElement;
-  @query('u-ripple') private readonly ripple!: UmRipple;
+  @query('u-ripple') private readonly _ripple!: UmRipple;
 
   protected innerRole: string | null = null;
 
@@ -44,12 +45,22 @@ export abstract class UmButtonWrapper extends LitElement {
   }
 
   protected override render(): HTMLTemplateResult {
-    return typeof this.href === 'string' ? this.renderLink() : this.renderButton();
+    const contents = typeof this.href === 'string'
+      ? this.#renderLink()
+      : this.#renderButton();
+
+    const containerClasses = classMap(this._getContainerClasses());
+
+    return html`<div class="container ${containerClasses}" part="container"> ${contents}</div>`;
   }
 
-  private renderButton() {
+  protected _getContainerClasses(): Record<string, boolean> {
+    return { disabled: this.disabled };
+  }
+
+  #renderButton() {
     return html`
-      <div class="content">${this.renderContent()}</div>
+      <div class="content">${this._renderContent()}</div>
       <button
         id="button"
         class="button focus-ring"
@@ -65,9 +76,9 @@ export abstract class UmButtonWrapper extends LitElement {
     `;
   }
 
-  private renderLink() {
+  #renderLink() {
     return html`
-      <div class="content">${this.renderContent()}</div>
+      <div class="content">${this._renderContent()}</div>
       <a
         id="link"
         class="button"
@@ -84,18 +95,18 @@ export abstract class UmButtonWrapper extends LitElement {
     `;
   }
 
-  protected abstract renderContent(): HTMLTemplateResult;
+  protected abstract _renderContent(): HTMLTemplateResult;
 
   override connectedCallback() {
     super.connectedCallback();
 
-    this.addEventListener('focus', this.innerFocusHandler);
+    this.addEventListener('focus', this.#innerFocusHandler);
   }
 
   override disconnectedCallback() {
     super.disconnectedCallback();
 
-    this.removeEventListener('focus', this.innerFocusHandler);
+    this.removeEventListener('focus', this.#innerFocusHandler);
   }
 
   override focus() {
@@ -110,7 +121,7 @@ export abstract class UmButtonWrapper extends LitElement {
     return this.ariaLabel;
   }
 
-  private innerFocusHandler(): void {
+  #innerFocusHandler(): void {
     const tabIndexAttributeValue = this.getAttribute('tabindex');
 
     if (tabIndexAttributeValue !== '0') {
@@ -133,12 +144,12 @@ export abstract class UmButtonWrapper extends LitElement {
     }
 
     if (!(event as PointerEvent).pointerType) {
-      this.ripple.createRipple();
+      this._ripple.createRipple();
     }
 
-    this.handleClick(event);
+    this._handleClick(event);
   }
 
-  protected handleClick(_: UIEvent): void {
+  protected _handleClick(_: UIEvent): void {
   }
 }

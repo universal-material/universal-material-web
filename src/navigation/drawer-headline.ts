@@ -13,7 +13,11 @@ export class UmDrawerHeadline extends LitElement {
   ];
 
   override render(): TemplateResult {
-    return html`<slot></slot>`;
+    return html`
+      <div class="container">
+        <slot></slot>
+      </div>
+    `;
   }
 }
 

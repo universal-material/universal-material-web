@@ -169,9 +169,9 @@ export class UmTabBar extends LitElement {
       return;
     }
 
-    const tabStyles = getComputedStyle(this.activeTab);
-    const padding =
-      this.variant === 'primary' ? parseInt(tabStyles.paddingInline, 10) : 0;
+    const padding = this.variant === 'primary'
+      ? parseInt(this.activeTab._paddingInline, 10)
+      : 0;
 
     this._tabIndicator.style.left = `${this.activeTab.offsetLeft + padding}px`;
     this._tabIndicator.style.width = `${

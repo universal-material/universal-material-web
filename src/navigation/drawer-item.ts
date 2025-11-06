@@ -1,5 +1,5 @@
 import { html, HTMLTemplateResult } from 'lit';
-import { customElement, property, queryAssignedElements } from 'lit/decorators.js';
+import { customElement, property, queryAssignedElements, state } from 'lit/decorators.js';
 
 import { UmButtonWrapper } from '../shared/button-wrapper.js';
 import { styles } from './drawer-item.styles.js';
@@ -12,19 +12,8 @@ export class UmDrawerItem extends UmButtonWrapper {
     styles,
   ];
 
-  /**
-   * Whether the drawer item has icon or not
-   *
-   * _Note:_ Readonly
-   */
-  @property({ type: Boolean, attribute: 'has-icon', reflect: true }) hasIcon = false;
-
-  /**
-   * Whether the drawer item has badge or not
-   *
-   * _Note:_ Readonly
-   */
-  @property({ type: Boolean, attribute: 'has-badge', reflect: true }) hasBadge = false;
+  @state() _hasIcon = false;
+  @state() _hasBadge = false;
 
   /**
    * Whether the drawer item is active or not
@@ -49,7 +38,15 @@ export class UmDrawerItem extends UmButtonWrapper {
     this.setAttribute('aria-labelledby', 'label');
   }
 
-  protected override renderContent(): HTMLTemplateResult {
+  protected override _getContainerClasses(): Record<string, boolean> {
+    return {
+      ...super._getContainerClasses(),
+      'has-icon': this._hasIcon,
+      'has-badge': this._hasBadge,
+    };
+  }
+
+  protected override _renderContent(): HTMLTemplateResult {
     return html`
       <div class="icon">
         <slot
@@ -67,14 +64,14 @@ export class UmDrawerItem extends UmButtonWrapper {
   }
 
   private handleIconSlotChange() {
-    this.hasIcon = this.assignedIcons.length > 0;
+    this._hasIcon = this.assignedIcons.length > 0;
   }
 
   private handleBadgeSlotChange() {
-    this.hasBadge = this.assignedBadges.length > 0;
+    this._hasBadge = this.assignedBadges.length > 0;
   }
 
-  override handleClick(): void {
+  override _handleClick(): void {
     if (this.keepDrawerOpen) {
       return;
     }

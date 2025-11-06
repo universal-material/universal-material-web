@@ -3,52 +3,52 @@
 
 :host {
   display: block;
-  background-color: var(--u-top-app-bar-bg-color, var(--u-color-body, #{api.get-color-var(surface)}));
-  color: var(--u-top-app-bar-text-color, #{api.get-color-var(on-surface)});
-  transition: background-color 100ms, inset 375ms variables.$awesome-cubic-bezier;
-}
-
-:host([container-scrolled]) {
-  background-color: var(--u-top-app-bar-constrast-bg-color, #{api.get-color-var(surface-container)});
-}
-
-:host(:not([has-leading-icon])) .leading-icon {
-  display: none;
-}
-
-:host(:not([has-trailing-icon])) .trailing-icon {
-  display: none;
-}
-
-slot[name="leading-icon"],
-slot[name="trailing-icon"] {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--u-top-app-bar-icons-gap, 8px);
 }
 
 slot[name="leading-icon"]::slotted(u-icon-button) {
   color: inherit;
 }
 
-:host([position=absolute]) .container {
+.container {
+  background-color: var(--u-top-app-bar-container-color, var(--u-color-body, #{api.get-color-var(surface)}));
+  color: var(--u-top-app-bar-text-color, #{api.get-color-var(on-surface)});
+  transition: background-color 100ms, inset 375ms variables.$awesome-cubic-bezier;
+}
+
+.scrolled {
+  background-color: var(--u-top-app-bar-on-scroll-container-color, #{api.get-color-var(surface-container)});
+}
+
+.leading-icon,
+.trailing-icon {
+  display: none;
+  align-items: center;
+  gap: var(--u-top-app-bar-icons-gap, 8px);
+}
+
+.has-leading-icon .leading-icon,
+.has-trailing-icon .trailing-icon {
+  display: inline-flex;
+}
+
+.absolute {
   position: absolute;
 }
 
-:host([position=fixed]) .container {
+.fixed {
   position: fixed;
   inset-inline: 0;
   inset-block-start: 0;
   inset-inline-start: var(--u-app-bar-offset, 0);
 }
 
-:host([position=absolute]),
-:host([position=fixed]) {
-  padding-top: var(--_content-height);
+.absolute,
+.fixed {
+  z-index: var(--u-fixed-app-bar-z-index, 1010);
+}
 
-  .container {
-    z-index: var(--u-fixed-app-bar-z-index, 1010);
-  }
+.spacing {
+  padding-top: var(--_content-height);
 }
 
 .extended-content {
@@ -57,24 +57,20 @@ slot[name="leading-icon"]::slotted(u-icon-button) {
   padding-inline: var(--u-extended-content-inline-padding, 16px);
 }
 
-:host([size=medium]) {
-  .extended-content {
+.medium {
+  + .extended-content {
     @include api.typo(headline-s, extended-content-medium);
     height: var(--u-extended-content-medium-height, 3.5rem);
     padding-bottom: var(--u-extended-content-medium-padding-bottom, 24px);
   }
 }
 
-:host([size=large]) {
-  .extended-content {
+.large {
+  + .extended-content {
     @include api.typo(headline-m, extended-content-large);
     height: var(--u-extended-content-medium-large, 6rem);
     padding-bottom: var(--u-extended-content-large-padding-bottom, 28px);
   }
-}
-
-.container {
-  background: inherit;
 }
 
 .content {
@@ -95,7 +91,7 @@ slot[name="leading-icon"]::slotted(u-icon-button) {
   @include api.typo(title-l, top-app-bar-headline);
   margin-inline: var(--u-headline-margin, 16px);
 
-  @at-root :host([has-leading-icon]) & {
+  @at-root .has-leading-icon & {
     margin-inline-start: 0;
   }
 }

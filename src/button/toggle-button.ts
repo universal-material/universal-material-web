@@ -1,12 +1,12 @@
 import { CSSResultGroup } from '@lit/reactive-element/css-tag';
 
-import { property } from 'lit/decorators.js';
+import { property, state } from 'lit/decorators.js';
 
 import { UmButtonBase } from './button-base.js';
 import { styles } from './toggle-button.styles.js';
 
-export type UmButtonShape = 'round' | 'square' | undefined;
-export type UmButtonSize = 'extra-small' | 'small' | 'medium' | 'large' | 'extra-large' | undefined;
+export type UmButtonShape = 'round' | 'square';
+export type UmButtonSize = 'extra-small' | 'small' | 'medium' | 'large' | 'extra-large';
 
 export abstract class UmToggleButton extends UmButtonBase {
 
@@ -31,22 +31,34 @@ export abstract class UmToggleButton extends UmButtonBase {
   /**
    * Sets the shape of the button
    */
-  @property({ reflect: true }) shape: UmButtonShape;
+  @property({ reflect: true }) shape: UmButtonShape = 'round';
 
   /**
    * Sets the size of the button
    */
-  @property({ reflect: true }) size: UmButtonSize;
+  @property({ reflect: true }) size: UmButtonSize = 'small';
 
   /**
    * The `aria-label` of the button when the button is toggleable and selected.
    */
   @property({ attribute: 'aria-label-selected' }) ariaLabelSelected = '';
 
-  @property({ type: Boolean, attribute: 'has-selection-icon', reflect: true }) hasSelectionIcon = false;
+  @state() _hasSelectionIcon = false;
 
-  protected override handleClick(event: UIEvent): void {
-    super.handleClick(event);
+  protected override _getContainerClasses(): Record<string, boolean> {
+    return {
+      ...super._getContainerClasses(),
+      [this.shape]: true,
+      [this.size]: true,
+      selected: this.selected,
+      toggle: this.toggle,
+      'toggle-shape': this.toggleShape,
+      'selection-icon': this._hasSelectionIcon,
+    };
+  }
+
+  protected override _handleClick(event: UIEvent): void {
+    super._handleClick(event);
 
     if (!this.toggle) {
       return;
@@ -62,7 +74,7 @@ export abstract class UmToggleButton extends UmButtonBase {
       : super.getAriaLabel();
   }
 
-  protected handleSelectedIconSlotChange(e: Event): void {
-    this.hasSelectionIcon = (e.target as HTMLSlotElement).assignedElements({ flatten: true }).length > 0;
+  protected _handleSelectedIconSlotChange(e: Event): void {
+    this._hasSelectionIcon = (e.target as HTMLSlotElement).assignedElements({ flatten: true }).length > 0;
   }
 }

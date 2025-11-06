@@ -3,21 +3,11 @@
 @use "../functions";
 
 @mixin current-color-vars-important($current-color-var-name) {
-  --u-current-text-color: var(#{$current-color-var-name}) !important;
-
-  --u-color-high-emphasis: #{functions.get-color-transparency-mix(var(--u-current-text-color), var(--u-high-emphasis-opacity))} !important;
-  --u-color-low-emphasis: #{functions.get-color-transparency-mix(var(--u-current-text-color), var(--u-low-emphasis-opacity))} !important;
-  --u-color-lower-emphasis: #{functions.get-color-transparency-mix(var(--u-current-text-color), var(--u-lower-emphasis-opacity))} !important;
-  color: var(--u-color-high-emphasis) !important;
+  color: var(#{$current-color-var-name}) !important;
 }
 
 @mixin current-color-vars($current-color-var-name) {
-  --u-current-text-color: var(#{$current-color-var-name});
-
-  --u-color-high-emphasis: #{functions.get-color-transparency-mix(var(--u-current-text-color), var(--u-high-emphasis-opacity))};
-  --u-color-low-emphasis: #{functions.get-color-transparency-mix(var(--u-current-text-color), var(--u-low-emphasis-opacity))};
-  --u-color-lower-emphasis: #{functions.get-color-transparency-mix(var(--u-current-text-color), var(--u-lower-emphasis-opacity))};
-  color: var(--u-color-high-emphasis);
+  color: var(#{$current-color-var-name});
 }
 
 @mixin bg-variant-important($color-name) {

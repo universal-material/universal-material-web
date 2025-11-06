@@ -1,5 +1,6 @@
 import { html, HTMLTemplateResult, LitElement, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { classMap } from 'lit/directives/class-map.js';
 
 import { styles } from './list-item.styles.js';
 
@@ -12,22 +13,24 @@ export class UmListItem extends LitElement {
   @property({ type: Boolean, reflect: true }) selectable = false;
 
   override render(): HTMLTemplateResult {
-    const ripple = html`
-      <u-ripple></u-ripple>
-    `;
+    const ripple = html`<u-ripple></u-ripple>`;
+
+    const containerClasses = classMap({ selectable: this.selectable });
 
     return html`
-      ${this.selectable ? ripple : nothing}
-      <slot name="leading" part="leading"></slot>
-      <div class="content" part="content">
-        <div class="headline" part="headline">
-          <slot></slot>
+      <div class="container ${containerClasses}" part="container">
+        ${this.selectable ? ripple : nothing}
+        <slot name="leading-icon" part="leading"></slot>
+        <div class="content" part="content">
+          <div class="headline" part="headline">
+            <slot></slot>
+          </div>
+          <div class="supporting-text" part="supporting-text">
+            <slot name="supporting-text"></slot>
+          </div>
         </div>
-        <div class="supporting-text" part="supporting-text">
-          <slot name="supporting-text"></slot>
-        </div>
+        <slot name="trailing-icon" part="trailing"></slot>
       </div>
-      <slot name="trailing" part="trailing"></slot>
     `;
   }
 }

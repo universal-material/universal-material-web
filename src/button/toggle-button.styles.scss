@@ -3,52 +3,59 @@
   --_square-shape-corner: var(--_small-square-shape-corner);
   --_pressed-shape-corner: var(--_small-pressed-shape-corner);
   --_icon-size: var(--_small-icon-size);
-
-  border-radius: var(--_round-shape-corner);
-  height: var(--_size);
 }
 
-:host([size=extra-small]) {
+.extra-small {
   --_size: var(--_extra-small-size);
   --_icon-size: var(--_extra-small-icon-size);
   --_square-shape-corner: var(--_extra-small-square-shape-corner);
   --_pressed-shape-corner: var(--_extra-small-pressed-shape-corner);
 }
 
-:host([size=medium]) {
+.medium {
   --_size: var(--_medium-size);
   --_icon-size: var(--_medium-icon-size);
   --_square-shape-corner: var(--_medium-square-shape-corner);
   --_pressed-shape-corner: var(--_medium-pressed-shape-corner);
 }
 
-:host([size=large]) {
+.large {
   --_size: var(--_large-size);
   --_icon-size: var(--_large-icon-size);
   --_square-shape-corner: var(--_large-square-shape-corner);
   --_pressed-shape-corner: var(--_large-pressed-shape-corner);
 }
 
-:host([size=extra-large]) {
+.extra-large {
   --_size: var(--_extra-large-size);
   --_icon-size: var(--_extra-large-icon-size);
   --_square-shape-corner: var(--_extra-large-square-shape-corner);
   --_pressed-shape-corner: var(--_extra-large-pressed-shape-corner);
 }
 
-:host([selected][toggle-shape]) {
-  border-radius: var(--_square-shape-corner);
+.container {
+  height: var(--_size);
 }
 
-:host([shape=square]) {
-  border-radius: var(--_square-shape-corner);
-}
-
-:host([shape=square][selected][toggle-shape]) {
+.round {
   border-radius: var(--_round-shape-corner);
 }
 
-:host([toggle-shape]:not([disabled]):active) {
+.square {
+  border-radius: var(--_square-shape-corner);
+}
+
+.selected.toggle-shape {
+  &.round {
+    border-radius: var(--_square-shape-corner);
+  }
+
+  &.square {
+    border-radius: var(--_round-shape-corner);
+  }
+}
+
+:host(:active) .toggle-shape:not(.disabled) {
   border-radius: var(--_pressed-shape-corner);
 }
 
@@ -67,7 +74,7 @@
   transition-delay: calc(var(--_morph-duration) / 2);
 }
 
-:host([selected][has-selection-icon]) {
+.selected.selection-icon {
   .icon-default {
     opacity: 0;
     transition-delay: 0ms;

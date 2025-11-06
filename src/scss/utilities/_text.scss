@@ -14,18 +14,11 @@
   white-space: nowrap;
 }
 
-// Transformation
-
-.u-text-lowercase  { text-transform: lowercase !important; }
-.u-text-uppercase  { text-transform: uppercase !important; }
-.u-text-capitalize { text-transform: capitalize !important; }
-
-.u-font-italic        { font-style: italic !important; }
-
 // Contextual
 .u-text-high-emphasis {
   color: var(--u-color-high-emphasis) !important;
 }
+
 .u-text-low-emphasis {
   color: var(--u-color-low-emphasis) !important;
 }

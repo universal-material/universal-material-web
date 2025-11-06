@@ -1,0 +1,128 @@
+@use "../scss/functions";
+
+:host {
+  --_fab-menu-morph-duration: var(--u-fab-menu-morph-duration, 175ms);
+  --u-button-morph-duration: var(--_fab-menu-morph-duration);
+
+  display: inline-block;
+  pointer-events: none;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.menu-items {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  gap: var(--u-fab-menu-item-margin, 4px);
+  pointer-events: none;
+}
+
+.toggle-container {
+  position: relative;
+
+  * {
+    pointer-events: auto;
+  }
+
+  &::part(container) {
+    --u-elevation-level: 0 !important;
+    background: transparent !important;
+  }
+}
+
+.toggle {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  margin-top: var(--u-fab-menu-toggle-margin, 8px);
+
+  &::part(container) {
+    transition:
+      width var(--_fab-menu-morph-duration),
+      height var(--_fab-menu-morph-duration),
+      background-color var(--_fab-menu-morph-duration) linear,
+      border-radius var(--_fab-menu-morph-duration) linear,
+      color var(--_fab-menu-morph-duration) linear;
+  }
+}
+
+.icon-container {
+  position: relative;
+  height: 1px;
+}
+
+.icon {
+  --_scale: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate3d(-50%, -50%, 0) scale(var(--_scale));
+  transition: opacity, transform;
+  transition-duration: calc(var(--_fab-menu-morph-duration) * .75);
+}
+
+.icon-default {
+  --_scale: 1;
+  opacity: 1;
+  transition-delay: calc(var(--_fab-menu-morph-duration) * .5);
+}
+
+.icon-close {
+  --_scale: .5;
+  opacity: 0;
+  transition-delay: 0ms;
+}
+
+.open {
+  .menu-items {
+    display: flex;
+    pointer-events: auto;
+  }
+
+  .toggle {
+    &::part(container) {
+      border-radius: 50%;
+    }
+  }
+
+  .icon-default {
+    --_scale: .5;
+    opacity: 0;
+    transition-delay: 0ms;
+  }
+
+  .icon-close {
+    --_scale: 1;
+    opacity: 1;
+    transition-delay: calc(var(--_fab-menu-morph-duration) * .5);
+  }
+
+  &.primary {
+    --u-fab-primary-container-color: var(--u-fab-menu-toggle-primary-container-color, #{functions.get-color-var(primary)});
+    --u-fab-primary-text-color: var(--u-fab-menu-toggle-primary-text-color, #{functions.get-color-var(on-primary)});
+  }
+
+  &.secondary {
+    --u-fab-secondary-container-color: var(--u-fab-menu-toggle-secondary-container-color, #{functions.get-color-var(secondary)});
+    --u-fab-secondary-text-color: var(--u-fab-menu-toggle-secondary-text-color, #{functions.get-color-var(on-secondary)});
+  }
+
+  &.tertiary {
+    --u-fab-tertiary-container-color: var(--u-fab-menu-toggle-tertiary-container-color, #{functions.get-color-var(tertiary)});
+    --u-fab-tertiary-text-color: var(--u-fab-menu-toggle-tertiary-text-color, #{functions.get-color-var(on-tertiary)});
+  }
+}
+
+@for $i from 1 through 10 {
+  ::slotted(u-fab-menu-item) {
+    --_animation-delay: $i * 50ms;
+  }
+}

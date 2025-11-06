@@ -1,5 +1,5 @@
 import { html, HTMLTemplateResult, nothing } from 'lit';
-import { customElement, property, query, queryAssignedElements } from 'lit/decorators.js';
+import { customElement, property, query, queryAssignedElements, state } from 'lit/decorators.js';
 
 import { UmRipple } from '../ripple/ripple.js';
 import { UmButtonWrapper } from '../shared/button-wrapper.js';
@@ -59,35 +59,18 @@ export class UmChip extends UmButtonWrapper {
    */
   @property({ type: Boolean, attribute: 'hide-selected-icon', reflect: true }) hideSelectedIcon = false;
 
-  /**
-   * Whether the chip has a leading icon or not
-   *
-   * _Note:_ Readonly
-   */
-  @property({ type: Boolean, attribute: 'has-leading-icon', reflect: true }) hasLeadingIcon = false;
-
-  /**
-   * Whether the chip has a selected icon or not
-   *
-   * _Note:_ Readonly
-   */
-  @property({ type: Boolean, attribute: 'has-selected-icon', reflect: true }) hasSelectedIcon = false;
-
-  /**
-   * Whether the chip has a trailing icon or not
-   *
-   * _Note:_ Readonly
-   */
-  @property({ type: Boolean, attribute: 'has-trailing-icon', reflect: true }) hasTrailingIcon = false;
+  @state() private _hasLeadingIcon = false;
+  @state() private _hasSelectedIcon = false;
+  @state() private _hasTrailingIcon = false;
 
   @queryAssignedElements({ slot: 'leading-icon', flatten: true })
-  private readonly assignedLeadingIcons!: HTMLElement[];
+  private readonly _assignedLeadingIcons!: HTMLElement[];
 
   @queryAssignedElements({ slot: 'icon-selected', flatten: true })
-  private readonly assignedSelectedIcons!: HTMLElement[];
+  private readonly _assignedSelectedIcons!: HTMLElement[];
 
   @queryAssignedElements({ slot: 'trailing-icon', flatten: true })
-  private readonly assignedTrailingIcons!: HTMLElement[];
+  private readonly _assignedTrailingIcons!: HTMLElement[];
 
   @query('#remove-ripple') removeRipple!: UmRipple;
 
@@ -112,19 +95,19 @@ export class UmChip extends UmButtonWrapper {
   }
 
   #handleTrailingIconSlotChange() {
-    this.hasTrailingIcon = this.assignedTrailingIcons.length > 0;
+    this._hasTrailingIcon = this._assignedTrailingIcons.length > 0;
   }
 
   #handleLeadingIconSlotChange() {
-    this.hasLeadingIcon = this.assignedLeadingIcons.length > 0;
+    this._hasLeadingIcon = this._assignedLeadingIcons.length > 0;
   }
 
   #handleSelectedIconSlotChange() {
-    this.hasSelectedIcon = this.assignedSelectedIcons.length > 0;
+    this._hasSelectedIcon = this._assignedSelectedIcons.length > 0;
   }
 
-  protected override handleClick(event: UIEvent): void {
-    super.handleClick(event);
+  protected override _handleClick(event: UIEvent): void {
+    super._handleClick(event);
 
     if (!this.toggle) {
       return;
@@ -134,7 +117,22 @@ export class UmChip extends UmButtonWrapper {
     this.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
-  protected override renderContent(): HTMLTemplateResult {
+  protected override _getContainerClasses(): Record<string, boolean> {
+    return {
+      ...super._getContainerClasses(),
+      clickable: this.clickable,
+      toggle: this.toggle,
+      selected: this.selected,
+      removable: this.removable,
+      elevated: this.elevated && !this.disabled,
+      'trailing-icon': this._hasTrailingIcon,
+      'leading-icon': this._hasLeadingIcon,
+      'selected-icon': this._hasSelectedIcon,
+      'hide-selected-icon': this.hideSelectedIcon,
+    };
+  }
+
+  protected override _renderContent(): HTMLTemplateResult {
     const remove = html`
       <button class="icon remove-button focus-ring" ?disabled=${this.disabled} @click=${this.#handleRemoveClick}>
         <u-ripple id="remove-ripple" ?disabled=${this.disabled}></u-ripple>
@@ -147,34 +145,36 @@ export class UmChip extends UmButtonWrapper {
       </button>
     `;
 
+    const outline = !this.disabled && !this.elevated && !this.selected
+      ? html`<div class="outline"></div>`
+      : nothing;
+
     return html`
-      <div class="container">
-        <div class="outline"></div>
-        <span class="icon leading" part="icon leading">
-          <slot name="leading-icon" @slotchange="${this.#handleLeadingIconSlotChange}"></slot>
-        </span>
-        <span class="icon selected" part="icon selected">
-          <slot name="icon-selected" @slotchange="${this.#handleSelectedIconSlotChange}">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="1em"
-              viewBox="0 -960 960 960"
-              width="1em"
-              fill="currentColor">
-              <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
-            </svg>
-          </slot>
-        </span>
-        <div class="label">
-          <slot></slot>
-        </div>
-        <slot
-          class="icon trailing"
-          part="icon trailing"
-          name="trailing-icon"
-          @slotchange="${this.#handleTrailingIconSlotChange}"></slot>
-        ${this.removable ? remove : nothing}
+      ${outline}
+      <span class="icon leading" part="icon leading">
+        <slot name="leading-icon" @slotchange="${this.#handleLeadingIconSlotChange}"></slot>
+      </span>
+      <span class="icon icon-selected" part="icon selected">
+        <slot name="icon-selected" @slotchange="${this.#handleSelectedIconSlotChange}">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="1em"
+            viewBox="0 -960 960 960"
+            width="1em"
+            fill="currentColor">
+            <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
+          </svg>
+        </slot>
+      </span>
+      <div class="label">
+        <slot></slot>
       </div>
+      <slot
+        class="icon trailing"
+        part="icon trailing"
+        name="trailing-icon"
+        @slotchange="${this.#handleTrailingIconSlotChange}"></slot>
+      ${this.removable ? remove : nothing}
     `;
   }
 }

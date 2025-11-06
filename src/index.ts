@@ -4,6 +4,8 @@ import './app-bar/top-app-bar.js';
 import './button/button.js';
 import './button/button-set.js';
 import './button/fab.js';
+import './button/fab-menu.js';
+import './button/fab-menu-item.js';
 import './button/icon-button.js';
 import './card/card.js';
 import './chip/chip.js';

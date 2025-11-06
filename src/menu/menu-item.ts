@@ -1,5 +1,5 @@
 import { html, HTMLTemplateResult, nothing, TemplateResult } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 
 import { UmButtonWrapper } from '../shared/button-wrapper.js';
 import { styles } from './menu-item.styles.js';
@@ -8,46 +8,10 @@ import { styles } from './menu-item.styles.js';
 export class UmMenuItem extends UmButtonWrapper {
   static override styles = [UmButtonWrapper.styles, styles];
 
-  #active = false;
+  @property({ type: Boolean, reflect: true }) active = false;
 
-  /**
-   * Force show focus ring
-   */
-  @property({ type: Boolean, reflect: true })
-  get active(): boolean {
-    return this.#active;
-  }
-
-  set active(active: boolean) {
-    this.#active = active;
-
-    if (active) {
-      this.classList.add('force-focus-ring');
-      return;
-    }
-
-    this.classList.remove('force-focus-ring');
-  }
-
-  /**
-   * Whether the menu item has leading icon or not
-   *
-   * _Note:_ Readonly
-   */
-  @property({ type: Boolean, attribute: 'has-leading-icon', reflect: true }) hasLeadingIcon = false;
-
-  /**
-   * Whether the menu item has trailing icon or not
-   *
-   * _Note:_ Readonly
-   */
-  @property({ type: Boolean, attribute: 'has-trailing-icon', reflect: true }) hasTrailingIcon = false;
-
-  /**
-   * Whether the drawer item has badge or not
-   *
-   * _Note:_ Readonly
-   */
+  @state() private _hasLeadingIcon = false;
+  @state() private _hasTrailingIcon = false;
   @property({ type: Boolean, attribute: 'has-badge', reflect: true }) hasBadge = false;
 
   override innerRole = 'menuitem';
@@ -65,7 +29,16 @@ export class UmMenuItem extends UmButtonWrapper {
 
   readonly #handleMouseEnter = () => this.dispatchEvent(new CustomEvent<UmMenuItem>('menu-item-mouseenter', { bubbles: true }));
 
-  protected override renderContent(): HTMLTemplateResult {
+  protected override _getContainerClasses(): Record<string, boolean> {
+    return {
+      ...super._getContainerClasses(),
+      'force-focus-ring': this.active,
+      'leading-icon': this._hasLeadingIcon,
+      'trailing-icon': this._hasTrailingIcon,
+    };
+  }
+
+  protected override _renderContent(): HTMLTemplateResult {
     return html`
       <div class="icon leading">
         <slot name="leading-icon" aria-hidden="true" @slotchange="${this.#handleLeadingIconSlotChange}"></slot>
@@ -75,22 +48,22 @@ export class UmMenuItem extends UmButtonWrapper {
       </span>
       <div class="icon trailing">
         <slot name="trailing-icon" aria-hidden="true" @slotchange="${this.#handleTrailingIconSlotChange}">
-          <span>${this.renderDefaultTrailingIcon()}</span>
+          <span>${this._renderDefaultTrailingIcon()}</span>
         </slot>
       </div>
     `;
   }
 
-  protected renderDefaultTrailingIcon(): TemplateResult | typeof nothing {
+  protected _renderDefaultTrailingIcon(): TemplateResult | typeof nothing {
     return nothing;
   }
 
   #handleLeadingIconSlotChange(e: Event) {
-    this.hasLeadingIcon = (e.target as HTMLSlotElement).assignedElements({ flatten: true }).length > 0;
+    this._hasLeadingIcon = (e.target as HTMLSlotElement).assignedElements({ flatten: true }).length > 0;
   }
 
   #handleTrailingIconSlotChange(e: Event) {
-    this.hasTrailingIcon = (e.target as HTMLSlotElement).assignedElements({ flatten: true }).length > 0;
+    this._hasTrailingIcon = (e.target as HTMLSlotElement).assignedElements({ flatten: true }).length > 0;
   }
 }
 

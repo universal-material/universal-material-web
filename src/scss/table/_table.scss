@@ -17,7 +17,7 @@
   > tr {
     @at-root .u-table:has(> thead) > tbody > tr,
     &:not(:first-child) {
-      border-top: 1px solid #{functions.get-color-transparency-mix(var(--u-current-text-color), var(--u-table-divider-opacity, 20%))};
+      border-top: 1px solid #{functions.get-color-transparency-mix(currentColor, var(--u-table-divider-opacity, 20%))};
     }
 
     > td {
@@ -32,7 +32,7 @@
       padding: var(--u-th-padding, var(--u-table-cell-padding));
       font-size: var(--u-th-font-size, .8125rem);
       font-weight: var(--u-th-font-weight, var(--u-table-cell-font-weight));
-      color: #{functions.get-color-transparency-mix(var(--u-current-text-color), var(--u-text-opacity))};
+      color: #{functions.get-color-transparency-mix(currentColor, var(--u-text-opacity))};
       text-align: start;
     }
   }
@@ -42,7 +42,7 @@
   > tbody > tr,
   > tr {
     &:hover {
-      background-color: #{functions.get-color-transparency-mix(var(--u-current-text-color), var(--u-table-hover-opacity))};
+      background-color: #{functions.get-color-transparency-mix(currentColor, var(--u-table-hover-opacity))};
     }
   }
 }

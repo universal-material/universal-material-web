@@ -10,7 +10,7 @@
     @include text-bg.current-color-vars(--u-color-on-body);
 
     background-color: var(--u-color-body);
-    color: var(--u-color-high-emphasis);
+    color: var(--u-color-on-body);
   }
 
   a {

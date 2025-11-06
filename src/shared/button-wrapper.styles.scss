@@ -2,24 +2,26 @@
 
 :host {
   --_color-primary: #{functions.get-color-var(primary)};
-
   -webkit-tap-highlight-color: transparent;
   --u-elevation-level: 0;
 
-  position: relative;
   display: inline-block;
+}
+
+.container {
+  position: relative;
   font-family: #{functions.get-font-family-var()};
   appearance: none !important;
 }
 
-:host([disabled]) {
+.disabled {
   --u-elevation-level: 0 !important;
-  background-color: var(--u-button-disabled-bg-color, #{functions.get-color-transparency-mix(functions.get-color-var(on-surface), var(--u-button-disabled-background-opacity, 12%))}) !important;
+  background-color: var(--u-button-disabled-bg-color, #{functions.get-color-transparency-mix(functions.get-color-var(on-surface), var(--u-button-disabled-background-opacity, 10%))}) !important;
   color: var(--u-button-disabled-text-color, #{functions.get-color-transparency-mix(functions.get-color-var(on-surface), var(--u-button-disabled-opacity, 38%))}) !important;
-}
 
-:host([disabled]) .button {
-  cursor: default;
+  .button {
+    cursor: default;
+  }
 }
 
 * {
@@ -61,4 +63,3 @@ u-elevation {
   width: 100%;
   height: 100%;
 }
-

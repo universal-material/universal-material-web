@@ -51,7 +51,6 @@
   body {
     --u-current-bg-color: var(--u-color-body);
     background-color: var(--u-current-bg-color);
-    color: #{functions.get-color-transparency-mix(var(--u-current-text-color), var(--u-text-opacity))};
     margin: 0; // 1
     @include mixins.typo-prop(body-l, font-size);
     @include mixins.typo-prop(body-l, font-weight);
@@ -220,8 +219,7 @@
   }
 
   a {
-    --u-current-text-color: var(--u-color-primary);
-    color: #{functions.get-color-transparency-mix(var(--u-current-text-color), var(--u-text-opacity))};
+    color: #{functions.get-color-transparency-mix(var(--u-link-color, --u-color-primary), var(--u-text-opacity))};
     text-decoration: none;
 
     @media (hover: hover) {
@@ -295,7 +293,7 @@
   caption {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
-    color: #{functions.get-color-transparency-mix(var(--u-current-text-color), var(--u-low-emphasis-opacity))};
+    color: #{functions.get-color-transparency-mix(currentColor, var(--u-low-emphasis-opacity))};
     text-align: left;
   }
 

@@ -9,6 +9,7 @@
   outline: 0;
 }
 
+.force-focus-ring .focus-ring,
 :host(.force-focus-ring) .focus-ring,
 .focus-ring:focus-visible {
   animation: u-focus-pulse 500ms ease;

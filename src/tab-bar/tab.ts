@@ -1,5 +1,5 @@
 import { html, HTMLTemplateResult } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
 import { UmButtonWrapper } from '../shared/button-wrapper.js';
@@ -37,13 +37,18 @@ export class UmTab extends UmButtonWrapper {
   }
 
   @property({ type: Boolean }) hasIcon = false;
+  @query('.container') private readonly _container!: HTMLElement;
+
+  get _paddingInline(): string {
+    return getComputedStyle(this._container).paddingInline;
+  }
 
   constructor() {
     super();
     this.#resizeObserver.observe(this);
   }
 
-  protected override renderContent(): HTMLTemplateResult {
+  protected override _renderContent(): HTMLTemplateResult {
     const classes = { active: this.active, ['has-icon']: this.hasIcon };
 
     return html`
@@ -81,8 +86,8 @@ export class UmTab extends UmButtonWrapper {
     this._bar = null;
   }
 
-  protected override handleClick(_: UIEvent) {
-    super.handleClick(_);
+  protected override _handleClick(_: UIEvent) {
+    super._handleClick(_);
 
     if (!this._bar) {
       return;

@@ -20,12 +20,16 @@
 
   --u-font-family: #{variables.$font-family};
   --u-font-monospace: #{variables.$font-mono};
-  --u-current-text-color: var(--u-color-on-body);
   --u-text-opacity: var(--u-high-emphasis-opacity);
   --u-layout-margin: var(--u-layout-margin-default);
   --u-layout-gutter: var(--u-layout-gutter-default);
   --u-layout-margin-default: var(--u-spacing-medium);
   --u-layout-gutter-default: var(--u-spacing-medium);
+
+
+  --u-color-high-emphasis: #{functions.get-color-transparency-mix(currentColor, var(--u-high-emphasis-opacity))} !important;
+  --u-color-low-emphasis: #{functions.get-color-transparency-mix(currentColor, var(--u-low-emphasis-opacity))} !important;
+  --u-color-lower-emphasis: #{functions.get-color-transparency-mix(currentColor, var(--u-lower-emphasis-opacity))} !important;
 
   @each $name, $value in variables.$font-weights {
     --u-font-weight-#{$name}: #{$value};

@@ -113,8 +113,7 @@ export class ThemeBuilder {
       .add('--u-color-body', 'var(--u-color-surface)')
       .add('--u-color-inverse-body', 'var(--u-color-inverse-surface)')
       .add('--u-color-on-body', 'var(--u-color-on-surface)')
-      .add('--u-color-on-inverse-body', 'var(--u-color-on-inverse-surface)')
-      .add('--u-current-text-color', 'var(--u-color-on-body)');
+      .add('--u-color-on-inverse-body', 'var(--u-color-on-inverse-surface)');
 
     return builder.build();
   }

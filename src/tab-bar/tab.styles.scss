@@ -1,11 +1,15 @@
 @use "../scss/api";
 
 :host {
+  flex: .5;
+}
+
+.container {
   --u-focus-ring-outline-offset: -4px;
   --_tab-height: var(--u-tab-height, 48px);
 
   display: block;
-  flex: .5;
+  height: 100%;
   padding-inline: var(--u-tab-padding, 16px);
 }
 
@@ -23,7 +27,7 @@
   --_tab-height: var(--u-tab-with-icon-height, 64px);
 }
 
-:host(.force-focus-ring) .button,
+.force-focus-ring .button,
 .button:focus-visible {
   border-radius: #{api.get-spacing-var(small)};
 }

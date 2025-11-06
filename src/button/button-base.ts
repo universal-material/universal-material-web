@@ -26,7 +26,7 @@ export abstract class UmButtonBase extends UmButtonWrapper {
     this.#elementInternals = this.attachInternals();
   }
 
-  protected override handleClick(_: UIEvent): void {
+  protected override _handleClick(_: UIEvent): void {
 
     if (this.type === 'button' || !!this.href) {
       return;

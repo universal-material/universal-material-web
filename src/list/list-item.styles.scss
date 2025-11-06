@@ -1,6 +1,14 @@
 @use "../scss/api";
 
 :host {
+  display: block;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.container {
   position: relative;
   display: flex;
   align-items: center;
@@ -10,7 +18,7 @@
   gap: var(--u-list-item-gap, 16px);
 }
 
-:host([selectable]) {
+.selectable {
   cursor: pointer;
 }
 

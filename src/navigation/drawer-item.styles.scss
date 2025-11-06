@@ -5,7 +5,9 @@
   display: block;
   --_drawer-item-icon-size: var(--u-drawer-item-icon-size, 1.5rem);
   --_drawer-item-padding: var(--u-drawer-item-padding, 16px);
+}
 
+.container {
   @include mixins.typo(label-l, drawer-item);
 
   height: var(--u-drawer-item-height, 56px);
@@ -13,17 +15,19 @@
   margin-inline: calc(var(--_drawer-item-padding) * -1);
   border-radius: var(--u-drawer-item-shape-corner, #{functions.get-shape-corner-var(full)});
   color: var(--u-drawer-item-label-inactive-color,  #{functions.get-color-var(on-surface-variant)});
+
+  &:not(.has-icon) .icon,
+  &:not(.has-badge) .badge {
+    display: none;
+  }
 }
 
 :host(.active),
 :host([active]) {
-  background-color: var(--u-drawer-item-label-active-color,  #{functions.get-color-var(secondary-container)});
-  color: var(--u-drawer-item-label-active-color,  #{functions.get-color-var(on-secondary-container)});
-}
-
-:host(:not([has-icon])) .icon,
-:host(:not([has-badge])) .badge {
-  display: none;
+  .container {
+    background-color: var(--u-drawer-item-label-active-color, #{functions.get-color-var(secondary-container)});
+    color: var(--u-drawer-item-label-active-color, #{functions.get-color-var(on-secondary-container)});
+  }
 }
 
 .icon {

@@ -1,7 +1,8 @@
 import { PropertyValues } from '@lit/reactive-element';
 
 import { html, HTMLTemplateResult, LitElement, nothing } from 'lit';
-import { customElement, property, query, queryAssignedElements } from 'lit/decorators.js';
+import { customElement, property, query, queryAssignedElements, state } from 'lit/decorators.js';
+import { classMap } from 'lit/directives/class-map.js';
 
 import { styles as baseStyles } from '../shared/base.styles';
 import { styles } from './top-app-bar.styles.js';
@@ -10,21 +11,8 @@ import { styles } from './top-app-bar.styles.js';
 export class UmTopAppBar extends LitElement {
   static override styles = [baseStyles, styles];
 
-  /**
-   * Whether the app bar has leading icon or not
-   *
-   * _Note:_ Readonly
-   */
-  @property({ type: Boolean, attribute: 'has-leading-icon', reflect: true })
-  hasLeadingIcon = false;
-
-  /**
-   * Whether the app bar has trailing icon or not
-   *
-   * _Note:_ Readonly
-   */
-  @property({ type: Boolean, attribute: 'has-trailing-icon', reflect: true })
-  hasTrailingIcon = false;
+  @state() private _hasLeadingIcon = false;
+  @state() private _hasTrailingIcon = false;
 
   @property({ reflect: true })
   position: 'fixed' | 'absolute' | 'static' = 'fixed';
@@ -50,8 +38,7 @@ export class UmTopAppBar extends LitElement {
     this.scrollContainerElement?.addEventListener('scroll', this.#updateScroll);
   }
 
-  @property({ type: Boolean, attribute: 'container-scrolled', reflect: true })
-  containerScrolled = false;
+  @state() containerScrolled = false;
 
   @queryAssignedElements({ slot: 'leading-icon', flatten: true })
   private readonly assignedLeadingIcons!: HTMLElement[];
@@ -87,12 +74,12 @@ export class UmTopAppBar extends LitElement {
     return document.getElementById(idOrElement!)!;
   }
 
-  private handleLeadingIconSlotChange() {
-    this.hasLeadingIcon = this.assignedLeadingIcons.length > 0;
+  #handleLeadingIconSlotChange() {
+    this._hasLeadingIcon = this.assignedLeadingIcons.length > 0;
   }
 
-  private handleTrailingIconSlotChange() {
-    this.hasTrailingIcon = this.assignedTrailingIcons.length > 0;
+  #handleTrailingIconSlotChange() {
+    this._hasTrailingIcon = this.assignedTrailingIcons.length > 0;
   }
 
   override render(): HTMLTemplateResult {
@@ -102,11 +89,24 @@ export class UmTopAppBar extends LitElement {
       </div>
     `;
 
+    const containerClasses = classMap({
+      [this.position]: true,
+      [this.size]: true,
+      scrolled: this.containerScrolled,
+      'has-leading-icon': this._hasLeadingIcon,
+      'has-trailing-icon': this._hasTrailingIcon,
+    });
+
+    const appBarSpacing = this.position !== 'static'
+      ? html`<div class="spacing"></div>`
+      : nothing;
+
     return html`
-      <div class="container" part="container">
+      ${appBarSpacing}
+      <div class="container ${containerClasses}" part="container">
         <div class="content" part="content">
           <div class="icon leading-icon" part="icon leading">
-            <slot name="leading-icon" @slotchange="${this.handleLeadingIconSlotChange}"></slot>
+            <slot name="leading-icon" @slotchange="${this.#handleLeadingIconSlotChange}"></slot>
           </div>
           <div class="headline" part="headline">
             <slot>
@@ -115,7 +115,7 @@ export class UmTopAppBar extends LitElement {
           </div>
 
           <div class="icon trailing-icon" part="icon trailing">
-            <slot name="trailing-icon" @slotchange="${this.handleTrailingIconSlotChange}"></slot>
+            <slot name="trailing-icon" @slotchange="${this.#handleTrailingIconSlotChange}"></slot>
           </div>
         </div>
         <slot name="additional-content"></slot>
@@ -131,9 +131,9 @@ export class UmTopAppBar extends LitElement {
 
   override firstUpdated(changedProperties: PropertyValues) {
     super.firstUpdated(changedProperties);
-    this.containerSizeObserver = new ResizeObserver(() => this.setContentHeightProperty());
+    this.containerSizeObserver = new ResizeObserver(() => this.#setContentHeightProperty());
     this.containerSizeObserver.observe(this._container);
-    this.setContentHeightProperty();
+    this.#setContentHeightProperty();
   }
 
   override connectedCallback() {
@@ -154,7 +154,7 @@ export class UmTopAppBar extends LitElement {
 
     const extendedContentHeight = Math.max(this._extendedContent?.offsetHeight ?? 0, 0);
 
-    const scrollTop = UmTopAppBar.getScrollTop(container as any);
+    const scrollTop = UmTopAppBar._getScrollTop(container as any);
 
     this.containerScrolled = scrollTop > extendedContentHeight;
 
@@ -174,7 +174,7 @@ export class UmTopAppBar extends LitElement {
     this._extendedContent.style.opacity = 1 - scrollTop / scrollOffset + '';
   };
 
-  private static getScrollTop(container: HTMLElement & Window): number {
+  private static _getScrollTop(container: HTMLElement & Window): number {
     if (typeof container.scrollY === 'number') {
       return container.scrollY;
     }
@@ -186,7 +186,7 @@ export class UmTopAppBar extends LitElement {
     return document.body.scrollTop;
   }
 
-  private setContentHeightProperty() {
+  #setContentHeightProperty() {
     this.style.setProperty('--_content-height', `${this._container.clientHeight}px`);
   }
 }

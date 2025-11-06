@@ -5,17 +5,25 @@ import { styles } from './icon-button.styles.js';
 import { UmToggleButton } from './toggle-button.js';
 
 export type UmIconButtonVariant = 'standard' | 'filled' | 'tonal' | 'outlined';
-export type UmIconButtonWidth = 'default' | 'narrow' | 'wide' | undefined;
+export type UmIconButtonWidth = 'default' | 'narrow' | 'wide';
 
 @customElement('u-icon-button')
 export class UmIconButton extends UmToggleButton {
 
   static override styles = [UmToggleButton.styles, styles];
 
-  @property({ reflect: true }) variant: UmIconButtonVariant = 'standard';
-  @property({ reflect: true }) width: UmIconButtonWidth;
+  @property() variant: UmIconButtonVariant = 'standard';
+  @property() width: UmIconButtonWidth = 'default';
 
-  protected override renderContent(): HTMLTemplateResult {
+  protected override _getContainerClasses(): Record<string, boolean> {
+    return {
+      ...super._getContainerClasses(),
+      [this.variant]: true,
+      [this.width]: true,
+    };
+  }
+
+  protected override _renderContent(): HTMLTemplateResult {
 
     return html`
       <span class="icon-container" aria-hidden="true">
@@ -23,7 +31,7 @@ export class UmIconButton extends UmToggleButton {
           <slot></slot>
         </span>
         <span class="icon icon-selected">
-          <slot name="selected" @slotchange="${this.handleSelectedIconSlotChange}"></slot>
+          <slot name="selected" @slotchange="${this._handleSelectedIconSlotChange}"></slot>
         </span>
       </span>
     `;

@@ -11,7 +11,7 @@ import { UmToggleButton } from './toggle-button.js';
 import '../ripple/ripple.js';
 
 export type UmButtonVariant = 'filled' | 'tonal' | 'elevated' | 'outlined' | 'text';
-export type UmButtonColor = 'primary' | 'secondary' | 'tertiary' | 'error' | undefined;
+export type UmButtonColor = 'primary' | 'secondary' | 'tertiary' | 'error';
 
 @customElement('u-button')
 export class UmButton extends UmToggleButton {
@@ -20,24 +20,17 @@ export class UmButton extends UmToggleButton {
   /**
    * The Button variant to render
    */
-  @property({ reflect: true }) variant: UmButtonVariant = 'filled';
+  @property() variant: UmButtonVariant = 'filled';
 
   /**
    * The Button color
    */
-  @property({ reflect: true }) color: UmButtonColor;
+  @property() color: UmButtonColor = 'primary';
 
   @property({ type: Boolean, attribute: 'trailing-icon', reflect: true }) trailingIcon = false;
 
-  /**
-   * Whether the button has icon or not
-   *
-   * _Note:_ Readonly
-   */
-  @property({ type: Boolean, attribute: 'has-icon', reflect: true }) hasIcon = false;
-
-  @property({ type: Boolean, attribute: 'has-selection-label', reflect: true }) hasSelectionLabel = false;
-
+  @state() private _hasIcon = false;
+  @state() private _hasSelectionLabel = false;
   @state() animateTextChange = false;
 
   @query('.label-container', true) private readonly _textWrapper!: HTMLElement;
@@ -68,16 +61,27 @@ export class UmButton extends UmToggleButton {
       this.animateTextChange = animateTextChange);
   }
 
-  protected override renderContent(): HTMLTemplateResult {
+  protected override _getContainerClasses(): Record<string, boolean> {
+    return {
+      ...super._getContainerClasses(),
+      [this.color]: true,
+      [this.variant]: true,
+      'trailing-icon': this.trailingIcon,
+      'has-icon': this._hasIcon,
+      'has-selection-label': this._hasSelectionLabel,
+    };
+  }
+
+  protected override _renderContent(): HTMLTemplateResult {
     const labelContainerClasses = { animate: this.animateTextChange };
 
     return html`
       <span class="icon-container" aria-hidden="true">
         <span class="icon icon-default">
-          <slot name="icon" @slotchange="${this.handleIconSlotChange}"></slot>
+          <slot name="icon" @slotchange="${this.#handleIconSlotChange}"></slot>
         </span>
         <span class="icon icon-selected">
-          <slot name="icon-selected" @slotchange="${this.handleSelectedIconSlotChange}"></slot>
+          <slot name="icon-selected" @slotchange="${this._handleSelectedIconSlotChange}"></slot>
         </span>
       </span>
 
@@ -87,19 +91,19 @@ export class UmButton extends UmToggleButton {
             <slot></slot>
           </span>
           <span class="label label-selected">
-            <slot name="label-selected" @slotchange="${this.handleSelectedLabelSlotChange}"></slot>
+            <slot name="label-selected" @slotchange="${this.#handleSelectedLabelSlotChange}"></slot>
           </span>
         </span>
       </span>
     `;
   }
 
-  private handleIconSlotChange(e: Event) {
-    this.hasIcon = (e.target as HTMLSlotElement).assignedElements({ flatten: true }).length > 0;
+  #handleIconSlotChange(e: Event) {
+    this._hasIcon = (e.target as HTMLSlotElement).assignedElements({ flatten: true }).length > 0;
   }
 
-  protected handleSelectedLabelSlotChange(e: Event): void {
-    this.hasSelectionLabel = (e.target as HTMLSlotElement).assignedElements({ flatten: true }).length > 0;
+  #handleSelectedLabelSlotChange(e: Event): void {
+    this._hasSelectionLabel = (e.target as HTMLSlotElement).assignedElements({ flatten: true }).length > 0;
   }
 }
 

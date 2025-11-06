@@ -15,29 +15,38 @@ export class UmFab extends UmButtonBase {
   /**
    * The FAB color variant to render.
    */
-  @property({ reflect: true }) color: UmFabColor = 'primary';
+  @property() color: UmFabColor = 'primary';
 
   /**
    * The size of the FAB.
    */
-  @property({ reflect: true }) size: UmFabSize = 'medium';
+  @property() size: UmFabSize = 'medium';
 
   /**
    * The text to display the FAB.
    */
-  @property({ reflect: true }) label: string | null = null;
+  @property() label: string | null = null;
 
   /**
    * Lowers the FAB's elevation.
    */
   @property({ type: Boolean, reflect: true }) lowered = false;
 
-  @property({ type: Boolean, reflect: true })
   get extended(): boolean {
     return !!this.label;
   }
 
-  protected override renderContent(): HTMLTemplateResult {
+  protected override _getContainerClasses(): Record<string, boolean> {
+    return {
+      ...super._getContainerClasses(),
+      [this.color]: true,
+      [this.size]: true,
+      lowered: this.lowered,
+      extended: this.extended,
+    };
+  }
+
+  protected override _renderContent(): HTMLTemplateResult {
     const labelTag = html`<span>${this.label}</span>`;
 
     return html`

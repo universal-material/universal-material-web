@@ -1,0 +1,31 @@
+<docs-title title="FAB menu">
+  <markdown>
+    Represents a control that provides a menu of options. Mimic the behavior of the native `&lt;select&gt;`.
+  </markdown>
+</docs-title>
+
+<docs-example
+  sectionTitle="Example"
+  [html]="example"
+  [renderExample]="false"
+>
+  <div class="example-container">
+    <u-fab-menu size="large">
+      <span
+        class="material-symbols-outlined"
+        slot="icon"
+      >
+        reply
+      </span>
+      <u-fab-menu-item label="Reply">
+        <span class="material-symbols-outlined">reply</span>
+      </u-fab-menu-item>
+      <u-fab-menu-item label="Reply all">
+        <span class="material-symbols-outlined">reply_all</span>
+      </u-fab-menu-item>
+      <u-fab-menu-item label="Forward"></u-fab-menu-item>
+    </u-fab-menu>
+  </div>
+</docs-example>
+
+<docs-apis-table key="fabMenu"></docs-apis-table>
