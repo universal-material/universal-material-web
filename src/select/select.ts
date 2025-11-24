@@ -1,13 +1,13 @@
 import { PropertyValues } from '@lit/reactive-element';
 
-import { html, svg, TemplateResult } from 'lit';
+import { html, render, svg, TemplateResult } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
+import { map } from 'lit/directives/map.js';
 import { html as staticHtml } from 'lit/static-html.js';
 
 import { UmMenu } from '../menu/menu.js';
 import { UmMenuField } from '../shared/menu-field/menu-field.js';
 import { UmTextFieldBase } from '../shared/text-field-base/text-field-base.js';
-import { ExtendedSelect } from './extended-select.js';
 import { UmOption } from './option.js';
 import { SelectNavigationController } from './select-navigation-controller.js';
 import { styles } from './select.styles.js';
@@ -18,13 +18,7 @@ import './option.js';
 export class UmSelect extends UmTextFieldBase implements UmMenuField {
   static override styles = [UmTextFieldBase.styles, styles];
 
-  _nativeSelect: ExtendedSelect = (() => {
-    const select = document.createElement('select') as ExtendedSelect;
-    select.setAttribute('tabindex', '-1');
-    select.setAttribute('part', 'select');
-
-    return select;
-  })();
+  _nativeSelect = document.createElement('select');
 
   readonly #list: HTMLElement = (() => {
     const list = document.createElement('div');
@@ -36,8 +30,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
   })();
 
   readonly #navigationController = new SelectNavigationController(this);
-  readonly #resizeObserver: ResizeObserver;
-  readonly #mutationObserver: MutationObserver;
+  readonly #resizeObserver = new ResizeObserver(() => this.#setMenuWidthProperty());
   #connected = false;
 
   /**
@@ -80,7 +73,9 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
    * An `Array` containing the selected `UmOption` or empty if there's no selected option. Multiple selection is not supported.
    */
   get selectedOptions(): UmOption[] {
-    return this._nativeSelect.selectedOptions.length ? [this._nativeSelect.selectedOptions[0]._parent] : [];
+    return this._nativeSelect.selectedOptions.length
+      ? [this._options[this._nativeSelect.selectedIndex]]
+      : [];
   }
 
   get _options(): UmOption[] {
@@ -92,121 +87,12 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
   constructor() {
     super();
 
-    this.#resizeObserver = new ResizeObserver(() => this.#setMenuWidthProperty());
-    this.#resizeObserver.observe(this);
-
-    this.#mutationObserver = new MutationObserver(() => this._updateOptions());
-    this.#mutationObserver.observe(this, {
-      characterData: true,
-      childList: true,
-      subtree: true,
-    });
+    this._nativeSelect.setAttribute('tabindex', '-1');
+    this._nativeSelect.setAttribute('part', 'select');
   }
 
   #setMenuWidthProperty(): void {
     this.style.setProperty('--_menu-width', `${this.clientWidth}px`);
-  }
-
-  _updateOptions() {
-    const options = this._options;
-
-    for (const option of options) {
-      option._select = this;
-    }
-
-    this.#updateOptions(options);
-    this.#updateAccessibilityList(options);
-
-    const selectedOption = this.selectedOptions[0];
-
-    if (!selectedOption) {
-      return;
-    }
-
-    selectedOption.selected = selectedOption.selected;
-    this.empty = !selectedOption.textContent?.trim();
-    // this._button.setAttribute('aria-labelledby', selectedOption._listItem.id);
-  }
-
-  #updateOptions(options: UmOption[]) {
-    const maxLength = Math.max(options.length, this._nativeSelect.children.length);
-
-    for (let i = 0; i < maxLength; i++) {
-      const option = options[i];
-      const nativeOption = this._nativeSelect.children[i];
-
-      if (!option) {
-        nativeOption?.remove();
-        continue;
-      }
-
-      option._nativeOption.textContent = option.textContent;
-
-      if (!nativeOption) {
-        this._nativeSelect.appendChild(option._nativeOption);
-        continue;
-      }
-
-      nativeOption.insertAdjacentElement('beforebegin', option._nativeOption);
-    }
-  }
-
-  #updateAccessibilityList(options: UmOption[]) {
-    const maxLength = Math.max(options.length, this.#list.children.length);
-
-    for (let i = 0; i < maxLength; i++) {
-      const option = options[i];
-      let item = this.#list.children[i];
-
-      if (!option) {
-        item?.remove();
-        continue;
-      }
-
-      if (!item) {
-        item = this.#createListItem(`item-${i + 1}`);
-        this.#list.appendChild(item);
-      }
-
-      item.textContent = option.textContent;
-    }
-  }
-
-  #createListItem(id: string): HTMLElement {
-    const item = document.createElement('div');
-    item.role = 'option';
-    item.id = id;
-
-    item.textContent = this.textContent;
-
-    return item;
-  }
-
-  #setSelectedOption() {
-    const options = this._options;
-
-    const selectedClassOptions = options.filter(o => o.classList.contains('selected'));
-
-    let found = false;
-
-    for (const option of selectedClassOptions) {
-      if (option.selected) {
-        found = true;
-        continue;
-      }
-
-      option.classList.remove('selected');
-    }
-
-    if (found) {
-      return;
-    }
-
-    const selectedOption = this.selectedOptions[0];
-
-    if (selectedOption) {
-      selectedOption.classList.add('selected');
-    }
   }
 
   protected override renderControl(): TemplateResult {
@@ -223,7 +109,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
   protected override renderAfterContent(): TemplateResult {
     return html`
       <u-menu positioning="${this.menuPositioning}">
-        <slot></slot>
+        <slot @slotchange=${this.#renderOptionRelatedElements}></slot>
       </u-menu>
     `;
   }
@@ -280,7 +166,6 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
 
   readonly #handleMenuOpen = () => {
     this._button.setAttribute('aria-expanded', 'true');
-    this.#setSelectedOption();
   };
 
   readonly #handleMenuOpened = () => {
@@ -298,17 +183,16 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
   };
 
   async #attach(): Promise<void> {
+    this.#resizeObserver.observe(this);
+    this.#renderOptionRelatedElements();
+
     await this.updateComplete;
 
     this._nativeSelect.disabled = this.hasAttribute('disabled');
 
     this.#navigationController.attach(this);
-    this._updateOptions();
 
-    if (this._nativeSelect.parentElement !== this._input) {
-      this._input.appendChild(this._nativeSelect);
-    }
-
+    this._input.appendChild(this._nativeSelect);
     this._input.appendChild(this.#list);
     this._button.addEventListener('click', this.#handleClick);
 
@@ -319,9 +203,10 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
     this._menu.addEventListener('close', this.#handleMenuClose);
   }
 
-  async #detach(): Promise<void> {
-    await this.updateComplete;
-
+  #detach(): void {
+    this.#resizeObserver.disconnect();
+    this._nativeSelect.remove();
+    this.#list.remove();
     this.#navigationController.detach();
     this.#connected = false;
     this._button.removeEventListener('click', this.#handleClick);
@@ -331,8 +216,47 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
     this._menu.removeEventListener('close', this.#handleMenuClose);
   }
 
+  #renderOptionRelatedElements() {
+    this.#renderNativeOptions();
+    this.#renderAccessibilityList();
+    this._updateEmpty();
+    this._syncSelectedOptions();
+  }
+
+  _updateEmpty(): void {
+    this.empty = !this.selectedOptions[0]?.textContent?.trim();
+  }
+
   get _menuItems(): UmOption[] {
     return this._options;
+  }
+
+  #renderNativeOptions() {
+    render(
+      map(
+        this._options,
+        option =>
+          html`<option value=${option.value} ?selected=${option.selected}>${option.textContent}</option>`),
+      this._nativeSelect);
+  }
+
+  #renderAccessibilityList() {
+    render(
+      map(
+        this._options,
+        (option, index) =>
+          html`<div role="option" id="${`item-${index + 1}`}">${option.textContent}</div>`),
+      this.#list);
+  }
+
+  _syncSelectedOptions() {
+
+    for (let i = 0; i < this._options.length; i++) {
+      const option = this._options[i];
+      const nativeOption = this._nativeSelect.children[i] as HTMLOptionElement;
+      option.selected = nativeOption.selected;
+      option._nativeOption = nativeOption;
+    }
   }
 }
 

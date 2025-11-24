@@ -1,8 +1,7 @@
 import { svg, TemplateResult } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 
 import { UmMenuItem } from '../menu/menu-item.js';
-import { ExtendedOption } from './extended-option.js';
 import { styles } from './option.styles.js';
 import { UmSelect } from './select.js';
 
@@ -12,52 +11,49 @@ import './select.js';
 export class UmOption extends UmMenuItem {
   static override styles = [UmMenuItem.styles, styles];
 
-  _nativeOption: ExtendedOption = (() => {
-    const option = document.createElement('option') as ExtendedOption;
-    option._parent = this;
+  readonly #mutationObserver = new MutationObserver(() => this.#updateContent());
 
-    if (this.hasAttribute('selected')) {
-      option.setAttribute('selected', '');
-    }
-
-    option.textContent = this.textContent;
-
-    return option;
-  })();
+  #value = '';
+  #selected = false;
+  _nativeOption: HTMLOptionElement | null = null;
 
   @property({ reflect: true })
   get value(): string {
-    return this._nativeOption.value;
+    return this.#value;
   }
 
   set value(value: string) {
-    this._nativeOption.value = value;
+    this.#value = value;
+
+    if (this._nativeOption) {
+      this._nativeOption.value = value;
+    }
   }
 
-  @state()
+  @property({ type: Boolean })
   get selected(): boolean {
-    return this._nativeOption.selected;
+    return this.#selected;
   }
 
   set selected(selected: boolean) {
-    if (this.selected === selected) {
+    if (this.#selected === selected) {
       return;
     }
 
-    this._nativeOption.selected = selected;
+    this.#selected = selected;
 
-    if (selected) {
-      this.classList.add('selected');
-    } else {
-      this.classList.remove('selected');
+    if (this._nativeOption) {
+      this._nativeOption.selected = selected;
     }
 
-    if (!this._select) {
-      return;
-    }
+    this._select?._updateEmpty();
+  }
 
-    // this._select._button.setAttribute('aria-labelledby', this._listItem.id);
-    this._select.empty = !this._nativeOption.textContent?.trim();
+  protected override _getContainerClasses() {
+    return {
+      ...super._getContainerClasses(),
+      selected: this.selected,
+    };
   }
 
   protected override _renderDefaultTrailingIcon(): TemplateResult {
@@ -67,58 +63,30 @@ export class UmOption extends UmMenuItem {
       </svg>`;
   }
 
-  @property({ type: Boolean, attribute: 'selected' })
-  // @ts-ignore
-  private get _selectedAttribute(): boolean {
-    return this._nativeOption.hasAttribute('selected');
+  get _select(): UmSelect | null {
+    return this.parentElement?.tagName === 'U-SELECT'
+      ? this.parentElement as UmSelect
+      : null;
   }
-
-  // @ts-ignore
-  private set _selectedAttribute(selected: boolean) {
-    if (selected) {
-      this._nativeOption.setAttribute('selected', '');
-      return;
-    }
-
-    this._nativeOption.removeAttribute('selected');
-  }
-
-  _select!: UmSelect | null;
 
   override connectedCallback() {
     super.connectedCallback();
     this.addEventListener('click', this.#handleClick);
     this.setAttribute('tabindex', '-1');
 
-    this.#attach();
+    this.#mutationObserver.observe(this, {
+      subtree: true,
+      characterData: true,
+      childList: true,
+    });
+
+    this.#updateContent();
   }
 
   override disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener('click', this.#handleClick);
-
-    if (this._select === this.parentElement) {
-      return;
-    }
-
-    this._nativeOption.remove();
-
-    if (!this._select) {
-      return;
-    }
-
-    this._select.value = this._select.value;
-    this._select = null;
-  }
-
-  async #attach(): Promise<void> {
-    if (this._select === this.parentElement) {
-      return;
-    }
-
-    this._select = this.parentElement instanceof UmSelect ? this.parentElement : null;
-
-    await this.#setNativeOption();
+    this.#mutationObserver.disconnect();
   }
 
   #handleClick(e: Event) {
@@ -128,33 +96,32 @@ export class UmOption extends UmMenuItem {
 
     e.stopPropagation();
 
-    this.setSelectedByUser();
+    this._setSelectedByUser();
   }
 
-  setSelectedByUser() {
+  _setSelectedByUser() {
+
+    this.selected = true;
+
     if (!this._select) {
       return;
     }
 
-    this._select.selectedOptions[0]?.classList.remove('selected');
-    this.selected = true;
-
-    this._select.value = this._select.value;
     this._select.dispatchEvent(new InputEvent('input', { bubbles: true, composed: true }));
     this._select.dispatchEvent(new Event('change', { bubbles: true }));
 
+    this._select._updateEmpty();
+    this._select._syncSelectedOptions();
     this._select._menu?.close();
   }
 
   #updateContent() {
-    this._nativeOption.textContent = this.textContent;
-  }
 
-  async #setNativeOption(): Promise<void> {
-    await this.updateComplete;
-    this.#updateContent();
+    if (this._nativeOption) {
+      this._nativeOption.textContent = this.textContent;
+    }
 
-    this._select?._updateOptions();
+    this._select?._updateEmpty();
   }
 }
 

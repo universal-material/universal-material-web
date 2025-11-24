@@ -56,6 +56,21 @@ export class UmDialog extends LitElement {
    */
   @property({ type: Boolean, attribute: 'has-icon', reflect: true }) hasIcon = false;
 
+  #scrollContainer: HTMLElement | null = null;
+
+  @property()
+  get scrollContainer(): HTMLElement {
+    return this.#scrollContainer ?? this.content;
+  }
+
+  set scrollContainer(scrollContainer: HTMLElement) {
+    this.#scrollContainer?.removeEventListener('scroll', this.#handleScroll);
+
+    this.#scrollContainer = scrollContainer;
+    scrollContainer.addEventListener('scroll', this.#handleScroll.bind(this));
+    this.#setScrollDividers();
+  }
+
   @query('dialog') dialog!: HTMLDialogElement;
   @query('.scrim') scrim!: HTMLElement;
   @query('.content') content!: HTMLElement;
@@ -171,23 +186,23 @@ export class UmDialog extends LitElement {
   }
 
   #setBottomScrollDivider() {
-    const scrollBottom = this.content.scrollTop + this.content.offsetHeight;
+    const scrollBottom = this.scrollContainer.scrollTop + this.scrollContainer.offsetHeight;
 
-    if (scrollBottom >= this.content.scrollHeight) {
-      this.content.classList.remove(bottomDividerClass);
+    if (scrollBottom >= this.scrollContainer.scrollHeight) {
+      this.content?.classList.remove(bottomDividerClass);
       return;
     }
 
-    this.content.classList.add(bottomDividerClass);
+    this.content?.classList.add(bottomDividerClass);
   }
 
   #setTopScrollDivider() {
-    if (this.content.scrollTop) {
-      this.content.classList.add(topDividerClass);
+    if (this.scrollContainer.scrollTop) {
+      this.content?.classList.add(topDividerClass);
       return;
     }
 
-    this.content.classList.remove(topDividerClass);
+    this.content?.classList.remove(topDividerClass);
   }
 
   async show() {

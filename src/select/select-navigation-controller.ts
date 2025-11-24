@@ -14,7 +14,7 @@ export class SelectNavigationController extends MenuFieldNavigationController<Um
   #typeaheadStatus = getCleanTypeaheadStatus();
 
   protected override handleKeyDown(event: KeyboardEvent): boolean {
-    if (this.host._menu.open) {
+    if (this.getHost()._menu.open) {
       const handled = super.handleKeyDown(event);
 
       return handled || this.handleType(event);
@@ -28,39 +28,39 @@ export class SelectNavigationController extends MenuFieldNavigationController<Um
     }
 
     event.preventDefault();
-    this.host._menu.show();
+    this.getHost()._menu.show();
 
-    if (!this.host.selectedOptions.length) {
+    if (!this.getHost().selectedOptions.length) {
       return true;
     }
 
-    const option = this.host.selectedOptions[0];
-    this.navigateTo(event, option, this.host._menuItems.indexOf(option));
+    const option = this.getHost().selectedOptions[0];
+    this.navigateTo(event, option, this.getHost()._menuItems.indexOf(option));
     return true;
   }
 
   override attach(element: HTMLElement) {
     super.attach(element);
-    this.host._menu.addEventListener('menu-item-mouseenter', this.#handleMouseFocus);
+    this.getHost()._menu.addEventListener('menu-item-mouseenter', this.#handleMouseFocus);
   }
 
   override detach() {
     super.detach();
-    this.host._menu.removeEventListener('menu-item-mouseenter', this.#handleMouseFocus);
+    this.getHost()._menu.removeEventListener('menu-item-mouseenter', this.#handleMouseFocus);
   }
 
   readonly #handleMouseFocus = (e: Event) => {
     this.blurMenu();
     const option = e.target as UmOption;
-    this.focusMenu(option, this.host._menuItems.indexOf(option), false, false);
+    this.focusMenu(option, this.getHost()._menuItems.indexOf(option), false, false);
   };
 
   protected override afterFocus(_: UmOption, index: number) {
-    this.host._button.setAttribute('aria-activedescendant', `item-${index + 1}`);
+    this.getHost()._button.setAttribute('aria-activedescendant', `item-${index + 1}`);
   }
 
   protected override afterBlur() {
-    this.host._button.removeAttribute('aria-activedescendant');
+    this.getHost()._button.removeAttribute('aria-activedescendant');
   }
 
   private handleType(event: KeyboardEvent) {
@@ -86,11 +86,11 @@ export class SelectNavigationController extends MenuFieldNavigationController<Um
   }
 
   private findNextElementByTerm(term: string, lastFocusedMenu: UmOption | null): void {
-    const options = this.host._options;
+    const options = this.getHost()._options;
     const lastFocusedMenuIndex = lastFocusedMenu ? options.indexOf(lastFocusedMenu) : -1;
 
     let nextMenu =
-      lastFocusedMenuIndex > -1 ? this.host._options[lastFocusedMenuIndex + 1] as UmOption | undefined : null;
+      lastFocusedMenuIndex > -1 ? this.getHost()._options[lastFocusedMenuIndex + 1] as UmOption | undefined : null;
 
     if (!nextMenu || !normalizedStartsWith(nextMenu.textContent, term)) {
       nextMenu = options.find(o => normalizedStartsWith(o.textContent, term));
@@ -102,12 +102,12 @@ export class SelectNavigationController extends MenuFieldNavigationController<Um
 
     const nextMenuIndex = options.indexOf(nextMenu);
 
-    if (this.host._menu.open) {
+    if (this.getHost()._menu.open) {
       this.blurMenu();
       this.focusMenu(nextMenu, nextMenuIndex);
       return;
     }
 
-    nextMenu.setSelectedByUser();
+    nextMenu._setSelectedByUser();
   }
 }

@@ -157,7 +157,6 @@ export class OverflowMenu extends LitElement {
   }
 
   #renderMenuItems() {
-    console.log(this.#collapsedItems);
     const menuItems = html`
       ${map(
         this.#collapsedItems,

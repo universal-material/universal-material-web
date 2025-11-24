@@ -45,6 +45,7 @@ export abstract class UmButtonWrapper extends LitElement {
   }
 
   protected override render(): HTMLTemplateResult {
+
     const contents = typeof this.href === 'string'
       ? this.#renderLink()
       : this.#renderButton();

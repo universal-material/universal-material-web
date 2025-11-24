@@ -1,6 +1,6 @@
 @use "../scss/api";
 
-:host(.selected) {
+.selected {
   background-color: var(--u-select-option-selected-bg-color, #{api.get-color-transparency-mix(api.get-color-var(primary), 12%)});
 
   .icon,
@@ -9,7 +9,7 @@
   }
 }
 
-:host(:not(.selected):not([has-trailing-icon])) {
+.container:not(.selected):not(.trailing-icon) {
   .trailing {
     display: none;
   }
