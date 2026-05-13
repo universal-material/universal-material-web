@@ -62,6 +62,10 @@ export const routes: Routes = [
     loadComponent: () => import('@docs/components/fab-menu/fab-menu.component').then(m => m.FabMenuComponent)
   },
   {
+    path: 'components/icon',
+    loadComponent: () => import('@docs/components/icon/icon.component').then(m => m.IconComponent)
+  },
+  {
     path: 'components/icon-buttons',
     loadComponent: () => import('@docs/components/icon-buttons/icon-buttons.component').then(m => m.IconButtonsComponent)
   },
@@ -80,6 +84,10 @@ export const routes: Routes = [
   {
     path: 'components/ripple',
     loadComponent: () => import('@docs/components/ripple/ripple.component').then(m => m.RippleComponent)
+  },
+  {
+    path: 'components/search',
+    loadComponent: () => import('@docs/components/search/search.component').then(m => m.SearchComponent)
   },
   {
     path: 'components/selection-controls',
