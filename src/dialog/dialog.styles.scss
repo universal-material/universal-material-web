@@ -1,5 +1,5 @@
-@use "../scss/api";
-@use "../scss/variables";
+@use "../../scss/api";
+@use "../../scss/variables";
 
 :host {
   --u-elevation-level: var(--u-dialog-elevation, 3);

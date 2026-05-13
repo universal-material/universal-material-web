@@ -10,6 +10,9 @@ import '../ripple/ripple.js';
 export class UmListItem extends LitElement {
   static override styles = styles;
 
+  /**
+   * Whether the list item is interactive and renders a ripple on click
+   */
   @property({ type: Boolean, reflect: true }) selectable = false;
 
   override render(): HTMLTemplateResult {

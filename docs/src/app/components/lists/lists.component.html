@@ -2,26 +2,28 @@
 
 <u-card variant="outlined">
   <u-list slot="before-content">
-    <u-list-item>Item A<span slot="supporting-text">Supporting text</span><span slot="trailing">A</span></u-list-item>
+    <u-list-item
+      >Item A<span slot="supporting-text">Supporting text</span><span slot="trailing-icon">A</span></u-list-item
+    >
     <u-switch-list-item>Item B<span slot="supporting-text">Supporting text</span></u-switch-list-item>
     <u-list-item>Item C</u-list-item>
     <u-list-item>Item D</u-list-item>
-    <u-list-item selectable>
+    <u-list-item>
       <span
         class="material-symbols-outlined"
-        slot="leading"
+        slot="leading-icon"
         >palette
       </span>
       <span>Item D</span>
       <u-icon-button
-        slot="trailing"
+        slot="trailing-icon"
         disabled
       >
         <span class="material-symbols-outlined">palette</span>
       </u-icon-button>
       <span
         class="material-symbols-outlined"
-        slot="trailing"
+        slot="trailing-icon"
         >palette
       </span>
     </u-list-item>

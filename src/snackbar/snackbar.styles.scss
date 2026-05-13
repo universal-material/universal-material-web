@@ -1,5 +1,5 @@
-@use "../scss/variables";
-@use "../scss/api";
+@use "../../scss/variables";
+@use "../../scss/api";
 
 :host {
   --u-elevation-level: var(--u-snackbar-elevation-level, 3);

@@ -58,6 +58,10 @@ export const routes: Routes = [
     loadComponent: () => import('@docs/components/fab/fab.component').then(m => m.FabComponent)
   },
   {
+    path: 'components/fab-menu',
+    loadComponent: () => import('@docs/components/fab-menu/fab-menu.component').then(m => m.FabMenuComponent)
+  },
+  {
     path: 'components/icon-buttons',
     loadComponent: () => import('@docs/components/icon-buttons/icon-buttons.component').then(m => m.IconButtonsComponent)
   },

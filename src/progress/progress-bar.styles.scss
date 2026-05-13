@@ -1,4 +1,4 @@
-@use "../scss/api";
+@use "../../scss/api";
 
 :host {
   --_border-radius: var(--u-progress-bar-border-radius, #{api.get-shape-corner-var(full)});

@@ -20,6 +20,10 @@ export class UmDialog extends LitElement {
   #open = false;
   #contentResizeObserver!: ResizeObserver | null;
 
+  /**
+   * Whether the dialog is open. Setting this to `true` is equivalent to
+   * calling `show()`; setting it to `false` is equivalent to `close()`.
+   */
   @property({ type: Boolean })
   get open(): boolean {
     return this.#open;
@@ -58,6 +62,10 @@ export class UmDialog extends LitElement {
 
   #scrollContainer: HTMLElement | null = null;
 
+  /**
+   * The external element that drives the top/bottom scroll dividers.
+   * When not set, the dialog's own content element is used.
+   */
   @property()
   get scrollContainer(): HTMLElement {
     return this.#scrollContainer ?? this.content;

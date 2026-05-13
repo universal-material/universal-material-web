@@ -4,6 +4,10 @@ import { UmTextFieldBase } from '../text-field-base/text-field-base.js';
 
 export abstract class UmNativeTextFieldWrapper extends UmTextFieldBase {
   protected _value = '';
+
+  /**
+   * The current text value of the field, submitted with the associated form
+   */
   @property()
   get value() {
     return this._value;
@@ -16,10 +20,17 @@ export abstract class UmNativeTextFieldWrapper extends UmTextFieldBase {
     this.#updateCounter();
   }
 
+  /**
+   * Mirrors the native `autocomplete` attribute on the underlying input
+   */
   @property({ reflect: true }) autocomplete: 'on' | 'off' | string | undefined;
 
   #maxlength: number | undefined;
 
+  /**
+   * Maximum number of characters the field accepts. When set, drives the
+   * automatic character counter shown in the supporting text.
+   */
   @property({ type: Number, reflect: true })
   get maxlength(): number | undefined {
     return this.#maxlength;
@@ -30,6 +41,9 @@ export abstract class UmNativeTextFieldWrapper extends UmTextFieldBase {
     this.#updateCounter();
   }
 
+  /**
+   * The ARIA role applied to the inner input element
+   */
   @property({ reflect: true }) override role: string | null = null;
 
   override focus() {

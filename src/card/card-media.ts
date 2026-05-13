@@ -9,6 +9,9 @@ export class UmCardMedia extends LitElement {
 
   static override styles = [baseStyles, styles];
 
+  /**
+   * Whether the media block uses the wide aspect ratio variant
+   */
   @property({ type: Boolean, reflect: true }) wide = false;
 
   override render(): HTMLTemplateResult {

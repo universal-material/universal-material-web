@@ -16,7 +16,7 @@ export class OverflowMenu extends LitElement {
 
   readonly #collapsedItems: OverflowMenuItem[] = [];
 
-  @state() _showMenu = false;
+  @state() _renderMenu = false;
 
   @query('u-menu') menu?: UmMenu;
 
@@ -65,29 +65,32 @@ export class OverflowMenu extends LitElement {
   #updateMenuToggleVisibility(): void {
 
     let collapsedCount = 0;
+    let hasAlwaysCollapsedItems = false;
 
     for (const item of this.#items) {
 
-      if (item.offsetTop === this.offsetTop) {
-        break;
+      hasAlwaysCollapsedItems = hasAlwaysCollapsedItems || item.collapse === 'always';
+
+      if (this.#isNotCollapsedMenuItem(item)) {
+        continue;
       }
 
       collapsedCount++;
     }
 
     const firstItem = this.#items[0];
-    const showMenu = !!firstItem && this._showMenu
+    const renderMenu = hasAlwaysCollapsedItems || !!firstItem && (this._renderMenu
       ? collapsedCount > 1
-      : collapsedCount > 0;
+      : collapsedCount > 0);
 
-    if (this._showMenu !== showMenu) {
-      this._showMenu = showMenu;
+    if (this._renderMenu !== renderMenu) {
+      this._renderMenu = renderMenu;
     }
   }
 
   #updateMenuItems(): void {
 
-    if (!this._showMenu) {
+    if (!this._renderMenu) {
       this.#collapsedItems.length = 0;
       return;
     }
@@ -100,8 +103,8 @@ export class OverflowMenu extends LitElement {
 
       for (const item of this.#items) {
 
-        if (item.offsetTop === this.offsetTop) {
-          break;
+        if (this.#isNotCollapsedMenuItem(item)) {
+          continue;
         }
 
         this.#collapsedItems.push(item);
@@ -111,6 +114,10 @@ export class OverflowMenu extends LitElement {
         this.requestUpdate();
       }
     }, 100);
+  }
+
+  #isNotCollapsedMenuItem(item: OverflowMenuItem) {
+    return item.offsetTop === this.offsetTop && item.collapse !== 'always';
   }
 
   #handleSlotChange(e: Event) {
@@ -124,9 +131,9 @@ export class OverflowMenu extends LitElement {
   }
 
   protected override render(): HTMLTemplateResult {
-    this.#renderMenuItems();
+    this._renderMenuItems();
 
-    const classes = { 'show-menu': this._showMenu };
+    const classes = { 'show-menu': this._renderMenu };
 
     return html`
       <div class="container ${classMap(classes)}">
@@ -134,7 +141,7 @@ export class OverflowMenu extends LitElement {
           <div class="empty-space"></div>
           <slot @slotchange="${this.#handleSlotChange}"></slot>
         </div>
-        ${when(this._showMenu, () => html`
+        ${when(this._renderMenu, () => html`
           <div class="inner-menu">
             <u-icon-button @click=${{ handleEvent: () => this.menu?.toggle() }}>
               <slot name="icon">
@@ -156,7 +163,7 @@ export class OverflowMenu extends LitElement {
     `;
   }
 
-  #renderMenuItems() {
+  _renderMenuItems() {
     const menuItems = html`
       ${map(
         this.#collapsedItems,

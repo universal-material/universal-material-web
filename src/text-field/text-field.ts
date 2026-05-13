@@ -12,10 +12,30 @@ import { styles } from './text-field.styles.js';
 export class UmTextField extends UmNativeTextFieldWrapper {
   static override styles: CSSResultGroup = [UmTextFieldBase.styles, styles];
 
+  /**
+   * The input type. Mirrors the native `input` element's `type` attribute
+   * (e.g. `text`, `email`, `password`, `number`).
+   */
   @property() type = 'text';
+
+  /**
+   * Text rendered in the default `prefix` slot, shown before the input
+   */
   @property({ attribute: 'prefix-text' }) prefixText: string | undefined;
+
+  /**
+   * Text rendered in the default `suffix` slot, shown after the input
+   */
   @property({ attribute: 'suffix-text' }) suffixText: string | undefined;
+
+  /**
+   * Whether the field's value is read-only
+   */
   @property({ type: Boolean, reflect: true }) readOnly = false;
+
+  /**
+   * Mirrors the native `autocapitalize` attribute on the underlying input
+   */
   @property({ reflect: true }) override autocapitalize!: string;
 
   @query('input') input!: HTMLInputElement;

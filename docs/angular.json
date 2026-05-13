@@ -29,7 +29,7 @@
               "src/assets"
             ],
             "styles": [
-              "../src/scss/universal-material.scss",
+              "../scss/universal-material.scss",
               "../node_modules/highlight.js/styles/base16/atelier-sulphurpool-light.css",
               "src/styles.scss"
             ],

@@ -68,7 +68,14 @@ export abstract class UmSelectionControl extends LitElement {
 
   protected readonly elementInternals: ElementInternals;
 
+  /**
+   * The form field name used when submitting the control's value
+   */
   @property({ reflect: true }) name: string | undefined = '';
+
+  /**
+   * Whether the control is disabled and prevents user interaction
+   */
   @property({ type: Boolean, reflect: true }) disabled = false;
   @query('input') input!: HTMLInputElement;
 
@@ -94,6 +101,9 @@ export abstract class UmSelectionControl extends LitElement {
    */
   @property() value = 'on';
 
+  /**
+   * Whether the control is checked
+   */
   @property({ type: Boolean })
   get checked() {
     return this.input ? this.input.checked : this.#checked;

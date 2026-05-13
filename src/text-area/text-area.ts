@@ -12,6 +12,9 @@ import { styles } from './text-area.styles.js';
 export class UmTextArea extends UmNativeTextFieldWrapper {
   static override styles: CSSResultGroup = [UmTextFieldBase.styles, styles];
 
+  /**
+   * The minimum number of visible text rows
+   */
   @property({ type: Number }) rows = 2;
 
   @query('textarea') override input!: HTMLTextAreaElement;

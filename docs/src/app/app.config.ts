@@ -1,14 +1,17 @@
 import { provideHighlightOptions } from 'ngx-highlightjs';
 import { provideMarkdown } from 'ngx-markdown';
-import { ApplicationConfig } from '@angular/core';
+import { ApplicationConfig, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter, withHashLocation } from '@angular/router';
 
 import { routes } from './app.routes';
+import { provideHttpClient } from '@angular/common/http';
 
 // config.navigationDrawer.useSwiperJs = true;
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideZonelessChangeDetection(),
+    provideHttpClient(),
     provideRouter(routes, withHashLocation()),
     provideHighlightOptions({
       coreLibraryLoader: () => import('highlight.js/lib/core'),

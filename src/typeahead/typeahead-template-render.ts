@@ -3,6 +3,10 @@ import { customElement, property } from 'lit/decorators.js';
 
 @customElement('u-typeahead-template-render')
 export class TypeaheadTemplateRender extends LitElement {
+  /**
+   * The content to render. Accepts a string, an `HTMLElement`, or a Lit
+   * template result that will be rendered into a container element.
+   */
   @property() content: string | HTMLElement | null = null;
 
   override render() {

@@ -8,6 +8,9 @@ import { styles } from './badge.styles.js';
 export class UmBadge extends LitElement {
   static override styles = styles;
 
+  /**
+   * Whether the badge is rendered as a static dot, without numeric content
+   */
   @property({ type: Boolean, reflect: true }) static = false;
   @state() private _empty = true;
 

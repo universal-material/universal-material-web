@@ -12,7 +12,14 @@ export class UmIconButton extends UmToggleButton {
 
   static override styles = [UmToggleButton.styles, styles];
 
+  /**
+   * The Icon Button variant to render
+   */
   @property() variant: UmIconButtonVariant = 'standard';
+
+  /**
+   * The width of the Icon Button
+   */
   @property() width: UmIconButtonWidth = 'default';
 
   protected override _getContainerClasses(): Record<string, boolean> {

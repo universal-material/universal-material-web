@@ -1,6 +1,6 @@
 {
   "name": "@universal-material/web",
-  "version": "3.6.11",
+  "version": "3.7.2",
   "description": "Material web components",
   "type": "module",
   "keywords": [
@@ -13,18 +13,21 @@
     "typescript",
     "lit"
   ],
-  "module": "./index.js",
-  "typings": "./index.d.ts",
+  "main": "index.js",
+  "module": "index.js",
+  "types": "index.d.ts",
+  "sass": "scss/universal-material.scss",
   "scripts": {
-    "build": "run-s clean script:sass-to-ts script:build sass analyze copy && node remove-scripts-from-package.js",
+    "build": "run-s clean script:sass-to-ts build:esm build:bundle sass analyze copy && node remove-scripts-from-package.js",
     "build:watch": "gulp -f gulpfile.js scripts:watch",
-    "script:build": "tsc",
+    "build:esm": "esbuild src/index.ts --bundle --format=esm --minify --define:process.env.NODE_ENV=\"production\" --outfile=dist/bundle.min.js",
+    "build:bundle": "tsc",
     "script:sass-to-ts": "gulp -f gulpfile.js scripts:sass-to-ts",
     "script:sass-to-ts:watch": "gulp -f gulpfile.js scripts:sass-to-ts:watch",
     "sass": "gulp -f gulpfile.js sass",
     "sass:watch": "gulp -f gulpfile.js sass:watch",
     "clean": "rimraf ./dist/ rimraf ./src/**/*.d.ts rimraf ./src/**/*.styles.ts",
-    "copy": "copyfiles package.json README.md custom-elements.json vscode.html-custom-data.json dist/ && copyfiles -u 1 src/scss/**/*.scss dist/",
+    "copy": "copyfiles package.json README.md custom-elements.json vscode.html-custom-data.json dist/ && copyfiles -u 1 scss/**/*.scss dist/scss",
     "lint": "npm run lint:lit-analyzer && npm run lint:eslint && npm run lint:prettier",
     "lint:eslint": "eslint src/**/*.ts",
     "lint:eslint:fix": "eslint src/**/*.ts --fix",
@@ -53,10 +56,10 @@
   "homepage": "https://universal-material.github.io",
   "dependencies": {
     "@bart-krakowski/get-week-info-polyfill": "^1.0.8",
+    "@lit-labs/virtualizer": "^2.1.1",
     "@lit/context": "^1.1.5",
     "@material/material-color-utilities": "^0.3.0",
     "dompurify": "^3.2.6",
-    "interactjs": "^1.10.27",
     "lit": "^3.2.1",
     "swiper": "^11.2.4"
   },

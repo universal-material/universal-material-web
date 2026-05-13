@@ -36,6 +36,11 @@ export class UmTab extends UmButtonWrapper {
     this._bar.activeTabIndex = 0;
   }
 
+  /**
+   * Whether the tab has an icon slotted in the `icon` slot
+   *
+   * _Note:_ Readonly
+   */
   @property({ type: Boolean }) hasIcon = false;
   @query('.container') private readonly _container!: HTMLElement;
 

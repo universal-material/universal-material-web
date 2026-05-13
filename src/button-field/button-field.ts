@@ -3,13 +3,17 @@ import { customElement, property, query } from 'lit/decorators.js';
 import { html as staticHtml } from 'lit/static-html.js';
 
 import { UmTextFieldBase } from '../shared/text-field-base/text-field-base.js';
-import { styles } from './button-field.styles';
+import { styles } from './button-field.styles.js';
 
 @customElement('u-button-field')
 export class UmButtonField extends UmTextFieldBase {
   static override styles = [UmTextFieldBase.styles, styles];
 
   protected _value = '';
+
+  /**
+   * The current value of the field, submitted with the associated form
+   */
   @property()
   get value() {
     return this._value;

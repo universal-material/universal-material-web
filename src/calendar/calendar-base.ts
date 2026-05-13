@@ -14,6 +14,10 @@ export abstract class UmCalendarBase extends LitElement {
 
   @state() weekDays: string[] = [];
   @state() dateRenderer: ((date: Date, day: string) => HTMLElement) | null = null;
+  /**
+   * Whether to render dates from the previous and next months that
+   * fall inside the displayed weeks
+   */
   @property({ type: Boolean }) dateOutsideMonth = false;
 
   get year(): number {
@@ -37,6 +41,10 @@ export abstract class UmCalendarBase extends LitElement {
   readonly #currentDate = new Date();
   @state() _displayingMonthDate: Date;
 
+  /**
+   * The BCP 47 locale tag used to format month names and weekdays.
+   * When `null`, falls back to the browser's `navigator.language`.
+   */
   @property() locale: string | null = null;
   _innerLocale: string = navigator.language;
   adapter = new DefaultCalendarAdapter();

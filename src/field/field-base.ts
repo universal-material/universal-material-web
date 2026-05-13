@@ -17,6 +17,10 @@ export abstract class UmFieldBase extends LitElement {
   @state()
   private readonly config: UmFieldDefaults | undefined;
 
+  /**
+   * The Field variant to render. When omitted, falls back to the variant
+   * provided by the surrounding `fieldDefaultsContext` (or `'filled'`).
+   */
   @property() variant: 'filled' | 'outlined' | undefined = 'filled';
 
   /**
@@ -26,8 +30,16 @@ export abstract class UmFieldBase extends LitElement {
   label: string | undefined;
 
   @state() protected _innerCounter: string | undefined;
+
+  /**
+   * Custom counter text shown in the supporting line, overriding the
+   * automatic character-count counter
+   */
   @property() counter: string | undefined;
 
+  /**
+   * Whether to hide the counter from the supporting text line
+   */
   @property({ type: Boolean, attribute: 'hide-counter' }) hideCounter = false;
 
   /**
@@ -45,6 +57,10 @@ export abstract class UmFieldBase extends LitElement {
    * Whether the field is empty or not. This changes the behavior of the floating label when the field is not focused.
    */
   @property({ type: Boolean, reflect: true }) empty = false;
+
+  /**
+   * Whether the field is disabled
+   */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
   /**

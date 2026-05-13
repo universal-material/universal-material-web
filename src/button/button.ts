@@ -27,6 +27,9 @@ export class UmButton extends UmToggleButton {
    */
   @property() color: UmButtonColor = 'primary';
 
+  /**
+   * Whether the slotted icon is rendered after the label instead of before
+   */
   @property({ type: Boolean, attribute: 'trailing-icon', reflect: true }) trailingIcon = false;
 
   @state() private _hasIcon = false;

@@ -12,6 +12,10 @@ export class UmChipField extends UmTextFieldBase {
   static override styles: CSSResultGroup = [UmTextFieldBase.styles, styles];
 
   @query('input') input!: HTMLInputElement;
+
+  /**
+   * The form field name used when submitting each chip value as form data
+   */
   @property() name!: string;
 
   /**

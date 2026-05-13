@@ -1,4 +1,4 @@
-import { CalendarAdapter } from './calendar-adapter';
+import { CalendarAdapter } from './calendar-adapter.js';
 
 export class DefaultCalendarAdapter implements CalendarAdapter {
   weekDayFormat: 'long' | 'short' | 'narrow' = 'narrow';

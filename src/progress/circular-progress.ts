@@ -10,7 +10,15 @@ const basePercentage = 255;
 export class UmCircularProgress extends LitElement {
   static override styles = [styles];
 
+  /**
+   * The current progress value. When `undefined`, the indicator is rendered
+   * in indeterminate mode.
+   */
   @property({ type: Number }) value: number | undefined;
+
+  /**
+   * The maximum value of the progress indicator
+   */
   @property({ type: Number }) max = 1;
 
   protected override render(): TemplateResult {

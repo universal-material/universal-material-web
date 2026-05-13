@@ -21,6 +21,9 @@ export abstract class UmTextFieldBase extends UmFieldBase {
    */
   override empty = true;
 
+  /**
+   * The placeholder text shown when the field is empty
+   */
   @property({ reflect: true }) placeholder = '';
 
   get form(): HTMLFormElement | null {

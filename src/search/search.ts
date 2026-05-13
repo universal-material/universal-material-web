@@ -14,6 +14,9 @@ export class UmSearch extends UmNativeTextFieldWrapper {
 
   static override styles = [baseStyles, styles];
 
+  /**
+   * The positioning strategy of the search bar
+   */
   @property({ reflect: true })
   position: 'fixed' | 'absolute' | 'static' = 'fixed';
 

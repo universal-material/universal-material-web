@@ -102,8 +102,15 @@ export class UmTypeahead extends LitElement {
    */
   @property({ reflect: true }) override spellcheck = false;
 
+  /**
+   * Whether the suggestions menu should match the target element's width
+   */
   @property({ type: Boolean, attribute: 'fit-target', reflect: true }) fitTarget = false;
 
+  /**
+   * The positioning strategy used by the suggestions menu. Use `'fixed'`
+   * when the target is rendered inside a clipped/scrollable container.
+   */
   @property({ reflect: true }) positioning: 'relative' | 'fixed' = 'relative';
 
   get form(): HTMLFormElement | null {

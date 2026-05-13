@@ -22,6 +22,9 @@ export class UmTabBar extends LitElement {
     this._updateTabIndicator();
   });
 
+  /**
+   * The Tab Bar variant to render
+   */
   @property({ reflect: true }) variant: 'primary' | 'secondary' = 'primary';
 
   @query('.scroll-left') private readonly _scrollLeft!: HTMLElement;

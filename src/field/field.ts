@@ -6,6 +6,10 @@ import { UmFieldBase } from './field-base.js';
 @customElement('u-field')
 export class UmField extends UmFieldBase {
 
+  /**
+   * Whether the field should automatically derive its `empty` state from
+   * the slotted native input's value
+   */
   @property({ type: Boolean }) autoEmpty = false;
 
   private control: HTMLInputElement | null = null;

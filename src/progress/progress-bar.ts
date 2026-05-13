@@ -7,7 +7,15 @@ import { styles } from './progress-bar.styles.js';
 export class UmProgressBar extends LitElement {
   static override styles = [styles];
 
+  /**
+   * The current progress value. When `undefined`, the bar is rendered
+   * in indeterminate mode.
+   */
   @property({ type: Number }) value: number | undefined;
+
+  /**
+   * The maximum value of the progress bar
+   */
   @property({ type: Number }) max = 1;
 
   protected override render(): TemplateResult {

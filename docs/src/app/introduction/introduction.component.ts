@@ -39,9 +39,5 @@ import '@universal-material/web/checkbox/checkbox.js';
 </u-button-set>
 `.trim();
 
-  constructor() {
-    console.log(UmSnackbar);
-  }
-
   protected readonly states = states;
 }

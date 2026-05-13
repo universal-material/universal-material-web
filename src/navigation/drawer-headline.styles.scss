@@ -1,5 +1,5 @@
-@use '../scss/functions';
-@use '../scss/mixins';
+@use '../../scss/functions';
+@use '../../scss/mixins';
 
 .container {
   @include mixins.typo(title-s, drawer-headline);

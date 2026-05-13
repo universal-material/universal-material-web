@@ -6,7 +6,7 @@ import { classMap } from 'lit/directives/class-map.js';
 
 import { UmRipple } from '../ripple/ripple.js';
 import { styles as baseStyles } from './base.styles.js';
-import { styles } from './button-wrapper.styles';
+import { styles } from './button-wrapper.styles.js';
 import { redispatchEvent } from './events/redispatch-event.js';
 
 import '../elevation/elevation.js';
@@ -33,6 +33,9 @@ export abstract class UmButtonWrapper extends LitElement {
    */
   @property() target: string | undefined;
 
+  /**
+   * The form field name associated with the button when submitting a form
+   */
   @property() name: string | undefined;
 
   @query('.button') readonly buttonElement!: HTMLElement;

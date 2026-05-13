@@ -34,3 +34,9 @@ select {
   margin: -1px;
   overflow: hidden;
 }
+
+.input {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}

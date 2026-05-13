@@ -8,7 +8,7 @@ const sass = gulpSass(dartSass);
 
 const buildSassBase = minify => {
   let pipeline = gulp
-    .src('./src/scss/universal-material.scss')
+    .src('./scss/universal-material.scss')
     .pipe(sourcemaps.init())
     .pipe(sass({outputStyle: minify ? 'compressed' : 'expanded'}).on('error', sass.logError));
 

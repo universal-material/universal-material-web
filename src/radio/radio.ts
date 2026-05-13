@@ -11,6 +11,9 @@ import { styles } from './radio.styles.js';
 export class UmRadio extends UmSelectionControl {
   static override styles = [baseStyles, styles];
 
+  /**
+   * Whether to hide the hover/focus state layer behind the radio indicator
+   */
   @property({ type: Boolean, attribute: 'hide-state-layer', reflect: true }) hideStateLayer = false;
 
   protected override inputType: 'radio' | 'checkbox' = 'radio';

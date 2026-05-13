@@ -1,4 +1,4 @@
-@use "../scss/api";
+@use "../../scss/api";
 
 .selected {
   background-color: var(--u-select-option-selected-bg-color, #{api.get-color-transparency-mix(api.get-color-var(primary), 12%)});

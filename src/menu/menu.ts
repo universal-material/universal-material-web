@@ -45,6 +45,12 @@ export class UmMenu extends LitElement {
   #open = false;
   #preInitOpen = false;
 
+  /**
+   * Controls automatic closing on outside interaction.
+   * - `true`: closes on any click outside the menu (default)
+   * - `false`: never closes automatically
+   * - `'outside'`: closes only on clicks outside, but does not close on clicks inside the menu
+   */
   @property() autoclose: boolean | 'outside' = true;
 
   /**
@@ -94,7 +100,6 @@ export class UmMenu extends LitElement {
   }
 
   #show() {
-    this.menu.style.display = '';
     this.calcDropdownPositioning();
 
     this.menu.addEventListener('transitionend', this.#onOpened, {
@@ -120,8 +125,18 @@ export class UmMenu extends LitElement {
     });
   }
 
+  /**
+   * The menu positioning strategy.
+   * `'relative'` positions the menu inside its parent's stacking context;
+   * `'fixed'` positions it relative to the viewport, useful when the
+   * menu is nested inside a clipped container.
+   */
   @property({ reflect: true }) positioning: 'relative' | 'fixed' = 'relative';
 
+  /**
+   * When `true`, the menu does not automatically focus its first
+   * enabled item on open
+   */
   @property({ type: Boolean }) manualFocus = false;
 
   /**
@@ -154,7 +169,6 @@ export class UmMenu extends LitElement {
   readonly #onOpened = () => this.dispatchEvent(new Event('opened'));
 
   readonly #onClosed = () => {
-    this.menu.style.display = 'none';
     this.dispatchEvent(new Event('closed'));
   };
 
@@ -176,7 +190,6 @@ export class UmMenu extends LitElement {
       <div
         class="menu ${classMap(menuClasses)}" 
         part="menu"
-        style="display: none"
         ?inert=${!this.open}
         @click=${this.#handleMenuClick}>
         <u-elevation></u-elevation>

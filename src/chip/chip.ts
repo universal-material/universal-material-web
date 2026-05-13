@@ -20,6 +20,9 @@ export class UmChip extends UmButtonWrapper {
    */
   @property({ type: Boolean, reflect: true }) selected = false;
 
+  /**
+   * Whether the chip is interactive and renders a ripple on click
+   */
   @property({ type: Boolean, reflect: true })
   get clickable(): boolean {
     return this.#clickable;

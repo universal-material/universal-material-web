@@ -9,6 +9,11 @@ export class UmCardContent extends LitElement {
 
   static override styles = [baseStyles, styles];
 
+  /**
+   * Whether the default slot has assigned content
+   *
+   * _Note:_ Readonly
+   */
   @property({ type: Boolean, attribute: 'has-content', reflect: true }) hasContent = false;
 
   override render(): HTMLTemplateResult {

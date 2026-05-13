@@ -8,10 +8,17 @@ import { styles } from './menu-item.styles.js';
 export class UmMenuItem extends UmButtonWrapper {
   static override styles = [UmButtonWrapper.styles, styles];
 
+  /**
+   * Whether the item is currently highlighted via keyboard navigation
+   */
   @property({ type: Boolean, reflect: true }) active = false;
 
   @state() private _hasLeadingIcon = false;
   @state() private _hasTrailingIcon = false;
+
+  /**
+   * Whether the item should reserve space for a trailing badge indicator
+   */
   @property({ type: Boolean, attribute: 'has-badge', reflect: true }) hasBadge = false;
 
   override innerRole = 'menuitem';

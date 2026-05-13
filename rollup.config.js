@@ -12,7 +12,7 @@ import { terser } from 'rollup-plugin-terser';
 export default {
   input: './dist/index.js',
   output: {
-    file: './docs/dist/js/index.js',
+    dir: './dist/bundled',
     format: 'esm',
   },
   onwarn(warning) {

@@ -53,13 +53,13 @@ export class AppComponent {
 
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => this.applyThemeMode());
 
-    router.events.subscribe(event => {
-      if (!(event instanceof ChildActivationEnd)) {
-        return;
-      }
-
-      setTimeout(() => this.buildNavigation(), 100);
-    });
+    // router.events.subscribe(event => {
+    //   if (!(event instanceof ChildActivationEnd)) {
+    //     return;
+    //   }
+    //
+    //   setTimeout(() => this.buildNavigation(), 100);
+    // });
 
     if (localStorage['direction'] === 'rtl') {
       document.body.setAttribute('dir', 'rtl');

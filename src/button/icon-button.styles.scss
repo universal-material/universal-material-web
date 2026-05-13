@@ -1,4 +1,4 @@
-@use "../scss/functions";
+@use "../../scss/functions";
 
 :host {
   --_round-shape-corner: var(--u-icon-button-round-shape-corner, calc(var(--_size) / 2));

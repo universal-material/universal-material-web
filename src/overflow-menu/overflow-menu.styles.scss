@@ -1,6 +1,7 @@
 :host {
   --_gap: var(--u-overflow-menu-items-gap, 8px);
-  --_items-height: var(--u-icon-button-small-height, 40px)
+  --_items-height: var(--u-icon-button-small-height, 40px);
+  display: block;
 }
 
 .empty-space {

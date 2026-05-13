@@ -4,7 +4,7 @@ import { html, HTMLTemplateResult, LitElement, nothing } from 'lit';
 import { customElement, property, query, queryAssignedElements, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
-import { styles as baseStyles } from '../shared/base.styles';
+import { styles as baseStyles } from '../shared/base.styles.js';
 import { styles } from './top-app-bar.styles.js';
 
 @customElement('u-top-app-bar')
@@ -14,14 +14,29 @@ export class UmTopAppBar extends LitElement {
   @state() private _hasLeadingIcon = false;
   @state() private _hasTrailingIcon = false;
 
+  /**
+   * The positioning strategy of the app bar
+   */
   @property({ reflect: true })
   position: 'fixed' | 'absolute' | 'static' = 'fixed';
 
+  /**
+   * The height variant of the app bar
+   */
   @property({ reflect: true })
   size: 'small' | 'medium' | 'large' = 'small';
 
+  /**
+   * The headline text rendered inside the app bar
+   */
   @property() headline = '';
 
+  /**
+   * The element to listen for scroll on to collapse the extended content.
+   * Accepts an `HTMLElement`, the id of an element, `'window'` to use the
+   * window scroll, or `'none'` to disable scroll handling. Defaults to
+   * `'window'` when no value is provided.
+   */
   @property({ reflect: true })
   get scrollContainer(): 'none' | 'window' | string | undefined {
     return this.attributes.getNamedItem('scrollContainer')?.value;

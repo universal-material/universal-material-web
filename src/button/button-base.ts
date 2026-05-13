@@ -11,8 +11,15 @@ export abstract class UmButtonBase extends UmButtonWrapper {
 
   static override styles: CSSResultGroup = [UmButtonWrapper.styles, styles];
 
+  /**
+   * The button behavior. Mirrors the native `type` attribute and accepts
+   * values like `submit`, `reset` or `button`.
+   */
   @property() type = 'submit';
 
+  /**
+   * The value submitted with the form when this button is the submitter
+   */
   @property({ reflect: true }) value = '';
 
   get form(): HTMLFormElement | null {

@@ -5,7 +5,7 @@ import { ClassMapDirective } from 'lit-html/directives/class-map.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
-import { UmCalendarBase } from './calendar-base';
+import { UmCalendarBase } from './calendar-base.js';
 import { styles } from './range-calendar.styles.js';
 
 @customElement('u-range-calendar')

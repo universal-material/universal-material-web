@@ -2,7 +2,7 @@ import { CSSResultGroup } from '@lit/reactive-element/css-tag';
 
 import { customElement, property, state } from 'lit/decorators.js';
 
-import { UmCalendarBase } from './calendar-base';
+import { UmCalendarBase } from './calendar-base.js';
 import { styles } from './calendar.styles.js';
 
 @customElement('u-calendar')
@@ -11,6 +11,10 @@ export class UmCalendar extends UmCalendarBase {
 
   @state() dateValue: Date | null = null;
 
+  /**
+   * The selected date as an ISO date string (`YYYY-MM-DD`), or an empty
+   * string when no date is selected
+   */
   @property()
   get value(): string {
     return this._getDateString(this.dateValue);

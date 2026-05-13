@@ -16,8 +16,15 @@ export class UmCheckbox extends UmSelectionControl {
 
   #indeterminate = false;
 
+  /**
+   * Whether to hide the hover/focus state layer behind the checkbox indicator
+   */
   @property({ type: Boolean, attribute: 'hide-state-layer', reflect: true }) hideStateLayer = false;
 
+  /**
+   * Whether the checkbox is in the indeterminate (mixed) state.
+   * Setting `checked` resets this to `false`.
+   */
   @property({ type: Boolean })
   get indeterminate(): boolean {
     return this.#indeterminate;

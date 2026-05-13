@@ -22,6 +22,10 @@ export const mixinSelectionControlListItem = <T extends MixinBase<UmSelectionCon
       `,
     ];
 
+    /**
+     * Whether to render the selection control before the label.
+     * Defaults to a trailing position.
+     */
     @property({ type: Boolean }) leading = false;
 
     protected override inputDescribedById = 'description';

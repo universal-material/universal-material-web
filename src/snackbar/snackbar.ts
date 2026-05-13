@@ -28,8 +28,19 @@ export class UmSnackbar extends LitElement {
   static override styles = [baseStyles, styles];
   static minDisplayTime = 1500;
 
+  /**
+   * The message displayed inside the snackbar
+   */
   @property({ reflect: true }) message = '';
+
+  /**
+   * The label of the optional action button. When empty, no action button is rendered.
+   */
   @property({ reflect: true }) action = '';
+
+  /**
+   * Whether to render the close (dismiss) button next to the message
+   */
   @property({ type: Boolean, attribute: 'show-close', reflect: true })
   showClose = false;
   @state() _dismissed = false;

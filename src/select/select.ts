@@ -1,5 +1,3 @@
-import { PropertyValues } from '@lit/reactive-element';
-
 import { html, render, svg, TemplateResult } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
@@ -18,8 +16,6 @@ import './option.js';
 export class UmSelect extends UmTextFieldBase implements UmMenuField {
   static override styles = [UmTextFieldBase.styles, styles];
 
-  _nativeSelect = document.createElement('select');
-
   readonly #list: HTMLElement = (() => {
     const list = document.createElement('div');
     list.role = 'listbox';
@@ -31,68 +27,59 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
 
   readonly #navigationController = new SelectNavigationController(this);
   readonly #resizeObserver = new ResizeObserver(() => this.#setMenuWidthProperty());
+
   #connected = false;
-
-  /**
-   * The `value` of the selected option
-   */
-  @state()
-  get value(): string {
-    return this._nativeSelect.value;
-  }
-
-  set value(value: string) {
-    this._nativeSelect.value = value;
-
-    if (!this.#connected) {
-      return;
-    }
-
-    this.elementInternals.setFormValue(value);
-  }
+  #syncScheduled = false;
+  #selectedIndex = -1;
+  #lastSyncSignature = '';
 
   @query('u-menu', true) _menu!: UmMenu;
   @query('.button', true) _button!: HTMLButtonElement;
   @query('.input', true) _input!: HTMLElement;
 
+  /**
+   * The positioning strategy used by the dropdown menu. Use `'fixed'`
+   * when the select is rendered inside a clipped/scrollable container.
+   */
   @property({ reflect: true, attribute: 'menu-positioning' }) menuPositioning: 'relative' | 'fixed' = 'relative';
+
+  /**
+   * The `value` of the selected option
+   */
+
+  @state()
+  get value(): string {
+    return this._options[this.#selectedIndex]?.value ?? '';
+  }
+
+  set value(value: string) {
+    this.#commitIndex(this._options.findIndex(o => o.value === value));
+  }
 
   /**
    * The index of the selected option. When there's no selected option the value is `-1`.
    */
   @state()
   get selectedIndex(): number {
-    return this._nativeSelect.selectedIndex;
+    return this.#selectedIndex;
   }
 
   set selectedIndex(index: number) {
-    this._nativeSelect.selectedIndex = index;
-  }
-
-  /**
-   * An `Array` containing the selected `UmOption` or empty if there's no selected option. Multiple selection is not supported.
-   */
-  get selectedOptions(): UmOption[] {
-    return this._nativeSelect.selectedOptions.length
-      ? [this._options[this._nativeSelect.selectedIndex]]
-      : [];
+    const len = this._options.length;
+    this.#commitIndex(index >= 0 && index < len ? index : -1);
   }
 
   get _options(): UmOption[] {
-    const options = Array.from(this.querySelectorAll<HTMLElement>('u-option'));
-
-    return options.filter(o => o instanceof UmOption);
+    return Array.from(this.querySelectorAll<UmOption>(':scope > u-option'));
   }
 
-  constructor() {
-    super();
-
-    this._nativeSelect.setAttribute('tabindex', '-1');
-    this._nativeSelect.setAttribute('part', 'select');
+  get _menuItems(): UmOption[] {
+    return this._options;
   }
 
-  #setMenuWidthProperty(): void {
-    this.style.setProperty('--_menu-width', `${this.clientWidth}px`);
+  get selectedOptions(): UmOption[] {
+    const option = this._options[this.#selectedIndex];
+    return option ? [option] : [];
   }
 
   protected override renderControl(): TemplateResult {
@@ -100,16 +87,19 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
       <button 
          class="button"
          role="combobox"
+         aria-haspopup="listbox"
+         aria-controls="list"
          aria-expanded="false"
-         aria-owns="select"
          ?disabled=${this.disabled}></button>
-      <div class="input"></div>`;
+      <div class="input">
+        <span class="display"></span>
+      </div>`;
   }
 
   protected override renderAfterContent(): TemplateResult {
     return html`
       <u-menu positioning="${this.menuPositioning}">
-        <slot @slotchange=${this.#renderOptionRelatedElements}></slot>
+        <slot @slotchange=${this.#handleSlotChange}></slot>
       </u-menu>
     `;
   }
@@ -119,22 +109,6 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
       <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 -960 960 960" width="1em" fill="currentColor">
         <path d="M480-360 280-560h400L480-360Z"/>
       </svg>`;
-  }
-
-  protected override updated(changedProperties: PropertyValues) {
-    super.updated(changedProperties);
-    this.empty = !this.selectedOptions[0]?.textContent?.trim();
-    this.elementInternals.setFormValue(this._nativeSelect.value || null);
-  }
-
-  override attributeChangedCallback(name: string, _old: string | null, value: string | null) {
-    super.attributeChangedCallback(name, _old, value);
-
-    if (name !== 'disabled') {
-      return;
-    }
-
-    this._nativeSelect.disabled = value === null;
   }
 
   override connectedCallback() {
@@ -150,10 +124,154 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
     this.#detach();
   }
 
+  formResetCallback(): void {
+    for (const o of this._options) {
+      o.selected = o.defaultSelected;
+    }
+
+    this.#syncFromOptions();
+  }
+
+  formStateRestoreCallback(inFormState: string | null): void {
+    this.value = inFormState ?? '';
+  }
+
+  _scheduleSync(): void {
+    if (this.#syncScheduled || !this.#connected) {
+      return;
+    }
+
+    this.#syncScheduled = true;
+    queueMicrotask(() => {
+      try {
+        if (this.#computeSignature() !== this.#lastSyncSignature) {
+          this.#syncFromOptions();
+        }
+      } finally {
+        this.#syncScheduled = false;
+      }
+    });
+  }
+
+  _setSelectedByUser(option: UmOption): void {
+    const previousIndex = this.#selectedIndex;
+    const newIndex = this._options.indexOf(option);
+
+    if (newIndex < 0) {
+      return;
+    }
+
+    this.#commitIndex(newIndex);
+
+    if (previousIndex !== newIndex) {
+      this.dispatchEvent(new InputEvent('input', { bubbles: true, composed: true }));
+      this.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
+    this._menu.close();
+  }
+
+  /** Re-renderiza display e listbox a11y quando o textContent de uma option muda. */
+  _renderOptionRelatedElements(): void {
+    this.#renderAccessibilityList();
+    this.#updateDisplay();
+  }
+
+  #commitIndex(index: number): void {
+    const options = this._options;
+    const target = index >= 0 ? options[index] : null;
+
+    for (const o of options) {
+      o.selected = o === target;
+    }
+
+    this.#selectedIndex = target ? index : -1;
+    this.#lastSyncSignature = this.#computeSignature();
+    this.#emitState();
+  }
+
+  #syncFromOptions(): void {
+    const options = this._options;
+    let lastSelected = -1;
+
+    // last-wins
+    for (let i = 0; i < options.length; i++) {
+      if (!options[i].selected) {
+        continue;
+      }
+
+      if (lastSelected >= 0) {
+        options[lastSelected].selected = false;
+      }
+
+      lastSelected = i;
+    }
+
+    if (lastSelected < 0 && options.length > 0) {
+      const firstEnabled = options.findIndex(o => !o.disabled);
+
+      if (firstEnabled >= 0) {
+        options[firstEnabled].selected = true;
+        lastSelected = firstEnabled;
+      }
+    }
+
+    this.#selectedIndex = lastSelected;
+    this.#lastSyncSignature = this.#computeSignature();
+    this.#emitState();
+  }
+
+  #computeSignature(): string {
+    return this._options
+      .map(o => `${o.selected ? 1 : 0}:${o.disabled ? 1 : 0}:${o.value}`)
+      .join('|');
+  }
+
+  #emitState(): void {
+    this.elementInternals.setFormValue(this.value || null);
+    this.#renderAccessibilityList();
+    this.#updateDisplay();
+    this.#updateEmpty();
+    this.requestUpdate();
+  }
+
+  #updateEmpty(): void {
+    const o = this._options[this.#selectedIndex];
+    this.empty = !o?.textContent?.trim();
+  }
+
+  #renderAccessibilityList(): void {
+    const selectedIdx = this.#selectedIndex;
+    render(
+      map(this._options, (option, index) =>
+        html`<div role="option"
+                  id=${`item-${index + 1}`}
+                  aria-selected=${index === selectedIdx ? 'true' : 'false'}>
+               ${option.textContent}
+             </div>`),
+      this.#list);
+  }
+
+  #updateDisplay(): void {
+    if (!this._input) {
+      return;
+    }
+
+    this._input.textContent = this._options[this.#selectedIndex]?.textContent?.trim() ?? '';
+  }
+
+  #setMenuWidthProperty(): void {
+    this.style.setProperty('--_menu-width', `${this.clientWidth}px`);
+  }
+
+  readonly #handleSlotChange = (): void => {
+    this.#syncFromOptions();
+  };
+
   readonly #handleClick = (e: MouseEvent) => {
     this._menu.toggle();
 
-    if (!this._menu.open || !this.selectedOptions.length) {
+    if (!this._menu.open || this.#selectedIndex === -1) {
       return;
     }
 
@@ -169,12 +287,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
   };
 
   readonly #handleMenuOpened = () => {
-    if (!this.selectedOptions.length) {
-      return;
-    }
-
-    const option = this.selectedOptions[0];
-    option.scrollIntoView({ block: 'nearest' });
+    this._options[this.#selectedIndex]?.scrollIntoView({ block: 'nearest' });
   };
 
   readonly #handleMenuClose = () => {
@@ -184,15 +297,12 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
 
   async #attach(): Promise<void> {
     this.#resizeObserver.observe(this);
-    this.#renderOptionRelatedElements();
+    this._renderOptionRelatedElements();
 
     await this.updateComplete;
 
-    this._nativeSelect.disabled = this.hasAttribute('disabled');
-
     this.#navigationController.attach(this);
 
-    this._input.appendChild(this._nativeSelect);
     this._input.appendChild(this.#list);
     this._button.addEventListener('click', this.#handleClick);
 
@@ -201,11 +311,12 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
     this._menu.addEventListener('open', this.#handleMenuOpen);
     this._menu.addEventListener('opened', this.#handleMenuOpened);
     this._menu.addEventListener('close', this.#handleMenuClose);
+
+    this.#syncFromOptions();
   }
 
   #detach(): void {
     this.#resizeObserver.disconnect();
-    this._nativeSelect.remove();
     this.#list.remove();
     this.#navigationController.detach();
     this.#connected = false;
@@ -214,49 +325,6 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
     this._menu.removeEventListener('open', this.#handleMenuOpen);
     this._menu.removeEventListener('opened', this.#handleMenuOpened);
     this._menu.removeEventListener('close', this.#handleMenuClose);
-  }
-
-  #renderOptionRelatedElements() {
-    this.#renderNativeOptions();
-    this.#renderAccessibilityList();
-    this._updateEmpty();
-    this._syncSelectedOptions();
-  }
-
-  _updateEmpty(): void {
-    this.empty = !this.selectedOptions[0]?.textContent?.trim();
-  }
-
-  get _menuItems(): UmOption[] {
-    return this._options;
-  }
-
-  #renderNativeOptions() {
-    render(
-      map(
-        this._options,
-        option =>
-          html`<option value=${option.value} ?selected=${option.selected}>${option.textContent}</option>`),
-      this._nativeSelect);
-  }
-
-  #renderAccessibilityList() {
-    render(
-      map(
-        this._options,
-        (option, index) =>
-          html`<div role="option" id="${`item-${index + 1}`}">${option.textContent}</div>`),
-      this.#list);
-  }
-
-  _syncSelectedOptions() {
-
-    for (let i = 0; i < this._options.length; i++) {
-      const option = this._options[i];
-      const nativeOption = this._nativeSelect.children[i] as HTMLOptionElement;
-      option.selected = nativeOption.selected;
-      option._nativeOption = nativeOption;
-    }
   }
 }
 

@@ -1,5 +1,5 @@
-@use '../scss/functions';
-@use '../scss/api';
+@use '../../scss/functions';
+@use '../../scss/api';
 
 :host {
   --_date-size: var(--u-calendar-date-size, 40px);
