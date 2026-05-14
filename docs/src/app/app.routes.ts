@@ -126,6 +126,18 @@ export const routes: Routes = [
     loadComponent: () => import('@docs/components/toolbars/toolbars.component').then(m => m.ToolbarsComponent)
   },
   {
+    path: 'components/top-app-bar',
+    loadComponent: () => import('@docs/components/top-app-bar/top-app-bar.component').then(m => m.TopAppBarComponent)
+  },
+  {
+    path: 'components/elevation',
+    loadComponent: () => import('@docs/components/elevation/elevation.component').then(m => m.ElevationComponent)
+  },
+  {
+    path: 'components/field',
+    loadComponent: () => import('@docs/components/field/field.component').then(m => m.FieldComponent)
+  },
+  {
     path: 'layout/container',
     loadComponent: () => import('@docs/layout/container/container.component').then(m => m.ContainerComponent)
   },

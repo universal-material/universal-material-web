@@ -1,0 +1,9 @@
+<u-select
+  label="State"
+  [(ngModel)]="state"
+  ngDefaultControl
+>
+  @for (s of states; track s) {
+    <u-option [value]="s">{{ s }}</u-option>
+  }
+</u-select>

@@ -1,31 +1,20 @@
-<docs-title title="Lists"></docs-title>
+<docs-title title="Lists">Continuous, vertical indexes of related items. Wrap them in a `u-card` for a Material-styled surface.</docs-title>
 
-<u-card variant="outlined">
-  <u-list slot="before-content">
-    <u-list-item
-      >Item A<span slot="supporting-text">Supporting text</span><span slot="trailing-icon">A</span></u-list-item
-    >
-    <u-switch-list-item>Item B<span slot="supporting-text">Supporting text</span></u-switch-list-item>
-    <u-list-item>Item C</u-list-item>
-    <u-list-item>Item D</u-list-item>
-    <u-list-item>
-      <span
-        class="material-symbols-outlined"
-        slot="leading-icon"
-        >palette
-      </span>
-      <span>Item D</span>
-      <u-icon-button
-        slot="trailing-icon"
-        disabled
-      >
-        <span class="material-symbols-outlined">palette</span>
-      </u-icon-button>
-      <span
-        class="material-symbols-outlined"
-        slot="trailing-icon"
-        >palette
-      </span>
-    </u-list-item>
-  </u-list>
-</u-card>
+<docs-example
+  [html]="simpleListHtml"
+  sectionTitle="Simple list"
+></docs-example>
+<docs-example
+  [html]="listIconsHtml"
+  sectionTitle="With leading icons"
+></docs-example>
+<docs-example
+  [html]="listTwoLinesHtml"
+  sectionTitle="With supporting text"
+></docs-example>
+<docs-example
+  [html]="listWithActionHtml"
+  sectionTitle="With trailing action"
+></docs-example>
+
+<docs-apis-table key="listItem"></docs-apis-table>

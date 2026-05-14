@@ -1,270 +1,33 @@
-<u-select
-  label="States"
-  [(ngModel)]="batata"
-  ngDefaultControl
+<docs-title title="Select">Represents a control that provides a menu of options. Mirrors the behavior of the native `&lt;select&gt;` and integrates with Angular forms via the `UmSelectControlValueAccessor` directive.</docs-title>
+
+<docs-example
+  [html]="basicHtml"
+  sectionTitle="Usage"
+></docs-example>
+<docs-example
+  [html]="variantsHtml"
+  sectionTitle="Variants"
+></docs-example>
+<docs-example
+  [html]="statesHtml"
+  sectionTitle="Bound to ngModel"
+  [renderExample]="false"
 >
-  @if (render()) {
-    @for (state of states; track state; let index = $index) {
-      <u-option [value]="state">{{ state }} </u-option>
+  <u-select
+    label="State"
+    [(ngModel)]="state"
+    ngDefaultControl
+  >
+    @for (s of states; track s) {
+      <u-option [value]="s">{{ s }}</u-option>
     }
-  }
-</u-select>
+  </u-select>
+  <p>Selected: {{ state }}</p>
+</docs-example>
+<docs-example
+  [html]="disabledHtml"
+  sectionTitle="Disabled"
+></docs-example>
 
-<!--<select-->
-<!--  [(ngModel)]="batata"-->
-<!--  ngDefaultControl-->
-<!--&gt;-->
-<!--  @if (render()) {-->
-<!--    @for (state of states; track state; let index = $index) {-->
-<!--      <option [value]="state">{{ state }}</option>-->
-<!--    }-->
-<!--  }-->
-<!--</select>-->
-
-<u-button (click)="render.set(true)">Render</u-button>
-
-<!--<docs-title title="Select">-->
-<!--  <markdown-->
-<!--    >Represents a control that provides a menu of options. Mimic the behavior of the native `&lt;select&gt;`.-->
-<!--  </markdown>-->
-<!--</docs-title>-->
-
-<!--<docs-example-->
-<!--  sectionTitle="Example"-->
-<!--  [html]="example"-->
-<!--  [renderExample]="false"-->
-<!--&gt;-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--  <u-select label="States">-->
-<!--    <u-option-->
-<!--      *ngFor="let state of states"-->
-<!--      [value]="state"-->
-<!--      >{{ state }}-->
-<!--    </u-option>-->
-<!--  </u-select>-->
-<!--</docs-example>-->
-
-<!--<docs-apis-table key="select"></docs-apis-table>-->
+<docs-apis-table key="select"></docs-apis-table>
+<docs-apis-table key="option"></docs-apis-table>

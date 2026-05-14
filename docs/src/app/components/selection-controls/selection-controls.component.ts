@@ -7,6 +7,7 @@ import { TitleComponent } from '@docs/docs/title/title.component';
 import checkboxHtml from './examples/checkbox.html';
 import radioHtml from './examples/radio-button.html';
 import switchHtml from './examples/switch.html';
+import listItemsHtml from './examples/list-items.html';
 
 @Component({
   selector: 'docs-selection-controls',
@@ -14,6 +15,7 @@ import switchHtml from './examples/switch.html';
   styleUrl: './selection-controls.component.scss',
   standalone: true,
   imports: [
+    ApisTableComponent,
     ExampleComponent,
     TitleComponent
   ]
@@ -22,4 +24,5 @@ export class SelectionControlsComponent {
   checkboxHtml = checkboxHtml;
   radioHtml = radioHtml;
   switchHtml = switchHtml;
+  listItemsHtml = listItemsHtml;
 }

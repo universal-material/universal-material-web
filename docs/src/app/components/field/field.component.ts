@@ -4,13 +4,14 @@ import { ApisTableComponent } from '@docs/docs/apis-table/apis-table.component';
 import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
 
-import simpleToolbarHtml from './examples/simple-toolbar.html';
-import collapseAlwaysHtml from './examples/collapse-always.html';
+import filledHtml from './examples/filled.html';
+import outlinedHtml from './examples/outlined.html';
+import withIconsHtml from './examples/with-icons.html';
 
 @Component({
-  selector: 'docs-toolbars',
-  templateUrl: './toolbars.component.html',
-  styleUrl: './toolbars.component.scss',
+  selector: 'docs-field',
+  templateUrl: './field.component.html',
+  styleUrl: './field.component.scss',
   standalone: true,
   imports: [
     ApisTableComponent,
@@ -18,7 +19,8 @@ import collapseAlwaysHtml from './examples/collapse-always.html';
     TitleComponent
   ]
 })
-export class ToolbarsComponent {
-  simpleToolbarHtml = simpleToolbarHtml;
-  collapseAlwaysHtml = collapseAlwaysHtml;
+export class FieldComponent {
+  filledHtml = filledHtml;
+  outlinedHtml = outlinedHtml;
+  withIconsHtml = withIconsHtml;
 }

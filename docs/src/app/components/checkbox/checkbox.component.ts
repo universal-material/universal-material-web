@@ -4,7 +4,9 @@ import { ApisTableComponent } from '@docs/docs/apis-table/apis-table.component';
 import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
 
-import checkboxHtml from './examples/usage.html';
+import usageHtml from './examples/usage.html';
+import indeterminateHtml from './examples/indeterminate.html';
+import listItemHtml from './examples/list-item.html';
 
 @Component({
   selector: 'docs-checkbox',
@@ -12,10 +14,13 @@ import checkboxHtml from './examples/usage.html';
   styleUrl: './checkbox.component.scss',
   standalone: true,
   imports: [
+    ApisTableComponent,
     ExampleComponent,
     TitleComponent
   ]
 })
 export class CheckboxComponent {
-  checkboxHtml = checkboxHtml;
+  usageHtml = usageHtml;
+  indeterminateHtml = indeterminateHtml;
+  listItemHtml = listItemHtml;
 }

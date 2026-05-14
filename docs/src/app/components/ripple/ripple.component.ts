@@ -5,6 +5,7 @@ import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
 
 import usageHtml from './examples/usage.html';
+import disabledHtml from './examples/disabled.html';
 
 @Component({
   selector: 'docs-ripple',
@@ -19,4 +20,5 @@ import usageHtml from './examples/usage.html';
 })
 export class RippleComponent {
   usageHtml = usageHtml;
+  disabledHtml = disabledHtml;
 }

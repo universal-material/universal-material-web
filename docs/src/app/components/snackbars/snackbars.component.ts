@@ -14,6 +14,7 @@ import exampleHtml from './examples/example.html';
   styleUrl: './snackbars.component.scss',
   standalone: true,
   imports: [
+    ApisTableComponent,
     ExampleComponent,
     TitleComponent,
     FormsModule
@@ -21,29 +22,15 @@ import exampleHtml from './examples/example.html';
 })
 export class SnackbarsComponent {
   exampleHtml = exampleHtml;
-  message = '';
-  action = '';
-
-  constructor() {
-    const snackbar = UmSnackbar.show({
-      message: 'Nam gravida sem sem, ac elementum nulla sagittis sed. Duis posuere enim vitae aliquet iaculis. Morbi vulputate egestas massa',
-      action: 'Longer action',
-      duration: SnackbarDuration.infinite
-    });
-
-    snackbar.addEventListener('actionClick', (event) => {
-      snackbar.message += '1';
-      snackbar.action += '1';
-      // event.preventDefault();
-    })
-  }
+  message = 'File saved';
+  action = 'Undo';
 
   showSnackbar(): void {
     UmSnackbar.show({
       message: this.message,
       action: this.action,
-      duration: SnackbarDuration.infinite,
+      duration: SnackbarDuration.long,
       showClose: true
-    })
+    });
   }
 }

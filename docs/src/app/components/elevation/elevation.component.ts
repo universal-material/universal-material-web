@@ -4,13 +4,12 @@ import { ApisTableComponent } from '@docs/docs/apis-table/apis-table.component';
 import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
 
-import simpleToolbarHtml from './examples/simple-toolbar.html';
-import collapseAlwaysHtml from './examples/collapse-always.html';
+import levelsHtml from './examples/levels.html';
 
 @Component({
-  selector: 'docs-toolbars',
-  templateUrl: './toolbars.component.html',
-  styleUrl: './toolbars.component.scss',
+  selector: 'docs-elevation',
+  templateUrl: './elevation.component.html',
+  styleUrl: './elevation.component.scss',
   standalone: true,
   imports: [
     ApisTableComponent,
@@ -18,7 +17,6 @@ import collapseAlwaysHtml from './examples/collapse-always.html';
     TitleComponent
   ]
 })
-export class ToolbarsComponent {
-  simpleToolbarHtml = simpleToolbarHtml;
-  collapseAlwaysHtml = collapseAlwaysHtml;
+export class ElevationComponent {
+  levelsHtml = levelsHtml;
 }
