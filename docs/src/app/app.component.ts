@@ -8,7 +8,7 @@ import { ChildActivationEnd, Router, RouterLink, RouterOutlet } from '@angular/r
 import { NavigationItem } from '@docs/components/navigation-item.model';
 
 import { LinkActiveDirective } from './docs/link-active.directive';
-import { SubmenuComponent } from './docs/submenu/submenu.component';
+import { TocComponent } from './docs/toc/toc.component';
 
 enum ThemeMode {
   Auto,
@@ -24,8 +24,8 @@ enum ThemeMode {
     FormsModule,
     RouterLink,
     LinkActiveDirective,
-    SubmenuComponent,
     RouterOutlet,
+    TocComponent,
   ],
   templateUrl: 'app.component.html',
   styleUrl: './app.component.scss',
@@ -36,6 +36,7 @@ export class AppComponent {
   currentThemeMode = parseInt(localStorage['currentThemeMode'], 10) || 0;
   themeColor = '#6750a4';
   $themeColorChange = new Subject<string>();
+  readonly version = '3.7.2';
 
   anchorsNavigation: { hash: string; title: string }[] = [];
 

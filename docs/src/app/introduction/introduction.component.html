@@ -1,35 +1,104 @@
-<docs-title title="Quick start"></docs-title>
+<div class="intro-page">
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="hero-logo" aria-hidden="true">
+        <span class="hero-logo-glow"></span>
+        <svg
+          class="hero-logo-svg"
+          width="64"
+          height="64"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M5 5L5 17C5 19.7614 7.23858 22 10 22L14 22C16.7614 22 19 19.7614 19 17L19 5"
+            stroke="white"
+            stroke-opacity="0.4"
+            stroke-width="3"
+            stroke-linecap="round"
+          />
+          <path
+            d="M4 4V16C4 18.7614 6.23858 21 9 21L15 21C17.7614 21 20 18.7614 20 16V6L17 4V16C17 17.1046 16.1046 18 15 18L9 18C7.89543 18 7 17.1046 7 16V4H4Z"
+            fill="white"
+          />
+          <path d="M17 4L20 6L17 8V4Z" fill="white" fill-opacity="0.5" />
+        </svg>
+      </div>
+      <div class="hero-eyebrow">
+        <span class="hero-line"></span>
+        <span>Get Started</span>
+        <span class="hero-line"></span>
+      </div>
+      <h1 class="hero-title">Universal Material</h1>
+      <p class="hero-subtitle">Build modern web applications with beautifully crafted components</p>
+      <div class="hero-actions">
+        <a href="https://www.npmjs.com/package/@universal-material/web" target="_blank" class="hero-btn">
+          <span class="material-symbols-outlined">download</span>
+          npm install
+        </a>
+        <a href="https://github.com/universal-material/universal-material-web" target="_blank" class="hero-btn hero-btn-ghost">
+          <span class="material-symbols-outlined">code</span>
+          GitHub
+        </a>
+      </div>
+      <div class="hero-meta">
+        <span class="hero-meta-pill">
+          <span class="hero-meta-dot"></span>
+          Lit · Web Components
+        </span>
+        <span class="hero-meta-pill">
+          <span class="material-symbols-outlined">style</span>
+          Material 3 tokens
+        </span>
+        <span class="hero-meta-pill">
+          <span class="material-symbols-outlined">accessibility_new</span>
+          A11y first
+        </span>
+      </div>
+    </div>
+    <div class="hero-decoration">
+      <div class="deco-ring deco-ring-1"></div>
+      <div class="deco-ring deco-ring-2"></div>
+      <div class="deco-ring deco-ring-3"></div>
+    </div>
+  </section>
 
-<u-overflow-menu>
-  <u-overflow-menu-item label="Favorite"><span class="material-symbols-outlined">star</span></u-overflow-menu-item>
-  <u-overflow-menu-item label="Add comment">
-    <span class="material-symbols-outlined">add_comment</span>
-  </u-overflow-menu-item>
-  <u-overflow-menu-item label="Print"><span class="material-symbols-outlined">print</span></u-overflow-menu-item>
-  <u-overflow-menu-item label="Download"><span class="material-symbols-outlined">download</span></u-overflow-menu-item>
-  <u-overflow-menu-item label="Detail">
-    <span class="material-symbols-outlined">info</span>
-  </u-overflow-menu-item>
-  <u-overflow-menu-item
-    label="Edit"
-    collapse="always"
-    ><span class="material-symbols-outlined">edit</span></u-overflow-menu-item
-  >
-</u-overflow-menu>
+  <section class="steps-section">
+    <div class="step">
+      <div class="step-number">01</div>
+      <div class="step-content">
+        <h2 class="step-title">
+          <span class="material-symbols-outlined">download</span>
+          Install
+        </h2>
+        <p class="step-desc">Add the package to your project</p>
+        <pre class="step-code"><code highlight="npm install @universal-material/web -S" language="shell"></code></pre>
+      </div>
+    </div>
 
-<docs-example sectionTitle="Install">Include Universal Material source sass and TypeScript files via npm.</docs-example>
-<u-card variant="outlined">
-  <pre slot="before-content"><code highlight="npm install @universal-material/web -S" language="shell"></code></pre>
-</u-card>
-<docs-example sectionTitle="Import">
-  <markdown>{{ importText }}</markdown>
-  <u-card variant="outlined">
-    <pre slot="before-content"><code [highlight]="importCode" language="javascript"></code></pre>
-  </u-card>
-</docs-example>
-<docs-example sectionTitle="Usage">
-  <markdown>Use the `&lt;component-name&gt;` tag in HTML markup.</markdown>
-  <u-card variant="outlined">
-    <pre slot="before-content"><code [highlight]="usageCode" language="javascript"></code></pre>
-  </u-card>
-</docs-example>
+    <div class="step">
+      <div class="step-number">02</div>
+      <div class="step-content">
+        <h2 class="step-title">
+          <span class="material-symbols-outlined">data_object</span>
+          Import
+        </h2>
+        <p class="step-desc">Import element definitions from the package</p>
+        <pre class="step-code"><code [highlight]="importCode" language="javascript"></code></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number">03</div>
+      <div class="step-content">
+        <h2 class="step-title">
+          <span class="material-symbols-outlined">play_arrow</span>
+          Use
+        </h2>
+        <p class="step-desc">Drop components into your HTML markup</p>
+        <pre class="step-code"><code [highlight]="usageCode" language="html"></code></pre>
+      </div>
+    </div>
+  </section>
+</div>

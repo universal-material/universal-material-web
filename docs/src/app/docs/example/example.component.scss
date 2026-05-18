@@ -1,21 +1,68 @@
-pre {
-  margin: 0;
-
-  &[slot="after-content"] {
-    border-radius: inherit;
-    overflow: hidden;
-  }
-
-  code {
-    background-color: var(--u-color-surface-container);
-    padding: 32px;
-  }
-}
-
 .description {
   font-size: 1.125rem;
+  color: var(--u-color-on-surface-variant);
 
   &:not(:empty) {
     margin-bottom: var(--u-spacing-medium);
+  }
+}
+
+.example-block {
+  position: relative;
+  border: 1px solid var(--u-color-outline-variant);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--u-color-surface-container-lowest);
+  isolation: isolate;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(
+        circle at 18% 22%,
+        color-mix(in srgb, var(--u-color-primary) 18%, transparent) 0%,
+        transparent 38%
+      ),
+      radial-gradient(
+        circle at 82% 78%,
+        color-mix(in srgb, var(--u-color-tertiary, var(--u-color-primary)) 12%, transparent) 0%,
+        transparent 42%
+      );
+    opacity: 0.55;
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+.example-preview {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 36px 28px;
+  background: transparent;
+  border-bottom: 1px solid var(--u-color-outline-variant);
+  align-items: center;
+  min-height: 96px;
+}
+
+.example-code {
+  position: relative;
+  z-index: 1;
+  background: var(--u-color-surface-container);
+
+  pre {
+    margin: 0;
+  }
+
+  code {
+    display: block;
+    background: transparent;
+    padding: 20px 24px;
+    font-size: 13px;
+    line-height: 1.6;
   }
 }

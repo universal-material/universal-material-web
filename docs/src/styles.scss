@@ -25,18 +25,14 @@ docs-typography {
   }
 }
 
-docs-submenu {
-  .submenu-items u-drawer-item {
-    margin-inline: 12px;
-  }
-}
 
 .article-title {
-  margin-top: 48px;
+  margin-top: 56px;
   margin-bottom: 16px;
-  font-weight: var(--u-font-weight-regular);
+  font-weight: 600;
 
   a {
+    color: var(--u-color-on-surface) !important;
     text-decoration: none !important;
   }
 }

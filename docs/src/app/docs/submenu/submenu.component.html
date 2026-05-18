@@ -1,17 +1,7 @@
-<u-drawer-item
-  keep-drawer-open
-  (click)="open = !open"
-  >{{ label
-  }}<span
-    class="material-symbols-outlined"
-    slot="badge"
-    >expand_more
-  </span></u-drawer-item
->
-<div
-  class="submenu-items"
-  [class.open]="open"
-  [attr.inert]="open ? undefined : ''"
->
+<div class="submenu-header" role="presentation">
+  <span class="submenu-label">{{ label }}</span>
+  <span class="submenu-rule" aria-hidden="true"></span>
+</div>
+<div class="submenu-items">
   <ng-content></ng-content>
 </div>

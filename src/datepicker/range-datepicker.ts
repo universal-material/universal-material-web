@@ -4,45 +4,43 @@ import { html, HTMLTemplateResult, nothing, svg } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { live } from 'lit/directives/live.js';
 
-import { UmCalendar } from '../calendar/calendar.js';
+import { UmRangeCalendar } from '../calendar/range-calendar.js';
 import { UmMenu } from '../menu/menu.js';
 import { UmNativeTextFieldWrapper } from '../shared/char-count-text-field/native-text-field-wrapper.js';
 import { UmTextFieldBase } from '../shared/text-field-base/text-field-base.js';
 
 import { styles as textFieldStyles } from '../text-field/text-field.styles.js';
 import { styles } from './datepicker.styles.js';
-import { DatepickerFormat, formatIsoDate } from './format.js';
+import { DatepickerFormat, formatIsoDateRange } from './format.js';
 
-import '../calendar/calendar.js';
+import '../calendar/range-calendar.js';
 import '../menu/menu.js';
 
-const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+const ISO_DATE_RANGE = /^\d{4}-\d{2}-\d{2} - \d{4}-\d{2}-\d{2}$/;
 
-@customElement('u-datepicker')
-export class UmDatepicker extends UmNativeTextFieldWrapper {
+@customElement('u-range-datepicker')
+export class UmRangeDatepicker extends UmNativeTextFieldWrapper {
   static override styles: CSSResultGroup = [UmTextFieldBase.styles, textFieldStyles, styles];
 
   /**
-   * The BCP 47 locale tag forwarded to the underlying calendar and used for
-   * non-editable display formatting.
+   * The BCP 47 locale tag forwarded to the underlying range calendar and used
+   * for non-editable display formatting.
    * When `null`, the calendar falls back to the browser's `navigator.language`.
    */
   @property() locale: string | null = null;
 
   /**
    * Format used when displaying the value while the field is not editable.
-   * Accepts the named presets `'short'`, `'medium'`, `'long'`, `'full'`,
-   * the literal `'iso'` (keeps the ISO `YYYY-MM-DD` value), or an
-   * `Intl.DateTimeFormatOptions` object for custom formatting.
-   * In editable mode the input uses the browser's native `type="date"` mask
-   * and ignores this property.
+   * Accepts `'short'`, `'medium'`, `'long'`, `'full'`, `'iso'`, or an
+   * `Intl.DateTimeFormatOptions` object. Each end of the range is formatted
+   * independently and joined with ` - `.
    */
   @property() format: DatepickerFormat = 'short';
 
   /**
-   * Whether the input accepts manually-typed dates. When `false` (default),
+   * Whether the input accepts manually-typed ranges. When `false` (default),
    * the field is read-only and clicking anywhere opens the calendar popover.
-   * When `true`, the input uses native `type="date"` and accepts keyboard input;
+   * When `true`, the input accepts text in the `YYYY-MM-DD - YYYY-MM-DD` format;
    * the calendar popover is opened via the trailing icon.
    */
   @property({ type: Boolean, reflect: true }) editable = false;
@@ -61,13 +59,13 @@ export class UmDatepicker extends UmNativeTextFieldWrapper {
 
   @query('input') input!: HTMLInputElement;
   @query('u-menu', true) private _menu!: UmMenu;
-  @query('u-calendar', true) private _calendar!: UmCalendar;
+  @query('u-range-calendar', true) private _calendar!: UmRangeCalendar;
   @query('.trailing-icon', true) private _trailingSlot!: HTMLSlotElement;
 
   protected override renderControl(): HTMLTemplateResult {
     const displayValue = this.editable
       ? this._value
-      : formatIsoDate(this._value, this.format, this.locale);
+      : formatIsoDateRange(this._value, this.format, this.locale);
 
     return html`
       ${this.editable
@@ -82,7 +80,7 @@ export class UmDatepicker extends UmNativeTextFieldWrapper {
         `}
       <div class="input">
         <input
-          type=${this.editable ? 'date' : 'text'}
+          type="text"
           part="input"
           id=${this.id || nothing}
           aria-labelledby="label"
@@ -116,10 +114,11 @@ export class UmDatepicker extends UmNativeTextFieldWrapper {
         allow-overflow
         manualFocus
         @click=${this.#stopPropagation}>
-        <u-calendar
+        <u-range-calendar
           .value=${this._value}
           .locale=${this.locale}
-          @input=${this.#handleCalendarInput}></u-calendar>
+          @input=${this.#handleCalendarInput}
+          @change=${this.#handleCalendarChange}></u-range-calendar>
       </u-menu>
     `;
   }
@@ -137,7 +136,7 @@ export class UmDatepicker extends UmNativeTextFieldWrapper {
   protected override _handleInput(): void {
     super._handleInput();
 
-    if (ISO_DATE.test(this._value)) {
+    if (ISO_DATE_RANGE.test(this._value)) {
       this._calendar.value = this._value;
     }
 
@@ -162,9 +161,18 @@ export class UmDatepicker extends UmNativeTextFieldWrapper {
 
   #handleCalendarInput = (e: Event): void => {
     e.stopPropagation();
-    const value = (e.target as UmCalendar).value;
+    const value = (e.target as UmRangeCalendar).value ?? '';
     this.value = value;
     this.dispatchEvent(new InputEvent('input', { bubbles: true, composed: true }));
+  };
+
+  #handleCalendarChange = (e: Event): void => {
+    e.stopPropagation();
+
+    if (!ISO_DATE_RANGE.test(this._value)) {
+      return;
+    }
+
     this.dispatchEvent(new Event('change', { bubbles: true }));
     this._menu.close();
   };
@@ -189,6 +197,6 @@ export class UmDatepicker extends UmNativeTextFieldWrapper {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-datepicker': UmDatepicker;
+    'u-range-datepicker': UmRangeDatepicker;
   }
 }

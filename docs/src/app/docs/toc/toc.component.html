@@ -1,0 +1,19 @@
+<nav class="toc" aria-label="On this page" *ngIf="entries.length">
+  <div class="toc-header">
+    <span class="material-symbols-outlined">menu_book</span>
+    <span>On this page</span>
+  </div>
+  <ul class="toc-list">
+    <li
+      *ngFor="let entry of entries"
+      class="toc-item"
+      [class.toc-item-sub]="entry.depth > 0"
+      [class.toc-item-active]="entry.hash === activeHash"
+    >
+      <a [href]="'#' + entry.hash" (click)="go($event, entry)">
+        <span class="toc-marker" aria-hidden="true"></span>
+        {{ entry.title }}
+      </a>
+    </li>
+  </ul>
+</nav>

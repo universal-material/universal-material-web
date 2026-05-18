@@ -1,0 +1,6 @@
+<u-range-datepicker
+  label="Date range"
+  placeholder="YYYY-MM-DD - YYYY-MM-DD"
+  (input)="onRangeDatepickerInput($event)"
+></u-range-datepicker>
+<p>Selected: {{ rangeDatepickerValue || '—' }}</p>

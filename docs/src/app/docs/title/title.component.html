@@ -1,6 +1,18 @@
-<h4 class="u-display-m article-title">
-  <a [href]="anchorHash">{{ title }}</a>
-</h4>
-<div class="u-headline-m u-font-weight-thin">
-  <ng-content></ng-content>
+<div class="title-wrapper" [attr.data-kind]="kind">
+  <span class="title-badge">
+    <span class="material-symbols-outlined">{{ badgeIcon }}</span>
+    {{ badgeLabel }}
+  </span>
+  <h4 class="u-display-m article-title">
+    <a [href]="anchorHash" docsAnchorScroll>{{ title }}</a>
+  </h4>
+  <div class="title-tags" *ngIf="tags.length">
+    <code class="title-tag" *ngFor="let t of tags">
+      <span class="title-tag-bracket">&lt;</span>{{ t }}<span class="title-tag-bracket">&gt;</span>
+    </code>
+  </div>
+  <div class="title-description">
+    <ng-content></ng-content>
+  </div>
+  <div class="title-accent"></div>
 </div>

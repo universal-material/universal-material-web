@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input } from '@angular/core';
+import { Component, ElementRef, Input } from '@angular/core';
 
 @Component({
   selector: 'docs-submenu',
@@ -7,15 +7,10 @@ import { AfterViewInit, Component, ElementRef, Input } from '@angular/core';
   templateUrl: './submenu.component.html',
   styleUrl: './submenu.component.scss'
 })
-export class SubmenuComponent implements AfterViewInit {
+export class SubmenuComponent {
   @Input() label!: string;
-  open = false;
 
   constructor(private readonly elementRef: ElementRef) {
-    this.elementRef.nativeElement.setAttribute('role', 'menu');
-  }
-
-  ngAfterViewInit() {
-    this.open = !!this.elementRef.nativeElement.querySelector(`u-drawer-item[routerlink="${location.hash.substring(2)}"]`);
+    this.elementRef.nativeElement.setAttribute('role', 'group');
   }
 }

@@ -1,16 +1,15 @@
 import { Highlight } from 'ngx-highlightjs';
 import { MarkdownModule } from 'ngx-markdown';
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { ExampleComponent } from '@docs/docs/example/example.component';
-import { TitleComponent } from '@docs/docs/title/title.component';
 import { UmSnackbar } from '@universal-material/web';
 import { states } from '@docs/shared/states.model';
 
 @Component({
   selector: 'docs-introduction',
   standalone: true,
-  imports: [MarkdownModule, Highlight, ExampleComponent, TitleComponent],
+  imports: [MarkdownModule, Highlight, ExampleComponent],
   templateUrl: './introduction.component.html',
   styleUrl: './introduction.component.scss',
 })
@@ -25,8 +24,7 @@ import '@universal-material/web/button/icon-button.js';
 import '@universal-material/web/checkbox/checkbox.js';
 `.trim();
 
-  usageCode = `
-<script type="module" src="./index.js"></script>
+  usageCode = `<script type="module" src="./index.js"></script>
 
 <label>
   <u-checkbox checked></u-checkbox>

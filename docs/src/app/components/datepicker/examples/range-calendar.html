@@ -1,1 +1,2 @@
-<u-range-calendar></u-range-calendar>
+<u-range-calendar (input)="onRangeInput($event)"></u-range-calendar>
+<p>Range: {{ selectedRange || '—' }}</p>

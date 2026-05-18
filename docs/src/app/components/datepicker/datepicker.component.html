@@ -1,17 +1,106 @@
-<docs-title title="Datepicker">Inline date selection components. `u-datepicker` (popover combo) is in progress; for now the library exposes `u-calendar` and `u-range-calendar` for direct embedding.</docs-title>
+<docs-title
+  title="Datepicker"
+  tag="u-datepicker, u-range-datepicker, u-calendar, u-range-calendar"
+>Date selection components. `u-datepicker` and `u-range-datepicker` are form-associated text inputs with a calendar popover. For inline-only use, the library also exposes `u-calendar` and `u-range-calendar`.</docs-title>
 
 <docs-example
-  [html]="calendarHtml"
+  sectionTitle="Datepicker"
+  [html]="datepickerHtml"
+  [renderExample]="false"
+>
+  <div class="format-options">
+    @for (f of formats; track f) {
+      <label>
+        <u-radio
+          name="datepicker-format"
+          [attr.checked]="datepickerFormat === f ? '' : null"
+          (change)="datepickerFormat = f"
+        ></u-radio>
+        {{ f }}
+      </label>
+    }
+  </div>
+  <u-datepicker
+    label="Date"
+    placeholder="YYYY-MM-DD"
+    [attr.format]="datepickerFormat"
+    (input)="onDatepickerInput($event)"
+  ></u-datepicker>
+  <p>Selected: {{ datepickerValue || '—' }}</p>
+</docs-example>
+<docs-example
+  sectionTitle="Editable"
+  [html]="datepickerEditableHtml"
+  [renderExample]="false"
+>
+  <u-select label="Locale" [(ngModel)]="editableLocale" ngDefaultControl>
+    @for (l of locales; track l.value) {
+      <u-option [value]="l.value">{{ l.label }}</u-option>
+    }
+  </u-select>
+  <u-datepicker
+    label="Date"
+    editable
+    [attr.locale]="editableLocale"
+    (input)="onDatepickerInput($event)"
+  ></u-datepicker>
+  <p>Selected: {{ datepickerValue || '—' }}</p>
+</docs-example>
+<docs-example
+  sectionTitle="Range datepicker"
+  [html]="rangeDatepickerHtml"
+  [renderExample]="false"
+>
+  <div class="format-options">
+    @for (f of formats; track f) {
+      <label>
+        <u-radio
+          name="range-datepicker-format"
+          [attr.checked]="rangeDatepickerFormat === f ? '' : null"
+          (change)="rangeDatepickerFormat = f"
+        ></u-radio>
+        {{ f }}
+      </label>
+    }
+  </div>
+  <u-range-datepicker
+    label="Date range"
+    placeholder="YYYY-MM-DD - YYYY-MM-DD"
+    [attr.format]="rangeDatepickerFormat"
+    (input)="onRangeDatepickerInput($event)"
+  ></u-range-datepicker>
+  <p>Selected: {{ rangeDatepickerValue || '—' }}</p>
+</docs-example>
+<docs-example
   sectionTitle="Calendar"
-></docs-example>
+  [html]="calendarHtml"
+  [renderExample]="false"
+>
+  <u-calendar (input)="onDateInput($event)"></u-calendar>
+  <p>Selected: {{ selectedDate || '—' }}</p>
+</docs-example>
 <docs-example
-  [html]="rangeCalendarHtml"
   sectionTitle="Range calendar"
-></docs-example>
+  [html]="rangeCalendarHtml"
+  [renderExample]="false"
+>
+  <u-range-calendar (input)="onRangeInput($event)"></u-range-calendar>
+  <p>Range: {{ selectedRange || '—' }}</p>
+</docs-example>
 <docs-example
-  [html]="localeHtml"
   sectionTitle="Locale"
-></docs-example>
+  [html]="localeHtml"
+  [renderExample]="false"
+>
+  <u-select label="Locale" [(ngModel)]="locale" ngDefaultControl>
+    @for (l of locales; track l.value) {
+      <u-option [value]="l.value">{{ l.label }}</u-option>
+    }
+  </u-select>
+  <u-calendar [attr.locale]="locale"></u-calendar>
+</docs-example>
 
+<docs-apis-table key="datepicker"></docs-apis-table>
+<docs-apis-table key="rangeDatepicker"></docs-apis-table>
 <docs-apis-table key="calendar"></docs-apis-table>
 <docs-apis-table key="rangeCalendar"></docs-apis-table>

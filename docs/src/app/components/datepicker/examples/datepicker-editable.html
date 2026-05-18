@@ -1,0 +1,12 @@
+<u-select label="Locale" [(ngModel)]="editableLocale" ngDefaultControl>
+  @for (l of locales; track l.value) {
+    <u-option [value]="l.value">{{ l.label }}</u-option>
+  }
+</u-select>
+<u-datepicker
+  label="Date"
+  editable
+  [attr.locale]="editableLocale"
+  (input)="onDatepickerInput($event)"
+></u-datepicker>
+<p>Selected: {{ datepickerValue || '—' }}</p>

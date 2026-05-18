@@ -5,13 +5,15 @@ import { Highlight } from 'ngx-highlightjs';
 
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { titleToHash } from '@docs/docs/shared/title-to-hash';
+import { AnchorScrollDirective } from '@docs/docs/shared/anchor-scroll.directive';
 
 @Component({
   selector: 'docs-example',
   standalone: true,
   imports: [
     CommonModule,
-    Highlight
+    Highlight,
+    AnchorScrollDirective,
   ],
   templateUrl: './example.component.html',
   styleUrl: './example.component.scss'

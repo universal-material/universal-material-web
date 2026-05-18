@@ -1,1 +1,2 @@
-<u-calendar></u-calendar>
+<u-calendar (input)="onDateInput($event)"></u-calendar>
+<p>Selected: {{ selectedDate || '—' }}</p>

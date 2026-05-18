@@ -1,9 +1,29 @@
-.submenu-items {
-  display: none;
-  padding-block: 8px;
-  padding-inline-start: 12px;
+:host {
+  display: block;
+  margin-top: 20px;
 
-  &.open {
-    display: block;
+  &:first-of-type {
+    margin-top: 12px;
   }
+}
+
+.submenu-header {
+  padding: 6px 16px 10px;
+}
+
+.submenu-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--u-color-on-surface-variant);
+}
+
+.submenu-rule {
+  display: none;
+}
+
+.submenu-items {
+  display: block;
+  padding-block: 2px;
 }

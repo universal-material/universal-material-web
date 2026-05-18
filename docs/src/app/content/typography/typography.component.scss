@@ -1,0 +1,29 @@
+.typo-showcase {
+  display: grid;
+  gap: 16px;
+  padding: 40px;
+  background: linear-gradient(135deg, var(--u-color-surface-container-low) 0%, var(--u-color-surface) 100%);
+  border-radius: 16px;
+  border: 1px solid var(--u-color-outline-variant);
+  
+  .u-display-l,
+  .u-display-m,
+  .u-display-s {
+    background: linear-gradient(90deg, var(--u-color-on-surface) 0%, var(--u-color-primary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .u-headline-l,
+  .u-headline-m,
+  .u-headline-s {
+    color: var(--u-color-on-surface);
+  }
+  
+  .u-title-l,
+  .u-title-m,
+  .u-title-s {
+    color: var(--u-color-on-surface-variant);
+  }
+}

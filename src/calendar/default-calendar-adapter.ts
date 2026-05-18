@@ -6,11 +6,9 @@ export class DefaultCalendarAdapter implements CalendarAdapter {
 
   getWeekDays(locale: string): string[] {
     const date = new Date();
+    const firstDay = this.getFirstDayOfWeek(locale);
 
-    const intlLocale = new Intl.Locale(locale);
-    const weekInfo = intlLocale.getWeekInfo ? intlLocale.getWeekInfo() : (intlLocale as any).weekinfo;
-
-    this.#setDateToFirstDayOfWeek(date, weekInfo.firstDay);
+    this.#setDateToFirstDayOfWeek(date, firstDay);
     const weekDays: string[] = [];
 
     for (let i = 0; i < 7; i++) {
@@ -21,8 +19,15 @@ export class DefaultCalendarAdapter implements CalendarAdapter {
     return weekDays;
   }
 
-  #setDateToFirstDayOfWeek(date: Date, firstDayOfWeek: number): void {
-    const diffToFirstDayOfWeek = (firstDayOfWeek - date.getDay() + 7) % 7;
+  getFirstDayOfWeek(locale: string): number {
+    const intlLocale = new Intl.Locale(locale);
+    const weekInfo = intlLocale.getWeekInfo ? intlLocale.getWeekInfo() : (intlLocale as any).weekinfo;
+    // CLDR convention (1=Mon..7=Sun) → JS Date convention (0=Sun..6=Sat)
+    return weekInfo.firstDay % 7;
+  }
+
+  #setDateToFirstDayOfWeek(date: Date, jsFirstDayOfWeek: number): void {
+    const diffToFirstDayOfWeek = (jsFirstDayOfWeek - date.getDay() + 7) % 7;
 
     date.setDate(date.getDate() + diffToFirstDayOfWeek);
   }
@@ -36,5 +41,14 @@ export class DefaultCalendarAdapter implements CalendarAdapter {
       month: 'long',
       year: 'numeric',
     });
+  }
+
+  getYear(date: Date): string {
+    return date.toLocaleDateString(this.locale, { year: 'numeric' });
+  }
+
+  getMonthShort(month: number, locale: string): string {
+    const date = new Date(2000, month, 1);
+    return date.toLocaleDateString(locale, { month: 'short' });
   }
 }

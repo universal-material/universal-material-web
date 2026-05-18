@@ -1,4 +1,8 @@
-<docs-title title="Text fields"></docs-title>
+<docs-title
+  title="Text fields"
+  tag="u-text-field, u-text-area"
+  >Single-line and multi-line inputs that let users enter and edit text.</docs-title
+>
 
 <div class="u-column">
   <docs-example
@@ -107,75 +111,80 @@
       </u-button-field>
     </div>
     <h5 class="u-title-m u-mt-large">Component</h5>
-    <u-text-field
-      label="Name"
+
+    <div
+      class="example-preview"
       example
-      prefix-text="$"
-      suffix-text=".00"
-      [counter]="showCounter ? '10/100' : ''"
-      [supportingText]="supportingText"
-      [errorText]="errorText"
-      [variant]="variant"
-      [invalid]="invalid"
-      [disabled]="disabled"
     >
-      <span
-        class="material-symbols-outlined"
-        *ngIf="leadingIcon"
-        slot="leading-icon"
-        >search
-      </span>
-      <u-icon-button
-        *ngIf="trailingIcon"
-        slot="trailing-icon"
+      <u-text-field
+        label="Name"
+        prefix-text="$"
+        suffix-text=".00"
+        [counter]="showCounter ? '10/100' : ''"
+        [supportingText]="supportingText"
+        [errorText]="errorText"
+        [variant]="variant"
+        [invalid]="invalid"
         [disabled]="disabled"
       >
-        <span class="material-symbols-outlined">cancel</span>
-      </u-icon-button>
-      <span
-        *ngIf="showCounter"
-        slot="counter"
-        >10/100
-      </span>
-    </u-text-field>
-    <u-text-field
-      example
-      maxlength="100"
-      [variant]="variant"
-      [invalid]="invalid"
-      [disabled]="disabled"
-    >
-      <span
-        class="material-symbols-outlined"
-        *ngIf="leadingIcon"
-        slot="leading-icon"
-        >search
-      </span>
-      <u-icon-button
-        *ngIf="trailingIcon"
-        slot="trailing-icon"
-        toggle
+        <span
+          class="material-symbols-outlined"
+          *ngIf="leadingIcon"
+          slot="leading-icon"
+          >search
+        </span>
+        <u-icon-button
+          *ngIf="trailingIcon"
+          slot="trailing-icon"
+          [disabled]="disabled"
+        >
+          <span class="material-symbols-outlined">cancel</span>
+        </u-icon-button>
+        <span
+          *ngIf="showCounter"
+          slot="counter"
+          >10/100
+        </span>
+      </u-text-field>
+      <u-text-field
+        example
+        maxlength="100"
+        [variant]="variant"
+        [invalid]="invalid"
         [disabled]="disabled"
       >
-        <span class="material-symbols-outlined">cancel</span>
-      </u-icon-button>
-      <span slot="label">Name</span>
-      <span
-        *ngIf="supportingText"
-        slot="supporting-text"
-        id="supporting-text"
-        >{{ supportingText }}
-      </span>
-      <span
-        *ngIf="errorText"
-        slot="error-text"
-        >{{ errorText }}
-      </span>
-      <!--span(
+        <span
+          class="material-symbols-outlined"
+          *ngIf="leadingIcon"
+          slot="leading-icon"
+          >search
+        </span>
+        <u-icon-button
+          *ngIf="trailingIcon"
+          slot="trailing-icon"
+          toggle
+          [disabled]="disabled"
+        >
+          <span class="material-symbols-outlined">cancel</span>
+        </u-icon-button>
+        <span slot="label">Name</span>
+        <span
+          *ngIf="supportingText"
+          slot="supporting-text"
+          id="supporting-text"
+          >{{ supportingText }}
+        </span>
+        <span
+          *ngIf="errorText"
+          slot="error-text"
+          >{{ errorText }}
+        </span>
+        <!--span(
       *ngIf="showCounter",
       slot="counter") 10/100
       -->
-    </u-text-field>
+      </u-text-field>
+    </div>
   </docs-example>
 </div>
 <docs-apis-table key="field"></docs-apis-table>
