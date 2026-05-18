@@ -3,18 +3,22 @@
 <docs-example
   sectionTitle="Simple"
   [html]="simpleHtml"
+  alignment="stretch"
 ></docs-example>
 <docs-example
   sectionTitle="Object value"
   [renderExample]="false"
   [html]="objectValuesHtml"
+  alignment="stretch"
 >
-  <u-chip-field
-    label="States"
-    manual
-    [formatter]="formatter"
-    (keydown)="keyDown($event)"
-  ></u-chip-field>
+  <div example>
+    <u-chip-field
+      label="States"
+      manual
+      [formatter]="formatter"
+      (keydown)="keyDown($event)"
+    ></u-chip-field>
+  </div>
 </docs-example>
 
 <docs-apis-table key="chipField"></docs-apis-table>

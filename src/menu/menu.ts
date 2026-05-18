@@ -437,13 +437,16 @@ export class UmMenu extends LitElement {
 
   private getMenuSize(): MenuSize {
     const menu = this.menu;
-    const menuStyles = getComputedStyle(menu);
-    const width = parseInt(menuStyles.width, 10);
-    const height = parseInt(menuStyles.height, 10);
+    // Measure with the natural-size class so the menu reports its real
+    // dimensions even while it's still `display: none` (parseInt('auto')
+    // returns NaN and breaks the auto-flip logic).
+    menu.classList.add('measuring');
+    const menuRect = menu.getBoundingClientRect();
+    menu.classList.remove('measuring');
 
     return {
-      width,
-      height,
+      width: menuRect.width,
+      height: menuRect.height,
     };
   }
 }

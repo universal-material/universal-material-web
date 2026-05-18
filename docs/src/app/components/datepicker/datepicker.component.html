@@ -20,13 +20,15 @@
       </label>
     }
   </div>
-  <u-datepicker
-    label="Date"
-    placeholder="YYYY-MM-DD"
-    [attr.format]="datepickerFormat"
-    (input)="onDatepickerInput($event)"
-  ></u-datepicker>
-  <p>Selected: {{ datepickerValue || '—' }}</p>
+  <div example class="u-column">
+    <u-datepicker
+      label="Date"
+      placeholder="YYYY-MM-DD"
+      [attr.format]="datepickerFormat"
+      (input)="onDatepickerInput($event)"
+    ></u-datepicker>
+    <p>Selected: {{ datepickerValue || '—' }}</p>
+  </div>
 </docs-example>
 <docs-example
   sectionTitle="Editable"
@@ -38,13 +40,15 @@
       <u-option [value]="l.value">{{ l.label }}</u-option>
     }
   </u-select>
-  <u-datepicker
-    label="Date"
-    editable
-    [attr.locale]="editableLocale"
-    (input)="onDatepickerInput($event)"
-  ></u-datepicker>
-  <p>Selected: {{ datepickerValue || '—' }}</p>
+  <div example class="u-column">
+    <u-datepicker
+      label="Date"
+      editable
+      [attr.locale]="editableLocale"
+      (input)="onDatepickerInput($event)"
+    ></u-datepicker>
+    <p>Selected: {{ datepickerValue || '—' }}</p>
+  </div>
 </docs-example>
 <docs-example
   sectionTitle="Range datepicker"
@@ -63,29 +67,35 @@
       </label>
     }
   </div>
-  <u-range-datepicker
-    label="Date range"
-    placeholder="YYYY-MM-DD - YYYY-MM-DD"
-    [attr.format]="rangeDatepickerFormat"
-    (input)="onRangeDatepickerInput($event)"
-  ></u-range-datepicker>
-  <p>Selected: {{ rangeDatepickerValue || '—' }}</p>
+  <div example class="u-column">
+    <u-range-datepicker
+      label="Date range"
+      placeholder="YYYY-MM-DD - YYYY-MM-DD"
+      [attr.format]="rangeDatepickerFormat"
+      (input)="onRangeDatepickerInput($event)"
+    ></u-range-datepicker>
+    <p>Selected: {{ rangeDatepickerValue || '—' }}</p>
+  </div>
 </docs-example>
 <docs-example
   sectionTitle="Calendar"
   [html]="calendarHtml"
   [renderExample]="false"
 >
-  <u-calendar (input)="onDateInput($event)"></u-calendar>
-  <p>Selected: {{ selectedDate || '—' }}</p>
+  <div example class="u-column">
+    <u-calendar (input)="onDateInput($event)"></u-calendar>
+    <p>Selected: {{ selectedDate || '—' }}</p>
+  </div>
 </docs-example>
 <docs-example
   sectionTitle="Range calendar"
   [html]="rangeCalendarHtml"
   [renderExample]="false"
 >
-  <u-range-calendar (input)="onRangeInput($event)"></u-range-calendar>
-  <p>Range: {{ selectedRange || '—' }}</p>
+  <div example class="u-column">
+    <u-range-calendar (input)="onRangeInput($event)"></u-range-calendar>
+    <p>Range: {{ selectedRange || '—' }}</p>
+  </div>
 </docs-example>
 <docs-example
   sectionTitle="Locale"
@@ -97,7 +107,9 @@
       <u-option [value]="l.value">{{ l.label }}</u-option>
     }
   </u-select>
-  <u-calendar [attr.locale]="locale"></u-calendar>
+  <div example class="u-column">
+    <u-calendar [attr.locale]="locale"></u-calendar>
+  </div>
 </docs-example>
 
 <docs-apis-table key="datepicker"></docs-apis-table>

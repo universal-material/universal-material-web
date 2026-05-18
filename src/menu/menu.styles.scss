@@ -36,6 +36,12 @@
   display: none;
   min-width: var(--u-menu-min-width, 112px);
   max-width: var(--u-menu-max-width, 280px);
+
+  &.measuring {
+    display: flex;
+    visibility: hidden;
+    pointer-events: none;
+  }
   background: var(--u-menu-bg-color, #{functions.get-color-var(surface-container)});
   border-radius: var(--u-menu-shape-corner, #{functions.get-shape-corner-var(extra-small)});
   opacity: 0;

@@ -9,7 +9,7 @@
   <ng-content></ng-content>
 </div>
 @if (_html) {
-  <div class="example-block">
+  <div class="example-block" [class.fluid]="fluid" [attr.data-align]="alignment">
     <div class="example-preview">
       @if (renderExample) {
         <div [innerHTML]="htmlSafe"></div>

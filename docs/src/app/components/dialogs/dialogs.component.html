@@ -5,7 +5,9 @@
   [renderExample]="false"
   [html]="simpleCardHtml"
 >
-  <u-button (click)="dialog.show()">Open dialog</u-button>
+  <div example>
+    <u-button (click)="dialog.show()">Open dialog</u-button>
+  </div>
   <u-dialog #dialog>
     <span
       class="material-symbols-outlined"
@@ -59,9 +61,11 @@
   [renderExample]="false"
   [html]="''"
 >
-  <u-text-field
-    [(ngModel)]="message"
-    ngDefaultControl
-  ></u-text-field>
-  <u-button (click)="showMessage()">Show message</u-button>
+  <div example class="u-column">
+    <u-text-field
+      [(ngModel)]="message"
+      ngDefaultControl
+    ></u-text-field>
+    <u-button (click)="showMessage()">Show message</u-button>
+  </div>
 </docs-example>

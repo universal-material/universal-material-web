@@ -56,16 +56,18 @@
   [renderExample]="false"
   [html]="handlingSelectionHtml"
 >
-  <u-text-field
-    id="object-field"
-    label="States"
-    supporting-text="Select a state"
-  ></u-text-field>
-  <u-typeahead
-    target-id="object-field"
-    [source]="stateObjects"
-    [formatter]="formatter"
-  ></u-typeahead>
+  <div example>
+    <u-text-field
+      id="object-field"
+      label="States"
+      supporting-text="Select a state"
+    ></u-text-field>
+    <u-typeahead
+      target-id="object-field"
+      [source]="stateObjects"
+      [formatter]="formatter"
+    ></u-typeahead>
+  </div>
 </docs-example>
 
 <docs-apis-table key="typeahead"></docs-apis-table>

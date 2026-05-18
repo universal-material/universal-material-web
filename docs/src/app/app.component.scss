@@ -16,6 +16,34 @@ u-drawer-headline {
   text-transform: uppercase;
 }
 
+// Frosted-glass top app bar
+u-top-app-bar {
+  --u-top-app-bar-container-color: color-mix(in srgb, var(--u-color-surface) 35%, transparent);
+  --u-top-app-bar-on-scroll-container-color: color-mix(in srgb, var(--u-color-surface-container) 45%, transparent);
+
+  &::part(container) {
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    transition: background-color 200ms;
+  }
+}
+
+// Make the page content scroll under the (transparent) bar so the blur
+// has something to act on.
+.page-layout {
+  margin-top: calc(var(--u-top-app-bar-content-height, 64px) * -1);
+}
+
+.chapter {
+  padding-top: var(--u-top-app-bar-content-height, 64px);
+}
+
+.page-toc {
+  @include mixins.media-breakpoint-up(lg) {
+    top: calc(var(--u-top-app-bar-content-height, 64px) + 16px);
+  }
+}
+
 .page-layout {
   flex: 1 1 0;
   min-height: 0;
@@ -195,35 +223,156 @@ u-drawer-headline {
   background-clip: text;
 }
 
-.color-picker {
-  display: flex;
+.color-picker-trigger {
+  --u-icon-button-icon-size: 22px;
+}
+
+.color-picker-swatch {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--u-color-on-surface) 18%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff 35%, transparent),
+    0 2px 6px color-mix(in srgb, var(--u-color-scrim, #000) 18%, transparent);
+}
+
+.color-picker-menu {
+  --u-menu-min-width: 256px;
+}
+
+.color-picker-header {
+  padding: 12px 16px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--u-color-on-surface-variant);
+}
+
+.color-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  padding: 4px 12px 12px;
+}
+
+.color-picker-chip {
+  --swatch: var(--u-color-primary);
+  position: relative;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: 14px;
+  background: transparent;
   cursor: pointer;
-  border-radius: 9999px;
+  transition: background 0.18s, transform 0.18s;
 
-  input {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-color: transparent;
-    width: 32px;
-    height: 32px;
-    border: none;
+  &:hover {
+    background: var(--u-color-surface-container-low);
 
-    &::-webkit-color-swatch {
-      border-radius: 50%;
-      border: 1px solid var(--u-color-outline);
-    }
-
-    &::-moz-color-swatch {
-      border-radius: 50%;
-      border: 1px solid var(--u-color-outline);
+    .color-picker-chip-dot {
+      transform: scale(1.08);
     }
   }
+
+  &:active .color-picker-chip-dot {
+    transform: scale(0.92);
+  }
+
+  &.active {
+    background: color-mix(in srgb, var(--swatch) 14%, transparent);
+
+    .color-picker-chip-dot {
+      box-shadow:
+        0 0 0 2px var(--u-color-surface),
+        0 0 0 4px var(--swatch),
+        0 6px 14px color-mix(in srgb, var(--swatch) 35%, transparent);
+    }
+  }
+}
+
+.color-picker-chip-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--swatch);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff 40%, transparent),
+    0 3px 8px color-mix(in srgb, var(--swatch) 32%, transparent);
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+
+.color-picker-custom {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 8px 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  border-top: 1px solid var(--u-color-outline-variant);
+  border-radius: 0;
+  margin: 0;
+  padding: 12px 16px;
+  transition: background 0.18s;
+
+  &:hover {
+    background: var(--u-color-surface-container-low);
+  }
+
+  input[type="color"] {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+  }
+
+  .material-symbols-outlined {
+    color: var(--u-color-on-surface-variant);
+    font-size: 18px;
+  }
+}
+
+.color-picker-custom-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--u-color-on-surface) 18%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, #fff 30%, transparent);
+  flex-shrink: 0;
+}
+
+.color-picker-custom-label {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  line-height: 1.2;
+}
+
+.color-picker-custom-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--u-color-on-surface);
+}
+
+.color-picker-custom-value {
+  font-family: var(--u-font-monospace);
+  font-size: 11px;
+  color: var(--u-color-on-surface-variant);
+  text-transform: uppercase;
+  margin-top: 2px;
 }
 
 .pane-layout {

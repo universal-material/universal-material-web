@@ -11,7 +11,6 @@
   position: relative;
   border: 1px solid var(--u-color-outline-variant);
   border-radius: 14px;
-  overflow: hidden;
   background: var(--u-color-surface-container-lowest);
   isolation: isolate;
 
@@ -19,6 +18,7 @@
     content: "";
     position: absolute;
     inset: 0;
+    border-radius: inherit;
     background:
       radial-gradient(
         circle at 18% 22%,
@@ -38,7 +38,6 @@
 
 .example-preview {
   position: relative;
-  z-index: 1;
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
@@ -47,12 +46,47 @@
   border-bottom: 1px solid var(--u-color-outline-variant);
   align-items: center;
   min-height: 96px;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+}
+
+// Horizontal alignment variants
+.example-block[data-align="center"] .example-preview {
+  justify-content: center;
+}
+
+.example-block[data-align="end"] .example-preview {
+  justify-content: flex-end;
+}
+
+.example-block[data-align="between"] .example-preview {
+  justify-content: space-between;
+}
+
+.example-block[data-align="stretch"] .example-preview {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.example-block.fluid {
+  .example-preview {
+    padding-inline: 0;
+    padding-block: 24px;
+    display: block;
+    min-height: 0;
+
+    > * {
+      width: 100%;
+    }
+  }
 }
 
 .example-code {
   position: relative;
-  z-index: 1;
   background: var(--u-color-surface-container);
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+  overflow: hidden;
 
   pre {
     margin: 0;

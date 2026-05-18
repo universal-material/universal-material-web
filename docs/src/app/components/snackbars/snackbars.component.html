@@ -5,17 +5,19 @@
   [renderExample]="false"
   [html]="exampleHtml"
 >
-  <u-text-field
-    label="Message"
-    [(ngModel)]="message"
-    ngDefaultControl
-  ></u-text-field>
-  <u-text-field
-    label="Action"
-    [(ngModel)]="action"
-    ngDefaultControl
-  ></u-text-field>
-  <u-button (click)="showSnackbar()">Show snackbar</u-button>
+  <div example class="u-column">
+    <u-text-field
+      label="Message"
+      [(ngModel)]="message"
+      ngDefaultControl
+    ></u-text-field>
+    <u-text-field
+      label="Action"
+      [(ngModel)]="action"
+      ngDefaultControl
+    ></u-text-field>
+    <u-button (click)="showSnackbar()">Show snackbar</u-button>
+  </div>
 </docs-example>
 
 <docs-apis-table key="snackbar"></docs-apis-table>

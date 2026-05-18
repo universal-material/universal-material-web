@@ -4,14 +4,15 @@ import { ApisTableComponent } from '@docs/docs/apis-table/apis-table.component';
 import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
 
-import downHtml from './examples/down.html';
-import downLeftHtml from './examples/down-left.html';
-import downRightHtml from './examples/down-right.html';
-import downStartHtml from './examples/down-start.html';
-import downEndHtml from './examples/down-end.html';
+import basicHtml from './examples/basic.html';
+import iconsHtml from './examples/icons.html';
+import positioningHtml from './examples/positioning.html';
 
-const anchors = ['auto-start', 'auto-end', 'start-start', 'start-end', 'end-end', 'end-start'];
-const directions = ['up-start', 'up-end', 'down-start', 'down-end'];
+const ANCHOR_CORNERS = ['start-start', 'start-end', 'end-start', 'end-end', 'auto-start', 'auto-end'] as const;
+const DIRECTIONS = ['down-start', 'down-end', 'up-start', 'up-end'] as const;
+
+type AnchorCorner = typeof ANCHOR_CORNERS[number];
+type Direction = typeof DIRECTIONS[number];
 
 @Component({
   selector: 'docs-menus',
@@ -21,35 +22,17 @@ const directions = ['up-start', 'up-end', 'down-start', 'down-end'];
   imports: [
     ApisTableComponent,
     ExampleComponent,
-    TitleComponent
-  ]
+    TitleComponent,
+  ],
 })
 export class MenusComponent {
-  downHtml = downHtml;
-  downLeftHtml = downLeftHtml;
-  downRightHtml = downRightHtml;
-  downStartHtml = downStartHtml;
-  downEndHtml = downEndHtml;
+  readonly basicHtml = basicHtml;
+  readonly iconsHtml = iconsHtml;
+  readonly positioningHtml = positioningHtml;
 
-  direction = 'down-end';
-  anchorCorner = 'start-start';
+  readonly anchorCorners = ANCHOR_CORNERS;
+  readonly directions = DIRECTIONS;
 
-  changeDirection() {
-    this.direction = this.getNextValue(this.direction, directions);
-  }
-
-  changeAnchor() {
-    this.anchorCorner = this.getNextValue(this.anchorCorner, anchors);
-  }
-
-  private getNextValue(currentValue: string, values: string[]) {
-
-    let nextIndex = values.indexOf(currentValue) + 1;
-
-    if (nextIndex === values.length) {
-      nextIndex = 0;
-    }
-
-    return values[nextIndex];
-  }
+  anchorCorner: AnchorCorner = 'end-start';
+  direction: Direction = 'down-start';
 }

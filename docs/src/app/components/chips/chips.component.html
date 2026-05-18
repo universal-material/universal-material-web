@@ -63,38 +63,40 @@
     </u-chip>
   </u-chip-set>
   <h5 class="u-title-m u-mt-large">Component</h5>
-  <u-chip
-    [elevated]="elevated"
-    [removable]="removable"
-    [clickable]="clickable"
-    [toggle]="toggle"
-    [hideSelectedIcon]="hideSelectedIcon"
-    (remove)="$event.preventDefault()"
-  >
-    <span
-      class="material-symbols-outlined material-symbols-fill u-text-warning"
-      *ngIf="selectedIcon"
-      slot="icon-selected"
-      >star
-    </span>
-    <span
-      class="material-symbols-outlined"
-      *ngIf="leadingIcon"
-      slot="leading-icon"
-      >star </span
-    >Label<span
-      class="material-symbols-outlined"
-      *ngIf="trailingIcon"
-      slot="trailing-icon"
-      >arrow_drop_down
-    </span>
-    <span
-      class="material-symbols-outlined"
-      *ngIf="customRemove"
-      slot="remove-icon"
-      >cancel
-    </span>
-  </u-chip>
+  <div example>
+    <u-chip
+      [elevated]="elevated"
+      [removable]="removable"
+      [clickable]="clickable"
+      [toggle]="toggle"
+      [hideSelectedIcon]="hideSelectedIcon"
+      (remove)="$event.preventDefault()"
+    >
+      <span
+        class="material-symbols-outlined material-symbols-fill u-text-warning"
+        *ngIf="selectedIcon"
+        slot="icon-selected"
+        >star
+      </span>
+      <span
+        class="material-symbols-outlined"
+        *ngIf="leadingIcon"
+        slot="leading-icon"
+        >star </span
+      >Label<span
+        class="material-symbols-outlined"
+        *ngIf="trailingIcon"
+        slot="trailing-icon"
+        >arrow_drop_down
+      </span>
+      <span
+        class="material-symbols-outlined"
+        *ngIf="customRemove"
+        slot="remove-icon"
+        >cancel
+      </span>
+    </u-chip>
+  </div>
 </docs-example>
 
 <docs-apis-table key="chip"></docs-apis-table>

@@ -13,16 +13,18 @@
   sectionTitle="Bound to ngModel"
   [renderExample]="false"
 >
-  <u-select
-    label="State"
-    [(ngModel)]="state"
-    ngDefaultControl
-  >
-    @for (s of states; track s) {
-      <u-option [value]="s">{{ s }}</u-option>
-    }
-  </u-select>
-  <p>Selected: {{ state }}</p>
+  <div example class="u-column">
+    <u-select
+      label="State"
+      [(ngModel)]="state"
+      ngDefaultControl
+    >
+      @for (s of states; track s) {
+        <u-option [value]="s">{{ s }}</u-option>
+      }
+    </u-select>
+    <p>Selected: {{ state }}</p>
+  </div>
 </docs-example>
 <docs-example
   [html]="disabledHtml"

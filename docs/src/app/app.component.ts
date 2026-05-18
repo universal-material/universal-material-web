@@ -38,6 +38,25 @@ export class AppComponent {
   $themeColorChange = new Subject<string>();
   readonly version = '3.7.2';
 
+  readonly themeColorPresets: { name: string; value: string }[] = [
+    { name: 'Purple', value: '#6750a4' },
+    { name: 'Indigo', value: '#4f46e5' },
+    { name: 'Blue', value: '#2563eb' },
+    { name: 'Teal', value: '#0d9488' },
+    { name: 'Green', value: '#16a34a' },
+    { name: 'Amber', value: '#f59e0b' },
+    { name: 'Pink', value: '#db2777' },
+    { name: 'Red', value: '#dc2626' },
+  ];
+
+  isPresetActive(value: string): boolean {
+    return value.toLowerCase() === this.themeColor.toLowerCase();
+  }
+
+  pickColor(color: string): void {
+    this.setThemeColor(color);
+  }
+
   anchorsNavigation: { hash: string; title: string }[] = [];
 
   @ViewChild('scrollWrapper') scrollWrapper!: ElementRef<HTMLElement>;

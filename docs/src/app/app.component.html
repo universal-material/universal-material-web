@@ -51,17 +51,56 @@
       </span>
     </a>
     <div
-      class="color-picker"
+      class="position-relative"
       slot="trailing-icon"
     >
-      <u-ripple (click)="colorInput.click()"></u-ripple>
-      <input
-        type="color"
-        #colorInput
-        [ngModel]="themeColor"
-        (ngModelChange)="$themeColorChange.next($event)"
+      <u-icon-button
+        class="color-picker-trigger"
         aria-label="Theme color"
-      />
+        (click)="colorMenu.toggle()"
+      >
+        <span
+          class="color-picker-swatch"
+          [style.background]="themeColor"
+        ></span>
+      </u-icon-button>
+      <u-menu
+        #colorMenu
+        anchor-corner="end-end"
+        class="color-picker-menu"
+      >
+        <div class="color-picker-header">Theme color</div>
+        <div class="color-picker-grid">
+          @for (preset of themeColorPresets; track preset.value) {
+            <button
+              type="button"
+              class="color-picker-chip"
+              [class.active]="isPresetActive(preset.value)"
+              [style.--swatch]="preset.value"
+              [attr.aria-label]="preset.name"
+              [title]="preset.name"
+              (click)="pickColor(preset.value); colorMenu.close()"
+            >
+              <span class="color-picker-chip-dot"></span>
+            </button>
+          }
+        </div>
+        <label class="color-picker-custom">
+          <input
+            type="color"
+            #colorInput
+            [ngModel]="themeColor"
+            (ngModelChange)="$themeColorChange.next($event)"
+            aria-label="Custom theme color"
+          />
+          <span class="color-picker-custom-swatch" [style.background]="themeColor"></span>
+          <span class="color-picker-custom-label">
+            <span class="color-picker-custom-title">Custom</span>
+            <span class="color-picker-custom-value">{{ themeColor }}</span>
+          </span>
+          <span class="material-symbols-outlined">colorize</span>
+        </label>
+      </u-menu>
     </div>
     <div
       class="position-relative"

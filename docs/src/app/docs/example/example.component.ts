@@ -24,6 +24,24 @@ export class ExampleComponent implements OnChanges {
 
   @Input() renderExample = true;
   @Input() sectionTitle!: string;
+  /**
+   * Makes the preview area edge-to-edge (no horizontal padding) and stretches
+   * the demo to fill its width. Useful for components that span the full
+   * surface — top-app-bar, dividers, snackbars, lists inside cards, etc.
+   */
+  @Input({ transform: (v: boolean | string) => v === '' || v === true || v === 'true' }) fluid = false;
+  /**
+   * Horizontal alignment of the demo within the preview area.
+   * - `start` (default): items aligned to the left
+   * - `center`: items centered
+   * - `end`: items aligned to the right — great for FABs
+   * - `stretch`: each item takes the full available width — great for form fields
+   * - `between`: distribute items with space between
+   *
+   * Note: named `alignment` (not `align`) to avoid the legacy HTML `align`
+   * attribute, which browsers map to `text-align`.
+   */
+  @Input() alignment: 'start' | 'center' | 'end' | 'stretch' | 'between' = 'start';
   anchorHash: string | null = null;
 
   @Input()
