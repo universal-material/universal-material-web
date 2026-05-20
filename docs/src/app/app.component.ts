@@ -10,6 +10,8 @@ import { NavigationItem } from '@docs/components/navigation-item.model';
 import { LinkActiveDirective } from './docs/link-active.directive';
 import { TocComponent } from './docs/toc/toc.component';
 
+import { version as packageVersion } from '../../../package.json';
+
 enum ThemeMode {
   Auto,
   Light,
@@ -36,7 +38,7 @@ export class AppComponent {
   currentThemeMode = parseInt(localStorage['currentThemeMode'], 10) || 0;
   themeColor = '#6750a4';
   $themeColorChange = new Subject<string>();
-  readonly version = '3.7.2';
+  readonly version = packageVersion;
 
   readonly themeColorPresets: { name: string; value: string }[] = [
     { name: 'Purple', value: '#6750a4' },
