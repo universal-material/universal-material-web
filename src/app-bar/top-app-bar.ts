@@ -1,11 +1,18 @@
+import { consume } from '@lit/context';
 import { PropertyValues } from '@lit/reactive-element';
 
 import { html, HTMLTemplateResult, LitElement, nothing } from 'lit';
 import { customElement, property, query, queryAssignedElements, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
+import { scrollContainerContext } from '../scaffold/scroll-container-context.js';
 import { styles as baseStyles } from '../shared/base.styles.js';
 import { styles } from './top-app-bar.styles.js';
+
+type ScrollTarget = {
+  addEventListener: typeof window.addEventListener;
+  removeEventListener: typeof window.removeEventListener;
+};
 
 @customElement('u-top-app-bar')
 export class UmTopAppBar extends LitElement {
@@ -34,8 +41,9 @@ export class UmTopAppBar extends LitElement {
   /**
    * The element to listen for scroll on to collapse the extended content.
    * Accepts an `HTMLElement`, the id of an element, `'window'` to use the
-   * window scroll, or `'none'` to disable scroll handling. Defaults to
-   * `'window'` when no value is provided.
+   * window scroll, or `'none'` to disable scroll handling. When unset, the
+   * app bar consumes the scroll container provided by an ancestor
+   * `u-scaffold`; if there's no scaffold, it falls back to `'window'`.
    */
   @property({ reflect: true })
   get scrollContainer(): 'none' | 'window' | string | undefined {
@@ -43,15 +51,13 @@ export class UmTopAppBar extends LitElement {
   }
 
   set scrollContainer(idOrElement: string | HTMLElement | undefined) {
-    this.scrollContainerElement?.removeEventListener('scroll', this.#updateScroll);
-
-    if (idOrElement === 'none') {
-      return;
-    }
-
-    this.scrollContainerElement = this.getScrollContainer(idOrElement)!;
-    this.scrollContainerElement?.addEventListener('scroll', this.#updateScroll);
+    this.#explicitScrollContainer = idOrElement;
+    this.#resolveScrollContainer();
   }
+
+  @consume({ context: scrollContainerContext, subscribe: true })
+  @state()
+  private readonly _scrollContainerFromContext!: HTMLElement | undefined;
 
   @state() containerScrolled = false;
 
@@ -67,26 +73,46 @@ export class UmTopAppBar extends LitElement {
 
   private containerSizeObserver: ResizeObserver | null = null;
 
-  private scrollContainerElement: {
-    addEventListener: typeof window.addEventListener;
-    removeEventListener: typeof window.removeEventListener;
-  } | null = null;
+  #explicitScrollContainer: string | HTMLElement | undefined = undefined;
+  private scrollContainerElement: ScrollTarget | null = null;
 
-  private getScrollContainer(idOrElement: string | HTMLElement | undefined):
-    | {
-      addEventListener: typeof window.addEventListener;
-      removeEventListener: typeof window.removeEventListener;
-    }
-    | undefined {
-    if (idOrElement instanceof HTMLElement) {
-      return idOrElement;
+  #resolveScrollContainer(): void {
+    const next = this.#computeScrollTarget();
+
+    if (next === this.scrollContainerElement) {
+      return;
     }
 
-    if (idOrElement === 'window') {
-      return window;
+    this.scrollContainerElement?.removeEventListener('scroll', this.#updateScroll);
+    this.scrollContainerElement = next;
+    this.scrollContainerElement?.addEventListener('scroll', this.#updateScroll);
+    this.#updateScroll();
+  }
+
+  #computeScrollTarget(): ScrollTarget | null {
+    const explicit = this.#explicitScrollContainer;
+
+    if (explicit === 'none') {
+      return null;
     }
 
-    return document.getElementById(idOrElement!)!;
+    if (explicit instanceof HTMLElement) {
+      return explicit;
+    }
+
+    if (typeof explicit === 'string' && explicit.length > 0) {
+      if (explicit === 'window') {
+        return window;
+      }
+
+      return document.getElementById(explicit);
+    }
+
+    if (this._scrollContainerFromContext) {
+      return this._scrollContainerFromContext;
+    }
+
+    return window;
   }
 
   #handleLeadingIconSlotChange() {
@@ -139,8 +165,13 @@ export class UmTopAppBar extends LitElement {
     `;
   }
 
-  protected override updated(_changedProperties: PropertyValues) {
-    super.updated(_changedProperties);
+  protected override updated(changedProperties: PropertyValues) {
+    super.updated(changedProperties);
+
+    if (changedProperties.has('_scrollContainerFromContext' as keyof this)) {
+      this.#resolveScrollContainer();
+    }
+
     this.#updateScroll();
   }
 
@@ -154,13 +185,21 @@ export class UmTopAppBar extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
 
-    this.scrollContainer = this.scrollContainer || 'window';
+    const attr = this.attributes.getNamedItem('scrollContainer')?.value;
+    if (attr !== undefined && this.#explicitScrollContainer === undefined) {
+      this.#explicitScrollContainer = attr;
+    }
+
+    this.#resolveScrollContainer();
   }
 
   override disconnectedCallback() {
     super.disconnectedCallback();
 
-    this.containerSizeObserver!.disconnect();
+    this.scrollContainerElement?.removeEventListener('scroll', this.#updateScroll);
+    this.scrollContainerElement = null;
+
+    this.containerSizeObserver?.disconnect();
     this.containerSizeObserver = null;
   }
 
@@ -173,7 +212,9 @@ export class UmTopAppBar extends LitElement {
 
     this.containerScrolled = scrollTop > extendedContentHeight;
 
-    this._headlineElement.style.opacity = scrollTop >= extendedContentHeight ? '1' : '0';
+    if (this._headlineElement) {
+      this._headlineElement.style.opacity = scrollTop >= extendedContentHeight ? '1' : '0';
+    }
 
     if (extendedContentHeight === 0) {
       return;

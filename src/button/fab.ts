@@ -1,6 +1,9 @@
-import { html, HTMLTemplateResult, nothing } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { consume } from '@lit/context';
 
+import { html, HTMLTemplateResult, nothing } from 'lit';
+import { customElement, property, state } from 'lit/decorators.js';
+
+import { scrollContainerContext } from '../scaffold/scroll-container-context.js';
 import { UmButtonBase } from './button-base.js';
 import { styles } from './fab.styles.js';
 
@@ -31,6 +34,47 @@ export class UmFab extends UmButtonBase {
    * Lowers the FAB's elevation.
    */
   @property({ type: Boolean, reflect: true }) lowered = false;
+
+  /**
+   * The element the FAB will observe for scroll. Accepts an `HTMLElement`,
+   * the id of an element, `'window'` to use the window scroll, or `'none'`
+   * to disable. When unset, the FAB consumes the scroll container provided
+   * by an ancestor `u-scaffold` via context, falling back to `'window'`.
+   * Reserved for future scroll-driven behaviors (e.g. shrink on scroll).
+   */
+  @property({ attribute: 'scroll-container' })
+  scrollContainer: 'none' | 'window' | string | HTMLElement | undefined = undefined;
+
+  @consume({ context: scrollContainerContext, subscribe: true })
+  @state()
+  protected readonly _scrollContainerFromContext!: HTMLElement | undefined;
+
+  /**
+   * The resolved scroll target according to the precedence
+   * explicit > context > window. Returns `null` when the explicit value
+   * is `'none'`.
+   */
+  protected get _effectiveScrollContainer(): HTMLElement | Window | null {
+    const explicit = this.scrollContainer;
+
+    if (explicit === 'none') {
+      return null;
+    }
+
+    if (explicit instanceof HTMLElement) {
+      return explicit;
+    }
+
+    if (typeof explicit === 'string' && explicit.length > 0) {
+      if (explicit === 'window') {
+        return window;
+      }
+
+      return document.getElementById(explicit);
+    }
+
+    return this._scrollContainerFromContext ?? window;
+  }
 
   get extended(): boolean {
     return !!this.label;

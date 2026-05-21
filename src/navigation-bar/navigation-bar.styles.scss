@@ -1,0 +1,52 @@
+@use "../../scss/variables";
+@use "../../scss/api";
+
+// Material 3 — md.comp.nav-bar.* tokens
+// Reference: https://m3.material.io/components/navigation-bar/specs
+//
+//   container.color      = sys.color.surface-container
+//   container.elevation  = sys.elevation.level2
+//   container.height     = 64px
+//   container.shape      = sys.shape.corner-none
+//   item.between-space   = 0px
+
+:host {
+  display: block;
+  --u-elevation-level: 2;
+}
+
+.container {
+  position: relative;
+  background-color: var(--u-nav-bar-container-color, #{api.get-color-var(surface-container)});
+  color: var(--u-nav-bar-text-color, #{api.get-color-var(on-surface)});
+  transition: background-color 100ms;
+}
+
+.absolute {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  z-index: var(--u-nav-bar-z-index, 1010);
+}
+
+.fixed {
+  position: fixed;
+  inset-inline: 0;
+  inset-block-end: 0;
+  inset-inline-start: var(--u-app-bar-offset, 0);
+  z-index: var(--u-nav-bar-z-index, 1010);
+  transition: background-color 100ms, inset-inline-start 375ms variables.$awesome-cubic-bezier;
+}
+
+.spacing {
+  padding-block-start: var(--_content-height);
+}
+
+.content {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-around;
+  min-height: var(--u-nav-bar-container-height, 64px);
+  padding-inline: 0;
+  gap: var(--u-nav-bar-item-between-space, 0);
+}

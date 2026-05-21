@@ -1,23 +1,28 @@
-<u-overflow-menu style="max-width: 320px;">
-  <u-overflow-menu-item label="Bold">
-    <span class="material-symbols-outlined">format_bold</span>
-  </u-overflow-menu-item>
-  <u-overflow-menu-item label="Italic">
-    <span class="material-symbols-outlined">format_italic</span>
-  </u-overflow-menu-item>
-  <u-overflow-menu-item label="Underline">
-    <span class="material-symbols-outlined">format_underlined</span>
-  </u-overflow-menu-item>
-  <u-overflow-menu-item label="Strikethrough">
-    <span class="material-symbols-outlined">format_strikethrough</span>
-  </u-overflow-menu-item>
-  <u-overflow-menu-item label="Align left">
-    <span class="material-symbols-outlined">format_align_left</span>
-  </u-overflow-menu-item>
-  <u-overflow-menu-item label="Align center">
-    <span class="material-symbols-outlined">format_align_center</span>
-  </u-overflow-menu-item>
-  <u-overflow-menu-item label="Align right">
-    <span class="material-symbols-outlined">format_align_right</span>
-  </u-overflow-menu-item>
-</u-overflow-menu>
+<!-- Drag the bottom-right corner of the dashed box to resize and watch items
+     collapse into the menu. `menuPositioning="fixed"` lets the popover
+     escape the wrapper's clipped overflow. -->
+<div style="resize: horizontal; overflow: hidden; max-width: 100%; min-width: 56px; width: 320px; padding: 8px; border: 1px dashed var(--u-color-outline-variant, rgba(0,0,0,.12)); border-radius: 8px;">
+  <u-overflow-menu menuPositioning="fixed">
+    <u-overflow-menu-item label="Bold">
+      <span class="material-symbols-outlined">format_bold</span>
+    </u-overflow-menu-item>
+    <u-overflow-menu-item label="Italic">
+      <span class="material-symbols-outlined">format_italic</span>
+    </u-overflow-menu-item>
+    <u-overflow-menu-item label="Underline">
+      <span class="material-symbols-outlined">format_underlined</span>
+    </u-overflow-menu-item>
+    <u-overflow-menu-item label="Strikethrough">
+      <span class="material-symbols-outlined">format_strikethrough</span>
+    </u-overflow-menu-item>
+    <u-overflow-menu-item label="Align left">
+      <span class="material-symbols-outlined">format_align_left</span>
+    </u-overflow-menu-item>
+    <u-overflow-menu-item label="Align center">
+      <span class="material-symbols-outlined">format_align_center</span>
+    </u-overflow-menu-item>
+    <u-overflow-menu-item label="Align right">
+      <span class="material-symbols-outlined">format_align_right</span>
+    </u-overflow-menu-item>
+  </u-overflow-menu>
+</div>

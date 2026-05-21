@@ -1,0 +1,33 @@
+<u-scaffold style="height: 320px; border: 1px solid var(--u-color-outline-variant, rgba(0,0,0,.12)); border-radius: 12px;">
+  <u-top-app-bar
+    slot="top-bar"
+    headline="Music"
+  >
+    <u-icon-button slot="leading-icon">
+      <span class="material-symbols-outlined">menu</span>
+    </u-icon-button>
+  </u-top-app-bar>
+
+  <div style="padding: 16px 24px;">
+    <p>Horizontal variant — the active indicator pill (40dp tall) wraps both the icon and the label, with 16dp inline padding and 4dp icon-label gap.</p>
+  </div>
+
+  <u-navigation-bar slot="bottom-bar">
+    <u-navigation-bar-item variant="horizontal" active>
+      <span class="material-symbols-outlined" slot="icon">home</span>
+      Home
+    </u-navigation-bar-item>
+    <u-navigation-bar-item variant="horizontal">
+      <span class="material-symbols-outlined" slot="icon">explore</span>
+      Browse
+    </u-navigation-bar-item>
+    <u-navigation-bar-item variant="horizontal">
+      <span class="material-symbols-outlined" slot="icon">radio</span>
+      Radio
+    </u-navigation-bar-item>
+    <u-navigation-bar-item variant="horizontal">
+      <span class="material-symbols-outlined" slot="icon">library_music</span>
+      Library
+    </u-navigation-bar-item>
+  </u-navigation-bar>
+</u-scaffold>

@@ -1,0 +1,40 @@
+<u-scaffold style="height: 360px; border: 1px solid var(--u-color-outline-variant, rgba(0,0,0,.12)); border-radius: 12px;">
+  <u-top-app-bar
+    slot="top-bar"
+    headline="Inbox"
+  >
+    <u-icon-button slot="leading-icon">
+      <span class="material-symbols-outlined">menu</span>
+    </u-icon-button>
+  </u-top-app-bar>
+
+  <div style="padding: 16px 24px;">
+    <p>The FAB lives in the scaffold's <code>fab</code> slot and is anchored above the navigation bar with a 16dp gap.</p>
+    <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+  </div>
+
+  <u-navigation-bar slot="bottom-bar">
+    <u-navigation-bar-item active>
+      <span class="material-symbols-outlined" slot="icon">inbox</span>
+      Inbox
+    </u-navigation-bar-item>
+    <u-navigation-bar-item>
+      <span class="material-symbols-outlined" slot="icon">send</span>
+      <u-badge slot="badge">3</u-badge>
+      Sent
+    </u-navigation-bar-item>
+    <u-navigation-bar-item>
+      <span class="material-symbols-outlined" slot="icon">drafts</span>
+      Drafts
+    </u-navigation-bar-item>
+    <u-navigation-bar-item>
+      <span class="material-symbols-outlined" slot="icon">delete</span>
+      Trash
+    </u-navigation-bar-item>
+  </u-navigation-bar>
+
+  <u-fab slot="fab" color="primary">
+    <span class="material-symbols-outlined">edit</span>
+  </u-fab>
+</u-scaffold>

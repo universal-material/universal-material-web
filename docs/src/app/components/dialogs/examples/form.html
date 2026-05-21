@@ -1,0 +1,14 @@
+<u-button (click)="formDialog.show()">Rename file</u-button>
+
+<u-dialog #formDialog>
+  <span slot="headline">Rename file</span>
+  <form id="rename-form" method="dialog">
+    <u-text-field
+      label="File name"
+      autofocus
+      name="filename"
+    ></u-text-field>
+  </form>
+  <u-button slot="actions" variant="text" form="rename-form" value="save">Save</u-button>
+  <u-button slot="actions" variant="text" form="rename-form" value="cancel">Cancel</u-button>
+</u-dialog>

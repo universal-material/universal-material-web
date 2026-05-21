@@ -18,6 +18,13 @@ export class OverflowMenu extends LitElement {
 
   @state() _renderMenu = false;
 
+  /**
+   * The positioning strategy used by the collapsed-items popover. Use
+   * `'fixed'` when the overflow menu is rendered inside a clipped/scrollable
+   * container so the popover can escape its bounds.
+   */
+  @property({ reflect: true }) menuPositioning: 'relative' | 'fixed' = 'relative';
+
   @query('u-menu') menu?: UmMenu;
 
   #anchor: HTMLElement | null = null;
@@ -154,7 +161,7 @@ export class OverflowMenu extends LitElement {
                 </svg>
               </slot>
             </u-icon-button>
-            <u-menu anchor-corner="end-end">
+            <u-menu anchor-corner="end-end" positioning=${this.menuPositioning}>
               <slot name="menu-items"></slot>
             </u-menu>
           </div>

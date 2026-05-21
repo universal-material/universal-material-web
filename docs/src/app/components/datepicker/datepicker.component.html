@@ -8,18 +8,18 @@
   [html]="datepickerHtml"
   [renderExample]="false"
 >
-  <div class="format-options">
+  <u-chip-set>
     @for (f of formats; track f) {
-      <label>
-        <u-radio
-          name="datepicker-format"
-          [attr.checked]="datepickerFormat === f ? '' : null"
-          (change)="datepickerFormat = f"
-        ></u-radio>
+      <u-chip
+        clickable
+        [selected]="datepickerFormat === f"
+        (click)="datepickerFormat = f"
+      >
+        <span class="material-symbols-outlined" slot="icon-selected">done</span>
         {{ f }}
-      </label>
+      </u-chip>
     }
-  </div>
+  </u-chip-set>
   <div example class="u-column">
     <u-datepicker
       label="Date"
@@ -55,18 +55,18 @@
   [html]="rangeDatepickerHtml"
   [renderExample]="false"
 >
-  <div class="format-options">
+  <u-chip-set>
     @for (f of formats; track f) {
-      <label>
-        <u-radio
-          name="range-datepicker-format"
-          [attr.checked]="rangeDatepickerFormat === f ? '' : null"
-          (change)="rangeDatepickerFormat = f"
-        ></u-radio>
+      <u-chip
+        clickable
+        [selected]="rangeDatepickerFormat === f"
+        (click)="rangeDatepickerFormat = f"
+      >
+        <span class="material-symbols-outlined" slot="icon-selected">done</span>
         {{ f }}
-      </label>
+      </u-chip>
     }
-  </div>
+  </u-chip-set>
   <div example class="u-column">
     <u-range-datepicker
       label="Date range"

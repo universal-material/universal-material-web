@@ -1,23 +1,29 @@
-<u-overflow-menu style="max-width: 320px;">
-  <u-overflow-menu-item label="Save">
-    <span class="material-symbols-outlined">save</span>
-  </u-overflow-menu-item>
-  <u-overflow-menu-item label="Share">
-    <span class="material-symbols-outlined">share</span>
-  </u-overflow-menu-item>
-  <u-overflow-menu-item label="Print">
-    <span class="material-symbols-outlined">print</span>
-  </u-overflow-menu-item>
-  <u-overflow-menu-item
-    label="Delete"
-    collapse="always"
-  >
-    <span class="material-symbols-outlined">delete</span>
-  </u-overflow-menu-item>
-  <u-overflow-menu-item
-    label="Settings"
-    collapse="always"
-  >
-    <span class="material-symbols-outlined">settings</span>
-  </u-overflow-menu-item>
-</u-overflow-menu>
+<!-- Drag the bottom-right corner of the dashed box to resize. Items marked
+     `collapse="always"` (Delete, Settings) are never shown inline.
+     `menuPositioning="fixed"` lets the popover escape the wrapper's
+     clipped overflow. -->
+<div style="resize: horizontal; overflow: hidden; max-width: 100%; min-width: 56px; width: 320px; padding: 8px; border: 1px dashed var(--u-color-outline-variant, rgba(0,0,0,.12)); border-radius: 8px;">
+  <u-overflow-menu menuPositioning="fixed">
+    <u-overflow-menu-item label="Save">
+      <span class="material-symbols-outlined">save</span>
+    </u-overflow-menu-item>
+    <u-overflow-menu-item label="Share">
+      <span class="material-symbols-outlined">share</span>
+    </u-overflow-menu-item>
+    <u-overflow-menu-item label="Print">
+      <span class="material-symbols-outlined">print</span>
+    </u-overflow-menu-item>
+    <u-overflow-menu-item
+      label="Delete"
+      collapse="always"
+    >
+      <span class="material-symbols-outlined">delete</span>
+    </u-overflow-menu-item>
+    <u-overflow-menu-item
+      label="Settings"
+      collapse="always"
+    >
+      <span class="material-symbols-outlined">settings</span>
+    </u-overflow-menu-item>
+  </u-overflow-menu>
+</div>

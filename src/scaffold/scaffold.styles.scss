@@ -1,0 +1,47 @@
+:host {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  contain: layout paint style;
+  isolation: isolate;
+  background-color: var(--u-scaffold-container-color, var(--u-color-body, transparent));
+}
+
+.scroll-container {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  will-change: scroll-position;
+}
+
+.fab {
+  position: absolute;
+  inset-inline-end: var(--u-scaffold-fab-inline-offset, 16px);
+  inset-block-end: calc(
+    var(--u-scaffold-fab-block-offset, 16px) +
+    var(--_u-scaffold-bottom-bar-height, 0px)
+  );
+  z-index: 5;
+  pointer-events: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+
+  // Align the visible toggle FAB of u-fab-menu with the wrapper's box — by
+  // default the toggle is offset 8dp via margin-top, which would make it
+  // overflow below the wrapper and sit too close to the navigation bar.
+  --u-fab-menu-toggle-margin: 0;
+}
+
+// Re-enable interaction on the plain FAB (the wrapper is pointer-events:none
+// so empty space inside it passes clicks through). u-fab-menu intentionally
+// has pointer-events:none on its own host so its empty layout area (the
+// invisible menu items when closed) passes clicks through — its internal
+// toggle re-enables pointer-events for the clickable region.
+.fab ::slotted(u-fab) {
+  pointer-events: auto;
+}

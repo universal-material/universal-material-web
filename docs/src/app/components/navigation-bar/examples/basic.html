@@ -1,0 +1,35 @@
+<u-scaffold style="height: 360px; border: 1px solid var(--u-color-outline-variant, rgba(0,0,0,.12)); border-radius: 12px;">
+  <u-top-app-bar
+    slot="top-bar"
+    headline="Mail"
+  >
+    <u-icon-button slot="leading-icon">
+      <span class="material-symbols-outlined">menu</span>
+    </u-icon-button>
+  </u-top-app-bar>
+
+  <div style="padding: 16px 24px;">
+    <p>Destinations follow the Material 3 navigation bar spec: 64×32dp active indicator pill, 24dp icon, label-medium typography, and on-surface / on-secondary-container colors.</p>
+    <p>Use <code>u-navigation-bar-item</code> for each destination — the active one gets the indicator pill.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+  </div>
+
+  <u-navigation-bar slot="bottom-bar">
+    <u-navigation-bar-item active>
+      <span class="material-symbols-outlined" slot="icon">home</span>
+      Home
+    </u-navigation-bar-item>
+    <u-navigation-bar-item>
+      <span class="material-symbols-outlined" slot="icon">explore</span>
+      Browse
+    </u-navigation-bar-item>
+    <u-navigation-bar-item>
+      <span class="material-symbols-outlined" slot="icon">radio</span>
+      Radio
+    </u-navigation-bar-item>
+    <u-navigation-bar-item>
+      <span class="material-symbols-outlined" slot="icon">library_music</span>
+      Library
+    </u-navigation-bar-item>
+  </u-navigation-bar>
+</u-scaffold>

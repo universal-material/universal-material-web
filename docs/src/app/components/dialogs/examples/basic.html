@@ -1,0 +1,9 @@
+<u-button (click)="dialog.show()">Open dialog</u-button>
+
+<u-dialog #dialog>
+  <span class="material-symbols-outlined" slot="icon">mobile_friendly</span>
+  <span slot="headline">Update available</span>
+  <span>A new version of the app is ready. Restart now to apply the update — your work will be saved automatically.</span>
+  <u-button slot="actions" variant="text" (click)="dialog.close('ok')">Restart</u-button>
+  <u-button slot="actions" variant="text" (click)="dialog.close('cancel')">Later</u-button>
+</u-dialog>

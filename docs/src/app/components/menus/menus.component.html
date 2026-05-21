@@ -22,7 +22,7 @@
       <u-chip-set>
         @for (c of anchorCorners; track c) {
           <u-chip
-            toggle
+            clickable
             [selected]="anchorCorner === c"
             (click)="anchorCorner = c"
             >{{ c }}
@@ -35,7 +35,7 @@
       <u-chip-set>
         @for (d of directions; track d) {
           <u-chip
-            toggle
+            clickable
             [selected]="direction === d"
             (click)="direction = d"
             >{{ d }}

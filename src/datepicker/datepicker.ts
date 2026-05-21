@@ -13,8 +13,10 @@ import { styles as textFieldStyles } from '../text-field/text-field.styles.js';
 import { styles } from './datepicker.styles.js';
 import { DatepickerFormat, formatIsoDate } from './format.js';
 
+import '../button/icon-button.js';
 import '../calendar/calendar.js';
 import '../menu/menu.js';
+import '../ripple/ripple.js';
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -79,6 +81,7 @@ export class UmDatepicker extends UmNativeTextFieldWrapper {
             aria-haspopup="dialog"
             ?disabled=${this.disabled}
             @click=${this.#toggleMenu}></button>
+          <u-ripple ?disabled=${this.disabled}></u-ripple>
         `}
       <div class="input">
         <input
@@ -100,10 +103,22 @@ export class UmDatepicker extends UmNativeTextFieldWrapper {
   }
 
   protected override renderDefaultTrailingIcon() {
-    return svg`
-      <svg xmlns="http://www.w3.org/2000/svg" height="1.25em" viewBox="0 -960 960 960" width="1.25em" fill="currentColor">
+    const icon = svg`
+      <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 -960 960 960" width="1em" fill="currentColor">
         <path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z"/>
       </svg>`;
+
+    // In editable mode the field itself is typeable, so the icon must be a
+    // dedicated button for opening the calendar. In non-editable mode the
+    // .trigger button covers the whole field, so the icon is just visual.
+    return this.editable
+      ? html`<u-icon-button
+          type="button"
+          aria-haspopup="dialog"
+          aria-label="Open calendar"
+          ?disabled=${this.disabled}
+          @click=${this.#toggleMenu}>${icon}</u-icon-button>`
+      : icon;
   }
 
   protected override renderAfterContent() {
@@ -112,7 +127,7 @@ export class UmDatepicker extends UmNativeTextFieldWrapper {
         positioning=${this.menuPositioning}
         autoclose="outside"
         anchor-corner="end-start"
-        direction="down-start"
+        direction="down-end"
         allow-overflow
         manualFocus
         @click=${this.#stopPropagation}>

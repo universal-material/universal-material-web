@@ -4,9 +4,10 @@ import { ApisTableComponent } from '@docs/docs/apis-table/apis-table.component';
 import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
 
-import usageHtml from './examples/usage.html';
-import stackHtml from './examples/stack.html';
 import alignmentHtml from './examples/alignment.html';
+import mixedHtml from './examples/mixed.html';
+import stackHtml from './examples/stack.html';
+import usageHtml from './examples/usage.html';
 
 @Component({
   selector: 'docs-button-set',
@@ -14,12 +15,14 @@ import alignmentHtml from './examples/alignment.html';
   styleUrl: './button-set.component.scss',
   standalone: true,
   imports: [
+    ApisTableComponent,
     ExampleComponent,
-    TitleComponent
-  ]
+    TitleComponent,
+  ],
 })
 export class ButtonSetComponent {
-  usageHtml = usageHtml;
-  stackHtml = stackHtml;
   alignmentHtml = alignmentHtml;
+  mixedHtml = mixedHtml;
+  stackHtml = stackHtml;
+  usageHtml = usageHtml;
 }

@@ -1,0 +1,40 @@
+:host(:not([editable]):not([disabled])) .container {
+  cursor: pointer;
+}
+
+// Invisible click target covering the whole field — used in non-editable mode
+// to open the calendar popover. Mirrors the pattern used by u-button-field.
+.trigger {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  appearance: none;
+  cursor: inherit;
+}
+
+// Hide the browser's native date picker indicator (the calendar icon the
+// browser injects on `<input type="date">`) — our own trailing icon handles
+// opening the calendar.
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+input[type="date"] {
+  &::-webkit-inner-spin-button,
+  &::-webkit-clear-button {
+    display: none;
+  }
+}
+
+// `<input type="date">` paints the format mask (e.g. "yyyy-mm-dd") inside
+// `::-webkit-datetime-edit-*` pseudo-elements — `color: transparent` on
+// `::placeholder` does NOT hide them. Match the field's empty/unfocused
+// rule and blank out the datetime-edit area so it doesn't visually collide
+// with the floating label.
+:host([empty]:not(:focus-within)) {
+  .container:not(.no-label) input[type="date"]::-webkit-datetime-edit {
+    color: transparent;
+  }
+}

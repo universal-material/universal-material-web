@@ -12,7 +12,11 @@ slot[name="leading-icon"]::slotted(u-icon-button) {
 .container {
   background-color: var(--u-top-app-bar-container-color, var(--u-color-body, #{api.get-color-var(surface)}));
   color: var(--u-top-app-bar-text-color, #{api.get-color-var(on-surface)});
-  transition: background-color 100ms, inset 375ms variables.$awesome-cubic-bezier;
+  transition: background-color 100ms;
+}
+
+.fixed {
+  transition: background-color 100ms, inset-inline-start 375ms variables.$awesome-cubic-bezier;
 }
 
 .scrolled {
@@ -33,6 +37,8 @@ slot[name="leading-icon"]::slotted(u-icon-button) {
 
 .absolute {
   position: absolute;
+  inset-inline: 0;
+  inset-block-start: 0;
 }
 
 .fixed {

@@ -1,0 +1,13 @@
+<u-button (click)="showMessage()">Show message</u-button>
+
+<script type="module">
+  import { UmDialog } from '@universal-material/web';
+
+  function showMessage() {
+    UmDialog
+      .message('Your changes have been saved.')
+      .headline('Saved')
+      .acknowledgeButton({ label: 'Got it', variant: 'filled' })
+      .show();
+  }
+</script>

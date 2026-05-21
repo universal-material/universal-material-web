@@ -1,9 +1,10 @@
-import { provide } from '@lit/context';
+import { consume, provide } from '@lit/context';
 
 import { html, HTMLTemplateResult, LitElement } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
+import { scrollContainerContext } from '../scaffold/scroll-container-context.js';
 import { fabMenuColorContext } from './fab-menu-color-context.js';
 import { UmFabMenuItem } from './fab-menu-item.js';
 import { fabMenuOpenContext } from './fab-menu-open-context.js';
@@ -35,6 +36,47 @@ export class UmFabMenu extends LitElement {
   @provide({ context: fabMenuOpenContext })
   @state()
   open = false;
+
+  /**
+   * The element the FAB menu will observe for scroll. Accepts an
+   * `HTMLElement`, the id of an element, `'window'` to use the window
+   * scroll, or `'none'` to disable. When unset, the FAB menu consumes the
+   * scroll container provided by an ancestor `u-scaffold` via context,
+   * falling back to `'window'`. Reserved for future scroll-driven behaviors.
+   */
+  @property({ attribute: 'scroll-container' })
+  scrollContainer: 'none' | 'window' | string | HTMLElement | undefined = undefined;
+
+  @consume({ context: scrollContainerContext, subscribe: true })
+  @state()
+  protected readonly _scrollContainerFromContext!: HTMLElement | undefined;
+
+  /**
+   * The resolved scroll target according to the precedence
+   * explicit > context > window. Returns `null` when the explicit value
+   * is `'none'`.
+   */
+  protected get _effectiveScrollContainer(): HTMLElement | Window | null {
+    const explicit = this.scrollContainer;
+
+    if (explicit === 'none') {
+      return null;
+    }
+
+    if (explicit instanceof HTMLElement) {
+      return explicit;
+    }
+
+    if (typeof explicit === 'string' && explicit.length > 0) {
+      if (explicit === 'window') {
+        return window;
+      }
+
+      return document.getElementById(explicit);
+    }
+
+    return this._scrollContainerFromContext ?? window;
+  }
 
   protected override render(): HTMLTemplateResult {
     const containerClasses = classMap({

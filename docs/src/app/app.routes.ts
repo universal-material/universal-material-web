@@ -10,6 +10,10 @@ export const routes: Routes = [
     loadComponent: () => import('@docs/components/badges/badges.component').then(m => m.BadgesComponent)
   },
   {
+    path: 'components/navigation-bar',
+    loadComponent: () => import('@docs/components/navigation-bar/navigation-bar.component').then(m => m.NavigationBarComponent)
+  },
+  {
     path: 'components/button-set',
     loadComponent: () => import('@docs/components/button-set/button-set.component').then(m => m.ButtonSetComponent)
   },
@@ -84,6 +88,10 @@ export const routes: Routes = [
   {
     path: 'components/ripple',
     loadComponent: () => import('@docs/components/ripple/ripple.component').then(m => m.RippleComponent)
+  },
+  {
+    path: 'components/scaffold',
+    loadComponent: () => import('@docs/components/scaffold/scaffold.component').then(m => m.ScaffoldComponent)
   },
   {
     path: 'components/search',

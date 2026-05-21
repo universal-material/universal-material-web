@@ -1,14 +1,23 @@
-<docs-title title="Button set" tag="u-button-set">Groups related buttons and standardizes their spacing and alignment.</docs-title>
+<docs-title title="Button set" tag="u-button-set">Groups related buttons and standardizes their spacing and alignment. The default alignment is <code>end</code> — the conventional place for action rows in dialogs, forms and cards.</docs-title>
 
 <docs-example
   sectionTitle="Usage"
   [html]="usageHtml"
-></docs-example>
-<docs-example
-  sectionTitle="Stack"
-  [html]="stackHtml"
-></docs-example>
+>Default alignment is <code>end</code>. Drop two or more buttons inside and the set will space them consistently.</docs-example>
+
 <docs-example
   sectionTitle="Alignment"
   [html]="alignmentHtml"
-></docs-example>
+>Set <code>alignment</code> to <code>start</code>, <code>center</code> or <code>end</code> (the default).</docs-example>
+
+<docs-example
+  sectionTitle="Stack"
+  [html]="stackHtml"
+>Use <code>stack</code> when the buttons need to be laid out vertically (e.g. on narrow viewports). The visually-prominent action comes first.</docs-example>
+
+<docs-example
+  sectionTitle="Mixed contents"
+  [html]="mixedHtml"
+>The set accepts any button-like child — <code>u-button</code>, <code>u-icon-button</code>, <code>u-fab</code> — and aligns them on the same baseline.</docs-example>
+
+<docs-apis-table key="buttonSet"></docs-apis-table>

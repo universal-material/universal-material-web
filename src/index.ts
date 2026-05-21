@@ -1,5 +1,8 @@
 import '@bart-krakowski/get-week-info-polyfill';
 
+import './scaffold/scaffold.js';
+import './navigation-bar/navigation-bar.js';
+import './navigation-bar/navigation-bar-item.js';
 import './app-bar/top-app-bar.js';
 import './button/button.js';
 import './button/button-set.js';
@@ -45,6 +48,8 @@ import './typeahead/highlight.js';
 import './typeahead/typeahead.js';
 
 export * from './app-bar/top-app-bar.js';
+export * from './navigation-bar/navigation-bar.js';
+export * from './navigation-bar/navigation-bar-item.js';
 export * from './badge/badge.js';
 export * from './button/button.js';
 export * from './button/button-base.js';
@@ -94,6 +99,8 @@ export * from './overflow-menu/overflow-menu-item.js';
 export * from './progress/circular-progress.js';
 export * from './progress/progress-bar.js';
 export * from './ripple/ripple.js';
+export * from './scaffold/scaffold.js';
+export { scrollContainerContext } from './scaffold/scroll-container-context.js';
 export * from './snackbar/snackbar.js';
 export * from './tab-bar/tab-bar.js';
 export * from './tab-bar/tab.js';

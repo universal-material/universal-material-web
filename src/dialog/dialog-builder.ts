@@ -3,6 +3,7 @@ import DOMPurify from 'dompurify';
 import { DialogButtonDef } from './dialog-button-def.js';
 import { UmDialog } from './dialog.js';
 
+import '../button/button.js';
 import './dialog.js';
 
 export abstract class DialogBuilder<TBuilder extends DialogBuilder<any, any>, TReturn> {
@@ -50,9 +51,19 @@ export abstract class DialogBuilder<TBuilder extends DialogBuilder<any, any>, TR
 
   protected _addButton(dialog: UmDialog, buttonDef: DialogButtonDef, click: () => void) {
     const button = document.createElement('u-button');
-    button.variant = buttonDef.variant!;
-    button.color = buttonDef.color!;
-    button.textContent = buttonDef.label!;
+
+    if (buttonDef.variant !== undefined) {
+      button.variant = buttonDef.variant;
+    }
+
+    if (buttonDef.color !== undefined) {
+      button.color = buttonDef.color;
+    }
+
+    if (buttonDef.label !== undefined) {
+      button.textContent = buttonDef.label;
+    }
+
     button.slot = 'actions';
     button.addEventListener('click', click);
     dialog.appendChild(button);

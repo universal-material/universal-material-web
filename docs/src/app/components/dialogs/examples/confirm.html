@@ -1,0 +1,18 @@
+<u-button (click)="askConfirm()">Delete item</u-button>
+
+<script type="module">
+  import { UmDialog } from '@universal-material/web';
+
+  async function askConfirm() {
+    const ok = await UmDialog
+      .confirm('This action cannot be undone. Continue?')
+      .headline('Delete item')
+      .confirmButton({ label: 'Delete', variant: 'filled', color: 'error' })
+      .cancelButton({ label: 'Keep it' })
+      .show();
+
+    if (ok) {
+      // ...perform deletion
+    }
+  }
+</script>

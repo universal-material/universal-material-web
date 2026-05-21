@@ -15,6 +15,7 @@
       <span class="field-playground-label">Variant</span>
       <u-chip-set>
         <u-chip
+          clickable
           [selected]="variant === 'filled'"
           (click)="setVariant('filled')"
         >
@@ -26,6 +27,7 @@
           Filled
         </u-chip>
         <u-chip
+          clickable
           [selected]="variant === 'outlined'"
           (click)="setVariant('outlined')"
         >

@@ -1,0 +1,123 @@
+@use '../../scss/functions';
+@use '../../scss/mixins';
+
+// Material 3 — md.comp.nav-bar.item.* tokens
+// Reference: https://m3.material.io/components/navigation-bar/specs
+//
+// Common:
+//   item.icon.size                       = 24px
+//   item.active-indicator.shape          = corner-full
+//   item.active-indicator.color          = secondary-container
+//   item.active.icon.color               = on-secondary-container
+//   item.active.label-text.color         = secondary
+//   item.inactive.icon.color             = on-surface-variant
+//   item.inactive.label-text.color       = on-surface-variant
+//
+// Vertical variant (md.comp.nav-bar.item.vertical):
+//   active-indicator.width               = 56px
+//   active-indicator.height              = 32px
+//   container.between-space              = 6px   (gap between indicator and label)
+//
+// Horizontal variant (md.comp.nav-bar.item.horizontal):
+//   active-indicator.height              = 40px
+//   active-indicator.icon-label-space    = 4px
+//   active-indicator.leading-space       = 16px
+//   active-indicator.trailing-space      = 16px
+
+:host {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  --_nav-bar-item-icon-size: var(--u-nav-bar-item-icon-size, 24px);
+}
+
+.container {
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  color: var(--u-nav-bar-item-inactive-text-color, #{functions.get-color-var(on-surface-variant)});
+}
+
+.content {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--u-nav-bar-item-vertical-between-space, 6px);
+}
+
+:host([variant="horizontal"]) .content {
+  flex-direction: column;
+}
+
+.active-indicator {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  border-radius: var(--u-nav-bar-item-active-indicator-shape, #{functions.get-shape-corner-var(full)});
+  transition: background-color 150ms;
+}
+
+// Vertical (default)
+:host(:not([variant="horizontal"])) .active-indicator {
+  width: var(--u-nav-bar-item-vertical-active-indicator-width, 56px);
+  height: var(--u-nav-bar-item-vertical-active-indicator-height, 32px);
+}
+
+// Horizontal: pill wraps icon + label, auto width
+:host([variant="horizontal"]) .active-indicator {
+  flex-direction: row;
+  height: var(--u-nav-bar-item-horizontal-active-indicator-height, 40px);
+  padding-inline: var(--u-nav-bar-item-horizontal-active-indicator-leading-space, 16px) var(--u-nav-bar-item-horizontal-active-indicator-trailing-space, 16px);
+  gap: var(--u-nav-bar-item-horizontal-active-indicator-icon-label-space, 4px);
+}
+
+.icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_nav-bar-item-icon-size);
+  height: var(--_nav-bar-item-icon-size);
+  font-size: var(--_nav-bar-item-icon-size);
+  line-height: 1;
+  color: var(--u-nav-bar-item-inactive-icon-color, #{functions.get-color-var(on-surface-variant)});
+}
+
+.label {
+  @include mixins.typo(label-m, nav-bar-item-label);
+  letter-spacing: var(--u-nav-bar-item-label-letter-spacing, 0.5px);
+  color: var(--u-nav-bar-item-inactive-label-color, #{functions.get-color-var(on-surface-variant)});
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+:host([variant="horizontal"]) .label {
+  text-align: start;
+}
+
+.container:not(.has-label) .label,
+.container:not(.has-icon) .icon {
+  display: none;
+}
+
+:host(.active) .container,
+:host([active]) .container {
+  .active-indicator {
+    background-color: var(--u-nav-bar-item-active-indicator-color, #{functions.get-color-var(secondary-container)});
+  }
+
+  .icon {
+    color: var(--u-nav-bar-item-active-icon-color, #{functions.get-color-var(on-secondary-container)});
+  }
+
+  .label {
+    color: var(--u-nav-bar-item-active-label-color, #{functions.get-color-var(secondary)});
+  }
+}

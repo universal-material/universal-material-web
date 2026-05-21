@@ -1,71 +1,86 @@
-<docs-title title="Dialogs" tag="u-dialog">Modal surfaces that prompt users with information or actions that interrupt the current task.</docs-title>
+<docs-title title="Dialogs" tag="u-dialog">Modal surfaces that prompt the user with information or actions that interrupt the current task. Built on top of the native <code>&lt;dialog&gt;</code> element — open with <code>.show()</code>, close with <code>.close(returnValue?)</code>, and the closed-by-scrim/Escape case fires a <code>cancel</code> event you can prevent.</docs-title>
 
 <docs-example
   sectionTitle="Usage"
   [renderExample]="false"
-  [html]="simpleCardHtml"
->
+  [html]="basicHtml"
+>Use the <code>icon</code>, <code>headline</code>, default and <code>actions</code> slots. Each slot is optional; the layout adapts to whatever you pass.
   <div example>
-    <u-button (click)="dialog.show()">Open dialog</u-button>
+    <u-button (click)="basicDialog.show()">Open dialog</u-button>
   </div>
-  <u-dialog #dialog>
-    <span
-      class="material-symbols-outlined"
-      slot="icon"
-      >mobile_friendly
-    </span>
-    <span slot="headline">Headline</span>
-    <form
-      id="form-id"
-      method="dialog"
-    >
-      <input autofocus /><span
-        >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a arcu non odio dictum faucibus. Fusce turpis
-        ante, egestas eget pretium non, vestibulum aliquet leo. Pellentesque habitant morbi tristique senectus et netus
-        et malesuada fames ac turpis egestas. Fusce aliquet bibendum sem et mollis. Aliquam dignissim lectus consectetur
-        risus ultrices, et aliquam nisi aliquam. Donec quis diam vitae nunc rutrum lobortis. In suscipit nulla non
-        suscipit dapibus. Sed tellus est, gravida a velit et, cursus egestas felis. Suspendisse magna neque, viverra eu
-        metus at, sollicitudin finibus velit. Etiam in mi fringilla, accumsan justo at, suscipit lorem. Fusce mi neque,
-        pulvinar quis lorem sit amet, imperdiet tincidunt nunc. Morbi sit amet leo vitae ante sollicitudin pulvinar.
-        Nunc vitae neque quam.
-      </span>
-      <span
-        >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a arcu non odio dictum faucibus. Fusce turpis
-        ante, egestas eget pretium non, vestibulum aliquet leo. Pellentesque habitant morbi tristique senectus et netus
-        et malesuada fames ac turpis egestas. Fusce aliquet bibendum sem et mollis. Aliquam dignissim lectus consectetur
-        risus ultrices, et aliquam nisi aliquam. Donec quis diam vitae nunc rutrum lobortis. In suscipit nulla non
-        suscipit dapibus. Sed tellus est, gravida a velit et, cursus egestas felis. Suspendisse magna neque, viverra eu
-        metus at, sollicitudin finibus velit. Etiam in mi fringilla, accumsan justo at, suscipit lorem. Fusce mi neque,
-        pulvinar quis lorem sit amet, imperdiet tincidunt nunc. Morbi sit amet leo vitae ante sollicitudin pulvinar.
-        Nunc vitae neque quam.
-      </span>
-    </form>
-    <u-button
-      slot="actions"
-      variant="text"
-      form="form-id"
-      value="ok"
-      >Ok
-    </u-button>
-    <u-button
-      slot="actions"
-      variant="text"
-      form="form-id"
-      value="cancel"
-      >Cancel
-    </u-button>
+  <u-dialog #basicDialog>
+    <span class="material-symbols-outlined" slot="icon">mobile_friendly</span>
+    <span slot="headline">Update available</span>
+    <span>A new version of the app is ready. Restart now to apply the update — your work will be saved automatically.</span>
+    <u-button slot="actions" variant="text" (click)="basicDialog.close('ok')">Restart</u-button>
+    <u-button slot="actions" variant="text" (click)="basicDialog.close('cancel')">Later</u-button>
   </u-dialog>
 </docs-example>
+
 <docs-example
-  sectionTitle="Message dialog"
+  sectionTitle="With a form"
   [renderExample]="false"
-  [html]="''"
->
+  [html]="formHtml"
+>Buttons with <code>form="id"</code> + <code>value="..."</code> submit the form inside the dialog. A <code>method="dialog"</code> form closes the dialog with the submitter's value as the return value.
+  <div example>
+    <u-button (click)="formDialog.show()">Rename file</u-button>
+  </div>
+  <u-dialog #formDialog>
+    <span slot="headline">Rename file</span>
+    <form id="rename-form" method="dialog">
+      <u-text-field label="File name" autofocus name="filename"></u-text-field>
+    </form>
+    <u-button slot="actions" variant="text" form="rename-form" value="save">Save</u-button>
+    <u-button slot="actions" variant="text" form="rename-form" value="cancel">Cancel</u-button>
+  </u-dialog>
+</docs-example>
+
+<docs-example
+  sectionTitle="Scrollable content"
+  [renderExample]="false"
+  [html]="scrollableHtml"
+>When the body overflows, the dialog draws subtle dividers above the headline and below the actions so they stay visually anchored while the content scrolls.
+  <div example>
+    <u-button (click)="scrollDialog.show()">Open long dialog</u-button>
+  </div>
+  <u-dialog #scrollDialog>
+    <span slot="headline">Terms of service</span>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</p>
+    <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Aenean lacinia bibendum nulla sed consectetur.</p>
+    <p>Aenean lacinia bibendum nulla sed consectetur. Donec sed odio dui. Cum sociis natoque penatibus et magnis dis parturient montes.</p>
+    <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec ullamcorper nulla non metus auctor fringilla.</p>
+    <p>Maecenas faucibus mollis interdum. Nullam quis risus eget urna mollis ornare vel eu leo.</p>
+    <p>Etiam porta sem malesuada magna mollis euismod. Donec id elit non mi porta gravida at eget metus.</p>
+    <p>Curabitur blandit tempus porttitor. Sed posuere consectetur est at lobortis.</p>
+    <p>Nullam quis risus eget urna mollis ornare vel eu leo. Praesent commodo cursus magna.</p>
+    <u-button slot="actions" variant="text" (click)="scrollDialog.close('ok')">Accept</u-button>
+    <u-button slot="actions" variant="text" (click)="scrollDialog.close()">Decline</u-button>
+  </u-dialog>
+</docs-example>
+
+<docs-example
+  sectionTitle="Imperative — message"
+  [renderExample]="false"
+  [html]="messageHtml"
+><code>UmDialog.message(text)</code> returns a builder that mounts a single-button alert dialog and removes it from the DOM on close. Chain <code>.headline(...)</code> and <code>.acknowledgeButton(...)</code> to customize.
   <div example class="u-column">
-    <u-text-field
-      [(ngModel)]="message"
-      ngDefaultControl
-    ></u-text-field>
+    <u-text-field label="Message" [(ngModel)]="messageText" ngDefaultControl></u-text-field>
     <u-button (click)="showMessage()">Show message</u-button>
   </div>
 </docs-example>
+
+<docs-example
+  sectionTitle="Imperative — confirm"
+  [renderExample]="false"
+  [html]="confirmHtml"
+><code>UmDialog.confirm(text).show()</code> returns a <code>Promise&lt;boolean&gt;</code> that resolves <code>true</code> on confirm or <code>false</code> on cancel/dismiss. Customize via <code>.confirmButton(...)</code> and <code>.cancelButton(...)</code>.
+  <div example class="u-column">
+    <u-text-field label="Prompt" [(ngModel)]="confirmText" ngDefaultControl></u-text-field>
+    <u-button (click)="askConfirm()">Delete item</u-button>
+    @if (confirmResult !== null) {
+      <p>Result: <strong>{{ confirmResult ? 'deleted' : 'kept' }}</strong></p>
+    }
+  </div>
+</docs-example>
+
+<docs-apis-table key="dialog"></docs-apis-table>
