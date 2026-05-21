@@ -4,12 +4,12 @@ import { html, HTMLTemplateResult, nothing } from 'lit';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import { customElement, property, query } from 'lit/decorators.js';
 
-import { UmTextFieldBase } from '../shared/text-field-base/text-field-base.js';
+import { TextFieldBase } from '../shared/text-field-base/text-field-base.js';
 import { styles } from './chip-field.styles.js';
 
 @customElement('u-chip-field')
-export class UmChipField extends UmTextFieldBase {
-  static override styles: CSSResultGroup = [UmTextFieldBase.styles, styles];
+export class ChipField extends TextFieldBase {
+  static override styles: CSSResultGroup = [TextFieldBase.styles, styles];
 
   @query('input') input!: HTMLInputElement;
 
@@ -181,6 +181,6 @@ export class UmChipField extends UmTextFieldBase {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-chip-field': UmChipField;
+    'u-chip-field': ChipField;
   }
 }

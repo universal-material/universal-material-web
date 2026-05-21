@@ -2,25 +2,25 @@ import { html, HTMLTemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 import { styles } from './icon-button.styles.js';
-import { UmToggleButton } from './toggle-button.js';
+import { ToggleButton } from './toggle-button.js';
 
-export type UmIconButtonVariant = 'standard' | 'filled' | 'tonal' | 'outlined';
-export type UmIconButtonWidth = 'default' | 'narrow' | 'wide';
+export type IconButtonVariant = 'standard' | 'filled' | 'tonal' | 'outlined';
+export type IconButtonWidth = 'default' | 'narrow' | 'wide';
 
 @customElement('u-icon-button')
-export class UmIconButton extends UmToggleButton {
+export class IconButton extends ToggleButton {
 
-  static override styles = [UmToggleButton.styles, styles];
+  static override styles = [ToggleButton.styles, styles];
 
   /**
    * The Icon Button variant to render
    */
-  @property() variant: UmIconButtonVariant = 'standard';
+  @property() variant: IconButtonVariant = 'standard';
 
   /**
    * The width of the Icon Button
    */
-  @property() width: UmIconButtonWidth = 'default';
+  @property() width: IconButtonWidth = 'default';
 
   protected override _getContainerClasses(): Record<string, boolean> {
     return {
@@ -47,6 +47,6 @@ export class UmIconButton extends UmToggleButton {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-icon-button': UmIconButton;
+    'u-icon-button': IconButton;
   }
 }

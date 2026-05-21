@@ -5,7 +5,7 @@ import { styles as baseStyles } from '../shared/base.styles.js';
 import { styles } from './card-content.styles.js';
 
 @customElement('u-card-content')
-export class UmCardContent extends LitElement {
+export class CardContent extends LitElement {
 
   static override styles = [baseStyles, styles];
 
@@ -45,6 +45,6 @@ export class UmCardContent extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-card-content': UmCardContent;
+    'u-card-content': CardContent;
   }
 }

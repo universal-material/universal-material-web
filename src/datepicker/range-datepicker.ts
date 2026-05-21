@@ -4,10 +4,10 @@ import { html, HTMLTemplateResult, nothing, svg } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { live } from 'lit/directives/live.js';
 
-import { UmRangeCalendar } from '../calendar/range-calendar.js';
-import { UmMenu } from '../menu/menu.js';
-import { UmNativeTextFieldWrapper } from '../shared/char-count-text-field/native-text-field-wrapper.js';
-import { UmTextFieldBase } from '../shared/text-field-base/text-field-base.js';
+import { RangeCalendar } from '../calendar/range-calendar.js';
+import { Menu } from '../menu/menu.js';
+import { NativeTextFieldWrapper } from '../shared/char-count-text-field/native-text-field-wrapper.js';
+import { TextFieldBase } from '../shared/text-field-base/text-field-base.js';
 
 import { styles as textFieldStyles } from '../text-field/text-field.styles.js';
 import { styles } from './datepicker.styles.js';
@@ -21,8 +21,8 @@ import '../ripple/ripple.js';
 const ISO_DATE_RANGE = /^\d{4}-\d{2}-\d{2} - \d{4}-\d{2}-\d{2}$/;
 
 @customElement('u-range-datepicker')
-export class UmRangeDatepicker extends UmNativeTextFieldWrapper {
-  static override styles: CSSResultGroup = [UmTextFieldBase.styles, textFieldStyles, styles];
+export class RangeDatepicker extends NativeTextFieldWrapper {
+  static override styles: CSSResultGroup = [TextFieldBase.styles, textFieldStyles, styles];
 
   /**
    * The BCP 47 locale tag forwarded to the underlying range calendar and used
@@ -60,8 +60,8 @@ export class UmRangeDatepicker extends UmNativeTextFieldWrapper {
   @property({ reflect: true, attribute: 'menu-positioning' }) menuPositioning: 'relative' | 'fixed' = 'relative';
 
   @query('input') input!: HTMLInputElement;
-  @query('u-menu', true) private _menu!: UmMenu;
-  @query('u-range-calendar', true) private _calendar!: UmRangeCalendar;
+  @query('u-menu', true) private _menu!: Menu;
+  @query('u-range-calendar', true) private _calendar!: RangeCalendar;
   @query('.trailing-icon', true) private _trailingSlot!: HTMLSlotElement;
 
   protected override renderControl(): HTMLTemplateResult {
@@ -176,7 +176,7 @@ export class UmRangeDatepicker extends UmNativeTextFieldWrapper {
 
   #handleCalendarInput = (e: Event): void => {
     e.stopPropagation();
-    const value = (e.target as UmRangeCalendar).value ?? '';
+    const value = (e.target as RangeCalendar).value ?? '';
     this.value = value;
     this.dispatchEvent(new InputEvent('input', { bubbles: true, composed: true }));
   };
@@ -212,6 +212,6 @@ export class UmRangeDatepicker extends UmNativeTextFieldWrapper {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-range-datepicker': UmRangeDatepicker;
+    'u-range-datepicker': RangeDatepicker;
   }
 }

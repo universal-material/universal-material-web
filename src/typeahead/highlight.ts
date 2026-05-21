@@ -8,7 +8,7 @@ const regExpEscape = (text: string) =>
   text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
 
 @customElement('u-highlight')
-export class UmHighlight extends LitElement {
+export class Highlight extends LitElement {
   static override styles = styles;
 
   #result: string | undefined;
@@ -74,6 +74,6 @@ export class UmHighlight extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-highlight': UmHighlight;
+    'u-highlight': Highlight;
   }
 }

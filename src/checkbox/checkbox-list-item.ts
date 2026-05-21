@@ -1,15 +1,15 @@
 import { customElement } from 'lit/decorators.js';
 
 import { mixinSelectionControlListItem } from '../shared/selection-control/selection-control-list-item.js';
-import { UmCheckbox } from './checkbox.js';
+import { Checkbox } from './checkbox.js';
 
 @customElement('u-checkbox-list-item')
-export class UmCheckboxListItem extends mixinSelectionControlListItem(UmCheckbox) {
+export class CheckboxListItem extends mixinSelectionControlListItem(Checkbox) {
 
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-checkbox-list-item': UmCheckboxListItem;
+    'u-checkbox-list-item': CheckboxListItem;
   }
 }

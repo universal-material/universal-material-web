@@ -4,7 +4,7 @@ import { customElement } from 'lit/decorators.js';
 import { styles } from './icon.styles.js';
 
 @customElement('u-icon')
-export class UmIcon extends LitElement {
+export class Icon extends LitElement {
 
   static override styles = [styles];
 
@@ -17,6 +17,6 @@ export class UmIcon extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-icon': UmIcon;
+    'u-icon': Icon;
   }
 }

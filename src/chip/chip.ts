@@ -1,16 +1,16 @@
 import { html, HTMLTemplateResult, nothing } from 'lit';
 import { customElement, property, query, queryAssignedElements, state } from 'lit/decorators.js';
 
-import { UmRipple } from '../ripple/ripple.js';
-import { UmButtonWrapper } from '../shared/button-wrapper.js';
+import { Ripple } from '../ripple/ripple.js';
+import { ButtonWrapper } from '../shared/button-wrapper.js';
 import { styles } from './chip.styles.js';
 
 import '../ripple/ripple.js';
 import '../elevation/elevation.js';
 
 @customElement('u-chip')
-export class UmChip extends UmButtonWrapper {
-  static override styles = [UmButtonWrapper.styles, styles];
+export class Chip extends ButtonWrapper {
+  static override styles = [ButtonWrapper.styles, styles];
 
   #clickable = false;
   #toggle = false;
@@ -75,7 +75,7 @@ export class UmChip extends UmButtonWrapper {
   @queryAssignedElements({ slot: 'trailing-icon', flatten: true })
   private readonly _assignedTrailingIcons!: HTMLElement[];
 
-  @query('#remove-ripple') removeRipple!: UmRipple;
+  @query('#remove-ripple') removeRipple!: Ripple;
 
   override connectedCallback() {
     super.connectedCallback();
@@ -184,6 +184,6 @@ export class UmChip extends UmButtonWrapper {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-chip': UmChip;
+    'u-chip': Chip;
   }
 }

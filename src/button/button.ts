@@ -6,26 +6,26 @@ import { customElement, property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
 import { styles } from './button.styles.js';
-import { UmToggleButton } from './toggle-button.js';
+import { ToggleButton } from './toggle-button.js';
 
 import '../ripple/ripple.js';
 
-export type UmButtonVariant = 'filled' | 'tonal' | 'elevated' | 'outlined' | 'text';
-export type UmButtonColor = 'primary' | 'secondary' | 'tertiary' | 'error';
+export type ButtonVariant = 'filled' | 'tonal' | 'elevated' | 'outlined' | 'text';
+export type ButtonColor = 'primary' | 'secondary' | 'tertiary' | 'error';
 
 @customElement('u-button')
-export class UmButton extends UmToggleButton {
-  static override styles: CSSResultGroup = [UmToggleButton.styles, styles];
+export class Button extends ToggleButton {
+  static override styles: CSSResultGroup = [ToggleButton.styles, styles];
 
   /**
    * The Button variant to render
    */
-  @property() variant: UmButtonVariant = 'filled';
+  @property() variant: ButtonVariant = 'filled';
 
   /**
    * The Button color
    */
-  @property() color: UmButtonColor = 'primary';
+  @property() color: ButtonColor = 'primary';
 
   /**
    * Whether the slotted icon is rendered after the label instead of before
@@ -112,6 +112,6 @@ export class UmButton extends UmToggleButton {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-button': UmButton;
+    'u-button': Button;
   }
 }

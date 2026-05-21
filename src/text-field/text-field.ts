@@ -4,13 +4,13 @@ import { html, HTMLTemplateResult, nothing } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { live } from 'lit/directives/live.js';
 
-import { UmNativeTextFieldWrapper } from '../shared/char-count-text-field/native-text-field-wrapper.js';
-import { UmTextFieldBase } from '../shared/text-field-base/text-field-base.js';
+import { NativeTextFieldWrapper } from '../shared/char-count-text-field/native-text-field-wrapper.js';
+import { TextFieldBase } from '../shared/text-field-base/text-field-base.js';
 import { styles } from './text-field.styles.js';
 
 @customElement('u-text-field')
-export class UmTextField extends UmNativeTextFieldWrapper {
-  static override styles: CSSResultGroup = [UmTextFieldBase.styles, styles];
+export class TextField extends NativeTextFieldWrapper {
+  static override styles: CSSResultGroup = [TextFieldBase.styles, styles];
 
   /**
    * The input type. Mirrors the native `input` element's `type` attribute
@@ -74,6 +74,6 @@ export class UmTextField extends UmNativeTextFieldWrapper {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-text-field': UmTextField;
+    'u-text-field': TextField;
   }
 }

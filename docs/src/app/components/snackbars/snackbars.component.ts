@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { UmSnackbar, SnackbarDuration } from '@universal-material/web';
+import { Snackbar, SnackbarDuration } from '@universal-material/web';
 
 import { ApisTableComponent } from '@docs/docs/apis-table/apis-table.component';
 import { ExampleComponent } from '@docs/docs/example/example.component';
@@ -26,7 +26,7 @@ export class SnackbarsComponent {
   action = 'Undo';
 
   showSnackbar(): void {
-    UmSnackbar.show({
+    Snackbar.show({
       message: this.message,
       action: this.action,
       duration: SnackbarDuration.long,

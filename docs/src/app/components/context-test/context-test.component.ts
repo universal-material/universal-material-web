@@ -1,6 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { UmField } from '@universal-material/web';
+import { Field } from '@universal-material/web';
 
 @Component({
   selector: 'docs-context-test',

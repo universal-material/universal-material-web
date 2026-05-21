@@ -1,8 +1,8 @@
 import { property } from 'lit/decorators.js';
 
-import { UmTextFieldBase } from '../text-field-base/text-field-base.js';
+import { TextFieldBase } from '../text-field-base/text-field-base.js';
 
-export abstract class UmNativeTextFieldWrapper extends UmTextFieldBase {
+export abstract class NativeTextFieldWrapper extends TextFieldBase {
   protected _value = '';
 
   /**

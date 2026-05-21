@@ -1,10 +1,10 @@
 import { html, HTMLTemplateResult } from 'lit';
 import { customElement, property, queryAssignedElements, queryAssignedNodes, state } from 'lit/decorators.js';
 
-import { UmButtonWrapper } from '../shared/button-wrapper.js';
+import { ButtonWrapper } from '../shared/button-wrapper.js';
 import { styles } from './navigation-bar-item.styles.js';
 
-export type UmNavBarItemVariant = 'vertical' | 'horizontal';
+export type NavBarItemVariant = 'vertical' | 'horizontal';
 
 /**
  * A destination inside a `u-navigation-bar`. Renders an M3 active indicator
@@ -17,10 +17,10 @@ export type UmNavBarItemVariant = 'vertical' | 'horizontal';
  *  - `badge`: an optional `u-badge` placed at the top-right of the icon.
  */
 @customElement('u-navigation-bar-item')
-export class UmNavigationBarItem extends UmButtonWrapper {
+export class NavigationBarItem extends ButtonWrapper {
 
   static override styles = [
-    UmButtonWrapper.styles,
+    ButtonWrapper.styles,
     styles,
   ];
 
@@ -37,7 +37,7 @@ export class UmNavigationBarItem extends UmButtonWrapper {
    * with a 56×32dp active indicator pill around the icon. `'horizontal'`
    * places icon and label side-by-side inside a 40dp-high pill.
    */
-  @property({ reflect: true }) variant: UmNavBarItemVariant = 'vertical';
+  @property({ reflect: true }) variant: NavBarItemVariant = 'vertical';
 
   @queryAssignedElements({ slot: 'icon', flatten: true })
   private readonly assignedIcons!: HTMLElement[];
@@ -108,6 +108,6 @@ export class UmNavigationBarItem extends UmButtonWrapper {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-navigation-bar-item': UmNavigationBarItem;
+    'u-navigation-bar-item': NavigationBarItem;
   }
 }

@@ -7,7 +7,7 @@ const basePercentage = 255;
 
 // https://codepen.io/ConAntonakos/pen/ryMaOX
 @customElement('u-circular-progress')
-export class UmCircularProgress extends LitElement {
+export class CircularProgress extends LitElement {
   static override styles = [styles];
 
   /**
@@ -86,6 +86,6 @@ export class UmCircularProgress extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-circular-progress': UmCircularProgress;
+    'u-circular-progress': CircularProgress;
   }
 }

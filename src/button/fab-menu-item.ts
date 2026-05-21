@@ -3,21 +3,21 @@ import { consume } from '@lit/context';
 import { html, HTMLTemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 
-import { UmButtonBase } from './button-base.js';
+import { ButtonBase } from './button-base.js';
 import { fabMenuColorContext } from './fab-menu-color-context.js';
 import { styles } from './fab-menu-item.styles.js';
 import { fabMenuOpenContext } from './fab-menu-open-context.js';
-import { UmFabColor } from './fab.js';
+import { FabColor } from './fab.js';
 
 @customElement('u-fab-menu-item')
-export class UmFabMenuItem extends UmButtonBase {
+export class FabMenuItem extends ButtonBase {
 
-  static override styles = [UmButtonBase.styles, styles];
+  static override styles = [ButtonBase.styles, styles];
   #index = 0;
 
   @consume({ context: fabMenuColorContext, subscribe: true })
   @state()
-  private readonly _color!: UmFabColor;
+  private readonly _color!: FabColor;
 
   @consume({ context: fabMenuOpenContext, subscribe: true })
   @state()
@@ -66,6 +66,6 @@ export class UmFabMenuItem extends UmButtonBase {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-fab-menu-item': UmFabMenuItem;
+    'u-fab-menu-item': FabMenuItem;
   }
 }

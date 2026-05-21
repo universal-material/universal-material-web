@@ -7,7 +7,7 @@ import { styles } from './list-item.styles.js';
 import '../ripple/ripple.js';
 
 @customElement('u-list-item')
-export class UmListItem extends LitElement {
+export class ListItem extends LitElement {
   static override styles = styles;
 
   /**
@@ -40,6 +40,6 @@ export class UmListItem extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-list-item': UmListItem;
+    'u-list-item': ListItem;
   }
 }

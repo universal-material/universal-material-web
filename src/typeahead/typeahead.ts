@@ -1,8 +1,8 @@
 import { html, HTMLTemplateResult, LitElement, TemplateResult } from 'lit';
 import { customElement, property, query, queryAll, state } from 'lit/decorators.js';
 
-import { UmMenuItem } from '../menu/menu-item.js';
-import { UmMenu } from '../menu/menu.js';
+import { MenuItem } from '../menu/menu-item.js';
+import { Menu } from '../menu/menu.js';
 import { MenuFieldNavigationController } from '../shared/menu-field/menu-field-navigation-controller.js';
 import { normalizeText } from '../shared/normalize-text.js';
 import { styles } from './typeahead.styles.js';
@@ -18,7 +18,7 @@ export interface Data {
 }
 
 @customElement('u-typeahead')
-export class UmTypeahead extends LitElement {
+export class Typeahead extends LitElement {
   static readonly formAssociated = true;
 
   static override styles = styles;
@@ -162,10 +162,10 @@ export class UmTypeahead extends LitElement {
     }
   }
 
-  @query('u-menu') _menu!: UmMenu;
-  @queryAll('u-menu-item') menuItems!: NodeListOf<UmMenuItem>;
+  @query('u-menu') _menu!: Menu;
+  @queryAll('u-menu-item') menuItems!: NodeListOf<MenuItem>;
 
-  get _menuItems(): UmMenuItem[] {
+  get _menuItems(): MenuItem[] {
     return Array.from(this.menuItems);
   }
 
@@ -478,6 +478,6 @@ export class UmTypeahead extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-typeahead': UmTypeahead;
+    'u-typeahead': Typeahead;
   }
 }

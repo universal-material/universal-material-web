@@ -5,7 +5,7 @@ import { property } from 'lit/decorators.js';
 
 import { styles } from './set-base.styles.js';
 
-export abstract class UmSetBase extends LitElement {
+export abstract class SetBase extends LitElement {
 
   static override styles: CSSResultGroup = [styles];
 

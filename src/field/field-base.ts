@@ -8,14 +8,14 @@ import { classMap } from 'lit/directives/class-map.js';
 import { styles as baseStyles } from '../shared/base.styles.js';
 import { styles } from './field-base.styles.js';
 import { fieldDefaultsContext } from './field-defaults-context.js';
-import { UmFieldDefaults } from './field-defaults.js';
+import { FieldDefaults } from './field-defaults.js';
 
-export abstract class UmFieldBase extends LitElement {
+export abstract class FieldBase extends LitElement {
   static override styles: CSSResultGroup = [baseStyles, styles];
 
   @consume({ context: fieldDefaultsContext, subscribe: true })
   @state()
-  private readonly config: UmFieldDefaults | undefined;
+  private readonly config: FieldDefaults | undefined;
 
   /**
    * The Field variant to render. When omitted, falls back to the variant
@@ -70,8 +70,8 @@ export abstract class UmFieldBase extends LitElement {
 
   static setDefaults(
     contextRoot: HTMLElement,
-    config: UmFieldDefaults,
-  ): ContextProvider<Context<HTMLElement, UmFieldDefaults>> {
+    config: FieldDefaults,
+  ): ContextProvider<Context<HTMLElement, FieldDefaults>> {
     return new ContextProvider(contextRoot, {
       context: fieldDefaultsContext,
       initialValue: config,

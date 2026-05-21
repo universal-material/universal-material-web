@@ -2,10 +2,10 @@ import { css, html, HTMLTemplateResult, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 
 import { MixinBase, MixinReturn } from '../mixin.js';
-import { UmSelectionControl } from './selection-control.js';
+import { SelectionControl } from './selection-control.js';
 
 // @ts-ignore
-export const mixinSelectionControlListItem = <T extends MixinBase<UmSelectionControl>>(base: T): MixinReturn<T> => {
+export const mixinSelectionControlListItem = <T extends MixinBase<SelectionControl>>(base: T): MixinReturn<T> => {
   // @ts-ignore
   abstract class SelectionControlListItem extends base {
     static styles = [

@@ -1,7 +1,7 @@
 import { config } from '../config.js';
 import { DialogBuilder } from './dialog-builder.js';
 import { DialogButtonDef } from './dialog-button-def.js';
-import { UmDialog } from './dialog.js';
+import { Dialog } from './dialog.js';
 
 export class MessageDialogBuilder extends DialogBuilder<MessageDialogBuilder, void> {
   static create(message: string): MessageDialogBuilder {
@@ -15,7 +15,7 @@ export class MessageDialogBuilder extends DialogBuilder<MessageDialogBuilder, vo
     return this;
   }
 
-  override _addButtons(dialog: UmDialog): void {
+  override _addButtons(dialog: Dialog): void {
 
     this._addButton(
       dialog,

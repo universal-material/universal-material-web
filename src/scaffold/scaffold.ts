@@ -32,7 +32,7 @@ import { scrollContainerContext } from './scroll-container-context.js';
  *  - `scroll-container`, `top-bar`, `bottom-bar`, `fab`.
  */
 @customElement('u-scaffold')
-export class UmScaffold extends LitElement {
+export class Scaffold extends LitElement {
   static override styles = [baseStyles, styles];
 
   @query('.scroll-container', true)
@@ -128,6 +128,6 @@ export class UmScaffold extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-scaffold': UmScaffold;
+    'u-scaffold': Scaffold;
   }
 }

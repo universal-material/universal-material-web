@@ -24,7 +24,7 @@ export enum SnackbarDuration {
 }
 
 @customElement('u-snackbar')
-export class UmSnackbar extends LitElement {
+export class Snackbar extends LitElement {
   static override styles = [baseStyles, styles];
   static minDisplayTime = 1500;
 
@@ -55,8 +55,8 @@ export class UmSnackbar extends LitElement {
     const onAnimationEnd = () => {
       this.container.removeEventListener('animationend', onAnimationEnd);
 
-      if (UmSnackbar.minDisplayTime > 0) {
-        setTimeout(() => this._canDismiss = true, UmSnackbar.minDisplayTime);
+      if (Snackbar.minDisplayTime > 0) {
+        setTimeout(() => this._canDismiss = true, Snackbar.minDisplayTime);
       } else {
         this._canDismiss = true;
       }
@@ -73,7 +73,7 @@ export class UmSnackbar extends LitElement {
         this.container.removeEventListener('animationend', onAnimationEnd);
         this.remove();
 
-        UmSnackbar._showNext();
+        Snackbar._showNext();
       };
 
       this.container.addEventListener('animationend', onAnimationEnd);
@@ -146,13 +146,13 @@ export class UmSnackbar extends LitElement {
     this._dismissed = true;
   }
 
-  private static _queue: UmSnackbar[] = [];
-  private static _lastEnqueued: UmSnackbar | null = null;
+  private static _queue: Snackbar[] = [];
+  private static _lastEnqueued: Snackbar | null = null;
   private static _consuming: boolean;
 
-  static show(message: string): UmSnackbar;
-  static show(config: SnackbarConfig): UmSnackbar;
-  static show(configOrMessage: SnackbarConfig | string): UmSnackbar {
+  static show(message: string): Snackbar;
+  static show(config: SnackbarConfig): Snackbar;
+  static show(configOrMessage: SnackbarConfig | string): Snackbar {
     if (typeof configOrMessage === 'string') {
       configOrMessage = {
         message: configOrMessage,
@@ -162,34 +162,34 @@ export class UmSnackbar extends LitElement {
     configOrMessage.duration ??= SnackbarDuration.long;
 
     const snackbar = this.createSnackbar(configOrMessage);
-    UmSnackbar._queue.push(snackbar);
+    Snackbar._queue.push(snackbar);
 
-    UmSnackbar._lastEnqueued?.dismiss();
-    UmSnackbar._lastEnqueued = snackbar;
+    Snackbar._lastEnqueued?.dismiss();
+    Snackbar._lastEnqueued = snackbar;
 
-    if (!UmSnackbar._consuming) {
-      UmSnackbar._consumeQueue();
+    if (!Snackbar._consuming) {
+      Snackbar._consumeQueue();
     }
 
     return snackbar;
   }
 
   private static _consumeQueue() {
-    if (UmSnackbar._queue.length) {
-      UmSnackbar._consuming = true;
-      UmSnackbar._showNext();
+    if (Snackbar._queue.length) {
+      Snackbar._consuming = true;
+      Snackbar._showNext();
     }
   }
 
   private static _showNext() {
-    if (!UmSnackbar._queue.length) {
-      UmSnackbar._consuming = false;
-      UmSnackbar._lastEnqueued = null;
+    if (!Snackbar._queue.length) {
+      Snackbar._consuming = false;
+      Snackbar._lastEnqueued = null;
       return;
     }
 
-    const snackbar = UmSnackbar._queue[0];
-    UmSnackbar._queue = UmSnackbar._queue.slice(1);
+    const snackbar = Snackbar._queue[0];
+    Snackbar._queue = Snackbar._queue.slice(1);
 
     document.body.appendChild(snackbar);
 
@@ -200,19 +200,19 @@ export class UmSnackbar extends LitElement {
     setTimeout(() => snackbar.dismiss(), snackbar.duration);
   }
 
-  private static createSnackbar(config: SnackbarConfig): UmSnackbar {
+  private static createSnackbar(config: SnackbarConfig): Snackbar {
     const snackbar = document.createElement('u-snackbar');
     snackbar.message = config.message;
     snackbar.action = config.action || '';
     snackbar.showClose = config.showClose!;
     snackbar.duration = config.duration!;
 
-    return snackbar as unknown as UmSnackbar;
+    return snackbar as unknown as Snackbar;
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-snackbar': UmSnackbar;
+    'u-snackbar': Snackbar;
   }
 }

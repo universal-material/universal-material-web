@@ -1,15 +1,15 @@
 import { svg, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-import { UmMenuItem } from '../menu/menu-item.js';
+import { MenuItem } from '../menu/menu-item.js';
 import { styles } from './option.styles.js';
-import { UmSelect } from './select.js';
+import { Select } from './select.js';
 
 import './select.js';
 
 @customElement('u-option')
-export class UmOption extends UmMenuItem {
-  static override styles = [UmMenuItem.styles, styles];
+export class Option extends MenuItem {
+  static override styles = [MenuItem.styles, styles];
 
   readonly #mutationObserver = new MutationObserver(() => this.#updateContent());
 
@@ -72,9 +72,9 @@ export class UmOption extends UmMenuItem {
       </svg>`;
   }
 
-  get #select(): UmSelect | null {
+  get #select(): Select | null {
     return this.parentElement?.tagName === 'U-SELECT'
-      ? this.parentElement as UmSelect
+      ? this.parentElement as Select
       : null;
   }
 
@@ -130,6 +130,6 @@ export class UmOption extends UmMenuItem {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-option': UmOption;
+    'u-option': Option;
   }
 }

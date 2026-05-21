@@ -14,7 +14,7 @@ const topDividerClass = 'top-divider';
 const bottomDividerClass = 'bottom-divider';
 
 @customElement('u-dialog')
-export class UmDialog extends LitElement {
+export class Dialog extends LitElement {
   static override styles = [baseStyles, styles];
 
   #open = false;
@@ -273,6 +273,6 @@ export class UmDialog extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-dialog': UmDialog;
+    'u-dialog': Dialog;
   }
 }

@@ -4,26 +4,26 @@ import { html, HTMLTemplateResult, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 
 import { scrollContainerContext } from '../scaffold/scroll-container-context.js';
-import { UmButtonBase } from './button-base.js';
+import { ButtonBase } from './button-base.js';
 import { styles } from './fab.styles.js';
 
-export type UmFabColor = 'primary' | 'secondary' | 'tertiary' | 'surface' | 'branded';
-export type UmFabSize = 'small' | 'medium' | 'large';
+export type FabColor = 'primary' | 'secondary' | 'tertiary' | 'surface' | 'branded';
+export type FabSize = 'small' | 'medium' | 'large';
 
 @customElement('u-fab')
-export class UmFab extends UmButtonBase {
+export class Fab extends ButtonBase {
 
-  static override styles = [UmButtonBase.styles, styles];
+  static override styles = [ButtonBase.styles, styles];
 
   /**
    * The FAB color variant to render.
    */
-  @property() color: UmFabColor = 'primary';
+  @property() color: FabColor = 'primary';
 
   /**
    * The size of the FAB.
    */
-  @property() size: UmFabSize = 'medium';
+  @property() size: FabSize = 'medium';
 
   /**
    * The text to display the FAB.
@@ -102,6 +102,6 @@ export class UmFab extends UmButtonBase {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-fab': UmFab;
+    'u-fab': Fab;
   }
 }

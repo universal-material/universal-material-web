@@ -6,11 +6,11 @@ import { classMap } from 'lit/directives/class-map.js';
 import { live } from 'lit/directives/live.js';
 
 import { styles as baseStyles } from '../shared/base.styles.js';
-import { UmNativeTextFieldWrapper } from '../shared/char-count-text-field/native-text-field-wrapper.js';
+import { NativeTextFieldWrapper } from '../shared/char-count-text-field/native-text-field-wrapper.js';
 import { styles } from './search.styles.js';
 
 @customElement('u-search')
-export class UmSearch extends UmNativeTextFieldWrapper {
+export class Search extends NativeTextFieldWrapper {
 
   static override styles = [baseStyles, styles];
 
@@ -84,6 +84,6 @@ export class UmSearch extends UmNativeTextFieldWrapper {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-search': UmSearch;
+    'u-search': Search;
   }
 }

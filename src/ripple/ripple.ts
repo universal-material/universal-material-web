@@ -4,7 +4,7 @@ import { customElement, property, query } from 'lit/decorators.js';
 import { styles } from './ripple.styles.js';
 
 @customElement('u-ripple')
-export class UmRipple extends LitElement {
+export class Ripple extends LitElement {
 
   static override styles = styles;
 
@@ -90,7 +90,7 @@ export class UmRipple extends LitElement {
       const largestDimensionSize = Math.max(this.clientWidth, this.clientHeight);
       const rippleSize = largestDimensionSize * 2;
 
-      UmRipple._setElementSquareSizeAndCenter(ripple, rippleSize);
+      Ripple._setElementSquareSizeAndCenter(ripple, rippleSize);
       ripple.style.setProperty('--_ripple-transition-duration', `${1080 * Math.pow(rippleSize, 0.3)}ms`);
 
       const x = (targetX - clientRect.left) + ((rippleSize - this.rippleContainer.clientWidth) / 2);
@@ -153,6 +153,6 @@ export class UmRipple extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-ripple': UmRipple;
+    'u-ripple': Ripple;
   }
 }

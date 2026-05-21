@@ -4,7 +4,7 @@ import { customElement } from 'lit/decorators.js';
 import { styles } from './elevation.styles.js';
 
 @customElement('u-elevation')
-export class UmElevation extends LitElement {
+export class Elevation extends LitElement {
   static override styles = styles;
 
   override connectedCallback() {
@@ -15,6 +15,6 @@ export class UmElevation extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-elevation': UmElevation;
+    'u-elevation': Elevation;
   }
 }

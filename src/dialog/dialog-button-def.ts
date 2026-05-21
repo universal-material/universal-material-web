@@ -1,7 +1,7 @@
-import { UmButtonColor, UmButtonVariant } from '../button/button.js';
+import { ButtonColor, ButtonVariant } from '../button/button.js';
 
 export interface DialogButtonDef {
-  variant?: UmButtonVariant;
+  variant?: ButtonVariant;
   label?: string;
-  color?: UmButtonColor;
+  color?: ButtonColor;
 }

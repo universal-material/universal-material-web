@@ -4,10 +4,10 @@ import { html, HTMLTemplateResult, nothing, svg } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { live } from 'lit/directives/live.js';
 
-import { UmCalendar } from '../calendar/calendar.js';
-import { UmMenu } from '../menu/menu.js';
-import { UmNativeTextFieldWrapper } from '../shared/char-count-text-field/native-text-field-wrapper.js';
-import { UmTextFieldBase } from '../shared/text-field-base/text-field-base.js';
+import { Calendar } from '../calendar/calendar.js';
+import { Menu } from '../menu/menu.js';
+import { NativeTextFieldWrapper } from '../shared/char-count-text-field/native-text-field-wrapper.js';
+import { TextFieldBase } from '../shared/text-field-base/text-field-base.js';
 
 import { styles as textFieldStyles } from '../text-field/text-field.styles.js';
 import { styles } from './datepicker.styles.js';
@@ -21,8 +21,8 @@ import '../ripple/ripple.js';
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
 @customElement('u-datepicker')
-export class UmDatepicker extends UmNativeTextFieldWrapper {
-  static override styles: CSSResultGroup = [UmTextFieldBase.styles, textFieldStyles, styles];
+export class Datepicker extends NativeTextFieldWrapper {
+  static override styles: CSSResultGroup = [TextFieldBase.styles, textFieldStyles, styles];
 
   /**
    * The BCP 47 locale tag forwarded to the underlying calendar and used for
@@ -62,8 +62,8 @@ export class UmDatepicker extends UmNativeTextFieldWrapper {
   @property({ reflect: true, attribute: 'menu-positioning' }) menuPositioning: 'relative' | 'fixed' = 'relative';
 
   @query('input') input!: HTMLInputElement;
-  @query('u-menu', true) private _menu!: UmMenu;
-  @query('u-calendar', true) private _calendar!: UmCalendar;
+  @query('u-menu', true) private _menu!: Menu;
+  @query('u-calendar', true) private _calendar!: Calendar;
   @query('.trailing-icon', true) private _trailingSlot!: HTMLSlotElement;
 
   protected override renderControl(): HTMLTemplateResult {
@@ -177,7 +177,7 @@ export class UmDatepicker extends UmNativeTextFieldWrapper {
 
   #handleCalendarInput = (e: Event): void => {
     e.stopPropagation();
-    const value = (e.target as UmCalendar).value;
+    const value = (e.target as Calendar).value;
     this.value = value;
     this.dispatchEvent(new InputEvent('input', { bubbles: true, composed: true }));
     this.dispatchEvent(new Event('change', { bubbles: true }));
@@ -204,6 +204,6 @@ export class UmDatepicker extends UmNativeTextFieldWrapper {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-datepicker': UmDatepicker;
+    'u-datepicker': Datepicker;
   }
 }

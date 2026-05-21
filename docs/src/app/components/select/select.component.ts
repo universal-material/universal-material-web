@@ -6,7 +6,7 @@ import { ApisTableComponent } from '@docs/docs/apis-table/apis-table.component';
 import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
 
-import { UmSelectControlValueAccessor, UmSelectOption } from '@docs/components/select/select-control-value-accessor';
+import { SelectControlValueAccessor, SelectOption } from '@docs/components/select/select-control-value-accessor';
 import { states } from '@docs/shared/states.model';
 
 import basicHtml from './examples/basic.html';
@@ -21,8 +21,8 @@ import disabledHtml from './examples/disabled.html';
   imports: [
     CommonModule,
     FormsModule,
-    UmSelectControlValueAccessor,
-    UmSelectOption,
+    SelectControlValueAccessor,
+    SelectOption,
     ApisTableComponent,
     ExampleComponent,
     TitleComponent

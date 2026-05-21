@@ -1,1 +1,1 @@
-export type UmFieldVariant = 'filled' | 'outlined';
+export type FieldVariant = 'filled' | 'outlined';

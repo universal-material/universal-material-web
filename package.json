@@ -27,7 +27,7 @@
     "sass": "gulp -f gulpfile.js sass",
     "sass:watch": "gulp -f gulpfile.js sass:watch",
     "clean": "rimraf ./dist/ rimraf ./src/**/*.d.ts rimraf ./src/**/*.styles.ts",
-    "copy": "copyfiles package.json README.md custom-elements.json vscode.html-custom-data.json dist/ && copyfiles -u 1 scss/**/*.scss dist/scss",
+    "copy": "copyfiles package.json README.md custom-elements.json vscode.html-custom-data.json dist/ && copyfiles -u 1 scss/**/*.scss dist/scss && copyfiles \".claude-plugin/**/*\" dist/ && copyfiles \"skills/**/*\" dist/",
     "lint": "npm run lint:lit-analyzer && npm run lint:eslint && npm run lint:prettier",
     "lint:eslint": "eslint src/**/*.ts",
     "lint:eslint:fix": "eslint src/**/*.ts --fix",

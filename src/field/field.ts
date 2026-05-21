@@ -1,10 +1,10 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-import { UmFieldBase } from './field-base.js';
+import { FieldBase } from './field-base.js';
 
 @customElement('u-field')
-export class UmField extends UmFieldBase {
+export class Field extends FieldBase {
 
   /**
    * Whether the field should automatically derive its `empty` state from
@@ -47,6 +47,6 @@ export class UmField extends UmFieldBase {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-field': UmField;
+    'u-field': Field;
   }
 }

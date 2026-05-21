@@ -1,14 +1,14 @@
 import { html, LitElement, TemplateResult } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
-import { UmButtonWrapper } from '../shared/button-wrapper.js';
+import { ButtonWrapper } from '../shared/button-wrapper.js';
 import { styles } from './drawer-headline.styles.js';
 
 @customElement('u-drawer-headline')
-export class UmDrawerHeadline extends LitElement {
+export class DrawerHeadline extends LitElement {
 
   static override styles = [
-    UmButtonWrapper.styles,
+    ButtonWrapper.styles,
     styles,
   ];
 
@@ -23,6 +23,6 @@ export class UmDrawerHeadline extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-drawer-headline': UmDrawerHeadline;
+    'u-drawer-headline': DrawerHeadline;
   }
 }

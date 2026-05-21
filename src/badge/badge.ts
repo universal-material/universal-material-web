@@ -5,7 +5,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { styles } from './badge.styles.js';
 
 @customElement('u-badge')
-export class UmBadge extends LitElement {
+export class Badge extends LitElement {
   static override styles = styles;
 
   /**
@@ -35,6 +35,6 @@ export class UmBadge extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-badge': UmBadge;
+    'u-badge': Badge;
   }
 }

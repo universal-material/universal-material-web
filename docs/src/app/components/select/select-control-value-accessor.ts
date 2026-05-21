@@ -3,7 +3,7 @@ import { NG_VALUE_ACCESSOR, NgSelectOption, SelectControlValueAccessor } from '@
 
 const SELECT_VALUE_ACCESSOR: Provider = {
   provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => UmSelectControlValueAccessor),
+  useExisting: forwardRef(() => SelectControlValueAccessor),
   multi: true,
 };
 
@@ -11,7 +11,7 @@ const SELECT_VALUE_ACCESSOR: Provider = {
   selector: 'u-select[ngModel],u-select[formControlName],u-select[formControl]',
   providers: [SELECT_VALUE_ACCESSOR],
 })
-export class UmSelectControlValueAccessor extends SelectControlValueAccessor {
+export class SelectControlValueAccessor extends SelectControlValueAccessor {
   // #mutationObserver: MutationObserver;
 
   constructor(_element: ElementRef,
@@ -28,10 +28,10 @@ export class UmSelectControlValueAccessor extends SelectControlValueAccessor {
 @Directive({
   selector: 'u-option',
 })
-export class UmSelectOption extends NgSelectOption {
+export class SelectOption extends NgSelectOption {
   constructor(_element: ElementRef,
               _renderer: Renderer2,
-              @Optional() @Host() _select: UmSelectControlValueAccessor) {
+              @Optional() @Host() _select: SelectControlValueAccessor) {
     const option = {};
     Object.defineProperty(option, "nativeElement", {
       get() {

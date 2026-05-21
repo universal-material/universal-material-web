@@ -2,15 +2,15 @@ import { html, HTMLTemplateResult } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
-import { UmButtonWrapper } from '../shared/button-wrapper.js';
-import { UmTabBar } from './tab-bar.js';
+import { ButtonWrapper } from '../shared/button-wrapper.js';
+import { TabBar } from './tab-bar.js';
 import { styles } from './tab.styles.js';
 
 @customElement('u-tab')
-export class UmTab extends UmButtonWrapper {
-  static override styles = [UmButtonWrapper.styles, styles];
+export class Tab extends ButtonWrapper {
+  static override styles = [ButtonWrapper.styles, styles];
 
-  _bar: UmTabBar | null = null;
+  _bar: TabBar | null = null;
 
   readonly #resizeObserver: ResizeObserver = new ResizeObserver(() => {
     if (this.active) {
@@ -118,6 +118,6 @@ export class UmTab extends UmButtonWrapper {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-tab': UmTab;
+    'u-tab': Tab;
   }
 }

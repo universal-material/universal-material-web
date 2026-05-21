@@ -56,7 +56,7 @@ const squelchEventsForMicrotask = async () => {
   isSquelchingEvents = false;
 };
 
-export abstract class UmSelectionControl extends LitElement {
+export abstract class SelectionControl extends LitElement {
   static override styles: CSSResultGroup = [baseStyles, styles];
 
   static readonly formAssociated = true;

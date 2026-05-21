@@ -20,7 +20,7 @@ import { styles } from './navigation-bar.styles.js';
  *  - default: destination items (e.g. `u-icon-button`s).
  */
 @customElement('u-navigation-bar')
-export class UmNavigationBar extends LitElement {
+export class NavigationBar extends LitElement {
   static override styles = [baseStyles, styles];
 
   /**
@@ -86,6 +86,6 @@ export class UmNavigationBar extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-navigation-bar': UmNavigationBar;
+    'u-navigation-bar': NavigationBar;
   }
 }

@@ -4,7 +4,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { styles } from './progress-bar.styles.js';
 
 @customElement('u-progress-bar')
-export class UmProgressBar extends LitElement {
+export class ProgressBar extends LitElement {
   static override styles = [styles];
 
   /**
@@ -53,6 +53,6 @@ export class UmProgressBar extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-progress-bar': UmProgressBar;
+    'u-progress-bar': ProgressBar;
   }
 }

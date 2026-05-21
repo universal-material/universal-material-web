@@ -2,12 +2,12 @@ import { html, TemplateResult } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { html as staticHtml } from 'lit/static-html.js';
 
-import { UmTextFieldBase } from '../shared/text-field-base/text-field-base.js';
+import { TextFieldBase } from '../shared/text-field-base/text-field-base.js';
 import { styles } from './button-field.styles.js';
 
 @customElement('u-button-field')
-export class UmButtonField extends UmTextFieldBase {
-  static override styles = [UmTextFieldBase.styles, styles];
+export class ButtonField extends TextFieldBase {
+  static override styles = [TextFieldBase.styles, styles];
 
   protected _value = '';
 
@@ -52,6 +52,6 @@ export class UmButtonField extends UmTextFieldBase {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-button-field': UmButtonField;
+    'u-button-field': ButtonField;
   }
 }

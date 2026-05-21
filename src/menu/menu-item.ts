@@ -1,12 +1,12 @@
 import { html, HTMLTemplateResult, nothing, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 
-import { UmButtonWrapper } from '../shared/button-wrapper.js';
+import { ButtonWrapper } from '../shared/button-wrapper.js';
 import { styles } from './menu-item.styles.js';
 
 @customElement('u-menu-item')
-export class UmMenuItem extends UmButtonWrapper {
-  static override styles = [UmButtonWrapper.styles, styles];
+export class MenuItem extends ButtonWrapper {
+  static override styles = [ButtonWrapper.styles, styles];
 
   /**
    * Whether the item is currently highlighted via keyboard navigation
@@ -34,7 +34,7 @@ export class UmMenuItem extends UmButtonWrapper {
     this.removeEventListener('mouseenter', this.#handleMouseEnter);
   }
 
-  readonly #handleMouseEnter = () => this.dispatchEvent(new CustomEvent<UmMenuItem>('menu-item-mouseenter', { bubbles: true }));
+  readonly #handleMouseEnter = () => this.dispatchEvent(new CustomEvent<MenuItem>('menu-item-mouseenter', { bubbles: true }));
 
   protected override _getContainerClasses(): Record<string, boolean> {
     return {
@@ -76,6 +76,6 @@ export class UmMenuItem extends UmButtonWrapper {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-menu-item': UmMenuItem;
+    'u-menu-item': MenuItem;
   }
 }

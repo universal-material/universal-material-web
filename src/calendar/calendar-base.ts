@@ -11,7 +11,7 @@ import { DefaultCalendarAdapter } from './default-calendar-adapter.js';
 
 export type CalendarView = 'day' | 'month' | 'year';
 
-export abstract class UmCalendarBase extends LitElement {
+export abstract class CalendarBase extends LitElement {
   static override styles: CSSResultGroup = [styles];
 
   @state() weekDays: string[] = [];

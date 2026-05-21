@@ -5,7 +5,7 @@ import { styles as baseStyles } from '../shared/base.styles.js';
 import { styles } from './drawer.styles.js';
 
 @customElement('u-drawer')
-export class UmDrawer extends LitElement {
+export class Drawer extends LitElement {
   static override styles = [
     baseStyles,
     styles,
@@ -22,6 +22,6 @@ export class UmDrawer extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-drawer': UmDrawer;
+    'u-drawer': Drawer;
   }
 }

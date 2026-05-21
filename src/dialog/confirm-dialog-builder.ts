@@ -1,7 +1,7 @@
 import { config } from '../config.js';
 import { DialogBuilder } from './dialog-builder.js';
 import { DialogButtonDef } from './dialog-button-def.js';
-import { UmDialog } from './dialog.js';
+import { Dialog } from './dialog.js';
 
 export class ConfirmDialogBuilder extends DialogBuilder<ConfirmDialogBuilder, Promise<boolean>> {
   static create(message: string): ConfirmDialogBuilder {
@@ -21,7 +21,7 @@ export class ConfirmDialogBuilder extends DialogBuilder<ConfirmDialogBuilder, Pr
     return this;
   }
 
-  override _addButtons(dialog: UmDialog): void {
+  override _addButtons(dialog: Dialog): void {
 
     this._addButton(
       dialog,
@@ -34,7 +34,7 @@ export class ConfirmDialogBuilder extends DialogBuilder<ConfirmDialogBuilder, Pr
       () => dialog.close('cancel'));
   }
 
-  protected override innerShow(dialog: UmDialog): Promise<boolean> {
+  protected override innerShow(dialog: Dialog): Promise<boolean> {
     super.innerShow(dialog);
 
     return new Promise<boolean>(resolve =>

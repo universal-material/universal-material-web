@@ -14,7 +14,7 @@ import { debounceTime, Subject } from 'rxjs';
 import { ApisTableComponent } from '@docs/docs/apis-table/apis-table.component';
 import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
-import { UmChipField, UmTypeahead } from '@universal-material/web';
+import { ChipField, Typeahead } from '@universal-material/web';
 import { states } from '@docs/shared/states.model';
 
 import simpleHtml from './examples/simple.html';
@@ -45,7 +45,7 @@ export class TypeaheadComponent {
   objectResultsHtml = objectResultsHtml;
   handlingSelectionHtml = handlingSelectionHtml;
 
-  @ViewChild('chipField') chipField!: ElementRef<UmChipField>;
+  @ViewChild('chipField') chipField!: ElementRef<ChipField>;
 
   states = states;
   stateObjects = states.map(s => ({name: s}));
@@ -74,7 +74,7 @@ export class TypeaheadComponent {
     $event.preventDefault();
 
     const customEvent = $event as CustomEvent<{name: string}>;
-    const typeahead = <UmTypeahead>customEvent.target;
+    const typeahead = <Typeahead>customEvent.target;
     typeahead.clear();
     this.chipField.nativeElement.add(customEvent.detail);
     typeahead.focus();

@@ -15,7 +15,7 @@ type ScrollTarget = {
 };
 
 @customElement('u-top-app-bar')
-export class UmTopAppBar extends LitElement {
+export class TopAppBar extends LitElement {
   static override styles = [baseStyles, styles];
 
   @state() private _hasLeadingIcon = false;
@@ -208,7 +208,7 @@ export class UmTopAppBar extends LitElement {
 
     const extendedContentHeight = Math.max(this._extendedContent?.offsetHeight ?? 0, 0);
 
-    const scrollTop = UmTopAppBar._getScrollTop(container as any);
+    const scrollTop = TopAppBar._getScrollTop(container as any);
 
     this.containerScrolled = scrollTop > extendedContentHeight;
 
@@ -249,6 +249,6 @@ export class UmTopAppBar extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-top-app-bar': UmTopAppBar;
+    'u-top-app-bar': TopAppBar;
   }
 }

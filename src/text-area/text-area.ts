@@ -4,13 +4,13 @@ import { html, HTMLTemplateResult, nothing } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { live } from 'lit/directives/live.js';
 
-import { UmNativeTextFieldWrapper } from '../shared/char-count-text-field/native-text-field-wrapper.js';
-import { UmTextFieldBase } from '../shared/text-field-base/text-field-base.js';
+import { NativeTextFieldWrapper } from '../shared/char-count-text-field/native-text-field-wrapper.js';
+import { TextFieldBase } from '../shared/text-field-base/text-field-base.js';
 import { styles } from './text-area.styles.js';
 
 @customElement('u-text-area')
-export class UmTextArea extends UmNativeTextFieldWrapper {
-  static override styles: CSSResultGroup = [UmTextFieldBase.styles, styles];
+export class TextArea extends NativeTextFieldWrapper {
+  static override styles: CSSResultGroup = [TextFieldBase.styles, styles];
 
   /**
    * The minimum number of visible text rows
@@ -44,6 +44,6 @@ export class UmTextArea extends UmNativeTextFieldWrapper {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-text-area': UmTextArea;
+    'u-text-area': TextArea;
   }
 }

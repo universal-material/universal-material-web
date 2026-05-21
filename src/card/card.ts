@@ -8,16 +8,16 @@ import './card-content.js';
 import './card-media.js';
 import '../elevation/elevation.js';
 
-export type UmCardVariant = 'filled' | 'elevated' | 'outlined';
+export type CardVariant = 'filled' | 'elevated' | 'outlined';
 
 @customElement('u-card')
-export class UmCard extends LitElement {
+export class Card extends LitElement {
   static override styles = [baseStyles, styles];
 
   /**
    * The Card variant to render.
    */
-  @property({ reflect: true }) variant: UmCardVariant = 'filled';
+  @property({ reflect: true }) variant: CardVariant = 'filled';
 
   override render(): HTMLTemplateResult {
     return html`
@@ -33,6 +33,6 @@ export class UmCard extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-card': UmCard;
+    'u-card': Card;
   }
 }

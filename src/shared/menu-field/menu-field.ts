@@ -1,7 +1,7 @@
-import { UmMenuItem } from '../../menu/menu-item.js';
-import { UmMenu } from '../../menu/menu.js';
+import { MenuItem } from '../../menu/menu-item.js';
+import { Menu } from '../../menu/menu.js';
 
-export interface UmMenuField {
-  _menu: UmMenu;
-  get _menuItems(): UmMenuItem[];
+export interface MenuField {
+  _menu: Menu;
+  get _menuItems(): MenuItem[];
 }

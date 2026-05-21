@@ -62,7 +62,7 @@
   sectionTitle="Imperative — message"
   [renderExample]="false"
   [html]="messageHtml"
-><code>UmDialog.message(text)</code> returns a builder that mounts a single-button alert dialog and removes it from the DOM on close. Chain <code>.headline(...)</code> and <code>.acknowledgeButton(...)</code> to customize.
+><code>Dialog.message(text)</code> returns a builder that mounts a single-button alert dialog and removes it from the DOM on close. Chain <code>.headline(...)</code> and <code>.acknowledgeButton(...)</code> to customize.
   <div example class="u-column">
     <u-text-field label="Message" [(ngModel)]="messageText" ngDefaultControl></u-text-field>
     <u-button (click)="showMessage()">Show message</u-button>
@@ -73,7 +73,7 @@
   sectionTitle="Imperative — confirm"
   [renderExample]="false"
   [html]="confirmHtml"
-><code>UmDialog.confirm(text).show()</code> returns a <code>Promise&lt;boolean&gt;</code> that resolves <code>true</code> on confirm or <code>false</code> on cancel/dismiss. Customize via <code>.confirmButton(...)</code> and <code>.cancelButton(...)</code>.
+><code>Dialog.confirm(text).show()</code> returns a <code>Promise&lt;boolean&gt;</code> that resolves <code>true</code> on confirm or <code>false</code> on cancel/dismiss. Customize via <code>.confirmButton(...)</code> and <code>.cancelButton(...)</code>.
   <div example class="u-column">
     <u-text-field label="Prompt" [(ngModel)]="confirmText" ngDefaultControl></u-text-field>
     <u-button (click)="askConfirm()">Delete item</u-button>

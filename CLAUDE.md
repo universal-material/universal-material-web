@@ -18,6 +18,10 @@ If a measurement comes back slightly off (e.g. `0.667px` letter-spacing when the
 
 Write commit messages **in English**, even when chatting in Portuguese. Use imperative mood ("Add navigation bar item variants", not "Added" or "Adds"), reference the affected component/area, and keep the subject under ~70 chars. The body, when needed, explains *why* — not what (the diff already shows the what).
 
+## Versioning
+
+The **major** version tracks the Material Design spec major (M3 → `3.x`, M4 → `4.x`). Breaking changes *inside the library* — renames, removed exports, changed defaults — bump the **minor** (e.g. `3.9.0` → `3.10.0`), not the major. The major only moves when Material publishes a new generation.
+
 ---
 
 ## Repo layout
@@ -30,7 +34,7 @@ src/                     # library source (TS + co-located SCSS)
     <component>.styles.ts     # generated from .scss via gulp — DO NOT hand-edit (it gets regenerated)
   index.ts               # registers and re-exports every component
   config.ts              # runtime defaults (e.g. dialog button defaults)
-  shared/                # base classes (UmButtonWrapper, UmFieldBase, …)
+  shared/                # base classes (ButtonWrapper, FieldBase, …)
 scss/                    # global SCSS: tokens, mixins, functions, utilities
 dist/                    # tsc output + esbuild bundle (gitignored)
 docs/                    # Angular docs app, served at http://localhost:4200
@@ -38,17 +42,21 @@ docs/                    # Angular docs app, served at http://localhost:4200
     <name>.component.{ts,html,scss}
     examples/*.html      # text imports used by docs-example to show code AND render
   src/app/apis.ts        # generated from JSDoc by `gulp docs:apis` (gitignored)
+skills/                  # Claude Code skills shipped with the npm package
+  <skill-name>/SKILL.md  # one folder per skill, with the markdown body + frontmatter
+.claude-plugin/          # plugin manifest that exposes the skills/ directory
+  plugin.json
 .claude/launch.json      # preview server config (docs at 4200)
 ```
 
 ## Naming and component conventions
 
-- **Tag prefix**: `u-` (e.g. `u-button`, `u-scaffold`).
-- **Class prefix**: `Um*` (e.g. `UmButton`, `UmScaffold`).
+- **Tag prefix**: `u-` (e.g. `<u-button>`, `<u-scaffold>`).
+- **Class names**: unprefixed PascalCase, matching the tag name without the `u-` (`<u-button>` → `class Button`, `<u-top-app-bar>` → `class TopAppBar`). Internal base/abstract classes follow the same convention (`ButtonWrapper`, `FieldBase`).
 - **Decorators**: `@customElement`, `@property`, `@state`, `@query`, `@queryAssignedElements`.
 - **Slots**: documented in JSDoc above the class. Slot names match part/class names where it makes sense (`top-bar`, `bottom-bar`, `fab`).
 - **Parts**: expose `part="container"`, `part="content"`, etc. on the meaningful boxes so consumers can style them via `::part()`.
-- **Base classes**: prefer extending `UmButtonWrapper` for interactive button-like components — you get ripple, elevation, link/button rendering and a `_renderContent()` override hook.
+- **Base classes**: prefer extending `ButtonWrapper` for interactive button-like components — you get ripple, elevation, link/button rendering and a `_renderContent()` override hook.
 - **`HTMLElementTagNameMap`**: every component file ends with a `declare global` block — keep it.
 
 ## Tokens and styling
@@ -120,6 +128,14 @@ After adding a new component:
 3. Add a `<docs-apis-table key="...">` to its docs page.
 4. Re-run `gulp docs:apis` so the table has data.
 
+## Claude Code skills
+
+The library ships a Claude Code plugin with one skill per component family under `skills/<skill-name>/SKILL.md`. The plugin manifest lives at `.claude-plugin/plugin.json`. Both directories are copied into `dist/` by the `copy` script and ship as part of the published npm package, so consumers can `/plugin install` from their `node_modules/@universal-material/web`.
+
+When you change a user-facing API or pattern (a slot, an attribute, an event name, a builder signature, a default value), **update the matching `skills/<name>/SKILL.md`** in the same change. Skills must stay in sync with the docs examples they reference — they are the second consumer-facing surface after the docs site.
+
+Skill content style: short frontmatter `description` (one-line trigger phrase), then the body with 1-3 working code snippets pulled from `docs/src/app/components/<x>/examples/`, plus a Caveats list.
+
 ## Editing checklist (per change)
 
 1. Find the M3 spec / token for what you're changing.
@@ -130,4 +146,5 @@ After adding a new component:
    - `getComputedStyle()` for colors, font properties, etc.
 5. If the measurement is off, fix the source. Repeat from step 3.
 6. Update JSDoc and regenerate `docs:apis` if a public API changed.
-7. Remove any debug `console.log`, temporary test files, etc.
+7. If a user-facing API or pattern covered by a skill changed, update the matching `skills/<name>/SKILL.md`.
+8. Remove any debug `console.log`, temporary test files, etc.

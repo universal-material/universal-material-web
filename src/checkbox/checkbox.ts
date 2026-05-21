@@ -4,11 +4,11 @@ import { html, HTMLTemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 import { styles as baseStyles } from '../shared/base.styles.js';
-import { UmSelectionControl } from '../shared/selection-control/selection-control.js';
+import { SelectionControl } from '../shared/selection-control/selection-control.js';
 import { styles } from './checkbox.styles.js';
 
 @customElement('u-checkbox')
-export class UmCheckbox extends UmSelectionControl {
+export class Checkbox extends SelectionControl {
   static override styles = [
     baseStyles,
     styles,
@@ -70,6 +70,6 @@ export class UmCheckbox extends UmSelectionControl {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-checkbox': UmCheckbox;
+    'u-checkbox': Checkbox;
   }
 }

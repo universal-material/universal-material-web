@@ -1,12 +1,12 @@
 import { customElement, property } from 'lit/decorators.js';
 
-import { UmSetBase } from '../shared/sets/set-base.js';
+import { SetBase } from '../shared/sets/set-base.js';
 import { styles } from './button-set.styles.js';
 
 @customElement('u-button-set')
-export class UmButtonSet extends UmSetBase {
+export class ButtonSet extends SetBase {
 
-  static override styles = [UmSetBase.styles, styles];
+  static override styles = [SetBase.styles, styles];
 
   /**
    * Whether to render the buttons stacked or not
@@ -18,6 +18,6 @@ export class UmButtonSet extends UmSetBase {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-button-set': UmButtonSet;
+    'u-button-set': ButtonSet;
   }
 }

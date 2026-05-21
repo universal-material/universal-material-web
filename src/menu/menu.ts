@@ -39,7 +39,7 @@ interface MenuSize {
 }
 
 @customElement('u-menu')
-export class UmMenu extends LitElement {
+export class Menu extends LitElement {
   static override styles = [baseStyles, styles];
 
   #open = false;
@@ -453,6 +453,6 @@ export class UmMenu extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-menu': UmMenu;
+    'u-menu': Menu;
   }
 }

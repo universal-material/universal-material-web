@@ -4,11 +4,11 @@ import { html, HTMLTemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 import { styles as baseStyles } from '../shared/base.styles.js';
-import { UmSelectionControl } from '../shared/selection-control/selection-control.js';
+import { SelectionControl } from '../shared/selection-control/selection-control.js';
 import { styles } from './radio.styles.js';
 
 @customElement('u-radio')
-export class UmRadio extends UmSelectionControl {
+export class Radio extends SelectionControl {
   static override styles = [baseStyles, styles];
 
   /**
@@ -42,12 +42,12 @@ export class UmRadio extends UmSelectionControl {
     }
   }
 
-  get #siblings(): UmRadio[] {
+  get #siblings(): Radio[] {
     if (!this.name) {
       return [this];
     }
 
-    return Array.from((this.getRootNode() as Element).querySelectorAll<UmRadio>(`${this.tagName}[name="${this.name}"]`));
+    return Array.from((this.getRootNode() as Element).querySelectorAll<Radio>(`${this.tagName}[name="${this.name}"]`));
   }
 
   constructor() {
@@ -136,7 +136,7 @@ export class UmRadio extends UmSelectionControl {
       return;
     }
 
-    const radios = Array.from(document.querySelectorAll<UmRadio>(`${this.tagName}[name="${this.name}"]`));
+    const radios = Array.from(document.querySelectorAll<Radio>(`${this.tagName}[name="${this.name}"]`));
     const lastChecked = radios.reverse().find(r => r.checked);
 
     if (!lastChecked) {
@@ -163,6 +163,6 @@ export class UmRadio extends UmSelectionControl {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-radio': UmRadio;
+    'u-radio': Radio;
   }
 }

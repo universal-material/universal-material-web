@@ -10,7 +10,7 @@ import { styles } from './side-navigation.styles.js';
 import '../elevation/elevation.js';
 
 @customElement('u-side-navigation')
-export class UmSideNavigation extends LitElement {
+export class SideNavigation extends LitElement {
   static override styles = [baseStyles, config.navigationDrawer.useSwiperJs ? swiperStyles : styles];
 
   #toggleDrawer = false;
@@ -144,6 +144,6 @@ export class UmSideNavigation extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-side-navigation': UmSideNavigation;
+    'u-side-navigation': SideNavigation;
   }
 }

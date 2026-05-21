@@ -1,7 +1,7 @@
-import { UmMenuItem } from '../../menu/menu-item.js';
-import { UmMenuField } from './menu-field.js';
+import { MenuItem } from '../../menu/menu-item.js';
+import { MenuField } from './menu-field.js';
 
-export class MenuFieldNavigationController<TField extends UmMenuField, TMenuItem extends UmMenuItem> {
+export class MenuFieldNavigationController<TField extends MenuField, TMenuItem extends MenuItem> {
   #element: HTMLElement | null = null;
   protected focusedMenu: TMenuItem | null = null;
   protected readonly getHost: () => TField;

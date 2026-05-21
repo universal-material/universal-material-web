@@ -5,7 +5,7 @@ import { ApisTableComponent } from '@docs/docs/apis-table/apis-table.component';
 import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
 
-import { UmDialog } from '@universal-material/web';
+import { Dialog } from '@universal-material/web';
 
 import basicHtml from './examples/basic.html';
 import confirmHtml from './examples/confirm.html';
@@ -42,7 +42,7 @@ export class DialogsComponent {
   readonly #cdr = inject(ChangeDetectorRef);
 
   showMessage(): void {
-    UmDialog
+    Dialog
       .message(this.messageText)
       .headline('Saved')
       .acknowledgeButton({ label: 'Got it', variant: 'filled' })
@@ -50,7 +50,7 @@ export class DialogsComponent {
   }
 
   async askConfirm(): Promise<void> {
-    this.confirmResult = await UmDialog
+    this.confirmResult = await Dialog
       .confirm(this.confirmText)
       .headline('Delete item')
       .confirmButton({ label: 'Delete', variant: 'filled', color: 'error' })

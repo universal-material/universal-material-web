@@ -1,7 +1,7 @@
 import DOMPurify from 'dompurify';
 
 import { DialogButtonDef } from './dialog-button-def.js';
-import { UmDialog } from './dialog.js';
+import { Dialog } from './dialog.js';
 
 import '../button/button.js';
 import './dialog.js';
@@ -28,7 +28,7 @@ export abstract class DialogBuilder<TBuilder extends DialogBuilder<any, any>, TR
     return this.innerShow(dialog) as TReturn;
   }
 
-  protected innerShow(dialog: UmDialog): TReturn | void {
+  protected innerShow(dialog: Dialog): TReturn | void {
     dialog.addEventListener('closed', () => dialog.remove());
     document.body.appendChild(dialog);
     dialog.show();
@@ -36,7 +36,7 @@ export abstract class DialogBuilder<TBuilder extends DialogBuilder<any, any>, TR
     return;
   }
 
-  protected abstract _addButtons(dialog: UmDialog): void;
+  protected abstract _addButtons(dialog: Dialog): void;
 
   private _addHeadline(dialog: HTMLElement) {
     if (!this.#headline) {
@@ -49,7 +49,7 @@ export abstract class DialogBuilder<TBuilder extends DialogBuilder<any, any>, TR
     dialog.appendChild(headlineElement);
   }
 
-  protected _addButton(dialog: UmDialog, buttonDef: DialogButtonDef, click: () => void) {
+  protected _addButton(dialog: Dialog, buttonDef: DialogButtonDef, click: () => void) {
     const button = document.createElement('u-button');
 
     if (buttonDef.variant !== undefined) {

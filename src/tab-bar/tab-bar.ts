@@ -9,14 +9,14 @@ import { classMap } from 'lit/directives/class-map.js';
 
 import { styles as baseStyles } from '../shared/base.styles.js';
 import { styles } from './tab-bar.styles.js';
-import { UmTab } from './tab.js';
+import { Tab } from './tab.js';
 
 @customElement('u-tab-bar')
-export class UmTabBar extends LitElement {
+export class TabBar extends LitElement {
   static override styles = [baseStyles, styles];
 
-  #tabs: UmTab[] = [];
-  #activeTab: UmTab | null = null;
+  #tabs: Tab[] = [];
+  #activeTab: Tab | null = null;
   readonly #resizeObserver: ResizeObserver = new ResizeObserver(() => {
     this._setScrollIndicatorsActive();
     this._updateTabIndicator();
@@ -46,11 +46,11 @@ export class UmTabBar extends LitElement {
     this.activeTab = this.#tabs[index];
   }
 
-  get activeTab(): UmTab | null {
+  get activeTab(): Tab | null {
     return this.#activeTab;
   }
 
-  set activeTab(activeTab: UmTab | null) {
+  set activeTab(activeTab: Tab | null) {
     if (!this.#tabs.length) {
       this.#activeTab = null;
       this._updateTabIndicator();
@@ -144,7 +144,7 @@ export class UmTabBar extends LitElement {
   readonly #handleSlotChange = (e: Event) => {
     const slot = e.target as HTMLSlotElement;
     this.#tabs =
-      slot.assignedElements({ flatten: true }).filter(element => element instanceof UmTab);
+      slot.assignedElements({ flatten: true }).filter(element => element instanceof Tab);
 
     for (const tab of this.#tabs) {
       tab._bar = this;
@@ -230,6 +230,6 @@ export class UmTabBar extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-tab-bar': UmTabBar;
+    'u-tab-bar': TabBar;
   }
 }

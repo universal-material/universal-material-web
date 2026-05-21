@@ -2,14 +2,14 @@ import { CSSResultGroup } from '@lit/reactive-element/css-tag';
 
 import { property } from 'lit/decorators.js';
 
-import { UmButtonWrapper } from '../shared/button-wrapper.js';
+import { ButtonWrapper } from '../shared/button-wrapper.js';
 import { styles } from './button-base.styles.js';
 
-export abstract class UmButtonBase extends UmButtonWrapper {
+export abstract class ButtonBase extends ButtonWrapper {
 
   static readonly formAssociated = true;
 
-  static override styles: CSSResultGroup = [UmButtonWrapper.styles, styles];
+  static override styles: CSSResultGroup = [ButtonWrapper.styles, styles];
 
   /**
    * The button behavior. Mirrors the native `type` attribute and accepts

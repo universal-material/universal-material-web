@@ -5,12 +5,12 @@ import { ClassMapDirective } from 'lit-html/directives/class-map.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
-import { UmCalendarBase } from './calendar-base.js';
+import { CalendarBase } from './calendar-base.js';
 import { styles } from './range-calendar.styles.js';
 
 @customElement('u-range-calendar')
-export class UmRangeCalendar extends UmCalendarBase {
-  static override styles: CSSResultGroup = [styles, UmCalendarBase.styles];
+export class RangeCalendar extends CalendarBase {
+  static override styles: CSSResultGroup = [styles, CalendarBase.styles];
 
   @state() startDateValue: Date | null = null;
   @state() endDateValue: Date | null = null;

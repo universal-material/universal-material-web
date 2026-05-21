@@ -3,7 +3,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { Component } from '@angular/core';
 
 import { ExampleComponent } from '@docs/docs/example/example.component';
-import { UmSnackbar } from '@universal-material/web';
+import { Snackbar } from '@universal-material/web';
 import { states } from '@docs/shared/states.model';
 
 @Component({

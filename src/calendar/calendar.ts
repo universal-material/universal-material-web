@@ -2,12 +2,12 @@ import { CSSResultGroup } from '@lit/reactive-element/css-tag';
 
 import { customElement, property, state } from 'lit/decorators.js';
 
-import { UmCalendarBase } from './calendar-base.js';
+import { CalendarBase } from './calendar-base.js';
 import { styles } from './calendar.styles.js';
 
 @customElement('u-calendar')
-export class UmCalendar extends UmCalendarBase {
-  static override styles: CSSResultGroup = [styles, UmCalendarBase.styles];
+export class Calendar extends CalendarBase {
+  static override styles: CSSResultGroup = [styles, CalendarBase.styles];
 
   @state() dateValue: Date | null = null;
 

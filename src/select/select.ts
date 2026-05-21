@@ -3,18 +3,18 @@ import { customElement, property, query, state } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
 import { html as staticHtml } from 'lit/static-html.js';
 
-import { UmMenu } from '../menu/menu.js';
-import { UmMenuField } from '../shared/menu-field/menu-field.js';
-import { UmTextFieldBase } from '../shared/text-field-base/text-field-base.js';
-import { UmOption } from './option.js';
+import { Menu } from '../menu/menu.js';
+import { MenuField } from '../shared/menu-field/menu-field.js';
+import { TextFieldBase } from '../shared/text-field-base/text-field-base.js';
+import { Option } from './option.js';
 import { SelectNavigationController } from './select-navigation-controller.js';
 import { styles } from './select.styles.js';
 
 import './option.js';
 
 @customElement('u-select')
-export class UmSelect extends UmTextFieldBase implements UmMenuField {
-  static override styles = [UmTextFieldBase.styles, styles];
+export class Select extends TextFieldBase implements MenuField {
+  static override styles = [TextFieldBase.styles, styles];
 
   readonly #list: HTMLElement = (() => {
     const list = document.createElement('div');
@@ -33,7 +33,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
   #selectedIndex = -1;
   #lastSyncSignature = '';
 
-  @query('u-menu', true) _menu!: UmMenu;
+  @query('u-menu', true) _menu!: Menu;
   @query('.button', true) _button!: HTMLButtonElement;
   @query('.input', true) _input!: HTMLElement;
 
@@ -69,15 +69,15 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
     this.#commitIndex(index >= 0 && index < len ? index : -1);
   }
 
-  get _options(): UmOption[] {
-    return Array.from(this.querySelectorAll<UmOption>(':scope > u-option'));
+  get _options(): Option[] {
+    return Array.from(this.querySelectorAll<Option>(':scope > u-option'));
   }
 
-  get _menuItems(): UmOption[] {
+  get _menuItems(): Option[] {
     return this._options;
   }
 
-  get selectedOptions(): UmOption[] {
+  get selectedOptions(): Option[] {
     const option = this._options[this.#selectedIndex];
     return option ? [option] : [];
   }
@@ -153,7 +153,7 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
     });
   }
 
-  _setSelectedByUser(option: UmOption): void {
+  _setSelectedByUser(option: Option): void {
     const previousIndex = this.#selectedIndex;
     const newIndex = this._options.indexOf(option);
 
@@ -330,6 +330,6 @@ export class UmSelect extends UmTextFieldBase implements UmMenuField {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-select': UmSelect;
+    'u-select': Select;
   }
 }

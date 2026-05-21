@@ -4,7 +4,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { map } from 'lit/directives/map.js';
 import { when } from 'lit/directives/when.js';
 
-import { UmMenu } from '../menu/menu.js';
+import { Menu } from '../menu/menu.js';
 import { OverflowMenuItem } from './overflow-menu-item.js';
 import { styles } from './overflow-menu.styles.js';
 
@@ -25,7 +25,7 @@ export class OverflowMenu extends LitElement {
    */
   @property({ reflect: true }) menuPositioning: 'relative' | 'fixed' = 'relative';
 
-  @query('u-menu') menu?: UmMenu;
+  @query('u-menu') menu?: Menu;
 
   #anchor: HTMLElement | null = null;
   @property()

@@ -2,15 +2,15 @@ import { CSSResultGroup } from '@lit/reactive-element/css-tag';
 
 import { property, state } from 'lit/decorators.js';
 
-import { UmButtonBase } from './button-base.js';
+import { ButtonBase } from './button-base.js';
 import { styles } from './toggle-button.styles.js';
 
-export type UmButtonShape = 'round' | 'square';
-export type UmButtonSize = 'extra-small' | 'small' | 'medium' | 'large' | 'extra-large';
+export type ButtonShape = 'round' | 'square';
+export type ButtonSize = 'extra-small' | 'small' | 'medium' | 'large' | 'extra-large';
 
-export abstract class UmToggleButton extends UmButtonBase {
+export abstract class ToggleButton extends ButtonBase {
 
-  static override styles: CSSResultGroup = [UmButtonBase.styles, styles];
+  static override styles: CSSResultGroup = [ButtonBase.styles, styles];
 
   /**
    * When true, the button will toggle between selected and unselected
@@ -31,12 +31,12 @@ export abstract class UmToggleButton extends UmButtonBase {
   /**
    * Sets the shape of the button
    */
-  @property({ reflect: true }) shape: UmButtonShape = 'round';
+  @property({ reflect: true }) shape: ButtonShape = 'round';
 
   /**
    * Sets the size of the button
    */
-  @property({ reflect: true }) size: UmButtonSize = 'small';
+  @property({ reflect: true }) size: ButtonSize = 'small';
 
   /**
    * The `aria-label` of the button when the button is toggleable and selected.

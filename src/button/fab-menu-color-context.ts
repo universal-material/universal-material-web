@@ -1,5 +1,5 @@
 import { createContext } from '@lit/context';
 
-import { UmFabColor } from './fab.js';
+import { FabColor } from './fab.js';
 
-export const fabMenuColorContext = createContext<UmFabColor>(Symbol('fabMenuColorContext'));
+export const fabMenuColorContext = createContext<FabColor>(Symbol('fabMenuColorContext'));

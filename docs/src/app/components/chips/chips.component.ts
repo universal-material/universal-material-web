@@ -5,7 +5,7 @@ import { debounceTime, Subject } from 'rxjs';
 import { ApisTableComponent } from '@docs/docs/apis-table/apis-table.component';
 import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
-import { UmField } from '@universal-material/web';
+import { Field } from '@universal-material/web';
 import { ContextTestComponent } from '@docs/components/context-test/context-test.component';
 
 @Component({

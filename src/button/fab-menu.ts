@@ -6,13 +6,13 @@ import { classMap } from 'lit/directives/class-map.js';
 
 import { scrollContainerContext } from '../scaffold/scroll-container-context.js';
 import { fabMenuColorContext } from './fab-menu-color-context.js';
-import { UmFabMenuItem } from './fab-menu-item.js';
+import { FabMenuItem } from './fab-menu-item.js';
 import { fabMenuOpenContext } from './fab-menu-open-context.js';
 import { styles } from './fab-menu.styles.js';
-import { UmFabColor, UmFabSize } from './fab.js';
+import { FabColor, FabSize } from './fab.js';
 
 @customElement('u-fab-menu')
-export class UmFabMenu extends LitElement {
+export class FabMenu extends LitElement {
 
   static override styles = [styles];
 
@@ -21,12 +21,12 @@ export class UmFabMenu extends LitElement {
    */
   @provide({ context: fabMenuColorContext })
   @property()
-  color: UmFabColor = 'primary';
+  color: FabColor = 'primary';
 
   /**
    * The size of the FAB.
    */
-  @property() size: UmFabSize = 'medium';
+  @property() size: FabSize = 'medium';
 
   /**
    * Lowers the FAB's elevation.
@@ -124,7 +124,7 @@ export class UmFabMenu extends LitElement {
 
     let index = 0;
 
-    for (const element of elements.filter(e => e instanceof UmFabMenuItem).reverse()) {
+    for (const element of elements.filter(e => e instanceof FabMenuItem).reverse()) {
       element._index = index;
       index++;
     }
@@ -133,6 +133,6 @@ export class UmFabMenu extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-fab-menu': UmFabMenu;
+    'u-fab-menu': FabMenu;
   }
 }

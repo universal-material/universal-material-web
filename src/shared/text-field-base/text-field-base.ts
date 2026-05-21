@@ -3,13 +3,13 @@ import { CSSResultGroup } from '@lit/reactive-element/css-tag';
 import { LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { UmFieldBase } from '../../field/field-base.js';
+import { FieldBase } from '../../field/field-base.js';
 import { styles } from './text-field-base.styles.js';
 
-export abstract class UmTextFieldBase extends UmFieldBase {
+export abstract class TextFieldBase extends FieldBase {
   static readonly formAssociated = true;
 
-  static override styles: CSSResultGroup = [UmFieldBase.styles, styles];
+  static override styles: CSSResultGroup = [FieldBase.styles, styles];
 
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,

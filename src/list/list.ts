@@ -4,7 +4,7 @@ import { customElement } from 'lit/decorators.js';
 import { styles } from './list.styles.js';
 
 @customElement('u-list')
-export class UmList extends LitElement {
+export class List extends LitElement {
   static override styles = styles;
 
   override render(): HTMLTemplateResult {
@@ -14,6 +14,6 @@ export class UmList extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'u-list': UmList;
+    'u-list': List;
   }
 }

@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 import { ApisTableComponent } from '@docs/docs/apis-table/apis-table.component';
 import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
-import { UmChipField } from '@universal-material/web';
+import { ChipField } from '@universal-material/web';
 
 import simpleHtml from './examples/simple.html';
 import objectValuesHtml from './examples/object-values.html';
@@ -33,7 +33,7 @@ export class ChipFieldComponent {
       return;
     }
 
-    const chipField = <UmChipField>$event.target;
+    const chipField = <ChipField>$event.target;
     chipField.add({name: chipField.input.value}, true);
     chipField.input.value = '';
   }

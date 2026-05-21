@@ -4,7 +4,7 @@ import { html, HTMLTemplateResult, LitElement, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
-import { UmRipple } from '../ripple/ripple.js';
+import { Ripple } from '../ripple/ripple.js';
 import { styles as baseStyles } from './base.styles.js';
 import { styles } from './button-wrapper.styles.js';
 import { redispatchEvent } from './events/redispatch-event.js';
@@ -12,7 +12,7 @@ import { redispatchEvent } from './events/redispatch-event.js';
 import '../elevation/elevation.js';
 import '../ripple/ripple.js';
 
-export abstract class UmButtonWrapper extends LitElement {
+export abstract class ButtonWrapper extends LitElement {
   static override styles: CSSResultGroup = [baseStyles, styles];
 
   /**
@@ -39,7 +39,7 @@ export abstract class UmButtonWrapper extends LitElement {
   @property() name: string | undefined;
 
   @query('.button') readonly buttonElement!: HTMLElement;
-  @query('u-ripple') private readonly _ripple!: UmRipple;
+  @query('u-ripple') private readonly _ripple!: Ripple;
 
   protected innerRole: string | null = null;
 

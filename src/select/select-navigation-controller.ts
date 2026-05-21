@@ -1,7 +1,7 @@
 import { normalizedStartsWith } from '../shared/compare-text.js';
 import { MenuFieldNavigationController } from '../shared/menu-field/menu-field-navigation-controller.js';
-import { UmOption } from './option.js';
-import { UmSelect } from './select.js';
+import { Option } from './option.js';
+import { Select } from './select.js';
 
 const getCleanTypeaheadStatus = () => ({
   typing: false,
@@ -10,7 +10,7 @@ const getCleanTypeaheadStatus = () => ({
   timeoutId: 0,
 });
 
-export class SelectNavigationController extends MenuFieldNavigationController<UmSelect, UmOption> {
+export class SelectNavigationController extends MenuFieldNavigationController<Select, Option> {
   #typeaheadStatus = getCleanTypeaheadStatus();
 
   protected override handleKeyDown(event: KeyboardEvent): boolean {
@@ -51,11 +51,11 @@ export class SelectNavigationController extends MenuFieldNavigationController<Um
 
   readonly #handleMouseFocus = (e: Event) => {
     this.blurMenu();
-    const option = e.target as UmOption;
+    const option = e.target as Option;
     this.focusMenu(option, this.getHost()._menuItems.indexOf(option), false, false);
   };
 
-  protected override afterFocus(_: UmOption, index: number) {
+  protected override afterFocus(_: Option, index: number) {
     this.getHost()._button.setAttribute('aria-activedescendant', `item-${index + 1}`);
   }
 
@@ -85,12 +85,12 @@ export class SelectNavigationController extends MenuFieldNavigationController<Um
     return true;
   }
 
-  private findNextElementByTerm(term: string, lastFocusedMenu: UmOption | null): void {
+  private findNextElementByTerm(term: string, lastFocusedMenu: Option | null): void {
     const options = this.getHost()._options;
     const lastFocusedMenuIndex = lastFocusedMenu ? options.indexOf(lastFocusedMenu) : -1;
 
     let nextMenu =
-      lastFocusedMenuIndex > -1 ? this.getHost()._options[lastFocusedMenuIndex + 1] as UmOption | undefined : null;
+      lastFocusedMenuIndex > -1 ? this.getHost()._options[lastFocusedMenuIndex + 1] as Option | undefined : null;
 
     if (!nextMenu || !normalizedStartsWith(nextMenu.textContent, term)) {
       nextMenu = options.find(o => normalizedStartsWith(o.textContent, term));
