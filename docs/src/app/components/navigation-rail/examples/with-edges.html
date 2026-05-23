@@ -1,5 +1,5 @@
 <u-navigation-rail id="rail-with-edges" style="height: 480px; border: 1px solid var(--u-color-outline-variant, rgba(0,0,0,.12)); border-radius: 12px; overflow: hidden;">
-  <u-icon-button slot="rail-top" onclick="const r = this.closest('u-navigation-rail'); r.toggleDrawer = !r.toggleDrawer;">
+  <u-icon-button slot="top" onclick="const r = this.closest('u-navigation-rail'); r.toggleDrawer = !r.toggleDrawer;">
     <span class="material-symbols-outlined">menu</span>
   </u-icon-button>
 
@@ -16,14 +16,14 @@
     Sent
   </u-navigation-rail-item>
 
-  <u-fab slot="rail-bottom" variant="primary" size="small">
+  <u-fab slot="bottom" variant="primary" size="small">
     <span class="material-symbols-outlined" slot="icon">edit</span>
   </u-fab>
 
   <u-scaffold>
     <u-top-app-bar slot="top-bar" headline="Mail"></u-top-app-bar>
     <div style="padding: 16px 24px;">
-      <p>Use <code>slot="rail-top"</code> for a menu button or brand mark; <code>slot="rail-bottom"</code> for a FAB or secondary action. Both edges stay pinned while the items between scroll if needed.</p>
+      <p>Use <code>slot="top"</code> for a menu button or brand mark; <code>slot="bottom"</code> for a FAB or secondary action. Both edges stay pinned while the items between scroll if needed.</p>
     </div>
   </u-scaffold>
 </u-navigation-rail>

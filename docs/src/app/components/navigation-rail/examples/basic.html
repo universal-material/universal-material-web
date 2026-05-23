@@ -1,64 +1,113 @@
-<u-navigation-rail id="rail-basic" style="height: 480px; border: 1px solid var(--u-color-outline-variant, rgba(0,0,0,.12)); border-radius: 12px; overflow: hidden;">
+<u-navigation-rail
+  id="rail-basic"
+  style="
+    height: 480px;
+    border: 1px solid var(--u-color-outline-variant, rgba(0, 0, 0, 0.12));
+    border-radius: 12px;
+    overflow: hidden;
+  "
+>
   <!-- Collapsed mode: a short list of primary destinations -->
-  <u-navigation-rail-item slot="rail" active>
-    <span class="material-symbols-outlined" slot="icon">home</span>
-    Home
+  <u-navigation-rail-item
+    slot="rail"
+    active
+  >
+    <span
+      class="material-symbols-outlined"
+      slot="icon"
+      >inbox</span
+    >
+    Inbox
   </u-navigation-rail-item>
   <u-navigation-rail-item slot="rail">
-    <span class="material-symbols-outlined" slot="icon">explore</span>
-    Browse
+    <span
+      class="material-symbols-outlined"
+      slot="icon"
+      >outbox</span
+    >
+    Outbox
+    <u-badge slot="badge">3</u-badge>
   </u-navigation-rail-item>
   <u-navigation-rail-item slot="rail">
-    <span class="material-symbols-outlined" slot="icon">library_music</span>
-    Library
+    <span
+      class="material-symbols-outlined"
+      slot="icon"
+      >favorite</span
+    >
+    Favorites
+  </u-navigation-rail-item>
+  <u-navigation-rail-item slot="rail">
+    <span
+      class="material-symbols-outlined"
+      slot="icon"
+      >delete</span
+    >
+    Trash
   </u-navigation-rail-item>
 
   <!-- Expanded mode: the full menu, grouped with headlines -->
-  <u-navigation-rail-headline slot="expanded">Library</u-navigation-rail-headline>
-  <u-navigation-rail-item slot="expanded" active>
-    <span class="material-symbols-outlined" slot="icon">home</span>
-    Home
+  <u-navigation-rail-item
+    slot="expanded"
+    active
+  >
+    <span
+      class="material-symbols-outlined"
+      slot="icon"
+      >inbox</span
+    >
+    Inbox
   </u-navigation-rail-item>
   <u-navigation-rail-item slot="expanded">
-    <span class="material-symbols-outlined" slot="icon">explore</span>
-    Browse
+    <span
+      class="material-symbols-outlined"
+      slot="icon"
+      >outbox</span
+    >
+    Outbox
+    <u-badge slot="badge">3</u-badge>
   </u-navigation-rail-item>
   <u-navigation-rail-item slot="expanded">
-    <span class="material-symbols-outlined" slot="icon">radio</span>
-    Radio
-  </u-navigation-rail-item>
-  <u-navigation-rail-item slot="expanded">
-    <span class="material-symbols-outlined" slot="icon">library_music</span>
-    Library
-  </u-navigation-rail-item>
-
-  <u-navigation-rail-headline slot="expanded">Recents</u-navigation-rail-headline>
-  <u-navigation-rail-item slot="expanded">
-    <span class="material-symbols-outlined" slot="icon">history</span>
-    Recently played
-  </u-navigation-rail-item>
-  <u-navigation-rail-item slot="expanded">
-    <span class="material-symbols-outlined" slot="icon">favorite</span>
+    <span
+      class="material-symbols-outlined"
+      slot="icon"
+      >favorite</span
+    >
     Favorites
   </u-navigation-rail-item>
   <u-navigation-rail-item slot="expanded">
-    <span class="material-symbols-outlined" slot="icon">download</span>
-    Downloads
+    <span
+      class="material-symbols-outlined"
+      slot="icon"
+      >delete</span
+    >
+    Trash
   </u-navigation-rail-item>
 
   <u-scaffold>
-    <u-top-app-bar slot="top-bar" headline="Mail">
-      <u-icon-button slot="leading-icon" onclick="const r = this.closest('u-navigation-rail'); r.toggleDrawer = !r.toggleDrawer;">
+    <u-top-app-bar
+      slot="top-bar"
+      headline="Mail"
+    >
+      <u-icon-button
+        slot="leading-icon"
+        onclick="const r = this.closest('u-navigation-rail'); r.toggleDrawer = !r.toggleDrawer;"
+      >
         <span class="material-symbols-outlined">menu</span>
       </u-icon-button>
     </u-top-app-bar>
 
-    <div style="padding: 16px 24px;">
+    <div style="padding: 16px 24px">
       <p>Resize the window to see how the rail adapts:</p>
       <ul>
         <li><strong>&lt; 840px:</strong> rail is hidden.</li>
-        <li><strong>840–1199px:</strong> the rail is pinned to the left in its collapsed 96dp form, showing the short <code>slot="rail"</code> list.</li>
-        <li><strong>≥ 1200px:</strong> the rail is permanently expanded (360dp), showing the longer <code>slot="expanded"</code> menu with headlines. Tap the menu to collapse it.</li>
+        <li>
+          <strong>840&ndash;1199px:</strong> the rail is pinned to the left in its collapsed 96dp form, showing the
+          short <code>slot="rail"</code> list.
+        </li>
+        <li>
+          <strong>&ge; 1200px:</strong> the rail is permanently expanded (360dp), showing the longer
+          <code>slot="expanded"</code> menu. Tap the menu to collapse it.
+        </li>
       </ul>
     </div>
   </u-scaffold>

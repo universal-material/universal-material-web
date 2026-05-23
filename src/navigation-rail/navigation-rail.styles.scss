@@ -23,6 +23,7 @@
     var(--u-nav-rail-expanded-width-maximum, 360px)
   );
   --_nav-rail-expanded-width-negative: calc(var(--_nav-rail-expanded-width) * -1);
+  --_nav-rail-expanded-corner-shape: var(--u-nav-rail-expanded-corner-shape, #{functions.get-shape-corner-var(large)});
   --_navigation-width: 0;
   --_scrim-opacity: var(--u-drawer-scrim-opacity, .4);
 
@@ -83,19 +84,9 @@
   flex: 1 1 auto;
   flex-direction: column;
   gap: var(--u-nav-rail-item-vertical-space, 4px);
-  padding-block: 0 var(--u-nav-rail-vertical-trailing-space, 20px);
+  padding-block: var(--u-nav-rail-vertical-trailing-space, 20px);
   overflow-y: auto;
   overflow-x: hidden;
-}
-
-// When neither rail-top nor rail-bottom is slotted, the items still need
-// the 44dp/20dp top/bottom spacing.
-:host(:not([has-rail-top])) .rail-items {
-  padding-block-start: var(--u-nav-rail-top-space, 44px);
-}
-
-:host(:not([has-rail-bottom])) .rail-items {
-  padding-block-end: var(--u-nav-rail-vertical-trailing-space, 20px);
 }
 
 // ----------------- Expanded rail (slide-in panel) -----------------
@@ -115,6 +106,11 @@
   overflow: hidden;
   z-index: calc(var(--u-nav-rail-z-index, 1030) + 1);
   transition: inset 375ms variables.$awesome-cubic-bezier;
+
+  // Modal state — same large trailing-corner rounding as u-side-navigation's
+  // drawer. Stripped at lg where the panel becomes a permanent sidebar.
+  border-start-end-radius: var(--_nav-rail-expanded-corner-shape);
+  border-end-end-radius: var(--_nav-rail-expanded-corner-shape);
 }
 
 // rail-top / rail-bottom host secondary content (menu, brand, FAB). They
@@ -123,15 +119,15 @@
 // size — these wrappers don't stretch them. Children are centered in the
 // 96dp collapsed bar; they shift to leading-edge alignment when the rail
 // is expanded (lg expanded permanent).
-.rail-top,
-.rail-bottom {
+.top,
+.bottom {
   display: none;
   flex-direction: column;
   align-items: center;
   gap: var(--u-nav-rail-edge-gap, 4px);
 }
 
-:host([has-rail-top]) .rail-top {
+:host([has-top]) .top {
   display: flex;
   padding-block-start: var(--u-nav-rail-top-space, 44px);
   min-height: calc(
@@ -140,7 +136,7 @@
   );
 }
 
-:host([has-rail-bottom]) .rail-bottom {
+:host([has-bottom]) .bottom {
   display: flex;
   padding-block-end: var(--u-nav-rail-vertical-trailing-space, 20px);
 }
@@ -150,20 +146,56 @@
   flex: 1 1 auto;
   flex-direction: column;
   gap: var(--u-nav-rail-expanded-between-item-space, 0);
-  // No top-space on the expanded list — items/headlines provide their own
-  // breathing room and the rail-top (when slotted) already sits above.
-  padding-block: 0 var(--u-nav-rail-vertical-trailing-space, 20px);
+  padding-block: var(--u-nav-rail-vertical-trailing-space, 20px);
   overflow-y: auto;
   overflow-x: hidden;
   min-height: 0;
 }
 
-:host([has-rail-bottom]) .rail-items-expanded {
+:host([has-bottom]) .rail-items-expanded {
   padding-block-end: 0;
 }
 
-:host([has-rail-bottom]) .rail-bottom {
+:host([has-bottom]) .bottom {
   padding-block-end: var(--u-nav-rail-vertical-trailing-space, 20px);
+}
+
+// ----------------- Scrollbar -----------------
+// Native scrollbar is hidden entirely (Chrome on Windows insists on showing
+// arrow buttons even with ::-webkit-scrollbar-button { display: none }) and
+// we render our own thin thumb in JS. See `#setupScrollThumb` in
+// navigation-rail.ts.
+.rail-items,
+.rail-items-expanded {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+}
+
+// Custom thumb overlay — positioned inside .rail / .rail-expanded (siblings
+// of the scroll container, which lets us inset from the rounded corners).
+// JS writes `top` and `height` inline; CSS owns the resting/active opacity
+// and the hover/scroll reveal.
+.scroll-thumb {
+  position: absolute;
+  inset-inline-end: var(--u-nav-rail-scrollbar-inline-inset, 2px);
+  width: var(--u-nav-rail-scrollbar-width, 4px);
+  background: var(--u-nav-rail-scrollbar-thumb-color, #{functions.get-color-var(outline-variant)});
+  border-radius: 999px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 200ms;
+}
+
+.rail:hover .scroll-thumb,
+.rail.scrolling .scroll-thumb,
+.rail-expanded:hover .scroll-thumb,
+.rail-expanded.scrolling .scroll-thumb {
+  opacity: 1;
 }
 
 // ----------------- Modal scrim -----------------
@@ -248,10 +280,13 @@
     display: flex;
   }
 
-  // Expanded panel is permanent at lg — at inset 0 by default.
+  // Expanded panel is permanent at lg — at inset 0 by default, with no
+  // trailing-corner rounding (it's a sidebar, not a modal sheet).
   :host([has-expanded-items]) .rail-expanded {
     display: flex;
     inset-inline-start: 0;
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
   }
 
   // Toggle at lg slides the expanded panel back off-screen, revealing the

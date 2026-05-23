@@ -65,8 +65,8 @@ description: Build a Material 3 responsive navigation rail — hidden on mobile,
 | --- | --- | --- |
 | `rail` | Primary destinations (`<u-navigation-rail-item>`s). | Collapsed state (mobile is hidden; md is permanent; lg shows when `toggle-drawer` is set). |
 | `expanded` | Full destination list — items + `<u-navigation-rail-headline>`s. | Expanded state (lg without `toggle-drawer`). Falls back to `rail` when empty. |
-| `rail-top` | Menu button, brand mark, or other top-pinned content. | Always (within visible rail). |
-| `rail-bottom` | FAB or secondary action pinned to the bottom. | Always (within visible rail). |
+| `top` | Menu button, brand mark, or other top-pinned content. | Always (within visible rail). |
+| `bottom` | FAB or secondary action pinned to the bottom. | Always (within visible rail). |
 | default | Page content (typically `<u-scaffold>`). | Always. |
 
 The rail crossfades (200ms) between the `rail` and `expanded` layers when its state changes.
@@ -111,5 +111,5 @@ Sources: `md.comp.nav-rail`, `md.comp.nav-rail-collapsed`, `md.comp.nav-rail-exp
 
 - Don't slot a `<u-drawer>`: the expanded rail is a distinct M3 surface with its own pill-shaped items, not a drawer.
 - Mobile (< 840px) hides the rail entirely — give small screens a different nav (`<u-navigation-bar>`, modal etc).
-- `slot="rail-top"` / `slot="rail-bottom"` children are sized intrinsically (not stretched), and align horizontally based on the rail state — centered when collapsed, leading-aligned with 16dp inset when expanded.
+- `slot="top"` / `slot="bottom"` children are sized intrinsically (not stretched), and align horizontally based on the rail state — centered when collapsed, leading-aligned with 16dp inset when expanded.
 - The expanded layer scrolls when its content overflows the rail height; the collapsed layer does too if you slot more than ~5 items.
