@@ -1,4 +1,4 @@
-<u-side-navigation #navigation>
+<u-navigation-rail #navigation>
   <u-top-app-bar
     size="small"
     [scrollContainer]="pageLayout"
@@ -179,9 +179,8 @@
       </svg>
     </a>
   </u-top-app-bar>
-  <u-drawer slot="drawer">
-    <u-drawer-headline>Get started</u-drawer-headline>
-    <u-drawer-item
+    <u-navigation-rail-headline slot="expanded">Get started</u-navigation-rail-headline>
+    <u-navigation-rail-item slot="expanded"
       routerLink=""
       docsLinkActive
       [routerLinkActiveOptions]="{ exact: true }"
@@ -191,10 +190,10 @@
         slot="icon"
         >terminal</span
       >
-    </u-drawer-item>
+    </u-navigation-rail-item>
 
-    <u-drawer-headline>Foundations</u-drawer-headline>
-    <u-drawer-item
+    <u-navigation-rail-headline slot="expanded">Foundations</u-navigation-rail-headline>
+    <u-navigation-rail-item slot="expanded"
       routerLink="content/typography"
       docsLinkActive
       >Typography
@@ -203,10 +202,10 @@
         slot="icon"
         >text_fields</span
       >
-    </u-drawer-item>
+    </u-navigation-rail-item>
 
-    <u-drawer-headline>Colors</u-drawer-headline>
-    <u-drawer-item
+    <u-navigation-rail-headline slot="expanded">Colors</u-navigation-rail-headline>
+    <u-navigation-rail-item slot="expanded"
       routerLink="utilities/background-colors"
       docsLinkActive
       >Background
@@ -215,8 +214,8 @@
         slot="icon"
         >format_color_fill</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="utilities/text-and-background-colors"
       docsLinkActive
       >Color & background
@@ -225,8 +224,8 @@
         slot="icon"
         >palette</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="utilities/text-colors"
       docsLinkActive
       >Text
@@ -235,8 +234,8 @@
         slot="icon"
         >format_color_text</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="utilities/text-emphasis"
       docsLinkActive
       >Text emphasis
@@ -245,10 +244,10 @@
         slot="icon"
         >contrast</span
       >
-    </u-drawer-item>
+    </u-navigation-rail-item>
 
-    <u-drawer-headline>Layout</u-drawer-headline>
-    <u-drawer-item
+    <u-navigation-rail-headline slot="expanded">Layout</u-navigation-rail-headline>
+    <u-navigation-rail-item slot="expanded"
       routerLink="layout/container"
       docsLinkActive
       >Container
@@ -257,8 +256,8 @@
         slot="icon"
         >crop_din</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="utilities/dividers"
       docsLinkActive
       >Dividers
@@ -267,8 +266,8 @@
         slot="icon"
         >horizontal_rule</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="layout/grid"
       docsLinkActive
       >Grid
@@ -277,8 +276,8 @@
         slot="icon"
         >grid_view</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/tables"
       docsLinkActive
       >Tables
@@ -287,10 +286,10 @@
         slot="icon"
         >table_chart</span
       >
-    </u-drawer-item>
+    </u-navigation-rail-item>
 
-    <u-drawer-headline>Components</u-drawer-headline>
-    <u-drawer-item
+    <u-navigation-rail-headline slot="expanded">Components</u-navigation-rail-headline>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/badges"
       docsLinkActive
       >Badges
@@ -299,8 +298,8 @@
         slot="icon"
         >notifications</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/button-set"
       docsLinkActive
       >Button set
@@ -309,8 +308,8 @@
         slot="icon"
         >view_week</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/common-buttons"
       docsLinkActive
       >Buttons
@@ -319,8 +318,8 @@
         slot="icon"
         >smart_button</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/cards"
       docsLinkActive
       >Cards
@@ -329,8 +328,8 @@
         slot="icon"
         >style</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/chip-field"
       docsLinkActive
       >Chip field
@@ -339,8 +338,8 @@
         slot="icon"
         >local_offer</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/chips"
       docsLinkActive
       >Chips
@@ -349,8 +348,8 @@
         slot="icon"
         >label</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/collapse"
       docsLinkActive
       >Collapse
@@ -359,8 +358,8 @@
         slot="icon"
         >unfold_less</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/datepicker"
       docsLinkActive
       >Datepicker
@@ -369,8 +368,8 @@
         slot="icon"
         >calendar_month</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/dialogs"
       docsLinkActive
       >Dialogs
@@ -379,8 +378,8 @@
         slot="icon"
         >feedback</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/elevation"
       docsLinkActive
       >Elevation
@@ -389,8 +388,8 @@
         slot="icon"
         >layers</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/expansion-panel"
       docsLinkActive
       >Expansion panel
@@ -399,8 +398,8 @@
         slot="icon"
         >unfold_more</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/fab-menu"
       docsLinkActive
       >FAB menu
@@ -409,8 +408,8 @@
         slot="icon"
         >bubble_chart</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/fab"
       docsLinkActive
       >FABs
@@ -419,8 +418,8 @@
         slot="icon"
         >add_circle</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/field"
       docsLinkActive
       >Field
@@ -429,8 +428,8 @@
         slot="icon"
         >edit_note</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/icon"
       docsLinkActive
       >Icon
@@ -439,8 +438,8 @@
         slot="icon"
         >category</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/icon-buttons"
       docsLinkActive
       >Icon buttons
@@ -449,8 +448,8 @@
         slot="icon"
         >radio_button_unchecked</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/lists"
       docsLinkActive
       >Lists
@@ -459,8 +458,8 @@
         slot="icon"
         >list_alt</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/menus"
       docsLinkActive
       >Menus
@@ -469,8 +468,8 @@
         slot="icon"
         >more_vert</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/navigation-bar"
       docsLinkActive
       >Navigation bar
@@ -479,8 +478,8 @@
         slot="icon"
         >bottom_navigation</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/navigation-rail"
       docsLinkActive
       >Navigation rail
@@ -489,8 +488,8 @@
         slot="icon"
         >side_navigation</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/toolbars"
       docsLinkActive
       >Overflow menu
@@ -499,8 +498,8 @@
         slot="icon"
         >more_horiz</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/progress"
       docsLinkActive
       >Progress
@@ -509,8 +508,8 @@
         slot="icon"
         >progress_activity</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/ripple"
       docsLinkActive
       >Ripple
@@ -519,8 +518,8 @@
         slot="icon"
         >touch_app</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/scaffold"
       docsLinkActive
       >Scaffold
@@ -529,8 +528,8 @@
         slot="icon"
         >dashboard</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/search"
       docsLinkActive
       >Search
@@ -539,8 +538,8 @@
         slot="icon"
         >search</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/select"
       docsLinkActive
       >Select
@@ -549,8 +548,8 @@
         slot="icon"
         >arrow_drop_down_circle</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/selection-controls"
       docsLinkActive
       >Selection controls
@@ -559,8 +558,8 @@
         slot="icon"
         >select_check_box</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/sliders"
       docsLinkActive
       >Sliders
@@ -569,8 +568,8 @@
         slot="icon"
         >tune</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/snackbars"
       docsLinkActive
       >Snackbars
@@ -579,8 +578,8 @@
         slot="icon"
         >notifications_active</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/tabs"
       docsLinkActive
       >Tabs
@@ -589,8 +588,8 @@
         slot="icon"
         >tab</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/text-fields"
       docsLinkActive
       >Text fields
@@ -599,8 +598,8 @@
         slot="icon"
         >text_fields</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/top-app-bar"
       docsLinkActive
       >Top app bar
@@ -609,8 +608,8 @@
         slot="icon"
         >web_asset</span
       >
-    </u-drawer-item>
-    <u-drawer-item
+    </u-navigation-rail-item>
+    <u-navigation-rail-item slot="expanded"
       routerLink="components/typeahead"
       docsLinkActive
       >Typeahead
@@ -619,9 +618,10 @@
         slot="icon"
         >manage_search</span
       >
-    </u-drawer-item>
-    <div class="u-divider"></div>
+    </u-navigation-rail-item>
+    <div slot="expanded" class="u-divider"></div>
     <a
+      slot="expanded"
       class="drawer-footer-link"
       href="https://github.com/universal-material/universal-material-web"
       target="_blank"
@@ -635,7 +635,6 @@
       </span>
       <span class="material-symbols-outlined drawer-footer-arrow">arrow_outward</span>
     </a>
-  </u-drawer>
   <div class="page-layout" #pageLayout>
     <div class="u-container chapter">
       <router-outlet></router-outlet>
@@ -657,4 +656,4 @@
         tabindex="0",
         (click)="navigateToAnchor($event, item)") {{item.title}}
   -->
-</u-side-navigation>
+</u-navigation-rail>

@@ -1,18 +1,19 @@
 @use "../../../scss/mixins";
 
 :host {
-  --u-drawer-headline-font-size: 12px;
-  --u-drawer-headline-font-weight: var(--u-font-weight-medium);
-  --u-drawer-headline-margin-block: 20px 8px;
-  --u-drawer-headline-color: var(--u-color-lower-emphasis);
+  --u-nav-rail-headline-font-size: 12px;
+  --u-nav-rail-headline-font-weight: var(--u-font-weight-medium);
+  --u-nav-rail-headline-padding-block: 20px 8px;
+  --u-nav-rail-headline-color: var(--u-color-lower-emphasis);
 
-  --u-drawer-item-height: 48px;
+  --u-nav-rail-expanded-width: 280px;
+  --u-nav-rail-item-container-height: 48px;
 
   display: block;
   height: 100vh;
 }
 
-u-drawer-headline {
+u-navigation-rail-headline {
   text-transform: uppercase;
 }
 
