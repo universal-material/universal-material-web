@@ -46,6 +46,11 @@ u-top-app-bar {
 }
 
 .page-layout {
+  // `u-navigation-rail` slots its default content into a plain block
+  // container (`.content` is a grid cell, not a flex parent), so the
+  // original `flex: 1 1 0` no-ops. Explicit `height: 100%` is what
+  // actually constrains the box so `overflow-y: auto` produces a scroll.
+  height: 100%;
   flex: 1 1 0;
   min-height: 0;
   overflow-y: auto;

@@ -45,9 +45,15 @@
 .grid {
   display: grid;
   grid-template-columns: var(--_navigation-width) minmax(0, 1fr);
+  // Single row that fills the host height — keeps the `.content` cell
+  // bounded so slotted children with `height: 100%` (e.g. the docs
+  // `.page-layout` with `overflow-y: auto`) actually have a containing
+  // block to resolve against, rather than ballooning to content height.
+  grid-template-rows: minmax(0, 1fr);
   transition: grid-template-columns 375ms variables.$awesome-cubic-bezier;
   width: 100%;
   height: 100%;
+  min-height: 0;
 
   --u-app-bar-offset: var(--_navigation-width);
 }

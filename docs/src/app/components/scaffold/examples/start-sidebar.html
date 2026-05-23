@@ -1,0 +1,20 @@
+<u-scaffold id="start-sidebar-scaffold" style="height: 480px; border: 1px solid var(--u-color-outline-variant, rgba(0,0,0,.12)); border-radius: 12px;">
+  <u-scaffold-pane position="start" variant="filled" collapse-mode="sidebar" id="start-sidebar-pane">
+    <div slot="header" style="padding: 12px 16px; display: flex; align-items: center; justify-content: space-between;">
+      <strong>Navigation</strong>
+      <u-icon-button onclick="document.getElementById('start-sidebar-pane').close()">
+        <span class="material-symbols-outlined">close</span>
+      </u-icon-button>
+    </div>
+    <u-list>
+      <u-list-item>Home</u-list-item>
+      <u-list-item>Projects</u-list-item>
+      <u-list-item>Settings</u-list-item>
+    </u-list>
+  </u-scaffold-pane>
+
+  <div style="padding: 16px 24px;">
+    <p>On a viewport ≥ 1200px the start pane is permanent on the left. Shrink the window to under 1200px to see it collapse — open it with the button below.</p>
+    <u-button onclick="document.getElementById('start-sidebar-pane').show()">Open start pane</u-button>
+  </div>
+</u-scaffold>

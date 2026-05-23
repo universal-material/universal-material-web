@@ -1,0 +1,114 @@
+@use "../../scss/variables";
+@use "../../scss/functions";
+@use "../../scss/mixins";
+
+:host {
+  display: block;
+  height: 100%;
+  min-height: 0;
+  --u-scaffold-pane-z-index: 1030;
+  --u-scaffold-pane-transition: 300ms #{variables.$awesome-cubic-bezier};
+}
+
+.container {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.header {
+  flex: 0 0 auto;
+}
+
+.content {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+}
+
+:host([variant=filled]) .container {
+  background-color: var(--u-scaffold-pane-filled-bg-color,
+    #{functions.get-color-var(surface-container-highest)});
+  border-radius: var(--u-scaffold-pane-filled-shape-corner,
+    #{functions.get-shape-corner-var(medium)});
+}
+
+:host([variant=transparent]) .container {
+  background: transparent;
+  border-radius: 0;
+}
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  background-color: var(--u-scaffold-pane-scrim-color,
+    #{functions.get-color-var(scrim)});
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--u-scaffold-pane-transition);
+  z-index: calc(var(--u-scaffold-pane-z-index) - 1);
+  display: none;
+}
+
+@include mixins.media-breakpoint-down(md) {
+  :host {
+    display: block;
+  }
+
+  .container {
+    position: fixed;
+    inset-block: 0;
+    width: min(var(--u-scaffold-pane-mobile-width, 360px), 85vw);
+    z-index: var(--u-scaffold-pane-z-index);
+    transition: transform var(--u-scaffold-pane-transition);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+  }
+
+  :host([position=start]) .container {
+    inset-inline-start: 0;
+    transform: translateX(-100%);
+  }
+
+  :host([position=end]) .container {
+    inset-inline-end: 0;
+    transform: translateX(100%);
+  }
+
+  :host([open]) .container {
+    transform: translateX(0);
+  }
+
+  :host([collapse-mode=sidebar]) .scrim {
+    display: block;
+  }
+
+  :host([collapse-mode=sidebar][open]) .scrim {
+    opacity: var(--u-scaffold-pane-scrim-opacity, .4);
+    pointer-events: auto;
+  }
+
+  :host([collapse-mode=fullscreen]) .container {
+    inset: 0;
+    width: 100vw;
+    background-color: var(--u-scaffold-pane-fullscreen-bg-color,
+      #{functions.get-color-var(surface)});
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  // Fullscreen panes still slide in from the side they belong to —
+  // start from the leading edge, end from the trailing edge — so the
+  // open/close motion stays consistent with the sidebar collapse mode.
+  :host([collapse-mode=fullscreen][position=start]) .container {
+    transform: translateX(-100%);
+  }
+  :host([collapse-mode=fullscreen][position=end]) .container {
+    transform: translateX(100%);
+  }
+  :host([collapse-mode=fullscreen][open]) .container {
+    transform: translateX(0);
+  }
+}

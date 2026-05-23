@@ -1,0 +1,18 @@
+<u-scaffold style="height: 480px; border: 1px solid var(--u-color-outline-variant, rgba(0,0,0,.12)); border-radius: 12px;">
+  <u-scaffold-pane position="start" variant="filled" collapse-mode="fullscreen" id="start-fullscreen-pane">
+    <div slot="header" style="padding: 12px 16px; display: flex; align-items: center; justify-content: space-between;">
+      <strong>Browse</strong>
+      <u-icon-button onclick="document.getElementById('start-fullscreen-pane').close()">
+        <span class="material-symbols-outlined">close</span>
+      </u-icon-button>
+    </div>
+    <div style="padding: 16px;">
+      <p>This pane takes over the entire viewport when collapsed on mobile. Useful for richer browse / picker experiences.</p>
+    </div>
+  </u-scaffold-pane>
+
+  <div style="padding: 16px 24px;">
+    <p>Below 1200px the pane covers the screen instead of sliding in as a sidebar.</p>
+    <u-button onclick="document.getElementById('start-fullscreen-pane').show()">Open browse pane</u-button>
+  </div>
+</u-scaffold>

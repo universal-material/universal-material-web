@@ -1,4 +1,4 @@
-<docs-title title="Scaffold" tag="u-scaffold">A layout container that hosts a top app bar, the scrollable page content, an optional bottom app bar and a floating FAB. The scaffold publishes its internal scroll element through Lit context so descendants like the top app bar and FABs can react to the same scroll source without manual wiring.</docs-title>
+<docs-title title="Scaffold" tag="u-scaffold">A layout container that hosts a top app bar, the scrollable page content, an optional bottom app bar, a floating FAB and optional side panes. The scaffold publishes its internal scroll element through Lit context so descendants like the top app bar and FABs can react to the same scroll source without manual wiring.</docs-title>
 
 <docs-example
   [html]="basicHtml"
@@ -16,4 +16,43 @@
   fluid
 ></docs-example>
 
+<docs-title title="Side panes" tag="u-scaffold-pane">Declare `u-scaffold-pane` children with `position="start"` or `position="end"` to add side regions. At ≥ 1200px they sit alongside the main content. Below that, they collapse and open as either a modal sidebar (`collapse-mode="sidebar"`) or a fullscreen overlay (`collapse-mode="fullscreen"`). The `variant` attribute switches between `transparent` and a `filled` card-style surface.</docs-title>
+
+<docs-example
+  [html]="listDetailHtml"
+  sectionTitle="List-detail (start + main + end)"
+  fluid
+></docs-example>
+<docs-example
+  [html]="startSidebarHtml"
+  sectionTitle="Start pane, sidebar collapse"
+  fluid
+></docs-example>
+<docs-example
+  [html]="startFullscreenHtml"
+  sectionTitle="Start pane, fullscreen collapse"
+  fluid
+></docs-example>
+<docs-example
+  [html]="endSidebarHtml"
+  sectionTitle="End pane, sidebar collapse"
+  fluid
+></docs-example>
+<docs-example
+  [html]="endFullscreenHtml"
+  sectionTitle="End pane, fullscreen collapse"
+  fluid
+></docs-example>
+<docs-example
+  [html]="filledVariantsHtml"
+  sectionTitle="Filled vs transparent variants"
+  fluid
+></docs-example>
+<docs-example
+  [html]="withTopBarHtml"
+  sectionTitle="Panes + top app bar + FAB"
+  fluid
+></docs-example>
+
 <docs-apis-table key="scaffold"></docs-apis-table>
+<docs-apis-table key="scaffoldPane"></docs-apis-table>

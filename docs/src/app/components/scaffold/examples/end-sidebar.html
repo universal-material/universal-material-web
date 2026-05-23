@@ -1,0 +1,18 @@
+<u-scaffold style="height: 480px; border: 1px solid var(--u-color-outline-variant, rgba(0,0,0,.12)); border-radius: 12px;">
+  <div style="padding: 16px 24px;">
+    <p>On a viewport ≥ 1200px the end pane is permanent on the right. Below that, open it as a modal sidebar from the trailing edge.</p>
+    <u-button onclick="document.getElementById('end-sidebar-pane').show()">Open details</u-button>
+  </div>
+
+  <u-scaffold-pane position="end" variant="filled" collapse-mode="sidebar" id="end-sidebar-pane">
+    <div slot="header" style="padding: 12px 16px; display: flex; align-items: center; justify-content: space-between;">
+      <strong>Inspector</strong>
+      <u-icon-button onclick="document.getElementById('end-sidebar-pane').close()">
+        <span class="material-symbols-outlined">close</span>
+      </u-icon-button>
+    </div>
+    <div style="padding: 16px;">
+      <p>Inspector content goes here. Properties, metadata, related actions.</p>
+    </div>
+  </u-scaffold-pane>
+</u-scaffold>
