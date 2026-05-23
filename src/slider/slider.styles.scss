@@ -1,0 +1,274 @@
+@use "../../scss/functions";
+@use "../../scss/mixins";
+
+// M3 Expressive slider tokens — see _md-comp-slider.scss upstream.
+// The "size" variants follow the M3 expressive size scale (xs/s/m/l/xl).
+:host {
+  --_track-height: var(--u-slider-track-height, 16px);                          // md.comp.slider.{active,inactive}.track.height
+  --_handle-width: var(--u-slider-handle-width, 4px);                           // md.comp.slider.active.handle.width
+  --_handle-height: var(--u-slider-handle-height, 44px);                        // md.comp.slider.active.handle.height
+  --_handle-gap: var(--u-slider-handle-gap, 6px);                               // md.comp.slider.active.handle.{leading,trailing}-space
+  --_pressed-handle-width: var(--u-slider-pressed-handle-width, 2px);           // md.comp.slider.pressed.handle.width
+  --_inner-corner: var(--u-slider-inner-corner, 2px);                           // md.comp.slider.active.track.inner-corner.corner-size
+  --_state-layer-size: var(--u-slider-state-layer-size, 40px);
+  --_stop-indicator-size: var(--u-slider-stop-indicator-size, 4px);             // md.comp.slider.stop-indicator.size
+  --_stop-indicator-trailing-space: var(--u-slider-stop-indicator-space, 2px);  // 4px from container edge (track has 2px outer inset)
+  --_value-indicator-size: var(--u-slider-value-indicator-size, 44px);
+  --_value-indicator-gap: var(--u-slider-value-indicator-gap, 12px);            // md.comp.slider.value-indicator.active.bottom-space
+
+  --_active-color: var(--u-slider-active-color, #{functions.get-color-var(primary)});
+  --_inactive-color: var(--u-slider-inactive-color, #{functions.get-color-var(secondary-container)});
+  --_handle-color: var(--u-slider-handle-color, #{functions.get-color-var(primary)});
+  --_value-indicator-bg: var(--u-slider-value-indicator-bg, #{functions.get-color-var(inverse-surface)});
+  --_value-indicator-color: var(--u-slider-value-indicator-color, #{functions.get-color-var(on-inverse-surface)});
+  --_stop-indicator-active-color: var(--u-slider-stop-indicator-active-color, #{functions.get-color-var(on-primary)});
+  --_stop-indicator-inactive-color: var(--u-slider-stop-indicator-inactive-color, #{functions.get-color-var(on-secondary-container)});
+  --_tick-active-color: var(--u-slider-tick-active-color, #{functions.get-color-var(on-primary)});
+  --_tick-inactive-color: var(--u-slider-tick-inactive-color, #{functions.get-color-var(on-secondary-container)});
+  --_disabled-opacity: var(--u-slider-disabled-opacity, .38);
+
+  display: block;
+  position: relative;
+  width: 100%;
+  height: max(var(--_handle-height), var(--_state-layer-size));
+  touch-action: none;
+  --_typo: label-l;
+}
+
+// Size variants. Track and handle scale together.
+:host([size="extra-small"]) {
+  --_track-height: 16px;
+  --_handle-height: 44px;
+  --_state-layer-size: 40px;
+  --_value-indicator-size: 44px;
+  --_typo: label-l;
+}
+
+:host([size="small"]) {
+  --_track-height: 24px;
+  --_handle-height: 52px;
+  --_state-layer-size: 48px;
+  --_value-indicator-size: 48px;
+  --_typo: label-l;
+}
+
+:host([size="medium"]) {
+  --_track-height: 40px;
+  --_handle-height: 64px;
+  --_state-layer-size: 56px;
+  --_value-indicator-size: 56px;
+  --_handle-width: 6px;
+  --_pressed-handle-width: 4px;
+  --_typo: title-m;
+}
+
+:host([size="large"]) {
+  --_track-height: 56px;
+  --_handle-height: 80px;
+  --_state-layer-size: 68px;
+  --_value-indicator-size: 64px;
+  --_handle-width: 6px;
+  --_pressed-handle-width: 4px;
+  --_typo: title-m;
+}
+
+:host([size="extra-large"]) {
+  --_track-height: 96px;
+  --_handle-height: 120px;
+  --_state-layer-size: 96px;
+  --_value-indicator-size: 80px;
+  --_handle-width: 8px;
+  --_pressed-handle-width: 6px;
+  --_typo: title-l;
+}
+
+:host([disabled]) {
+  opacity: var(--_disabled-opacity);
+  pointer-events: none;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  // Reserve room on the sides for the visible handle only. The state-layer is allowed
+  // to overflow so the active track fills the full width visually.
+  padding-inline: calc(var(--_handle-width) / 2);
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+:host([disabled]) .container {
+  cursor: default;
+}
+
+.track {
+  position: absolute;
+  inset-block: 50%;
+  inset-inline: calc(var(--_handle-width) / 2);
+  transform: translateY(-50%);
+  height: var(--_track-height);
+  pointer-events: none;
+}
+
+.segment {
+  position: absolute;
+  inset-block: 0;
+  border-radius: calc(var(--_track-height) / 2);
+}
+
+.segment.inactive {
+  background-color: var(--_inactive-color);
+}
+
+.segment.active {
+  background-color: var(--_active-color);
+}
+
+.stop-indicator {
+  position: absolute;
+  top: 50%;
+  inset-inline-end: var(--_stop-indicator-trailing-space);
+  width: var(--_stop-indicator-size);
+  height: var(--_stop-indicator-size);
+  border-radius: 50%;
+  background-color: var(--_stop-indicator-inactive-color);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.stop-indicator.leading {
+  inset-inline-start: var(--_stop-indicator-trailing-space);
+  inset-inline-end: auto;
+}
+
+.container:not(.range) .stop-indicator.leading {
+  background-color: var(--_stop-indicator-active-color);
+}
+
+.ticks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.tick {
+  position: absolute;
+  top: 50%;
+  width: var(--_stop-indicator-size);
+  height: var(--_stop-indicator-size);
+  border-radius: 50%;
+  background-color: var(--_tick-inactive-color);
+  transform: translate(-50%, -50%);
+}
+
+.tick.active {
+  background-color: var(--_tick-active-color);
+}
+
+.tick.in-gap {
+  opacity: 0;
+}
+
+// Native range inputs are kept for keyboard navigation, form association and a11y.
+// They sit BEFORE the thumbs in the DOM so sibling selectors can drive the focus ring.
+// Pointer interaction is handled at the container level (see slider.ts) — the inputs
+// are pointer-events:none so they never compete with our manual hit-testing.
+input.native {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+  opacity: 0;
+  pointer-events: none;
+}
+
+input.native::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: var(--_state-layer-size);
+  height: var(--_state-layer-size);
+  border-radius: 50%;
+  background: transparent;
+  border: 0;
+}
+
+input.native::-moz-range-thumb {
+  width: var(--_state-layer-size);
+  height: var(--_state-layer-size);
+  border-radius: 50%;
+  background: transparent;
+  border: 0;
+}
+
+// Handle. Vertically centered, horizontally positioned via inset-inline-start in the template.
+// The handle width stays constant on press — the M3 expressive "narrow on press" effect causes
+// a visible jiggle around the bar segments, which the project intentionally avoids.
+.thumb {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--_handle-width);
+  height: var(--_handle-height);
+  background-color: var(--_handle-color);
+  border-radius: calc(var(--_handle-width) / 2);
+  pointer-events: none;
+}
+
+// Keyboard focus ring. A capsule-shaped outline that hugs the handle with a 4dp gap.
+// Visible only when the associated input is :focus-visible (i.e. focus came from the keyboard).
+.focus-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(var(--_handle-width) + 8px);
+  height: calc(var(--_handle-height) + 8px);
+  border-radius: calc((var(--_handle-width) + 8px) / 2);
+  transform: translate(-50%, -50%);
+  outline: 2px solid var(--_focus-ring-color);
+  outline-offset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease-out;
+}
+
+// Single mode: any input that's keyboard-focused lights up the only thumb's ring.
+input.native:focus-visible ~ .thumb .focus-ring { opacity: 1; }
+
+// Range mode: associate each input with its thumb by ID.
+#input:focus-visible ~ .thumb-start .focus-ring { opacity: 1; }
+#input-end:focus-visible ~ .thumb-end .focus-ring { opacity: 1; }
+// And suppress the generic single-mode rule when range mode applies.
+.container.range #input:focus-visible ~ .thumb-end .focus-ring,
+.container.range #input-end:focus-visible ~ .thumb-start .focus-ring { opacity: 0; }
+
+// Value indicator. Large pill bubble shown above the active handle while dragging.
+.value-indicator {
+  position: absolute;
+  bottom: calc(100% + var(--_value-indicator-gap));
+  left: 50%;
+  min-width: var(--_value-indicator-size);
+  height: var(--_value-indicator-size);
+  padding: 0 12px;
+  border-radius: calc(var(--_value-indicator-size) / 2);
+  background-color: var(--_value-indicator-bg);
+  color: var(--_value-indicator-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+:host { .value-indicator { @include mixins.typo(label-l); } }
+:host([size="small"]) .value-indicator { @include mixins.typo(label-l); }
+:host([size="medium"]) .value-indicator,
+:host([size="large"]) .value-indicator { @include mixins.typo(title-m); }
+:host([size="extra-large"]) .value-indicator { @include mixins.typo(title-l); }

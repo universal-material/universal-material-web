@@ -1,0 +1,61 @@
+@use "../../scss/functions";
+@use "../../scss/mixins";
+
+:host {
+  display: block;
+  position: relative;
+  background-color: var(--u-expansion-panel-bg-color, #{functions.get-color-var(surface-container-low)});
+  color: var(--u-expansion-panel-color, #{functions.get-color-var(on-surface)});
+  border-radius: var(--u-expansion-panel-shape-corner, #{functions.get-shape-corner-var(medium)});
+  overflow: hidden;
+}
+
+.header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--u-expansion-panel-header-gap, .75rem);
+  padding: var(--u-expansion-panel-header-padding, .75rem 1rem);
+  min-height: var(--u-expansion-panel-header-min-height, 3rem);
+  cursor: pointer;
+  user-select: none;
+  @include mixins.typo(title-m);
+}
+
+:host([disabled]) .header {
+  cursor: default;
+  color: #{functions.get-color-transparency-mix(functions.get-color-var(on-surface), 38%)};
+}
+
+.header-content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.chevron {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--u-expansion-panel-chevron-color, #{functions.get-color-var(on-surface-variant)});
+  transition: transform 200ms ease-out;
+}
+
+:host([expanded]) .chevron {
+  transform: rotate(180deg);
+}
+
+.body {
+  border-top: 1px solid transparent;
+  transition: border-color 200ms ease-out;
+}
+
+:host([expanded]) .body {
+  border-top-color: var(--u-expansion-panel-divider-color, #{functions.get-color-var(outline-variant)});
+}
+
+::slotted([slot="header"]) {
+  display: block;
+}

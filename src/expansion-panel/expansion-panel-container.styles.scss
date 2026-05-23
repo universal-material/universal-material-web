@@ -1,0 +1,7 @@
+@use "../../scss/functions";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--u-expansion-panel-container-gap, .5rem);
+}

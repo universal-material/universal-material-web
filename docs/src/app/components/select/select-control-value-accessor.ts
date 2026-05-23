@@ -1,5 +1,5 @@
 import { Directive, ElementRef, forwardRef, Host, Optional, Provider, Renderer2 } from '@angular/core';
-import { NG_VALUE_ACCESSOR, NgSelectOption, SelectControlValueAccessor } from '@angular/forms';
+import { NG_VALUE_ACCESSOR, NgSelectOption, SelectControlValueAccessor as NgSelectControlValueAccessor } from '@angular/forms';
 
 const SELECT_VALUE_ACCESSOR: Provider = {
   provide: NG_VALUE_ACCESSOR,
@@ -11,7 +11,7 @@ const SELECT_VALUE_ACCESSOR: Provider = {
   selector: 'u-select[ngModel],u-select[formControlName],u-select[formControl]',
   providers: [SELECT_VALUE_ACCESSOR],
 })
-export class SelectControlValueAccessor extends SelectControlValueAccessor {
+export class SelectControlValueAccessor extends NgSelectControlValueAccessor {
   // #mutationObserver: MutationObserver;
 
   constructor(_element: ElementRef,

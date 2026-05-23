@@ -38,6 +38,10 @@ export const routes: Routes = [
     loadComponent: () => import('@docs/components/chip-field/chip-field.component').then(m => m.ChipFieldComponent)
   },
   {
+    path: 'components/collapse',
+    loadComponent: () => import('@docs/components/collapse/collapse.component').then(m => m.CollapseComponent)
+  },
+  {
     path: 'components/common-buttons',
     loadComponent: () => import('@docs/components/common-buttons/common-buttons.component').then(m => m.CommonButtonsComponent)
   },

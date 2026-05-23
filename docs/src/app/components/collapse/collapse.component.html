@@ -1,0 +1,31 @@
+<docs-title title="Collapse">Animates an element's height between its natural content size and zero. Toggle the <code>open</code> attribute to play the animation.</docs-title>
+
+<docs-example
+  sectionTitle="Usage"
+  [renderExample]="false"
+  [html]="usageHtml"
+>Set <code>open</code> on the host to expand, remove it to collapse. The component measures its slotted content with a <code>ResizeObserver</code>, so dynamic content stays in sync.
+  <div example>
+    <u-button variant="filled" (click)="open = !open">{{ open ? 'Collapse' : 'Expand' }}</u-button>
+    <u-collapse [open]="open">
+      <p>Mauris sit amet ligula sit amet erat porttitor finibus. Suspendisse rutrum massa eget magna porta lobortis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.</p>
+    </u-collapse>
+  </div>
+</docs-example>
+
+<docs-example
+  sectionTitle="Inside a card"
+  [renderExample]="false"
+  [html]="insideCardHtml"
+>Compose <code>u-collapse</code> with other surfaces to build reveal-on-demand patterns.
+  <div example>
+    <u-card variant="outlined" style="padding: 1rem; max-width: 24rem;">
+      <u-button variant="text" (click)="cardOpen = !cardOpen">Show details</u-button>
+      <u-collapse [open]="cardOpen">
+        <div style="padding-top: .5rem;">Use <code>u-collapse</code> as a building block whenever you need a reveal-on-demand animation that respects the slotted content's natural height.</div>
+      </u-collapse>
+    </u-card>
+  </div>
+</docs-example>
+
+<docs-apis-table key="collapse"></docs-apis-table>

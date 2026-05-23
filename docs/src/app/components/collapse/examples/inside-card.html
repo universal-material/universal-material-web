@@ -1,0 +1,15 @@
+<u-card variant="outlined" style="padding: 1rem; max-width: 24rem;">
+  <u-button variant="text" id="details-toggle">Show details</u-button>
+  <u-collapse id="details">
+    <div style="padding-top: .5rem;">
+      Use <code>u-collapse</code> as a building block whenever you need a
+      reveal-on-demand animation.
+    </div>
+  </u-collapse>
+</u-card>
+
+<script type="module">
+  const btn = document.getElementById('details-toggle');
+  const collapse = document.getElementById('details');
+  btn.addEventListener('click', () => { collapse.open = !collapse.open; });
+</script>

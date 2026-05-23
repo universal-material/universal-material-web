@@ -1,0 +1,13 @@
+<u-button variant="filled" id="toggle">Expand</u-button>
+<u-collapse id="demo">
+  <p>Mauris sit amet ligula sit amet erat porttitor finibus. Suspendisse rutrum massa eget magna porta lobortis.</p>
+</u-collapse>
+
+<script type="module">
+  const btn = document.getElementById('toggle');
+  const collapse = document.getElementById('demo');
+  btn.addEventListener('click', () => {
+    collapse.open = !collapse.open;
+    btn.textContent = collapse.open ? 'Collapse' : 'Expand';
+  });
+</script>
