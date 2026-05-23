@@ -4,20 +4,17 @@
 // Section header inside the expanded navigation rail. Slotted into
 // `u-navigation-rail slot="expanded"`.
 //
-// The headline text aligns with the items' content start: the item's pill
-// has 16dp leading from the rail edge (full-width.leading-space) and 16dp
-// internal padding before the icon (active-indicator.leading-space), so
-// the headline padding-inline mirrors that total (32dp) to keep both the
-// headline text and the item icon on the same vertical guideline.
+// The headline text aligns with the icon inside the item pill. The parent
+// `.rail-items-expanded` already pads its inline-start by the rail's
+// `full-width.leading-space` (16dp), so the headline only needs the pill's
+// internal `active-indicator-leading-space` (16dp) to land on the same
+// vertical guideline as the icon.
 
 :host {
   display: block;
   padding-inline: var(
     --u-nav-rail-headline-padding-inline,
-    calc(
-      var(--u-nav-rail-item-horizontal-full-width-leading-space, 16px) +
-      var(--u-nav-rail-item-active-indicator-leading-space, 16px)
-    )
+    var(--u-nav-rail-item-active-indicator-leading-space, 16px)
   );
   padding-block: var(--u-nav-rail-headline-padding-block, 20px 8px);
 }

@@ -44,9 +44,14 @@
 
 :host {
   display: flex;
-  width: 100%;
   --_nav-rail-item-icon-size: var(--u-nav-rail-item-icon-size, 24px);
   --_nav-rail-item-state-layer-color: var(--u-nav-rail-item-state-layer-color, #{functions.get-color-var(on-secondary-container)});
+}
+
+// Collapsed (vertical) variant fills the 96dp bar's width — clicks on the
+// whole tile still navigate, matching the M3 spec for that layout.
+:host(:not([variant=expanded])) {
+  width: 100%;
 }
 
 .container {
@@ -63,6 +68,12 @@
   align-items: center;
   justify-content: center;
   width: 100%;
+  // The visual content (active indicator, icon, label) sits above the
+  // absolutely-positioned button because .active-indicator establishes its
+  // own paint layer via overflow: hidden. Letting events pass through here
+  // ensures the button below catches them, so the cursor stays `pointer`
+  // and the label text isn't selectable.
+  pointer-events: none;
 }
 
 .active-indicator {
@@ -153,23 +164,33 @@
 //     (16dp from the common item tokens) offsets the icon/label from the
 //     pill's edges.
 :host([variant=expanded]) {
+  // The host shrinks to the pill width — the 16dp leading space the spec
+  // calls for lives on the parent `.rail-items-expanded` instead, so clicks
+  // outside the pill don't hit the host at all. Using `fit-content` keeps
+  // the host content-sized while letting sibling slotted elements (dividers,
+  // brand footers, etc.) still stretch to the parent's content width.
+  //
+  // The container drives the height (via min-height + padding-block); the
+  // content + pill stretch to fill it so the active-indicator follows the
+  // container dynamically — no hardcoded pill height.
+  width: fit-content;
+  max-width: 100%;
   .content {
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    padding-inline: var(--u-nav-rail-item-horizontal-full-width-leading-space, 16px)
-                    var(--u-nav-rail-item-horizontal-full-width-trailing-space, 16px);
+    align-self: stretch;
   }
 
   .active-indicator {
     flex: 0 0 auto;
     flex-direction: row;
     justify-content: flex-start;
-    height: var(--u-nav-rail-item-horizontal-active-indicator-height, 56px);
     padding-inline: var(--u-nav-rail-item-active-indicator-leading-space, 16px)
                     var(--u-nav-rail-item-active-indicator-trailing-space, 16px);
     gap: var(--u-nav-rail-item-horizontal-icon-label-space, 8px);
     max-width: 100%;
+    align-self: stretch;
   }
 
   .container {
