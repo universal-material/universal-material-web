@@ -80,6 +80,13 @@ export class DrawerItem extends ButtonWrapper {
 
     if (sideNavigation) {
       sideNavigation.toggleDrawer = false;
+      return;
+    }
+
+    const navigationRail = this.closest('u-navigation-rail');
+
+    if (navigationRail) {
+      navigationRail.toggleDrawer = false;
     }
   }
 }

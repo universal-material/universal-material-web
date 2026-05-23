@@ -1,0 +1,28 @@
+@use '../../scss/functions';
+@use '../../scss/mixins';
+
+// Section header inside the expanded navigation rail. Slotted into
+// `u-navigation-rail slot="expanded"`.
+//
+// The headline text aligns with the items' content start: the item's pill
+// has 16dp leading from the rail edge (full-width.leading-space) and 16dp
+// internal padding before the icon (active-indicator.leading-space), so
+// the headline padding-inline mirrors that total (32dp) to keep both the
+// headline text and the item icon on the same vertical guideline.
+
+:host {
+  display: block;
+  padding-inline: var(
+    --u-nav-rail-headline-padding-inline,
+    calc(
+      var(--u-nav-rail-item-horizontal-full-width-leading-space, 16px) +
+      var(--u-nav-rail-item-active-indicator-leading-space, 16px)
+    )
+  );
+  padding-block: var(--u-nav-rail-headline-padding-block, 16px 8px);
+}
+
+.container {
+  @include mixins.typo(title-s, nav-rail-headline);
+  color: var(--u-nav-rail-headline-color, #{functions.get-color-var(on-surface-variant)});
+}

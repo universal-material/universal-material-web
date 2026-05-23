@@ -1,0 +1,48 @@
+<u-navigation-rail id="rail-expanded-only" style="height: 480px; border: 1px solid var(--u-color-outline-variant, rgba(0,0,0,.12)); border-radius: 12px; overflow: hidden;">
+  <!-- No slot="rail" — at medium the rail won't have a permanent collapsed
+       bar; only the expanded modal opens via the menu button. -->
+
+  <u-navigation-rail-headline slot="expanded">Mail</u-navigation-rail-headline>
+  <u-navigation-rail-item slot="expanded" active>
+    <span class="material-symbols-outlined" slot="icon">inbox</span>
+    Inbox
+  </u-navigation-rail-item>
+  <u-navigation-rail-item slot="expanded">
+    <span class="material-symbols-outlined" slot="icon">send</span>
+    Outbox
+  </u-navigation-rail-item>
+  <u-navigation-rail-item slot="expanded">
+    <span class="material-symbols-outlined" slot="icon">star</span>
+    Starred
+  </u-navigation-rail-item>
+  <u-navigation-rail-item slot="expanded">
+    <span class="material-symbols-outlined" slot="icon">delete</span>
+    Trash
+  </u-navigation-rail-item>
+
+  <u-navigation-rail-headline slot="expanded">Labels</u-navigation-rail-headline>
+  <u-navigation-rail-item slot="expanded">
+    <span class="material-symbols-outlined" slot="icon">label</span>
+    Personal
+  </u-navigation-rail-item>
+  <u-navigation-rail-item slot="expanded">
+    <span class="material-symbols-outlined" slot="icon">label</span>
+    Work
+  </u-navigation-rail-item>
+
+  <u-scaffold>
+    <u-top-app-bar slot="top-bar" headline="Mail">
+      <u-icon-button slot="leading-icon" onclick="const r = this.closest('u-navigation-rail'); r.toggleDrawer = !r.toggleDrawer;">
+        <span class="material-symbols-outlined">menu</span>
+      </u-icon-button>
+    </u-top-app-bar>
+
+    <div style="padding: 16px 24px;">
+      <p>Omit <code>slot="rail"</code> and only fill <code>slot="expanded"</code> when you don't want a permanent collapsed bar at medium widths. Behaviour:</p>
+      <ul>
+        <li><strong>&lt; 840px</strong> and <strong>840–1199px</strong>: nothing is visible until the user opens the menu — the expanded panel then slides in modally with a scrim.</li>
+        <li><strong>≥ 1200px</strong>: the expanded panel is the permanent sidebar. The menu button slides it off, leaving the page content full-width.</li>
+      </ul>
+    </div>
+  </u-scaffold>
+</u-navigation-rail>

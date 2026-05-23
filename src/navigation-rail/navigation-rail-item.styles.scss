@@ -1,0 +1,244 @@
+@use '../../scss/functions';
+@use '../../scss/mixins';
+
+// Material 3 — md.comp.nav-rail.item.* tokens (M3 Expressive)
+// References:
+//   https://m3.material.io/components/navigation-rail/specs
+//   tokens/_md-comp-nav-rail.scss
+//   tokens/_md-comp-nav-rail-item.scss
+//   tokens/_md-comp-nav-rail-item-vertical.scss
+//   tokens/_md-comp-nav-rail-item-horizontal.scss
+//
+// Common (md.comp.nav-rail):
+//   item.active.icon.color                 = on-secondary-container
+//   item.active.label-text.color           = secondary
+//   item.active.indicator.color            = secondary-container
+//   item.inactive.icon.color               = on-surface-variant
+//   item.inactive.label-text.color         = on-surface-variant
+//   item.{active,inactive}.{hover,focus,pressed}.state-layer.color
+//                                          = on-secondary-container
+//   hover.state-layer.opacity              = 8%
+//   focus.state-layer.opacity              = 10%
+//   pressed.state-layer.opacity            = 10%
+//
+// Item common (md.comp.nav-rail-item):
+//   container-height                       = 64px (default) / 56px (short)
+//   container-vertical-space               = 6px
+//   icon-size                              = 24px
+//   active-indicator-shape                 = corner-full
+//
+// Vertical / collapsed item (md.comp.nav-rail-item-vertical):
+//   active-indicator-height                = 32px
+//   active-indicator-width                 = 56px
+//   icon-label-space                       = 4px
+//   leading-space / trailing-space         = 16px
+//   label-text typography                  = label-medium
+//
+// Horizontal / expanded item (md.comp.nav-rail-item-horizontal):
+//   active-indicator-height                = 56px
+//   full-width.leading-space               = 16px
+//   full-width.trailing-space              = 16px
+//   icon-label-space                       = 8px
+//   label-text typography                  = label-large
+//   active.label-text.weight               = label-large-weight-prominent (700)
+
+:host {
+  display: flex;
+  width: 100%;
+  --_nav-rail-item-icon-size: var(--u-nav-rail-item-icon-size, 24px);
+  --_nav-rail-item-state-layer-color: var(--u-nav-rail-item-state-layer-color, #{functions.get-color-var(on-secondary-container)});
+}
+
+.container {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  color: var(--u-nav-rail-item-inactive-text-color, #{functions.get-color-var(on-surface-variant)});
+}
+
+.content {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.active-indicator {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  border-radius: var(--u-nav-rail-item-active-indicator-shape, #{functions.get-shape-corner-var(full)});
+  transition: background-color 150ms;
+  overflow: hidden;
+}
+
+// M3 state-layer overlay confined to the pill (not the full square).
+.active-indicator::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: var(--_nav-rail-item-state-layer-color);
+  opacity: 0;
+  transition: opacity 150ms;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@media (hover: hover) {
+  :host(:not([disabled]):hover) .active-indicator::before {
+    opacity: var(--u-state-hover-opacity, .08);
+  }
+}
+
+:host(:not([disabled])) .button:focus-visible ~ .content .active-indicator::before {
+  opacity: var(--u-state-focus-opacity, .10);
+}
+
+:host(:not([disabled])) .button:active ~ .content .active-indicator::before {
+  opacity: var(--u-state-pressed-opacity, .10);
+}
+
+// u-ripple lives INSIDE the active-indicator so the ripple animation is
+// clipped to the pill shape. Pointer events from the full container are
+// forwarded to it via JS (see NavigationRailItem.#handlePill*).
+.pill-ripple {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 0;
+  pointer-events: none;
+  // Match M3 state-layer color so the click ripple stays on-spec.
+  --u-ripple-pressed-color: var(--_nav-rail-item-state-layer-color);
+  --u-ripple-hover-color: transparent; // state layer above handles hover
+}
+
+// ---------------- Collapsed (vertical) ----------------
+:host(:not([variant=expanded])) {
+  .content {
+    flex-direction: column;
+    gap: var(--u-nav-rail-item-vertical-icon-label-space, 4px);
+  }
+
+  .active-indicator {
+    width: var(--u-nav-rail-item-vertical-active-indicator-width, 56px);
+    height: var(--u-nav-rail-item-vertical-active-indicator-height, 32px);
+  }
+
+  .container {
+    min-height: var(--u-nav-rail-item-container-height, 64px);
+    padding-block: var(--u-nav-rail-item-vertical-padding-block, 4px);
+    padding-inline: var(--u-nav-rail-item-vertical-leading-space, 16px) var(--u-nav-rail-item-vertical-trailing-space, 16px);
+  }
+
+  .label {
+    @include mixins.typo(label-m, nav-rail-item-label);
+    letter-spacing: var(--u-nav-rail-item-label-letter-spacing, 0.5px);
+  }
+}
+
+// ---------------- Expanded (horizontal) ----------------
+// Per M3 spec, the expanded rail item:
+//   - Click target spans the full rail width (handled by the
+//     ButtonWrapper-rendered .button that fills .container).
+//   - The visible pill (.active-indicator) is content-based — it hugs the
+//     icon + label, it does NOT stretch to the rail edges.
+//   - The pill is aligned to the leading edge with `full-width.leading-space`
+//     (16dp) from the rail container edge. Trailing space is "free" so the
+//     pill width depends on the label length.
+//   - Inside the pill, `active-indicator-leading-space`/`trailing-space`
+//     (16dp from the common item tokens) offsets the icon/label from the
+//     pill's edges.
+:host([variant=expanded]) {
+  .content {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding-inline: var(--u-nav-rail-item-horizontal-full-width-leading-space, 16px)
+                    var(--u-nav-rail-item-horizontal-full-width-trailing-space, 16px);
+  }
+
+  .active-indicator {
+    flex: 0 0 auto;
+    flex-direction: row;
+    justify-content: flex-start;
+    height: var(--u-nav-rail-item-horizontal-active-indicator-height, 56px);
+    padding-inline: var(--u-nav-rail-item-active-indicator-leading-space, 16px)
+                    var(--u-nav-rail-item-active-indicator-trailing-space, 16px);
+    gap: var(--u-nav-rail-item-horizontal-icon-label-space, 8px);
+    max-width: 100%;
+  }
+
+  .container {
+    justify-content: flex-start;
+    min-height: var(--u-nav-rail-item-container-height, 64px);
+    padding-block: var(--u-nav-rail-item-expanded-padding-block, 2px);
+  }
+
+  .label {
+    @include mixins.typo(label-l, nav-rail-item-label-expanded);
+    text-align: start;
+  }
+}
+
+.icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_nav-rail-item-icon-size);
+  height: var(--_nav-rail-item-icon-size);
+  font-size: var(--_nav-rail-item-icon-size);
+  line-height: 1;
+  color: var(--u-nav-rail-item-inactive-icon-color, #{functions.get-color-var(on-surface-variant)});
+  flex: 0 0 auto;
+  z-index: 2; // above the state-layer & ripple inside the pill
+}
+
+.label {
+  color: var(--u-nav-rail-item-inactive-label-color, #{functions.get-color-var(on-surface-variant)});
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  z-index: 2;
+}
+
+.container:not(.has-label) .label,
+.container:not(.has-icon) .icon {
+  display: none;
+}
+
+// ---------------- Active state ----------------
+// Per M3 nav-rail spec, the active label color differs by orientation:
+//   - vertical (collapsed): secondary
+//   - horizontal (expanded): on-secondary-container
+:host(.active),
+:host([active]) {
+  .container .active-indicator {
+    background-color: var(--u-nav-rail-item-active-indicator-color, #{functions.get-color-var(secondary-container)});
+  }
+
+  .container .icon {
+    color: var(--u-nav-rail-item-active-icon-color, #{functions.get-color-var(on-secondary-container)});
+  }
+
+  .container .label {
+    // Per M3: active label uses the "prominent" weight (700).
+    font-weight: var(--u-nav-rail-item-active-label-weight, #{functions.get-font-weight-var(bold)});
+  }
+}
+
+:host(.active:not([variant=expanded])) .container .label,
+:host([active]:not([variant=expanded])) .container .label {
+  color: var(--u-nav-rail-item-vertical-active-label-color, #{functions.get-color-var(secondary)});
+}
+
+:host(.active[variant=expanded]) .container .label,
+:host([active][variant=expanded]) .container .label {
+  color: var(--u-nav-rail-item-horizontal-active-label-color, #{functions.get-color-var(on-secondary-container)});
+}

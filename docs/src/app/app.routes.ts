@@ -14,6 +14,10 @@ export const routes: Routes = [
     loadComponent: () => import('@docs/components/navigation-bar/navigation-bar.component').then(m => m.NavigationBarComponent)
   },
   {
+    path: 'components/navigation-rail',
+    loadComponent: () => import('@docs/components/navigation-rail/navigation-rail.component').then(m => m.NavigationRailComponent)
+  },
+  {
     path: 'components/button-set',
     loadComponent: () => import('@docs/components/button-set/button-set.component').then(m => m.ButtonSetComponent)
   },

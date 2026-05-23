@@ -38,7 +38,7 @@ const buildApis = cb => {
       }
 
       const className = classDeclaration.getName();
-      const apiName = `${className[2].toLowerCase()}${className.slice(3)}`;
+      const apiName = `${className[0].toLowerCase()}${className.slice(1)}`;
       apis[apiName] = classInfo;
     }
   }

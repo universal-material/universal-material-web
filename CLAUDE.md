@@ -14,6 +14,19 @@ Components are not done when the build passes or the diagnostic prints look righ
 
 If a measurement comes back slightly off (e.g. `0.667px` letter-spacing when the spec says `0.5px`), **fix it** — don't shrug it off as "close enough".
 
+## Mandatory: read the M3 spec before any component work
+
+Before creating, modifying, or auditing a component, **read its Material 3 spec page first** at `https://m3.material.io/components/<component-name>/specs`. The spec page is the ground truth — token files alone aren't enough because some details (anatomy slots, contextual behaviors like "active label color differs between vertical and horizontal variants", FAB/menu positioning, expanded vs collapsed layouts) live in the prose and diagrams, not in the token names.
+
+How to read it:
+- The page is JS-rendered, so `curl`/`WebFetch` returns almost nothing — open it in the connected Chrome browser (e.g. `mcp__Claude_in_Chrome__navigate` + `get_page_text`) instead.
+- Capture the **Anatomy** section (which slots/parts the component supports).
+- Capture every dimension, color role and typography token listed under **Tokens & specs**, **Color**, **Measurements**, **States** and **Configurations** — including any "X (variantA), Y (variantB)" notes that signal context-dependent values.
+- Then fetch the matching SCSS token files under [`tokens/versions/latest/sass/`](https://github.com/material-components/material-web/tree/main/tokens/versions/latest/sass) to get the exact numeric values. For multi-file components (rail, drawer, etc.) fetch every related file — e.g. `_md-comp-nav-rail.scss`, `_md-comp-nav-rail-collapsed.scss`, `_md-comp-nav-rail-expanded.scss`, `_md-comp-nav-rail-item.scss`, `_md-comp-nav-rail-item-vertical.scss`, `_md-comp-nav-rail-item-horizontal.scss`.
+- Cross-check against the spec page: if the page says "active label color is `secondary` (vertical) / `on-secondary-container` (horizontal)" and you only see one token in the SCSS file, the variant overrides live in the variant-specific token files. Apply both.
+
+Skipping the spec page and using only the token files leads to drawer-style implementations of rail components, missing variant-specific colors, and other subtle but visible deviations.
+
 ## Commit messages
 
 Write commit messages **in English**, even when chatting in Portuguese. Use imperative mood ("Add navigation bar item variants", not "Added" or "Adds"), reference the affected component/area, and keep the subject under ~70 chars. The body, when needed, explains *why* — not what (the diff already shows the what).

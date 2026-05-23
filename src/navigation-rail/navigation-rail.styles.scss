@@ -1,0 +1,269 @@
+@use "../../scss/variables";
+@use "../../scss/functions";
+@use "../../scss/mixins";
+
+// Material 3 — md.comp.nav-rail-* tokens (M3 Expressive)
+// References:
+//   https://m3.material.io/components/navigation-rail/specs
+//   tokens/_md-comp-nav-rail-collapsed.scss
+//   tokens/_md-comp-nav-rail-expanded.scss
+//
+// Two-aside architecture (mirroring u-side-navigation):
+//   .rail            — always-visible 96dp collapsed bar at the leading
+//                      edge (pinned, never animates).
+//   .rail-expanded   — the slide-in panel (modal at mobile/medium,
+//                      permanent at large). Animates `inset-inline-start`
+//                      from `-expanded-width` (hidden) to `0` (visible).
+
+:host {
+  --_nav-rail-width: var(--u-nav-rail-width, 96px);
+  --_nav-rail-expanded-width: clamp(
+    var(--u-nav-rail-expanded-width-minimum, 220px),
+    var(--u-nav-rail-expanded-width, 360px),
+    var(--u-nav-rail-expanded-width-maximum, 360px)
+  );
+  --_nav-rail-expanded-width-negative: calc(var(--_nav-rail-expanded-width) * -1);
+  --_navigation-width: 0;
+  --_scrim-opacity: var(--u-drawer-scrim-opacity, .4);
+
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  --u-app-bar-offset: var(--_navigation-width);
+}
+
+:host(.disable-transition) * {
+  transition: none !important;
+}
+
+// .grid reserves the column the permanently-visible rail occupies. Modal
+// expansion at mobile/medium does NOT reserve extra column space — the
+// expanded modal overlays the content.
+.grid {
+  display: grid;
+  grid-template-columns: var(--_navigation-width) minmax(0, 1fr);
+  transition: grid-template-columns 375ms variables.$awesome-cubic-bezier;
+  width: 100%;
+  height: 100%;
+
+  --u-app-bar-offset: var(--_navigation-width);
+}
+
+.rail-column {
+  height: 100%;
+}
+
+.content {
+  height: 100%;
+  min-width: 0;
+}
+
+// ----------------- Collapsed rail (always 96dp, pinned) -----------------
+// Hidden by default; revealed by the breakpoint rules below. Hosts the
+// rail-top/rail-bottom edge slots so they appear in every state where the
+// collapsed bar is visible (md permanent, lg permanent fallback, lg+toggle).
+.rail {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  width: var(--_nav-rail-width);
+  height: 100%;
+  background-color: var(--u-nav-rail-container-color, #{functions.get-color-var(surface)});
+  color: var(--u-nav-rail-text-color, #{functions.get-color-var(on-surface)});
+  overflow: hidden;
+  z-index: var(--u-nav-rail-z-index, 1030);
+}
+
+.rail-items {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--u-nav-rail-item-vertical-space, 4px);
+  padding-block: 0 var(--u-nav-rail-vertical-trailing-space, 20px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+// When neither rail-top nor rail-bottom is slotted, the items still need
+// the 44dp/20dp top/bottom spacing.
+:host(:not([has-rail-top])) .rail-items {
+  padding-block-start: var(--u-nav-rail-top-space, 44px);
+}
+
+:host(:not([has-rail-bottom])) .rail-items {
+  padding-block-end: var(--u-nav-rail-vertical-trailing-space, 20px);
+}
+
+// ----------------- Expanded rail (slide-in panel) -----------------
+// Width fixed; position animates from `-expanded-width` (hidden behind the
+// leading edge) to `0` (visible) — same `inset` transition pattern as
+// u-side-navigation's drawer.
+.rail-expanded {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  inset-inline-start: var(--_nav-rail-expanded-width-negative);
+  inset-block-start: 0;
+  width: var(--_nav-rail-expanded-width);
+  height: 100%;
+  background-color: var(--u-nav-rail-container-color, #{functions.get-color-var(surface)});
+  color: var(--u-nav-rail-text-color, #{functions.get-color-var(on-surface)});
+  overflow: hidden;
+  z-index: calc(var(--u-nav-rail-z-index, 1030) + 1);
+  transition: inset 375ms variables.$awesome-cubic-bezier;
+}
+
+// rail-top / rail-bottom host secondary content (menu, brand, FAB). They
+// live inside the collapsed `.rail` aside so they appear in every state
+// where the collapsed bar is visible. Slotted children keep their intrinsic
+// size — these wrappers don't stretch them. Children are centered in the
+// 96dp collapsed bar; they shift to leading-edge alignment when the rail
+// is expanded (lg expanded permanent).
+.rail-top,
+.rail-bottom {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--u-nav-rail-edge-gap, 4px);
+}
+
+:host([has-rail-top]) .rail-top {
+  display: flex;
+  padding-block-start: var(--u-nav-rail-top-space, 44px);
+  min-height: calc(
+    var(--u-nav-rail-top-space, 44px) +
+    var(--u-nav-rail-header-space-minimum, 40px)
+  );
+}
+
+:host([has-rail-bottom]) .rail-bottom {
+  display: flex;
+  padding-block-end: var(--u-nav-rail-vertical-trailing-space, 20px);
+}
+
+.rail-items-expanded {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--u-nav-rail-expanded-between-item-space, 0);
+  // No top-space on the expanded list — items/headlines provide their own
+  // breathing room and the rail-top (when slotted) already sits above.
+  padding-block: 0 var(--u-nav-rail-vertical-trailing-space, 20px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+}
+
+:host([has-rail-bottom]) .rail-items-expanded {
+  padding-block-end: 0;
+}
+
+:host([has-rail-bottom]) .rail-bottom {
+  padding-block-end: var(--u-nav-rail-vertical-trailing-space, 20px);
+}
+
+// ----------------- Modal scrim -----------------
+.scrim {
+  --_modal-rail-open-progress: 0;
+  position: absolute;
+  inset: 0;
+  background: var(--u-drawer-scrim-color, #{functions.get-color-var(scrim)});
+  pointer-events: none;
+  opacity: calc(var(--_scrim-opacity) * var(--_modal-rail-open-progress));
+  transition: opacity 375ms linear;
+  z-index: var(--u-nav-rail-z-index, 1030);
+}
+
+// ============================================================
+// Mobile (< 840px): rail hidden. Toggle slides expanded in.
+// ============================================================
+:host([toggle-drawer][has-expanded-items]) {
+  .rail-expanded {
+    display: flex;
+    inset-inline-start: 0;
+  }
+
+  .scrim {
+    --_modal-rail-open-progress: 1;
+    pointer-events: auto;
+  }
+}
+
+// At mobile/medium without toggle, the expanded panel still needs to be in
+// the DOM (display: flex) so its slide-out animation can run when the user
+// closes it. Without this, removing the .toggle class would just hide it
+// instantly without animating.
+:host([has-expanded-items]) .rail-expanded {
+  display: flex;
+}
+
+// ============================================================
+// Medium (840–1199px): collapsed permanent. Toggle slides expanded in.
+// ============================================================
+@include mixins.media-breakpoint-only(md) {
+  :host([has-rail-items]) {
+    --_navigation-width: var(--_nav-rail-width);
+  }
+
+  :host([has-rail-items]) .rail {
+    display: flex;
+  }
+}
+
+// ============================================================
+// Large (≥ 1200px): expanded permanent; toggle slides it off.
+// ============================================================
+@include mixins.media-breakpoint-up(lg) {
+  :host,
+  :host([has-rail-items]) {
+    --_navigation-width: var(--_nav-rail-expanded-width);
+  }
+
+  // Without an expanded panel, the collapsed bar becomes the permanent
+  // sidebar at lg (no slide-in panel to fall back to).
+  :host([has-rail-items]:not([has-expanded-items])) {
+    --_navigation-width: var(--_nav-rail-width);
+  }
+
+  // Toggled at lg with rail items: collapse to the 96dp bar.
+  :host([toggle-drawer][has-rail-items]) {
+    --_navigation-width: var(--_nav-rail-width);
+  }
+
+  // Toggled at lg WITHOUT rail items: there's no fallback collapsed bar,
+  // so reclaim the full content width.
+  :host([toggle-drawer]:not([has-rail-items])) {
+    --_navigation-width: 0;
+  }
+
+  // Show the collapsed bar at lg when:
+  //   - the expanded panel is slid off (toggle-drawer), or
+  //   - there's no expanded panel at all (rail-items only).
+  :host([toggle-drawer][has-rail-items]) .rail,
+  :host([has-rail-items]:not([has-expanded-items])) .rail {
+    display: flex;
+  }
+
+  // Expanded panel is permanent at lg — at inset 0 by default.
+  :host([has-expanded-items]) .rail-expanded {
+    display: flex;
+    inset-inline-start: 0;
+  }
+
+  // Toggle at lg slides the expanded panel back off-screen, revealing the
+  // collapsed bar underneath.
+  :host([toggle-drawer][has-expanded-items]) .rail-expanded {
+    inset-inline-start: var(--_nav-rail-expanded-width-negative);
+  }
+
+  // No modal scrim at lg — rail is a permanent sidebar.
+  .scrim,
+  :host([toggle-drawer][has-expanded-items]) .scrim {
+    --_modal-rail-open-progress: 0;
+    pointer-events: none;
+  }
+}
