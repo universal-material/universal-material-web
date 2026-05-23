@@ -6,6 +6,10 @@
   height: var(--u-divider-thickness, 1px);
   background-color: var(--u-divider-color, currentColor);
   opacity: var(--u-divider-opacity, .4);
+  // Dividers are 1px and should never shrink. Without this, dropping a
+  // divider into a flex-column container (e.g. the expanded nav-rail's
+  // overflowing item list) collapses it to 0.
+  flex-shrink: 0;
 }
 
 .u-divider {
