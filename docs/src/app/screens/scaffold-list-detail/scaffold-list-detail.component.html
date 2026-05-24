@@ -1,0 +1,221 @@
+<u-scaffold id="screen-scaffold">
+  <u-top-app-bar slot="top-bar" headline="">
+    <u-icon-button
+      slot="leading-icon"
+      onclick="document.getElementById('screen-nav').toggle()"
+      aria-label="Menu"
+    >
+      <span class="material-symbols-outlined">menu</span>
+    </u-icon-button>
+
+    <div class="bar-headline">
+      <span class="brand">
+        <span class="material-symbols-outlined brand-icon">mail</span>
+        <span class="brand-label">Correio</span>
+      </span>
+      <u-search position="static" placeholder="Pesquisar e-mail">
+        <span class="material-symbols-outlined" slot="leading-icon">search</span>
+      </u-search>
+    </div>
+
+    <u-icon-button slot="trailing-icon" class="md-up" aria-label="Ajuda">
+      <span class="material-symbols-outlined">help</span>
+    </u-icon-button>
+    <u-icon-button slot="trailing-icon" class="md-up" aria-label="Configurações">
+      <span class="material-symbols-outlined">settings</span>
+    </u-icon-button>
+    <button slot="trailing-icon" class="bar-avatar" aria-label="Conta">HK</button>
+
+    <u-icon-button
+      slot="trailing-icon"
+      routerLink="/components/scaffold"
+      aria-label="Back to docs"
+    >
+      <span class="material-symbols-outlined">arrow_back</span>
+    </u-icon-button>
+  </u-top-app-bar>
+
+  <u-scaffold-pane
+    position="start"
+    variant="filled-low"
+    collapse-mode="hidden"
+    collapse-breakpoint="lg"
+    width="240"
+    id="screen-nav"
+  >
+    <nav class="side-nav scrollable">
+      <button class="side-compose">
+        <span class="material-symbols-outlined">edit</span>
+        Escrever
+      </button>
+      <a class="side-item active">
+        <span class="material-symbols-outlined">inbox</span>
+        <span class="side-label">Caixa de entrada</span>
+        <span class="side-count">2.299</span>
+      </a>
+      <a class="side-item">
+        <span class="material-symbols-outlined">star</span>
+        <span class="side-label">Com estrela</span>
+      </a>
+      <a class="side-item">
+        <span class="material-symbols-outlined">schedule</span>
+        <span class="side-label">Adiados</span>
+      </a>
+      <a class="side-item">
+        <span class="material-symbols-outlined">label_important</span>
+        <span class="side-label">Importante</span>
+      </a>
+      <a class="side-item">
+        <span class="material-symbols-outlined">send</span>
+        <span class="side-label">Enviados</span>
+      </a>
+      <a class="side-item">
+        <span class="material-symbols-outlined">draft</span>
+        <span class="side-label">Rascunhos</span>
+        <span class="side-count">9</span>
+      </a>
+      <a class="side-item">
+        <span class="material-symbols-outlined">report</span>
+        <span class="side-label">Spam</span>
+        <span class="side-count">36</span>
+      </a>
+      <div class="side-label-group">Marcadores</div>
+      <a class="side-item">
+        <span class="material-symbols-outlined">sell</span>
+        <span class="side-label">Compras</span>
+        <span class="side-count">315</span>
+      </a>
+      <a class="side-item">
+        <span class="material-symbols-outlined">groups</span>
+        <span class="side-label">Social</span>
+        <span class="side-count">587</span>
+      </a>
+    </nav>
+  </u-scaffold-pane>
+
+  <u-scaffold-pane
+    position="center"
+    variant="filled-low"
+    width="432"
+    class="list-pane"
+    id="screen-list"
+  >
+    <div slot="header" class="list-bar">
+      <u-icon-button aria-label="Selecionar">
+        <span class="material-symbols-outlined">check_box_outline_blank</span>
+      </u-icon-button>
+      <u-icon-button aria-label="Atualizar">
+        <span class="material-symbols-outlined">refresh</span>
+      </u-icon-button>
+      <u-icon-button aria-label="Mais">
+        <span class="material-symbols-outlined">more_vert</span>
+      </u-icon-button>
+      <span class="list-count md-up">1–18 de 6.345</span>
+      <u-icon-button aria-label="Anterior">
+        <span class="material-symbols-outlined">chevron_left</span>
+      </u-icon-button>
+      <u-icon-button aria-label="Próximo">
+        <span class="material-symbols-outlined">chevron_right</span>
+      </u-icon-button>
+    </div>
+
+    <div class="list-rows scrollable">
+      @for (row of emails; track row.subject + row.date) {
+        <button
+          type="button"
+          class="row"
+          [class.unread]="row.unread"
+          [class.sel]="row === selected"
+          (click)="selectEmail(row)"
+        >
+          <span class="row-av" [style.background]="row.bg">{{ row.av }}</span>
+          <div class="row-mid">
+            <div class="row-top">
+              <span class="row-sender">{{ row.sender }}</span>
+              <span class="row-date">{{ row.date }}</span>
+            </div>
+            <div class="row-subject">{{ row.subject }}</div>
+            <div class="row-preview">{{ row.preview }}</div>
+          </div>
+          <span class="material-symbols-outlined row-star">star</span>
+        </button>
+      }
+    </div>
+  </u-scaffold-pane>
+
+  <u-scaffold-pane
+    position="end"
+    variant="filled-low"
+    collapse-mode="fullscreen"
+    collapse-breakpoint="md"
+    width="1fr"
+    class="detail-pane"
+    id="screen-detail"
+  >
+    <div slot="header" class="detail-bar">
+      <u-icon-button (click)="closeDetail()" aria-label="Voltar">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </u-icon-button>
+      <span class="detail-spacer"></span>
+      <u-icon-button aria-label="Arquivar">
+        <span class="material-symbols-outlined">archive</span>
+      </u-icon-button>
+      <u-icon-button aria-label="Excluir">
+        <span class="material-symbols-outlined">delete</span>
+      </u-icon-button>
+      <u-icon-button aria-label="Marcar como não lido">
+        <span class="material-symbols-outlined">mark_email_unread</span>
+      </u-icon-button>
+      <u-icon-button aria-label="Mais">
+        <span class="material-symbols-outlined">more_vert</span>
+      </u-icon-button>
+    </div>
+
+    @if (selected) {
+      <article class="detail-body scrollable">
+        <h2 class="detail-subject">{{ selected.subject }}</h2>
+        <div class="detail-from">
+          <div class="detail-av" [style.background]="selected.bg">{{ selected.av }}</div>
+          <div class="detail-from-text">
+            <div class="detail-name">{{ selected.sender }}</div>
+            <div class="detail-addr">{{ selected.addr }}</div>
+          </div>
+        </div>
+        <div class="detail-content" [innerHTML]="selected.content"></div>
+        <div class="detail-actions">
+          <u-button>
+            <span class="material-symbols-outlined" slot="icon">reply</span>
+            Responder
+          </u-button>
+          <u-button variant="outlined">
+            <span class="material-symbols-outlined" slot="icon">forward</span>
+            Encaminhar
+          </u-button>
+        </div>
+      </article>
+    } @else {
+      <div class="detail-empty">
+        <div class="detail-empty-icon">
+          <span class="material-symbols-outlined">drafts</span>
+        </div>
+        <p class="detail-empty-title">Nenhuma conversa selecionada</p>
+        <p class="detail-empty-sub">Selecione um e-mail da lista para ler aqui</p>
+      </div>
+    }
+  </u-scaffold-pane>
+
+  <u-navigation-bar slot="bottom-bar" class="mobile-bottom-nav">
+    <u-navigation-bar-item active>
+      <span class="material-symbols-outlined" slot="icon">mail</span>
+      Correio
+    </u-navigation-bar-item>
+    <u-navigation-bar-item>
+      <span class="material-symbols-outlined" slot="icon">chat</span>
+      Chat
+    </u-navigation-bar-item>
+    <u-navigation-bar-item>
+      <span class="material-symbols-outlined" slot="icon">videocam</span>
+      Meet
+    </u-navigation-bar-item>
+  </u-navigation-bar>
+</u-scaffold>

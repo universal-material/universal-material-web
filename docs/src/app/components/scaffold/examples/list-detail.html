@@ -1,34 +1,74 @@
-<u-scaffold style="height: 540px; border: 1px solid var(--u-color-outline-variant, rgba(0,0,0,.12)); border-radius: 12px;">
-  <u-scaffold-pane position="start" variant="filled">
+<u-scaffold id="list-detail-scaffold" style="height: 560px; border: 1px solid var(--u-color-outline-variant, rgba(0,0,0,.12)); border-radius: 12px;">
+  <u-scaffold-pane position="start" variant="filled-low" collapse-mode="sidebar" collapse-breakpoint="lg" width="200" id="list-detail-nav">
     <div slot="header" style="padding: 12px 16px; display: flex; align-items: center; justify-content: space-between;">
       <strong>Inbox</strong>
-      <u-icon-button>
-        <span class="material-symbols-outlined">filter_list</span>
+      <u-icon-button onclick="document.getElementById('list-detail-nav').close()">
+        <span class="material-symbols-outlined">close</span>
       </u-icon-button>
     </div>
     <u-list>
-      <u-list-item>Message 1</u-list-item>
-      <u-list-item>Message 2</u-list-item>
-      <u-list-item>Message 3</u-list-item>
-      <u-list-item>Message 4</u-list-item>
-      <u-list-item>Message 5</u-list-item>
+      <u-list-item>Primary</u-list-item>
+      <u-list-item>Starred</u-list-item>
+      <u-list-item>Snoozed</u-list-item>
+      <u-list-item>Sent</u-list-item>
+      <u-list-item>Drafts</u-list-item>
     </u-list>
   </u-scaffold-pane>
 
-  <div style="padding: 16px 24px;">
-    <h3 style="margin: 0 0 8px;">Subject line</h3>
-    <p>This is the main content area. On a desktop viewport (≥ 1200px) the start and end panes sit alongside, with this column taking the remaining space.</p>
-    <p>Each pane scrolls independently of the main content.</p>
-  </div>
-
-  <u-scaffold-pane position="end" variant="transparent">
-    <div slot="header" style="padding: 12px 16px;">
-      <strong>Details</strong>
+  <u-scaffold-pane position="center" variant="filled-low" width="320">
+    <div slot="header" style="display: flex; align-items: center; gap: 8px; padding: 10px 12px;">
+      <u-icon-button onclick="document.getElementById('list-detail-nav').show()">
+        <span class="material-symbols-outlined">menu</span>
+      </u-icon-button>
+      <strong style="font-size: 14px;">Primary · 5 messages</strong>
     </div>
-    <div style="padding: 16px;">
-      <p style="margin: 0 0 8px;"><strong>From:</strong> Alice</p>
-      <p style="margin: 0 0 8px;"><strong>Date:</strong> Today, 09:42</p>
-      <p style="margin: 0;"><strong>Labels:</strong> work, priority</p>
+    <u-list>
+      <u-list-item selectable onclick="openMessage('Welcome to Material 3', 'Design Team', 'A short note about the new release and what to look out for.')">
+        Welcome to Material 3
+        <span slot="supporting-text">Design Team · A short note about the new release.</span>
+      </u-list-item>
+      <u-list-item selectable onclick="openMessage('Sprint planning Thursday', 'Project Lead', 'Agenda attached — please review priorities before the call.')">
+        Sprint planning Thursday
+        <span slot="supporting-text">Project Lead · Agenda attached for the call.</span>
+      </u-list-item>
+      <u-list-item selectable onclick="openMessage('Your invoice is ready', 'Billing', 'Invoice #482 covers the month of May and is available to download.')">
+        Your invoice is ready
+        <span slot="supporting-text">Billing · Invoice #482 for May.</span>
+      </u-list-item>
+      <u-list-item selectable onclick="openMessage('You have 3 new followers', 'Social', 'Tap to see who connected with you this week.')">
+        You have 3 new followers
+        <span slot="supporting-text">Social · Three new connections this week.</span>
+      </u-list-item>
+      <u-list-item selectable onclick="openMessage('Build #4821 passed', 'CI', 'main · 6m 12s · staging deploy queued.')">
+        Build #4821 passed
+        <span slot="supporting-text">CI · main · 6m 12s · staging deploy queued.</span>
+      </u-list-item>
+    </u-list>
+  </u-scaffold-pane>
+
+  <u-scaffold-pane position="end" variant="filled-low" collapse-mode="fullscreen" collapse-breakpoint="md" width="1fr" id="list-detail-message">
+    <div slot="header" style="display: flex; align-items: center; gap: 4px; padding: 8px 12px;">
+      <u-icon-button onclick="document.getElementById('list-detail-message').close()">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </u-icon-button>
+      <span style="flex: 1"></span>
+      <u-icon-button><span class="material-symbols-outlined">archive</span></u-icon-button>
+      <u-icon-button><span class="material-symbols-outlined">delete</span></u-icon-button>
+      <u-icon-button><span class="material-symbols-outlined">more_vert</span></u-icon-button>
+    </div>
+    <div style="padding: 0 24px 24px;">
+      <h3 id="list-detail-subject" style="margin: 0 0 12px; font-size: 20px;">Select a message</h3>
+      <p id="list-detail-sender" style="margin: 0 0 4px; font-size: 13px; color: var(--u-color-on-surface-variant);">—</p>
+      <p id="list-detail-body" style="margin: 16px 0 0; line-height: 1.6;">Pick a message from the list to read it here. On narrow viewports (≤ 840px) this pane will take over the scaffold — the back button slides it away.</p>
     </div>
   </u-scaffold-pane>
 </u-scaffold>
+
+<script>
+  function openMessage(subject, sender, body) {
+    document.getElementById('list-detail-subject').textContent = subject;
+    document.getElementById('list-detail-sender').textContent = sender;
+    document.getElementById('list-detail-body').textContent = body;
+    document.getElementById('list-detail-message').show();
+  }
+</script>

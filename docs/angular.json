@@ -74,6 +74,9 @@
               "buildTarget": "universal-material-web-docs:build:development"
             }
           },
+          "options": {
+            "allowedHosts": true
+          },
           "defaultConfiguration": "development"
         },
         "extract-i18n": {

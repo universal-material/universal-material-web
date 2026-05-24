@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 import { Highlight } from 'ngx-highlightjs';
 
@@ -12,6 +13,7 @@ import { AnchorScrollDirective } from '@docs/docs/shared/anchor-scroll.directive
   standalone: true,
   imports: [
     CommonModule,
+    RouterLink,
     Highlight,
     AnchorScrollDirective,
   ],
@@ -24,6 +26,13 @@ export class ExampleComponent implements OnChanges {
 
   @Input() renderExample = true;
   @Input() sectionTitle!: string;
+  /**
+   * When set, renders a "View as screen" link next to the section title that
+   * navigates to a standalone Angular route (no docs shell). Use this for
+   * examples where the component needs the full viewport to be evaluated
+   * fairly — `u-scaffold`, app-bar interactions, FAB anchoring, etc.
+   */
+  @Input() screenRoute?: string;
   /**
    * Makes the preview area edge-to-edge (no horizontal padding) and stretches
    * the demo to fill its width. Useful for components that span the full

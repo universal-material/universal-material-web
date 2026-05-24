@@ -1,0 +1,28 @@
+<u-scaffold>
+  <u-top-app-bar slot="top-bar" headline="End pane — sidebar collapse">
+    <u-icon-button
+      slot="leading-icon"
+      routerLink="/components/scaffold"
+      aria-label="Back to docs"
+    >
+      <span class="material-symbols-outlined">arrow_back</span>
+    </u-icon-button>
+  </u-top-app-bar>
+
+  <div class="screen-content">
+    <p>On a viewport ≥ 1200px the end pane is permanent on the right. Below that, open it as a modal sidebar from the trailing edge.</p>
+    <u-button (click)="$any(pane).show()">Open details</u-button>
+  </div>
+
+  <u-scaffold-pane position="end" variant="filled" collapse-mode="sidebar" #pane>
+    <div slot="header" class="pane-header">
+      <strong>Inspector</strong>
+      <u-icon-button (click)="$any(pane).close()">
+        <span class="material-symbols-outlined">close</span>
+      </u-icon-button>
+    </div>
+    <div class="pane-body">
+      <p>Inspector content goes here. Properties, metadata, related actions.</p>
+    </div>
+  </u-scaffold-pane>
+</u-scaffold>

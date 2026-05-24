@@ -10,13 +10,24 @@
 </div>
 @if (_html) {
   <div class="example-block" [class.fluid]="fluid" [attr.data-align]="alignment">
-    <div class="example-preview">
-      @if (renderExample) {
-        <div [innerHTML]="htmlSafe"></div>
-      } @else {
-        <ng-content select="[example]"></ng-content>
-      }
-    </div>
+    @if (screenRoute) {
+      <a class="example-screen-cta" [routerLink]="screenRoute">
+        <span class="example-screen-cta-icon material-symbols-outlined">open_in_new</span>
+        <span class="example-screen-cta-text">
+          <span class="example-screen-cta-title">Open as screen</span>
+          <span class="example-screen-cta-sub">This example needs the full viewport</span>
+        </span>
+        <span class="example-screen-cta-arrow material-symbols-outlined">arrow_forward</span>
+      </a>
+    } @else {
+      <div class="example-preview">
+        @if (renderExample) {
+          <div [innerHTML]="htmlSafe"></div>
+        } @else {
+          <ng-content select="[example]"></ng-content>
+        }
+      </div>
+    }
     <div class="example-code">
       <pre><code [highlight]="_html!" language="html"></code></pre>
     </div>

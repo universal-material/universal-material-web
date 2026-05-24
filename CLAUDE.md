@@ -96,7 +96,7 @@ skills/                  # Claude Code skills shipped with the npm package
 8. **`<input type="date">` placeholder visibility.** The native date input shows a `yyyy-mm-dd` mask via `::-webkit-datetime-edit-*`, not `::placeholder`. The library's standard "blank placeholder when empty + unfocused" rule must also target `::-webkit-datetime-edit`.
 9. **`u-button-set` in flex containers** is auto-sized to its content. `width: 100%` evaluates to the parent's content-sized width (= the set's own content width), so alignment looks identical for `start/center/end`. Use a fixed width or a wider container if the alignment difference must be visible (e.g. in docs).
 10. **u-button color/variant set from JS.** Setting `button.color = undefined` overrides the class default (`'primary'`) and collapses the classMap `[this.color]: true` to a literal `class="undefined"`. When forwarding optional props (e.g. `DialogBuilder._addButton`), check `if (def.color !== undefined)` before assigning.
-11. **`ResizeObserver`** does not fire in the headless preview environment used by `mcp__Claude_Preview__preview_*`. Don't conclude it's broken — re-test in a real browser before changing the code.
+11. **`ResizeObserver`** fires normally in the real-browser `mcp__Claude_in_Chrome__*` tooling, so observed behaviour can be trusted. (Historically this used a headless preview where ResizeObserver didn't fire — that note is obsolete.)
 
 ## Build pipeline
 
@@ -116,11 +116,10 @@ The docs Angular dev server is the primary test surface: `npm run docs` (kept ru
 
 If a component doesn't have a docs example for what you're testing, add one — that becomes both the validation surface and documentation.
 
-Preview tooling notes (`mcp__Claude_Preview__*`):
-- `preview_eval` is reliable for DOM inspection and computed styles.
-- `preview_screenshot` frequently times out — don't depend on it; use eval + bounding rects + computed styles to verify pixel-accuracy.
-- `preview_resize` is necessary because the viewport may report `0×0` until set (`{ width: 1280, height: 800 }` is a sensible desktop default).
-- Hash routing is used by the docs app: navigate via `http://localhost:4200/#/components/<name>`.
+Browser tooling notes (`mcp__Claude_in_Chrome__*`, running in the developer's real Brave/Chrome):
+- This is a real, logged-in browser — not the old headless preview. Screenshots, `ResizeObserver`, viewport sizing, hover/focus, and other DOM behaviour all work like any normal Chromium tab. The previous `mcp__Claude_Preview__*` caveats (screenshot timeouts, 0×0 viewport, broken ResizeObserver) no longer apply.
+- Use `navigate` to go to `http://localhost:4200/#/components/<name>` (hash routing) and `get_page_text` / DOM eval helpers for inspection and computed-style checks.
+- The browser tab is shared with the developer. Don't navigate away from pages they're actively using without reason, and clean up after yourself (close menus/dialogs you open).
 
 ## Docs page conventions
 
@@ -154,7 +153,7 @@ Skill content style: short frontmatter `description` (one-line trigger phrase), 
 1. Find the M3 spec / token for what you're changing.
 2. Implement against the spec, not against a screenshot. **Token names go in comments** near the rule.
 3. Regenerate styles (`scripts:sass-to-ts`) and `tsc` after touching SCSS/TS.
-4. Open the affected docs page at `http://localhost:4200/#/components/<name>` and verify with `preview_eval`:
+4. Open the affected docs page at `http://localhost:4200/#/components/<name>` and verify with the `mcp__Claude_in_Chrome__*` DOM eval helpers:
    - `getBoundingClientRect()` for sizes,
    - `getComputedStyle()` for colors, font properties, etc.
 5. If the measurement is off, fix the source. Repeat from step 3.

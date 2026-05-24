@@ -1,22 +1,83 @@
 @use "../../scss/variables";
 @use "../../scss/functions";
-@use "../../scss/mixins";
 
 :host {
   display: block;
-  height: 100%;
-  min-height: 0;
   --u-scaffold-pane-z-index: 1030;
   --u-scaffold-pane-transition: 300ms #{variables.$awesome-cubic-bezier};
 }
 
-.container {
+// ---------------------------------------------------------------------------
+// Variant treatment — bg and corner radius. Applies in every state; the
+// compact rules below add fallbacks for `transparent` so the overlay still
+// has something visible to render against.
+// ---------------------------------------------------------------------------
+
+:host([variant=filled]) .container {
+  background-color: var(--u-scaffold-pane-filled-bg-color,
+    #{functions.get-color-var(surface-container-highest)});
+  border-radius: var(--u-scaffold-pane-filled-shape-corner,
+    #{functions.get-shape-corner-var(medium)});
+}
+
+:host([variant=filled-low]) .container {
+  background-color: var(--u-scaffold-pane-filled-bg-color,
+    #{functions.get-color-var(surface-container-low)});
+  border-radius: var(--u-scaffold-pane-filled-shape-corner,
+    #{functions.get-shape-corner-var(medium)});
+}
+
+:host([variant=filled-lowest]) .container {
+  background-color: var(--u-scaffold-pane-filled-bg-color,
+    #{functions.get-color-var(surface-container-lowest)});
+  border-radius: var(--u-scaffold-pane-filled-shape-corner,
+    #{functions.get-shape-corner-var(medium)});
+}
+
+:host([variant=transparent]) .container {
+  background: transparent;
+  border-radius: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Expanded state: the pane participates in the scaffold grid.
+// ---------------------------------------------------------------------------
+
+:host([expanded]) {
+  height: 100%;
+  min-height: 0;
+}
+
+:host([expanded]) .container {
   position: relative;
   height: 100%;
   display: flex;
   flex-direction: column;
   min-height: 0;
   overflow: hidden;
+}
+
+// ---------------------------------------------------------------------------
+// Compact state: the pane is taken out of the flow and renders as an
+// overlay anchored to the scaffold host (the scaffold sets
+// `position: relative`, so `inset: 0` on the host covers the scaffold).
+// ---------------------------------------------------------------------------
+
+:host(:not([expanded])) {
+  position: absolute;
+  inset: 0;
+  z-index: var(--u-scaffold-pane-z-index);
+  pointer-events: none;
+}
+
+:host(:not([expanded])) .container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  transition: transform var(--u-scaffold-pane-transition);
+  pointer-events: auto;
 }
 
 .header {
@@ -29,86 +90,94 @@
   overflow: auto;
 }
 
-:host([variant=filled]) .container {
-  background-color: var(--u-scaffold-pane-filled-bg-color,
-    #{functions.get-color-var(surface-container-highest)});
-  border-radius: var(--u-scaffold-pane-filled-shape-corner,
-    #{functions.get-shape-corner-var(medium)});
+// ---------------------------------------------------------------------------
+// Sidebar collapse: slide-in drawer with scrim, capped width.
+// ---------------------------------------------------------------------------
+
+:host(:not([expanded])[collapse-mode=sidebar]) .container {
+  inset-block: 0;
+  width: min(var(--u-scaffold-pane-mobile-width, 360px), 85%);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
 }
 
-:host([variant=transparent]) .container {
-  background: transparent;
-  border-radius: 0;
+// `transparent` panes have no bg of their own — give the drawer a visible
+// surface so it doesn't render as an invisible click-eater.
+:host(:not([expanded])[collapse-mode=sidebar][variant=transparent]) .container {
+  background-color: var(--u-scaffold-pane-sidebar-fallback-bg-color,
+    #{functions.get-color-var(surface-container-highest)});
+}
+
+:host(:not([expanded])[collapse-mode=sidebar][position=start]) .container {
+  inset-inline-start: 0;
+  transform: translateX(-100%);
+}
+
+:host(:not([expanded])[collapse-mode=sidebar][position=end]) .container {
+  inset-inline-end: 0;
+  transform: translateX(100%);
+}
+
+:host(:not([expanded])[collapse-mode=sidebar][open]) .container {
+  transform: translateX(0);
 }
 
 .scrim {
-  position: fixed;
+  position: absolute;
   inset: 0;
   background-color: var(--u-scaffold-pane-scrim-color,
     #{functions.get-color-var(scrim)});
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--u-scaffold-pane-transition);
-  z-index: calc(var(--u-scaffold-pane-z-index) - 1);
   display: none;
 }
 
-@include mixins.media-breakpoint-down(md) {
-  :host {
-    display: block;
-  }
+:host(:not([expanded])[collapse-mode=sidebar]) .scrim {
+  display: block;
+}
 
-  .container {
-    position: fixed;
-    inset-block: 0;
-    width: min(var(--u-scaffold-pane-mobile-width, 360px), 85vw);
-    z-index: var(--u-scaffold-pane-z-index);
-    transition: transform var(--u-scaffold-pane-transition);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
-  }
+:host(:not([expanded])[collapse-mode=sidebar][open]) .scrim {
+  opacity: var(--u-scaffold-pane-scrim-opacity, .4);
+  pointer-events: auto;
+}
 
-  :host([position=start]) .container {
-    inset-inline-start: 0;
-    transform: translateX(-100%);
-  }
+// ---------------------------------------------------------------------------
+// Hidden collapse: pane is removed from the layout entirely below the
+// breakpoint. No overlay, no scrim, no slide-in. Use this for panes that
+// only make sense on large viewports (e.g. a permanent navigation rail
+// alongside a list-detail flow that switches to a bottom-bar on mobile).
+// ---------------------------------------------------------------------------
 
-  :host([position=end]) .container {
-    inset-inline-end: 0;
-    transform: translateX(100%);
-  }
+:host(:not([expanded])[collapse-mode=hidden]) {
+  display: none;
+}
 
-  :host([open]) .container {
-    transform: translateX(0);
-  }
+// ---------------------------------------------------------------------------
+// Fullscreen collapse: takeover of the whole scaffold, no scrim — the pane
+// itself is opaque and sits above the top app bar (z-index 1010).
+// ---------------------------------------------------------------------------
 
-  :host([collapse-mode=sidebar]) .scrim {
-    display: block;
-  }
+:host(:not([expanded])[collapse-mode=fullscreen]) .container {
+  inset: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
 
-  :host([collapse-mode=sidebar][open]) .scrim {
-    opacity: var(--u-scaffold-pane-scrim-opacity, .4);
-    pointer-events: auto;
-  }
+// Same rationale as the sidebar fallback — `transparent` overlays need a
+// surface to render against.
+:host(:not([expanded])[collapse-mode=fullscreen][variant=transparent]) .container {
+  background-color: var(--u-scaffold-pane-fullscreen-fallback-bg-color,
+    #{functions.get-color-var(surface)});
+}
 
-  :host([collapse-mode=fullscreen]) .container {
-    inset: 0;
-    width: 100vw;
-    background-color: var(--u-scaffold-pane-fullscreen-bg-color,
-      #{functions.get-color-var(surface)});
-    border-radius: 0;
-    box-shadow: none;
-  }
+:host(:not([expanded])[collapse-mode=fullscreen][position=start]) .container {
+  transform: translateX(-100%);
+}
 
-  // Fullscreen panes still slide in from the side they belong to —
-  // start from the leading edge, end from the trailing edge — so the
-  // open/close motion stays consistent with the sidebar collapse mode.
-  :host([collapse-mode=fullscreen][position=start]) .container {
-    transform: translateX(-100%);
-  }
-  :host([collapse-mode=fullscreen][position=end]) .container {
-    transform: translateX(100%);
-  }
-  :host([collapse-mode=fullscreen][open]) .container {
-    transform: translateX(0);
-  }
+:host(:not([expanded])[collapse-mode=fullscreen][position=end]) .container {
+  transform: translateX(100%);
+}
+
+:host(:not([expanded])[collapse-mode=fullscreen][open]) .container {
+  transform: translateX(0);
 }

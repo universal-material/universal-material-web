@@ -1,0 +1,30 @@
+<u-scaffold>
+  <u-top-app-bar slot="top-bar" headline="Start pane — sidebar collapse">
+    <u-icon-button
+      slot="leading-icon"
+      routerLink="/components/scaffold"
+      aria-label="Back to docs"
+    >
+      <span class="material-symbols-outlined">arrow_back</span>
+    </u-icon-button>
+  </u-top-app-bar>
+
+  <u-scaffold-pane position="start" variant="filled" collapse-mode="sidebar" #pane>
+    <div slot="header" class="pane-header">
+      <strong>Navigation</strong>
+      <u-icon-button (click)="$any(pane).close()">
+        <span class="material-symbols-outlined">close</span>
+      </u-icon-button>
+    </div>
+    <u-list>
+      <u-list-item>Home</u-list-item>
+      <u-list-item>Projects</u-list-item>
+      <u-list-item>Settings</u-list-item>
+    </u-list>
+  </u-scaffold-pane>
+
+  <div class="screen-content">
+    <p>On a viewport ≥ 1200px the start pane is permanent on the left. Shrink the window to under 1200px to see it collapse — open it with the button below.</p>
+    <u-button (click)="$any(pane).show()">Open start pane</u-button>
+  </div>
+</u-scaffold>

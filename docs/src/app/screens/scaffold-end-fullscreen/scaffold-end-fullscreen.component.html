@@ -1,0 +1,28 @@
+<u-scaffold>
+  <u-top-app-bar slot="top-bar" headline="End pane — fullscreen collapse">
+    <u-icon-button
+      slot="leading-icon"
+      routerLink="/components/scaffold"
+      aria-label="Back to docs"
+    >
+      <span class="material-symbols-outlined">arrow_back</span>
+    </u-icon-button>
+  </u-top-app-bar>
+
+  <div class="screen-content">
+    <p>The end pane covers the viewport on mobile.</p>
+    <u-button (click)="$any(pane).show()">Open editor</u-button>
+  </div>
+
+  <u-scaffold-pane position="end" variant="filled" collapse-mode="fullscreen" #pane>
+    <div slot="header" class="pane-header">
+      <strong>Editor</strong>
+      <u-icon-button (click)="$any(pane).close()">
+        <span class="material-symbols-outlined">close</span>
+      </u-icon-button>
+    </div>
+    <div class="pane-body">
+      <p>A roomy editing surface that takes over the screen on smaller viewports.</p>
+    </div>
+  </u-scaffold-pane>
+</u-scaffold>

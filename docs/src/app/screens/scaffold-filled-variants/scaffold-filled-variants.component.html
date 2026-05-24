@@ -1,0 +1,29 @@
+<u-scaffold>
+  <u-top-app-bar slot="top-bar" headline="Filled variants">
+    <u-icon-button
+      slot="leading-icon"
+      routerLink="/components/scaffold"
+      aria-label="Back to docs"
+    >
+      <span class="material-symbols-outlined">arrow_back</span>
+    </u-icon-button>
+  </u-top-app-bar>
+
+  <u-scaffold-pane position="start" variant="filled-low" width="260">
+    <div slot="header" class="pane-header"><strong>filled-low</strong></div>
+    <div class="pane-body">
+      <p><code>surface-container-low</code> + medium (12dp) corner.</p>
+    </div>
+  </u-scaffold-pane>
+
+  <div class="screen-content">
+    <p><code>filled</code>, <code>filled-low</code>, and <code>filled-lowest</code> share the same corner — only the surface tone changes. Override either via <code>--u-scaffold-pane-filled-bg-color</code> / <code>--u-scaffold-pane-filled-shape-corner</code> per pane.</p>
+  </div>
+
+  <u-scaffold-pane position="end" variant="filled-lowest" width="260">
+    <div slot="header" class="pane-header"><strong>filled-lowest</strong></div>
+    <div class="pane-body">
+      <p><code>surface-container-lowest</code> — the quietest filled tone.</p>
+    </div>
+  </u-scaffold-pane>
+</u-scaffold>

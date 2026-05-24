@@ -61,7 +61,7 @@
       >
         <span
           class="color-picker-swatch"
-          [style.background]="themeColor"
+          [style.background]="theme.themeColor"
         ></span>
       </u-icon-button>
       <u-menu
@@ -71,15 +71,15 @@
       >
         <div class="color-picker-header">Theme color</div>
         <div class="color-picker-grid">
-          @for (preset of themeColorPresets; track preset.value) {
+          @for (preset of theme.themeColorPresets; track preset.value) {
             <button
               type="button"
               class="color-picker-chip"
-              [class.active]="isPresetActive(preset.value)"
+              [class.active]="theme.isPresetActive(preset.value)"
               [style.--swatch]="preset.value"
               [attr.aria-label]="preset.name"
               [title]="preset.name"
-              (click)="pickColor(preset.value); colorMenu.close()"
+              (click)="theme.setThemeColor(preset.value); colorMenu.close()"
             >
               <span class="color-picker-chip-dot"></span>
             </button>
@@ -89,14 +89,14 @@
           <input
             type="color"
             #colorInput
-            [ngModel]="themeColor"
-            (ngModelChange)="$themeColorChange.next($event)"
+            [ngModel]="theme.themeColor"
+            (ngModelChange)="theme.$themeColorChange.next($event)"
             aria-label="Custom theme color"
           />
-          <span class="color-picker-custom-swatch" [style.background]="themeColor"></span>
+          <span class="color-picker-custom-swatch" [style.background]="theme.themeColor"></span>
           <span class="color-picker-custom-label">
             <span class="color-picker-custom-title">Custom</span>
-            <span class="color-picker-custom-value">{{ themeColor }}</span>
+            <span class="color-picker-custom-value">{{ theme.themeColor }}</span>
           </span>
           <span class="material-symbols-outlined">colorize</span>
         </label>
@@ -116,7 +116,7 @@
         #themeMenu
         anchor-corner="end-end"
       >
-        <u-menu-item (click)="setThemeMode(ThemeMode.Auto)">
+        <u-menu-item (click)="theme.setThemeMode(ThemeMode.Auto)">
           <span
             class="material-symbols-outlined"
             slot="leading-icon"
@@ -124,7 +124,7 @@
           </span>
           <span>System</span>
         </u-menu-item>
-        <u-menu-item (click)="setThemeMode(ThemeMode.Light)">
+        <u-menu-item (click)="theme.setThemeMode(ThemeMode.Light)">
           <span
             class="material-symbols-outlined"
             slot="leading-icon"
@@ -132,7 +132,7 @@
           </span>
           <span>Light Mode</span>
         </u-menu-item>
-        <u-menu-item (click)="setThemeMode(ThemeMode.Dark)">
+        <u-menu-item (click)="theme.setThemeMode(ThemeMode.Dark)">
           <span
             class="material-symbols-outlined"
             slot="leading-icon"
@@ -142,17 +142,11 @@
         </u-menu-item>
       </u-menu>
     </div>
-    <!--u-icon-button(
-      slot="trailing-icon",
-      href="/angular",
-      title="Universal Material Angular")
-      span.material-symbols-outlined angular
-      -->
     <u-icon-button
       slot="trailing-icon"
       type="button"
       title="Rtl"
-      (click)="toggleRtl()"
+      (click)="theme.toggleRtl()"
     >
       <span class="material-symbols-outlined">format_align_right</span>
     </u-icon-button>
@@ -641,19 +635,4 @@
     </div>
     <docs-toc class="page-toc"></docs-toc>
   </div>
-  <!--.pane-layout
-  .pane
-    u-elevation
-    .scroll-wrapper(#scrollWrapper)
-  
-  
-  .side-pane
-    u-card
-      .u-label-m On this page:
-      a.hash-navigation-item.u-title-s(
-        href="#",
-        *ngFor="let item of anchorsNavigation",
-        tabindex="0",
-        (click)="navigateToAnchor($event, item)") {{item.title}}
-  -->
 </u-navigation-rail>

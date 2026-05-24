@@ -1,0 +1,34 @@
+<u-scaffold>
+  <u-top-app-bar
+    slot="top-bar"
+    size="small"
+    headline="Explicit override"
+    scrollContainer="none"
+  >
+    <u-icon-button
+      slot="leading-icon"
+      routerLink="/components/scaffold"
+      aria-label="Back to docs"
+    >
+      <span class="material-symbols-outlined">arrow_back</span>
+    </u-icon-button>
+  </u-top-app-bar>
+
+  <div class="screen-content">
+    <p>This top app bar has <code>scrollContainer="none"</code>, which overrides the scaffold's context and disables scroll reactivity entirely. Scroll the content — the app bar won't collapse.</p>
+    <p>Explicit values always win over the context. Set <code>scrollContainer</code> on the top app bar to take manual control.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    <p>Aenean commodo ligula eget dolor. Aenean massa.</p>
+    <p>Cum sociis natoque penatibus et magnis dis parturient montes.</p>
+    <p>Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>
+    <p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel.</p>
+    <p>Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus.</p>
+    <p>Phasellus viverra nulla ut metus varius laoreet.</p>
+    <p>Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue.</p>
+    <p>Curabitur ullamcorper ultricies nisi. Nam eget dui.</p>
+  </div>
+
+  <u-fab slot="fab" color="secondary">
+    <span class="material-symbols-outlined">add</span>
+  </u-fab>
+</u-scaffold>

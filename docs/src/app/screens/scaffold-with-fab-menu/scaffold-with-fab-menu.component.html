@@ -1,0 +1,56 @@
+<u-scaffold>
+  <u-top-app-bar
+    slot="top-bar"
+    size="medium"
+    headline="With FAB menu"
+  >
+    <u-icon-button
+      slot="leading-icon"
+      routerLink="/components/scaffold"
+      aria-label="Back to docs"
+    >
+      <span class="material-symbols-outlined">arrow_back</span>
+    </u-icon-button>
+  </u-top-app-bar>
+
+  <div class="screen-content">
+    <p>The FAB menu sits in the scaffold's <code>fab</code> slot and is automatically anchored above the navigation bar.</p>
+    <p>Phasellus a ante vitae lectus volutpat tincidunt. Suspendisse potenti.</p>
+    <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+    <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>Curabitur pretium tincidunt lacus. Nulla gravida orci a odio.</p>
+    <p>Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.</p>
+    <p>Integer in mauris eu nibh euismod gravida. Duis ac tellus et risus vulputate vehicula.</p>
+  </div>
+
+  <u-navigation-bar slot="bottom-bar">
+    <u-navigation-bar-item active>
+      <span class="material-symbols-outlined" slot="icon">home</span>
+      Home
+    </u-navigation-bar-item>
+    <u-navigation-bar-item>
+      <span class="material-symbols-outlined" slot="icon">search</span>
+      Search
+    </u-navigation-bar-item>
+    <u-navigation-bar-item>
+      <span class="material-symbols-outlined" slot="icon">favorite</span>
+      Saved
+    </u-navigation-bar-item>
+    <u-navigation-bar-item>
+      <span class="material-symbols-outlined" slot="icon">person</span>
+      Profile
+    </u-navigation-bar-item>
+  </u-navigation-bar>
+
+  <u-fab-menu slot="fab" color="primary">
+    <span class="material-symbols-outlined" slot="icon">add</span>
+    <u-fab-menu-item label="New doc">
+      <span class="material-symbols-outlined">description</span>
+    </u-fab-menu-item>
+    <u-fab-menu-item label="New folder">
+      <span class="material-symbols-outlined">folder</span>
+    </u-fab-menu-item>
+  </u-fab-menu>
+</u-scaffold>

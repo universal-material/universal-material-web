@@ -1,4 +1,4 @@
-@use "../../../scss/mixins";
+@use "../../../../../scss/mixins";
 
 :host {
   --u-nav-rail-headline-font-size: 12px;
@@ -36,13 +36,7 @@ u-top-app-bar {
 }
 
 .chapter {
-  padding-top: var(--u-top-app-bar-content-height, 64px);
-}
-
-.page-toc {
-  @include mixins.media-breakpoint-up(lg) {
-    top: calc(var(--u-top-app-bar-content-height, 64px) + 16px);
-  }
+  padding-top: calc(var(--u-top-app-bar-content-height, 64px) + 24px);
 }
 
 .page-layout {
@@ -70,7 +64,7 @@ u-top-app-bar {
   @include mixins.media-breakpoint-up(lg) {
     display: block;
     position: sticky;
-    top: 16px;
+    top: calc(var(--u-top-app-bar-content-height, 64px) + 24px);
     align-self: start;
     max-height: calc(100vh - 120px);
     overflow-y: auto;
