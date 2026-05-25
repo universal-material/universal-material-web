@@ -1,4 +1,7 @@
 :host {
+  --u-pane-navigation-width: 280px;
+  --u-pane-fixed-width: 432px;
+
   display: block;
   height: 100vh;
 }
@@ -27,30 +30,27 @@
   white-space: nowrap;
 }
 
-// The search bar sits in the bar's headline area. Because the scaffold
-// writes `--u-app-bar-leading-icon-width` to push leading content out
-// to the start of the center column, the search starts aligned with
-// the list card. Cap its width to the center pane's fixed width so it
-// reads as the "search edition" of that same card column — start AND
-// end edges coincide visually.
-u-top-app-bar::part(headline) {
-  flex: 1;
-  display: flex;
-  align-items: center;
+
+u-top-app-bar {
+  &::part(content) {
+    gap: 16px;
+  }
+
+  &::part(leading) {
+    width: var(--u-pane-navigation-width);
+  }
+
+  &::part(headline) {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
 }
 
 u-search {
-  // Match the center card's width: the scaffold's `--u-pane-fixed-width`
-  // sets the center pane's flex-basis. With flex+gap the gap sits
-  // between regions, so the search host's full width equals the center
-  // card's full width 1:1.
+  --u-layout-margin-inline: 0px;
   flex: 0 0 var(--u-pane-fixed-width, 432px);
   min-width: 0;
-  // u-search's `.inner-container` adds 24dp horizontal padding around
-  // the visible pill (`--u-layout-margin-inline`). Zero it so the pill
-  // edges coincide with the host edges (and therefore with the center
-  // card edges).
-  --u-layout-margin-inline: 0px;
 }
 
 .bar-avatar {
@@ -82,95 +82,42 @@ u-search {
 }
 
 // ---------------------------------------------------------------------------
-// Side navigation (start pane — collapse-mode=hidden, lg).
+// Side navigation — `u-drawer-item`s slotted directly into the navigation
+// pane's default slot, without a `u-drawer` wrapper. The pane's `.content`
+// area handles overflow + padding via `::part(content)`. Each item is an
+// `u-drawer-item` with `slot="icon"` + an optional `slot="badge"` for the
+// trailing count. The "Compose" row is repainted via `::part(container)`
+// to look like an extended FAB (primary-container fill, bold label).
 // ---------------------------------------------------------------------------
 
-.side-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 4px 6px;
-  height: 100%;
-  overflow-y: auto;
-  letter-spacing: -0.03em;
-}
+u-drawer-item {
+  --u-drawer-item-height: 48px;
+  --u-drawer-item-icon-size: 1.25rem;
+  // `--u-drawer-item-padding` is used by drawer-item for BOTH the inner
+  // padding AND a matching negative `margin-inline` (designed to let items
+  // extend through `u-drawer`'s 28dp padding). Without a `u-drawer`
+  // wrapper, that negative margin makes items overflow the pane's
+  // content padding. Zero it out and restore the inner inline padding
+  // separately via `::part(container)` so the icon still sits 16dp from
+  // the pill edge.
+  --u-drawer-item-padding: 0;
 
-.side-compose {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 15px 22px;
-  border-radius: 18px;
-  background: var(--u-color-primary-container);
-  color: var(--u-color-on-primary-container);
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  margin: 8px 8px 12px;
-  border: none;
-  font-family: inherit;
-  letter-spacing: -0.03em;
-
-  &:hover {
-    filter: brightness(0.96);
-  }
-
-  .material-symbols-outlined {
-    font-size: 20px;
+  &::part(container) {
+    padding-inline: 16px;
   }
 }
 
-.side-item {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 0 18px;
-  height: 44px;
-  border-radius: 100px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--u-color-on-surface-variant);
-  text-decoration: none;
-  letter-spacing: -0.03em;
-  transition: background .12s;
-
-  &:hover {
-    background: rgb(from var(--u-color-primary) r g b / 0.08);
-  }
-
-  &.active {
-    background: var(--u-color-secondary-container);
-    color: var(--u-color-on-secondary-container);
-    font-weight: 600;
-  }
-
-  .material-symbols-outlined {
-    font-size: 20px;
-  }
+u-fab.side-compose {
+  // Inherits `display: inline-block` from button-wrapper's :host, so the
+  // FAB sizes to its content width (icon + label + 16/24 padding) instead
+  // of stretching across the .u-container row.
+  margin-block-end: 16px;
 }
 
-.side-label {
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.side-count {
-  font-size: 12px;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-}
-
-.side-label-group {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--u-color-on-surface-variant);
-  padding: 14px 18px 6px;
+u-drawer-headline {
+  // The headline's own margin-block (16/8) ships from the drawer-headline
+  // styles; nothing to do here.
+  padding-inline: 16px;
 }
 
 // ---------------------------------------------------------------------------
@@ -198,39 +145,56 @@ u-search {
   font-variant-numeric: tabular-nums;
 }
 
-.list-rows {
+// `u-list` is the scrollable container for the email rows. It already
+// has `display: block` + 8px block padding from its own styles — override
+// here so the list fills the pane, scrolls, and stacks rows with a tight
+// 2px gap (matching the original mockup).
+u-list.list-rows {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
-  padding: 6px;
   display: flex;
   flex-direction: column;
   gap: 2px;
+  --u-list-padding: 6px;
+  padding-inline: 6px;
 }
 
-.row {
-  display: grid;
-  grid-template-columns: 40px 1fr auto;
-  gap: 12px;
-  align-items: center;
-  padding: 12px 14px;
-  border-radius: 16px;
-  cursor: pointer;
-  background: transparent;
-  border: none;
-  font-family: inherit;
-  color: inherit;
-  text-align: left;
+// `u-list-item` already gives us: ripple (selectable), flex row layout
+// with leading-icon | content | trailing-icon, and the supporting-text
+// slot for the third line. We tweak the spacing tokens to match the
+// mockup (12px block / 14px inline padding, no min-height, 12px gap).
+u-list-item.row {
+  --u-list-item-block-padding: 12px;
+  --u-list-item-inline-padding: 14px;
+  --u-list-item-min-height: 0;
+  --u-list-item-gap: 12px;
   letter-spacing: -0.03em;
-  transition: background .12s;
-  width: 100%;
 
-  &:hover {
+  &::part(container) {
+    border-radius: 16px;
+  }
+
+  &:hover::part(container) {
     background: rgb(from var(--u-color-primary) r g b / 0.08);
   }
 
-  &.sel {
+  &.sel::part(container) {
     background: var(--u-color-secondary-container);
+  }
+
+  // The headline part wraps our default-slotted `.row-top`. Body-large
+  // typography (16px / 24px line-height) is too tall for the dense email
+  // row — neutralize line-height and let the inner spans set their own
+  // font sizes.
+  &::part(headline) {
+    line-height: 1.2;
+    margin-bottom: 2px;
+  }
+
+  &::part(supporting-text) {
+    line-height: 1.2;
+    color: inherit;
   }
 
   &.unread {
@@ -259,18 +223,11 @@ u-search {
   flex-shrink: 0;
 }
 
-.row-mid {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-}
-
 .row-top {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   gap: 8px;
-  margin-bottom: 2px;
 }
 
 .row-sender {

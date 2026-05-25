@@ -1,32 +1,58 @@
 <u-scaffold
   id="screen-scaffold"
   layout="list-detail"
-  style="--u-pane-navigation-width: 240px; --u-pane-fixed-width: 432px;"
 >
-  <u-top-app-bar slot="top-bar" headline="">
+  <u-top-app-bar
+    slot="top-bar"
+    headline=""
+  >
     <u-icon-button
       slot="leading-icon"
-      onclick="(function(p){p.expanded?(p.toggleDrawer=!p.toggleDrawer):p.toggle()})(document.getElementById('screen-nav'))"
       aria-label="Toggle navigation"
+      (click)="nav.toggleDrawer = !nav.toggleDrawer"
     >
       <span class="material-symbols-outlined">menu</span>
     </u-icon-button>
-    <span slot="leading-icon" class="brand">
+    <span
+      class="brand"
+      slot="leading-icon"
+    >
       <span class="material-symbols-outlined brand-icon">mail</span>
-      <span class="brand-label">Correio</span>
+      <span class="brand-label">Mail</span>
     </span>
 
-    <u-search position="static" placeholder="Pesquisar e-mail">
-      <span class="material-symbols-outlined" slot="leading-icon">search</span>
+    <u-search
+      position="static"
+      placeholder="Search mail"
+    >
+      <span
+        class="material-symbols-outlined"
+        slot="leading-icon"
+        >search</span
+      >
     </u-search>
 
-    <u-icon-button slot="trailing-icon" class="md-up" aria-label="Ajuda">
+    <u-icon-button
+      class="md-up"
+      slot="trailing-icon"
+      aria-label="Help"
+    >
       <span class="material-symbols-outlined">help</span>
     </u-icon-button>
-    <u-icon-button slot="trailing-icon" class="md-up" aria-label="Configurações">
+    <u-icon-button
+      class="md-up"
+      slot="trailing-icon"
+      aria-label="Settings"
+    >
       <span class="material-symbols-outlined">settings</span>
     </u-icon-button>
-    <button slot="trailing-icon" class="bar-avatar" aria-label="Conta">HK</button>
+    <button
+      class="bar-avatar"
+      slot="trailing-icon"
+      aria-label="Account"
+    >
+      A
+    </button>
 
     <u-icon-button
       slot="trailing-icon"
@@ -38,157 +64,233 @@
   </u-top-app-bar>
 
   <u-scaffold-pane
+    #nav
     position="navigation"
-    variant="filled"
     collapse-mode="sidebar"
     collapse-breakpoint="lg"
-    id="screen-nav"
   >
-    <nav class="side-nav scrollable">
-      <button class="side-compose">
+    <div class="u-container u-margin-inline-small u-margin-lg-0 u-margin-inline-lg-0">
+      <u-fab
+        class="side-compose"
+        label="Compose"
+      >
         <span class="material-symbols-outlined">edit</span>
-        Escrever
-      </button>
-      <a class="side-item active">
-        <span class="material-symbols-outlined">inbox</span>
-        <span class="side-label">Caixa de entrada</span>
-        <span class="side-count">2.299</span>
-      </a>
-      <a class="side-item">
-        <span class="material-symbols-outlined">star</span>
-        <span class="side-label">Com estrela</span>
-      </a>
-      <a class="side-item">
-        <span class="material-symbols-outlined">schedule</span>
-        <span class="side-label">Adiados</span>
-      </a>
-      <a class="side-item">
-        <span class="material-symbols-outlined">label_important</span>
-        <span class="side-label">Importante</span>
-      </a>
-      <a class="side-item">
-        <span class="material-symbols-outlined">send</span>
-        <span class="side-label">Enviados</span>
-      </a>
-      <a class="side-item">
-        <span class="material-symbols-outlined">draft</span>
-        <span class="side-label">Rascunhos</span>
-        <span class="side-count">9</span>
-      </a>
-      <a class="side-item">
-        <span class="material-symbols-outlined">report</span>
-        <span class="side-label">Spam</span>
-        <span class="side-count">36</span>
-      </a>
-      <div class="side-label-group">Marcadores</div>
-      <a class="side-item">
-        <span class="material-symbols-outlined">sell</span>
-        <span class="side-label">Compras</span>
-        <span class="side-count">315</span>
-      </a>
-      <a class="side-item">
-        <span class="material-symbols-outlined">groups</span>
-        <span class="side-label">Social</span>
-        <span class="side-count">587</span>
-      </a>
-    </nav>
+      </u-fab>
+
+      <u-drawer-item active>
+        <span
+          class="material-symbols-outlined"
+          slot="icon"
+          >inbox</span
+        >
+        Inbox
+        <span slot="badge">2,299</span>
+      </u-drawer-item>
+      <u-drawer-item>
+        <span
+          class="material-symbols-outlined"
+          slot="icon"
+          >star</span
+        >
+        Starred
+      </u-drawer-item>
+      <u-drawer-item>
+        <span
+          class="material-symbols-outlined"
+          slot="icon"
+          >schedule</span
+        >
+        Snoozed
+      </u-drawer-item>
+      <u-drawer-item>
+        <span
+          class="material-symbols-outlined"
+          slot="icon"
+          >label_important</span
+        >
+        Important
+      </u-drawer-item>
+      <u-drawer-item>
+        <span
+          class="material-symbols-outlined"
+          slot="icon"
+          >send</span
+        >
+        Sent
+      </u-drawer-item>
+      <u-drawer-item>
+        <span
+          class="material-symbols-outlined"
+          slot="icon"
+          >draft</span
+        >
+        Drafts
+        <span slot="badge">9</span>
+      </u-drawer-item>
+      <u-drawer-item>
+        <span
+          class="material-symbols-outlined"
+          slot="icon"
+          >report</span
+        >
+        Spam
+        <span slot="badge">36</span>
+      </u-drawer-item>
+
+      <u-drawer-headline>Labels</u-drawer-headline>
+
+      <u-drawer-item>
+        <span
+          class="material-symbols-outlined"
+          slot="icon"
+          >sell</span
+        >
+        Purchases
+        <span slot="badge">315</span>
+      </u-drawer-item>
+      <u-drawer-item>
+        <span
+          class="material-symbols-outlined"
+          slot="icon"
+          >groups</span
+        >
+        Social
+        <span slot="badge">587</span>
+      </u-drawer-item>
+    </div>
   </u-scaffold-pane>
 
   <u-scaffold-pane
-    position="center"
-    variant="filled"
     class="list-pane"
-    id="screen-list"
+    variant="filled"
+    position="center"
   >
-    <div slot="header" class="list-bar">
-      <u-icon-button aria-label="Selecionar">
+    <div
+      class="list-bar"
+      slot="header"
+    >
+      <u-icon-button aria-label="Select">
         <span class="material-symbols-outlined">check_box_outline_blank</span>
       </u-icon-button>
-      <u-icon-button aria-label="Atualizar">
+      <u-icon-button aria-label="Refresh">
         <span class="material-symbols-outlined">refresh</span>
       </u-icon-button>
-      <u-icon-button aria-label="Mais">
+      <u-icon-button aria-label="More">
         <span class="material-symbols-outlined">more_vert</span>
       </u-icon-button>
-      <span class="list-count md-up">1–18 de 6.345</span>
-      <u-icon-button aria-label="Anterior">
+      <span class="list-count md-up">1–18 of 6,345</span>
+      <u-icon-button aria-label="Previous">
         <span class="material-symbols-outlined">chevron_left</span>
       </u-icon-button>
-      <u-icon-button aria-label="Próximo">
+      <u-icon-button aria-label="Next">
         <span class="material-symbols-outlined">chevron_right</span>
       </u-icon-button>
     </div>
 
-    <div class="list-rows scrollable">
+    <u-list class="list-rows scrollable">
       @for (row of emails; track row.subject + row.date) {
-        <button
-          type="button"
+        <u-list-item
           class="row"
+          selectable
           [class.unread]="row.unread"
           [class.sel]="row === selected"
           (click)="selectEmail(row)"
         >
-          <span class="row-av" [style.background]="row.bg">{{ row.av }}</span>
-          <div class="row-mid">
-            <div class="row-top">
-              <span class="row-sender">{{ row.sender }}</span>
-              <span class="row-date">{{ row.date }}</span>
-            </div>
+          <span
+            class="row-av"
+            slot="leading-icon"
+            [style.background]="row.bg"
+            >{{ row.av }}</span
+          >
+          <div class="row-top">
+            <span class="row-sender">{{ row.sender }}</span>
+            <span class="row-date">{{ row.date }}</span>
+          </div>
+          <div
+            class="row-supporting"
+            slot="supporting-text"
+          >
             <div class="row-subject">{{ row.subject }}</div>
             <div class="row-preview">{{ row.preview }}</div>
           </div>
-          <span class="material-symbols-outlined row-star">star</span>
-        </button>
+          <span
+            class="material-symbols-outlined row-star"
+            slot="trailing-icon"
+            >star</span
+          >
+        </u-list-item>
       }
-    </div>
+    </u-list>
   </u-scaffold-pane>
 
   <u-scaffold-pane
-    position="side"
-    variant="filled"
-    collapse-mode="fullscreen"
-    collapse-breakpoint="md"
     class="detail-pane"
     id="screen-detail"
+    variant="filled"
+    position="side"
+    collapse-mode="fullscreen"
+    collapse-breakpoint="md"
   >
-    <div slot="header" class="detail-bar">
-      <u-icon-button (click)="closeDetail()" aria-label="Voltar">
+    <div
+      class="detail-bar"
+      slot="header"
+    >
+      <u-icon-button
+        aria-label="Back"
+        (click)="closeDetail()"
+      >
         <span class="material-symbols-outlined">arrow_back</span>
       </u-icon-button>
       <span class="detail-spacer"></span>
-      <u-icon-button aria-label="Arquivar">
+      <u-icon-button aria-label="Archive">
         <span class="material-symbols-outlined">archive</span>
       </u-icon-button>
-      <u-icon-button aria-label="Excluir">
+      <u-icon-button aria-label="Delete">
         <span class="material-symbols-outlined">delete</span>
       </u-icon-button>
-      <u-icon-button aria-label="Marcar como não lido">
+      <u-icon-button aria-label="Mark as unread">
         <span class="material-symbols-outlined">mark_email_unread</span>
       </u-icon-button>
-      <u-icon-button aria-label="Mais">
+      <u-icon-button aria-label="More">
         <span class="material-symbols-outlined">more_vert</span>
       </u-icon-button>
     </div>
 
     @if (selected) {
-      <article class="detail-body scrollable">
+      <article class="u-container">
         <h2 class="detail-subject">{{ selected.subject }}</h2>
         <div class="detail-from">
-          <div class="detail-av" [style.background]="selected.bg">{{ selected.av }}</div>
+          <div
+            class="detail-av"
+            [style.background]="selected.bg"
+          >
+            {{ selected.av }}
+          </div>
           <div class="detail-from-text">
             <div class="detail-name">{{ selected.sender }}</div>
             <div class="detail-addr">{{ selected.addr }}</div>
           </div>
         </div>
-        <div class="detail-content" [innerHTML]="selected.content"></div>
+        <div
+          class="detail-content"
+          [innerHTML]="selected.content"
+        ></div>
         <div class="detail-actions">
           <u-button>
-            <span class="material-symbols-outlined" slot="icon">reply</span>
-            Responder
+            <span
+              class="material-symbols-outlined"
+              slot="icon"
+              >reply</span
+            >
+            Reply
           </u-button>
           <u-button variant="outlined">
-            <span class="material-symbols-outlined" slot="icon">forward</span>
-            Encaminhar
+            <span
+              class="material-symbols-outlined"
+              slot="icon"
+              >forward</span
+            >
+            Forward
           </u-button>
         </div>
       </article>
@@ -197,23 +299,38 @@
         <div class="detail-empty-icon">
           <span class="material-symbols-outlined">drafts</span>
         </div>
-        <p class="detail-empty-title">Nenhuma conversa selecionada</p>
-        <p class="detail-empty-sub">Selecione um e-mail da lista para ler aqui</p>
+        <p class="detail-empty-title">No conversation selected</p>
+        <p class="detail-empty-sub">Pick an email from the list to read it here</p>
       </div>
     }
   </u-scaffold-pane>
 
-  <u-navigation-bar slot="bottom-bar" class="mobile-bottom-nav">
+  <u-navigation-bar
+    class="mobile-bottom-nav"
+    slot="bottom-bar"
+  >
     <u-navigation-bar-item active>
-      <span class="material-symbols-outlined" slot="icon">mail</span>
-      Correio
+      <span
+        class="material-symbols-outlined"
+        slot="icon"
+        >mail</span
+      >
+      Mail
     </u-navigation-bar-item>
     <u-navigation-bar-item>
-      <span class="material-symbols-outlined" slot="icon">chat</span>
+      <span
+        class="material-symbols-outlined"
+        slot="icon"
+        >chat</span
+      >
       Chat
     </u-navigation-bar-item>
     <u-navigation-bar-item>
-      <span class="material-symbols-outlined" slot="icon">videocam</span>
+      <span
+        class="material-symbols-outlined"
+        slot="icon"
+        >videocam</span
+      >
       Meet
     </u-navigation-bar-item>
   </u-navigation-bar>

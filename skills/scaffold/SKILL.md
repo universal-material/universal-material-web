@@ -191,7 +191,7 @@ Events bubble from the pane and re-dispatch from the scaffold:
 
 ## Parts
 
-Scaffold: `scroll-container`, `top-bar`, `bottom-bar`, `fab`, `pane-row`, `navigation-pane-region`, `center-pane-region`, `side-pane-region`.
+Scaffold: `scroll-container`, `top-bar`, `bottom-bar`, `fab`, `pane-row`, `navigation-pane`, `center-pane`, `side-pane`.
 
 Pane: `container`, `header`, `content`, `scrim`.
 

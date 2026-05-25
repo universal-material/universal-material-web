@@ -53,9 +53,9 @@ export type ScaffoldLayout = 'list-detail' | 'supporting';
  * @csspart bottom-bar
  * @csspart fab
  * @csspart pane-row
- * @csspart navigation-pane-region
- * @csspart center-pane-region
- * @csspart side-pane-region
+ * @csspart navigation-pane
+ * @csspart center-pane
+ * @csspart side-pane
  *
  * @cssprop --u-pane-navigation-width - Default width of the navigation column when the pane is a custom-content pane (neither a `u-drawer` nor a `u-navigation-rail` is slotted). When the navigation pane hosts a drawer or rail, the pane resolves its own width and writes it on its host.
  * @cssprop --u-pane-fixed-width - Width of the column marked as "fixed" by the current `layout`. Under `list-detail` (default) this is the center column; under `supporting` it is the side column. Default `360px`.
@@ -115,16 +115,16 @@ export class Scaffold extends LitElement {
           <slot name="top-bar" @slotchange=${this.#autoSetAbsolutePosition}></slot>
         </div>
         <div class="pane-row" part="pane-row">
-          <div class="navigation-pane-region" part="navigation-pane-region">
+          <div class="navigation-pane" part="navigation-pane">
             <slot name="navigation-pane"></slot>
           </div>
           <div class="scroll-container" part="scroll-container">
             <slot></slot>
           </div>
-          <div class="center-pane-region" part="center-pane-region">
+          <div class="center-pane" part="center-pane">
             <slot name="center-pane"></slot>
           </div>
-          <div class="side-pane-region" part="side-pane-region">
+          <div class="side-pane" part="side-pane">
             <slot name="side-pane"></slot>
           </div>
         </div>
@@ -289,17 +289,25 @@ export class Scaffold extends LitElement {
     // selectors in SCSS, mirror the choice as a single `.dynamic` class
     // on the relevant region wrapper. SCSS keeps one simple rule.
     const layout = this.layout;
-    const navRegion = this.shadowRoot?.querySelector('.navigation-pane-region');
-    const centerRegion = this.shadowRoot?.querySelector('.center-pane-region');
-    const sideRegion = this.shadowRoot?.querySelector('.side-pane-region');
+    const navRegion = this.shadowRoot?.querySelector('.navigation-pane');
+    const centerRegion = this.shadowRoot?.querySelector('.center-pane');
+    const sideRegion = this.shadowRoot?.querySelector('.side-pane');
     navRegion?.classList.remove('dynamic');
     centerRegion?.classList.remove('dynamic');
     sideRegion?.classList.remove('dynamic');
 
-    if (layout === 'list-detail' && hasSide && sideExpanded) {
-      // Side fills the remaining row space; center pane (if any) stays
-      // fixed at `--u-pane-fixed-width`.
-      sideRegion?.classList.add('dynamic');
+    if (layout === 'list-detail') {
+      if (hasSide && sideExpanded) {
+        // Side fills the remaining row space; center pane (if any)
+        // stays fixed at `--u-pane-fixed-width`.
+        sideRegion?.classList.add('dynamic');
+      } else if (hasCenter) {
+        // Side is absent or collapsed (modal). The center pane is the
+        // only in-flow region left, so it should flex to fill the row
+        // rather than staying pinned to `--u-pane-fixed-width` with
+        // empty space beside it (the typical mobile inbox view).
+        centerRegion?.classList.add('dynamic');
+      }
     } else if (layout === 'supporting' && hasCenter) {
       // Center pane flexes; side stays fixed. (When no center pane is
       // present, the default-slot `.scroll-container` already flexes.)

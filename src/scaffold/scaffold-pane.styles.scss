@@ -1,9 +1,9 @@
 @use "../../scss/variables";
 @use "../../scss/functions";
+@use "../../scss/mixins";
 
 :host {
   display: block;
-  --u-scaffold-pane-z-index: 1030;
   --u-scaffold-pane-transition: 300ms #{variables.$awesome-cubic-bezier};
 }
 
@@ -23,6 +23,21 @@
 :host([variant=transparent]) .container {
   background: transparent;
   border-radius: 0;
+}
+
+// Below md the scaffold zeroes its outer inset (`--u-scaffold-pane-padding`),
+// so in-flow filled panes butt against the viewport edges and against the
+// top app bar / navigation bar. Their corner radius is no longer "wasted"
+// — it actively creates visible notches between the pane and the bars.
+// Drop the radius so the mobile pane reads as a fullscreen surface. Modal
+// overlays (sidebar / fullscreen rules below) keep their own radii because
+// their selectors are more specific.
+// `media-breakpoint-down(sm)` resolves to `max-width: 839.98px` — i.e. the
+// last viewport range where the scaffold's outer padding is still 0.
+@include mixins.media-breakpoint-down(sm) {
+  :host([variant=filled]) .container {
+    border-radius: 0;
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -45,16 +60,11 @@
 
 // ---------------------------------------------------------------------------
 // Compact state: the pane is taken out of the flow and renders as an
-// overlay anchored to the scaffold host (the scaffold sets
-// `position: relative`, so `inset: 0` on the host covers the scaffold).
+// overlay anchored to the scaffold host. The scaffold is the one that
+// promotes the slotted pane to `position: absolute` (see scaffold.styles
+// — `.<region> > ::slotted(u-scaffold-pane:not([expanded]))`); the pane
+// only worries about its own container chrome here.
 // ---------------------------------------------------------------------------
-
-:host(:not([expanded])) {
-  position: absolute;
-  inset: 0;
-  z-index: var(--u-scaffold-pane-z-index);
-  pointer-events: none;
-}
 
 :host(:not([expanded])) .container {
   position: absolute;
@@ -91,25 +101,44 @@
   inset-block: 0;
   width: var(--_u-scaffold-pane-drawer-width);
   box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
-  // M3 modal navigation drawer sits on the quietest surface tone so the
-  // scrim contrast is preserved. Overrides the in-flow variant bg.
+  // Match M3 modal navigation drawer (u-side-navigation): `surface-container-low`
+  // for the bg and `shape-large` (16dp) on the trailing edge — the same
+  // tokens the standalone drawer uses, so a sidebar-mode scaffold-pane
+  // and a u-side-navigation drawer read identically.
   background-color: var(--u-scaffold-pane-overlay-bg-color,
-    #{functions.get-color-var(surface-container-lowest)});
+    #{functions.get-color-var(surface-container-low)});
 }
 
 // Closed (default): the drawer sits one full drawer-width off the
 // leading/trailing edge so its rendered box is entirely off-screen.
 // Opening animates `inset-inline-start` (or -end) to 0.
+// Navigation pane (slides from the leading edge): round the trailing
+// corners only, mirroring `u-side-navigation`'s
+// `border-start-end-radius` / `border-end-end-radius` on its drawer.
 :host(:not([expanded])[collapse-mode=sidebar][position=navigation]) .container {
   inset-inline-start: calc(var(--_u-scaffold-pane-drawer-width) * -1);
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+  border-start-end-radius: var(--u-scaffold-pane-overlay-corner-shape,
+    #{functions.get-shape-corner-var(large)});
+  border-end-end-radius: var(--u-scaffold-pane-overlay-corner-shape,
+    #{functions.get-shape-corner-var(large)});
 }
 
 :host(:not([expanded])[collapse-mode=sidebar][position=navigation][open]) .container {
   inset-inline-start: 0;
 }
 
+// Side pane (slides from the trailing edge): round the leading corners
+// only — mirror image of the navigation drawer.
 :host(:not([expanded])[collapse-mode=sidebar][position=side]) .container {
   inset-inline-end: calc(var(--_u-scaffold-pane-drawer-width) * -1);
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
+  border-start-start-radius: var(--u-scaffold-pane-overlay-corner-shape,
+    #{functions.get-shape-corner-var(large)});
+  border-end-start-radius: var(--u-scaffold-pane-overlay-corner-shape,
+    #{functions.get-shape-corner-var(large)});
 }
 
 :host(:not([expanded])[collapse-mode=sidebar][position=side][open]) .container {
