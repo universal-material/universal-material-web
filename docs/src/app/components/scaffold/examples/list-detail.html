@@ -1,5 +1,9 @@
-<u-scaffold id="list-detail-scaffold" style="height: 560px; border: 1px solid var(--u-color-outline-variant, rgba(0,0,0,.12)); border-radius: 12px;">
-  <u-scaffold-pane position="start" variant="filled-low" collapse-mode="sidebar" collapse-breakpoint="lg" width="200" id="list-detail-nav">
+<u-scaffold
+  id="list-detail-scaffold"
+  layout="list-detail"
+  style="height: 560px; border: 1px solid var(--u-color-outline-variant, rgba(0,0,0,.12)); border-radius: 12px; --u-pane-navigation-width: 200px; --u-pane-fixed-width: 320px;"
+>
+  <u-scaffold-pane position="navigation" variant="filled" collapse-mode="sidebar" collapse-breakpoint="lg" id="list-detail-nav">
     <div slot="header" style="padding: 12px 16px; display: flex; align-items: center; justify-content: space-between;">
       <strong>Inbox</strong>
       <u-icon-button onclick="document.getElementById('list-detail-nav').close()">
@@ -15,7 +19,7 @@
     </u-list>
   </u-scaffold-pane>
 
-  <u-scaffold-pane position="center" variant="filled-low" width="320">
+  <u-scaffold-pane position="center" variant="filled">
     <div slot="header" style="display: flex; align-items: center; gap: 8px; padding: 10px 12px;">
       <u-icon-button onclick="document.getElementById('list-detail-nav').show()">
         <span class="material-symbols-outlined">menu</span>
@@ -46,7 +50,7 @@
     </u-list>
   </u-scaffold-pane>
 
-  <u-scaffold-pane position="end" variant="filled-low" collapse-mode="fullscreen" collapse-breakpoint="md" width="1fr" id="list-detail-message">
+  <u-scaffold-pane position="side" variant="filled" collapse-mode="fullscreen" collapse-breakpoint="md" id="list-detail-message">
     <div slot="header" style="display: flex; align-items: center; gap: 4px; padding: 8px 12px;">
       <u-icon-button onclick="document.getElementById('list-detail-message').close()">
         <span class="material-symbols-outlined">arrow_back</span>

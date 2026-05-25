@@ -14,7 +14,7 @@
     <u-button (click)="$any(pane).show()">Open editor</u-button>
   </div>
 
-  <u-scaffold-pane position="end" variant="filled" collapse-mode="fullscreen" #pane>
+  <u-scaffold-pane position="side" variant="filled" collapse-mode="fullscreen" #pane>
     <div slot="header" class="pane-header">
       <strong>Editor</strong>
       <u-icon-button (click)="$any(pane).close()">

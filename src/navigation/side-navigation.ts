@@ -9,6 +9,15 @@ import { styles } from './side-navigation.styles.js';
 
 import '../elevation/elevation.js';
 
+/**
+ * @deprecated Use `<u-scaffold>` with a `<u-scaffold-pane position="navigation">`
+ * that hosts a `<u-drawer slot="drawer">` and/or `<u-navigation-rail slot="rail">`.
+ * The scaffold pane absorbs the same width-resolution / drawer-toggle /
+ * app-bar-offset behavior this component provides, and integrates with
+ * the scaffold's grid (center pane, side pane, layout="list-detail" |
+ * "supporting", FAB anchoring, etc.). Standalone usage outside of a
+ * scaffold remains supported.
+ */
 @customElement('u-side-navigation')
 export class SideNavigation extends LitElement {
   static override styles = [baseStyles, config.navigationDrawer.useSwiperJs ? swiperStyles : styles];

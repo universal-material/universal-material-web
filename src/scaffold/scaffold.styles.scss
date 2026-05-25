@@ -1,3 +1,6 @@
+@use "../../scss/api";
+@use "../../scss/variables";
+
 :host {
   display: block;
   position: relative;
@@ -7,6 +10,79 @@
   contain: layout paint style;
   isolation: isolate;
   background-color: var(--u-scaffold-container-color, var(--u-color-body, transparent));
+
+  // Default column width — overridden per pane / per layout below. The
+  // pane-row is a flex row; each region reads its sizing from these
+  // private vars via `flex: 0 0 <var>`.
+  --_u-track-navigation: 0px;
+}
+
+// Outer inset at md+. Filled panes are meant to read as cards floating
+// over the scaffold surface — without the inset they butt against the
+// viewport edge and the corner radius is wasted. Below md the panes
+// take the full width (typical mobile fullscreen pattern). Consumers
+// can override `--u-scaffold-pane-padding` to taste, including setting
+// it to `0` to opt out at md+ too.
+@include api.media-breakpoint-up(md) {
+  :host {
+    --u-scaffold-pane-padding: 16px;
+  }
+}
+
+// When the navigation pane is expanded and in-flow, the track width
+// falls back through:
+//   1. `--_u-pane-navigation-resolved` — private; written by the pane
+//      itself when it absorbs a drawer/rail (different widths for
+//      drawer/rail/expanded).
+//   2. `--u-pane-navigation-width` — consumer-facing default.
+//   3. `360px` — M3 drawer width fallback.
+// When the pane is toggled off (custom content + toggleDrawer=true),
+// the scaffold also gets a `.nav-collapsed` class — handled below.
+:host(.has-navigation-pane[expanded-panes~="navigation"]) {
+  --_u-track-navigation: var(--_u-pane-navigation-resolved, var(--u-pane-navigation-width, 360px));
+
+  // Push a slotted top-app-bar's `.leading-icon` over to the same x
+  // the center card starts at — outer padding + nav width + full
+  // inter-column gap (the pane-row uses flex `gap`, so the entire gap
+  // sits between nav and center as empty space). We zero the bar's
+  // `--u-leading-icon-margin` too so the 8dp left/right margins don't
+  // add to the calculation. The bar reads both at lg+. When no nav
+  // pane is present these vars stay at their defaults (0 width, 8dp
+  // margin) and the bar behaves like standalone.
+  --u-app-bar-leading-icon-width: calc(
+    var(--u-scaffold-pane-padding, 0px) +
+    var(--_u-track-navigation) +
+    var(--u-scaffold-pane-gap, 16px)
+  );
+  --u-leading-icon-margin: 0px;
+}
+
+// `.nav-collapsed` is written by the navigation pane when toggleDrawer
+// is true. We KEEP the column at its full resolved width (no track
+// change) — the slide is driven by a negative `margin-inline-start`
+// on the navigation region, which flex resolves by both shifting the
+// region off-screen left AND pulling every subsequent column (center,
+// side) into the freed space. The center pane moves *because* of the
+// nav region's negative margin, nothing else. The margin also pulls
+// in the flex `gap` so the center lands flush against the outer
+// padding instead of leaving an empty 16dp strip.
+:host(.has-navigation-pane.nav-collapsed) .navigation-pane-region {
+  margin-inline-start: calc(
+    -1 * (var(--u-pane-navigation-width, 360px) + var(--u-scaffold-pane-gap, 16px))
+  );
+  display: none;
+}
+
+// When the region transitions back from `display: none` (un-collapse),
+// give the browser a "starting" margin so the slide-in animates from
+// off-screen instead of snapping. `@starting-style` applies only on
+// the very first frame of an element becoming visible.
+@starting-style {
+  :host(.has-navigation-pane:not(.nav-collapsed)) .navigation-pane-region {
+    margin-inline-start: calc(
+      -1 * (var(--u-pane-navigation-width, 360px) + var(--u-scaffold-pane-gap, 16px))
+    );
+  }
 }
 
 .layout {
@@ -28,25 +104,63 @@
 }
 
 .pane-row {
+  display: flex;
+  flex-direction: row;
+  gap: var(--u-scaffold-pane-gap, 16px);
   flex: 1 1 auto;
   min-height: 0;
   width: 100%;
 }
 
-.start-pane-region,
+// ----------------------------------------------------------------------
+// Region sizing. Each region is a flex item; its width is set via the
+// `flex` shorthand:
+//   - `0 0 <length>` — fixed at the given length (column width).
+//   - `1 1 0` — flexes to fill remaining row space.
+// Defaults: navigation fixed at `--_u-track-navigation` (0 when no nav
+// pane), center flexes, side hidden. The `[layout]` modifiers below
+// flip center/side based on the active layout.
+// ----------------------------------------------------------------------
+
+.navigation-pane-region {
+  flex: 0 0 var(--_u-track-navigation, 0px);
+  margin-inline-start: 0;
+  // Animate the margin: negative margin pulls the region off-screen
+  // left and, by flex flow, pulls the next item (center) into its
+  // place. Matches the `u-side-navigation .drawer` "exit-start" feel
+  // but with the whole column carrying the transition. `display`
+  // transitions via `allow-discrete` so we can pull the region out of
+  // the flow entirely once the slide finishes.
+  transition:
+    margin-inline-start 300ms variables.$awesome-cubic-bezier allow-discrete,
+    display 300ms variables.$awesome-cubic-bezier allow-discrete;
+  min-width: 0;
+}
+
+.scroll-container,
 .center-pane-region,
-.end-pane-region {
-  // Use `display: contents` (not `none`) so the slot stays in the
-  // rendering tree and slotted panes can still render — collapsed panes
-  // are positioned absolutely against the scaffold host (its
-  // `contain: layout` establishes a containing block) and overlay it
-  // entirely, including the top and bottom bar rows. Crucially, this
-  // keeps the EMPTY pane regions out of the grid (a `display: block`
-  // empty region would consume a column and wrap real panes to row 2).
-  display: contents;
+.side-pane-region {
+  flex: 0 0 var(--u-pane-fixed-width, 360px);
+  min-width: 0;
+}
+
+.navigation-pane-region,
+.center-pane-region,
+.side-pane-region {
+  display: flex;
+  min-height: 0;
+}
+
+.navigation-pane-region > ::slotted(u-scaffold-pane),
+.center-pane-region > ::slotted(u-scaffold-pane),
+.side-pane-region > ::slotted(u-scaffold-pane) {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
 }
 
 .scroll-container {
+  flex: 1 1 0;
   width: 100%;
   height: 100%;
   overflow-y: auto;
@@ -56,94 +170,48 @@
   min-height: 0;
 }
 
-// ---------------------------------------------------------------------------
-// In-flow grid based on which panes report themselves as expanded. The
-// pane sets its own `expanded` attribute from `matchMedia` against its
-// `collapse-breakpoint`; the scaffold mirrors the aggregate as the
-// `expanded-panes` attribute (`""`, `"start"`, `"end"`, or `"start end"`).
-// ---------------------------------------------------------------------------
-
-// Width chain per pane:
-//   1. private `--_u-scaffold-{start,end}-pane-width` (written by the
-//      scaffold's #syncPaneSlots from the pane's own `width` attribute
-//      or inline `--u-scaffold-pane-width`).
-//   2. public `--u-scaffold-{start,end}-pane-width` (set on the scaffold
-//      host by the consumer).
-//   3. 360px default.
-:host([expanded-panes~="start"]:not([expanded-panes~="end"])) .pane-row {
-  display: grid;
-  grid-template-columns:
-    var(--_u-scaffold-start-pane-width, var(--u-scaffold-start-pane-width, 360px))
-    minmax(0, 1fr);
-  gap: var(--u-scaffold-pane-gap, 16px);
-  padding: var(--u-scaffold-pane-padding, 0);
+// Dynamic sizing — the consumer marks ONE pane with `class="dynamic"`
+// to make it flex into the remaining row space. The scaffold mirrors
+// that class onto the corresponding region wrapper (#syncPaneSlots).
+// Other regions stay at their `--u-pane-fixed-width` (or the
+// navigation pane's own resolved width).
+.navigation-pane-region.dynamic,
+.center-pane-region.dynamic,
+.side-pane-region.dynamic {
+  flex: 1 1 0;
 }
 
-:host([expanded-panes~="end"]:not([expanded-panes~="start"])) .pane-row {
-  display: grid;
-  grid-template-columns:
-    minmax(0, 1fr)
-    var(--_u-scaffold-end-pane-width, var(--u-scaffold-end-pane-width, 360px));
-  gap: var(--u-scaffold-pane-gap, 16px);
-  padding: var(--u-scaffold-pane-padding, 0);
-}
-
-:host([expanded-panes~="start"][expanded-panes~="end"]) .pane-row {
-  display: grid;
-  grid-template-columns:
-    var(--_u-scaffold-start-pane-width, var(--u-scaffold-start-pane-width, 360px))
-    minmax(0, 1fr)
-    var(--_u-scaffold-end-pane-width, var(--u-scaffold-end-pane-width, 360px));
-  gap: var(--u-scaffold-pane-gap, 16px);
-  padding: var(--u-scaffold-pane-padding, 0);
-}
-
-// ---------------------------------------------------------------------------
-// Center pane: replaces the default-slot scroll-container as the middle
-// column. Its own `.content` becomes the scrollable area; we hide the
-// legacy `.scroll-container` so the default slot doesn't double-render.
-// The center column width falls back to `minmax(0, 1fr)` (flex) when
-// the consumer hasn't set an explicit width on the center pane.
-// ---------------------------------------------------------------------------
-
-:host([has-center-pane]) .scroll-container {
+// Hide empty / superseded regions so collapsed grid tracks don't leak
+// boxes into the layout.
+:host(:not(.has-navigation-pane)) .navigation-pane-region {
   display: none;
 }
 
-:host([has-center-pane]:not([expanded-panes~="start"]):not([expanded-panes~="end"])) .pane-row {
-  display: grid;
-  grid-template-columns:
-    var(--_u-scaffold-center-pane-width, minmax(0, 1fr));
-  gap: var(--u-scaffold-pane-gap, 16px);
-  padding: var(--u-scaffold-pane-padding, 0);
+:host(:not(.has-center-pane)) .center-pane-region {
+  display: none;
 }
 
-:host([has-center-pane][expanded-panes~="start"]:not([expanded-panes~="end"])) .pane-row {
-  display: grid;
-  grid-template-columns:
-    var(--_u-scaffold-start-pane-width, var(--u-scaffold-start-pane-width, 360px))
-    var(--_u-scaffold-center-pane-width, minmax(0, 1fr));
-  gap: var(--u-scaffold-pane-gap, 16px);
-  padding: var(--u-scaffold-pane-padding, 0);
+:host(:not(.has-side-pane)) .side-pane-region {
+  display: none;
 }
 
-:host([has-center-pane][expanded-panes~="end"]:not([expanded-panes~="start"])) .pane-row {
-  display: grid;
-  grid-template-columns:
-    var(--_u-scaffold-center-pane-width, minmax(0, 1fr))
-    var(--_u-scaffold-end-pane-width, var(--u-scaffold-end-pane-width, 360px));
-  gap: var(--u-scaffold-pane-gap, 16px);
-  padding: var(--u-scaffold-pane-padding, 0);
+// Center pane replaces the default-slot scroll-container as the middle
+// column. Its own `.content` becomes the scrollable area.
+:host(.has-center-pane) .scroll-container {
+  display: none;
 }
 
-:host([has-center-pane][expanded-panes~="start"][expanded-panes~="end"]) .pane-row {
-  display: grid;
-  grid-template-columns:
-    var(--_u-scaffold-start-pane-width, var(--u-scaffold-start-pane-width, 360px))
-    var(--_u-scaffold-center-pane-width, minmax(0, 1fr))
-    var(--_u-scaffold-end-pane-width, var(--u-scaffold-end-pane-width, 360px));
-  gap: var(--u-scaffold-pane-gap, 16px);
-  padding: var(--u-scaffold-pane-padding, 0);
+// Outer inset on the pane-row — pushes all columns away from the scaffold
+// edges so filled panes read as cards floating over the surface rather
+// than butting against the viewport. At sub-md the default is 0 (panes
+// take the full width). At md+ we set `--u-scaffold-pane-padding: 16px`
+// on `:host` so the scaffold's panes don't touch the screen edges. The
+// inter-column gap is handled by the flex `gap` on `.pane-row` above —
+// hidden regions (`display: none`) don't contribute to it, so collapsed
+// columns close their gap automatically.
+.pane-row {
+  padding-block: var(--u-scaffold-pane-padding, 0);
+  padding-inline: var(--u-scaffold-pane-padding, 0);
 }
 
 .fab {

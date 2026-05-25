@@ -1,66 +1,89 @@
 import { ContextProvider } from '@lit/context';
 
 import { html, HTMLTemplateResult, LitElement, PropertyValues } from 'lit';
-import { customElement, query } from 'lit/decorators.js';
+import { customElement, property, query } from 'lit/decorators.js';
 
 import { styles as baseStyles } from '../shared/base.styles.js';
 import type { ScaffoldPane, ScaffoldPanePosition } from './scaffold-pane.js';
 import { styles } from './scaffold.styles.js';
 import { scrollContainerContext } from './scroll-container-context.js';
 
+export type ScaffoldLayout = 'list-detail' | 'supporting';
+
 /**
  * Layout container that hosts the top app bar, navigation bar, scrollable
- * content, optional side panes and a floating FAB. The scaffold publishes
- * its internal scroll element through Lit context so descendants like
- * `u-top-app-bar`, `u-navigation-bar`, `u-fab` and `u-fab-menu` can react
- * to the same scroll source without manual wiring.
+ * content, optional `u-scaffold-pane` regions and a floating FAB. The
+ * scaffold publishes its internal scroll element through Lit context so
+ * descendants like `u-top-app-bar`, `u-navigation-bar`, `u-fab` and
+ * `u-fab-menu` can react to the same scroll source without manual wiring.
  *
- * Side panes are declared as `u-scaffold-pane` light-DOM children with a
- * `position` attribute (`start` or `end`). The scaffold auto-routes them
- * into the `start-pane` / `end-pane` slots and reserves grid columns for
- * each pane that reports itself as expanded (see the pane's
- * `collapse-breakpoint`). When a pane is collapsed it leaves the flow and
- * renders as an overlay anchored to the scaffold (sidebar drawer or
- * fullscreen takeover, controlled by `collapse-mode`).
+ * Panes are declared as `u-scaffold-pane` light-DOM children with a
+ * `position` attribute (`navigation`, `center` or `side`). The scaffold
+ * auto-routes them into the matching slots and the grid template builds
+ * itself from the pane host attributes — see the `layout` property for
+ * the two supported column-sizing strategies.
  *
- * The scaffold reflects which panes are currently expanded as an
- * `expanded-panes` host attribute (`""`, `"start"`, `"end"`, or
- * `"start end"`); the layout CSS keys off this attribute instead of any
- * media query so the start and end panes can use independent breakpoints.
+ * The scaffold reflects which lateral panes are currently expanded as an
+ * `expanded-panes` host attribute (`""`, `"navigation"`, `"side"`, or
+ * `"navigation side"`); the layout CSS keys off this attribute instead
+ * of any media query so navigation and side panes can use independent
+ * breakpoints.
  *
  * The internal layout is a flex-column: the top-bar and bottom-bar each
- * sit in their own positioned row, and the pane-row (start-pane region |
- * scroll-container | end-pane region) fills the remaining height. Slotted
- * bars use `position="absolute"` (auto-applied by the scaffold) so they
- * anchor to their own row — they paint full-width across the scaffold but
- * sit above/below the pane row, not over it. The FAB lives outside the
- * layout column, anchored absolutely to the scaffold host's bottom-right
- * and offset above the navigation bar when one is slotted.
+ * sit in their own positioned row, and the pane-row (navigation region |
+ * scroll-container | center region | side region) fills the remaining
+ * height. Slotted bars use `position="absolute"` (auto-applied by the
+ * scaffold) so they anchor to their own row — they paint full-width
+ * across the scaffold but sit above/below the pane row, not over it.
+ * The FAB lives outside the layout column, anchored absolutely to the
+ * scaffold host's bottom-right and offset above the navigation bar when
+ * one is slotted.
  *
  * @slot top-bar - the top app bar.
  * @slot - the scrollable page content. Hidden when a `position="center"`
  *   pane is present (the center pane becomes the middle column).
  * @slot bottom-bar - the navigation bar (or any bottom-anchored bar).
  * @slot fab - floating action button area, always visible above the navigation bar.
- * @slot start-pane - auto-populated from `u-scaffold-pane[position=start]` light children.
- * @slot center-pane - auto-populated from `u-scaffold-pane[position=center]` light children.
- * @slot end-pane - auto-populated from `u-scaffold-pane[position=end]` light children.
+ * @slot navigation-pane - auto-populated from `u-scaffold-pane[position=navigation]` children.
+ * @slot center-pane - auto-populated from `u-scaffold-pane[position=center]` children.
+ * @slot side-pane - auto-populated from `u-scaffold-pane[position=side]` children.
  *
  * @csspart scroll-container
  * @csspart top-bar
  * @csspart bottom-bar
  * @csspart fab
  * @csspart pane-row
- * @csspart start-pane-region
+ * @csspart navigation-pane-region
  * @csspart center-pane-region
- * @csspart end-pane-region
+ * @csspart side-pane-region
  *
- * @fires u-scaffold-pane-open - re-dispatched from a child pane opening; `detail.position` is `'start'` or `'end'`.
+ * @cssprop --u-pane-navigation-width - Default width of the navigation column when the pane is a custom-content pane (neither a `u-drawer` nor a `u-navigation-rail` is slotted). When the navigation pane hosts a drawer or rail, the pane resolves its own width and writes it on its host.
+ * @cssprop --u-pane-fixed-width - Width of the column marked as "fixed" by the current `layout`. Under `list-detail` (default) this is the center column; under `supporting` it is the side column. Default `360px`.
+ * @cssprop --u-app-bar-leading-icon-width - Written by the scaffold as the resolved navigation-pane width so a slotted `u-top-app-bar` can min-width its `.leading-icon` area and visually align its headline with the start of the center column. Consumed at `lg+`. Reset to `0px` when no navigation pane is expanded.
+ *
+ * @fires u-scaffold-pane-open - re-dispatched from a child pane opening; `detail.position` is `'navigation'`, `'side'` or `'center'`.
  * @fires u-scaffold-pane-close - re-dispatched from a child pane closing.
  */
 @customElement('u-scaffold')
 export class Scaffold extends LitElement {
   static override styles = [baseStyles, styles];
+
+  /**
+   * Which column-sizing strategy to apply to the pane row.
+   *
+   * - `list-detail` (default): the center column takes
+   *   `--u-pane-fixed-width` and the side column flexes (the canonical
+   *   email/inbox pattern — fixed list, dynamic detail).
+   * - `supporting`: the center column flexes and the side column takes
+   *   `--u-pane-fixed-width` (e.g. an editor with a fixed-width help
+   *   panel on the right).
+   *
+   * Internally the scaffold mirrors the strategy as a `dynamic` class
+   * on the region that should flex; the SCSS keys off that single
+   * class instead of a cascade of attribute selectors.
+   */
+  @property({ type: String, reflect: true })
+  layout: ScaffoldLayout = 'list-detail';
 
   @query('.scroll-container', true)
   private readonly _scrollContainer!: HTMLElement;
@@ -92,8 +115,8 @@ export class Scaffold extends LitElement {
           <slot name="top-bar" @slotchange=${this.#autoSetAbsolutePosition}></slot>
         </div>
         <div class="pane-row" part="pane-row">
-          <div class="start-pane-region" part="start-pane-region">
-            <slot name="start-pane"></slot>
+          <div class="navigation-pane-region" part="navigation-pane-region">
+            <slot name="navigation-pane"></slot>
           </div>
           <div class="scroll-container" part="scroll-container">
             <slot></slot>
@@ -101,8 +124,8 @@ export class Scaffold extends LitElement {
           <div class="center-pane-region" part="center-pane-region">
             <slot name="center-pane"></slot>
           </div>
-          <div class="end-pane-region" part="end-pane-region">
-            <slot name="end-pane"></slot>
+          <div class="side-pane-region" part="side-pane-region">
+            <slot name="side-pane"></slot>
           </div>
         </div>
         <div class="bottom-bar-row" part="bottom-bar">
@@ -123,7 +146,7 @@ export class Scaffold extends LitElement {
     this.addEventListener('close', this.#onPaneClose as EventListener);
     this.addEventListener('expand', this.#onPaneExpansionChange as EventListener);
     this.addEventListener('collapse', this.#onPaneExpansionChange as EventListener);
-    this.addEventListener('width-change', this.#onPaneExpansionChange as EventListener);
+    this.addEventListener('navigation-width-change', this.#onPaneExpansionChange as EventListener);
   }
 
   protected override firstUpdated(changedProperties: PropertyValues): void {
@@ -141,9 +164,17 @@ export class Scaffold extends LitElement {
     this.#paneChildObserver.observe(this, {
       childList: true,
       attributes: true,
-      attributeFilter: ['position', 'expanded', 'width', 'style'],
+      attributeFilter: ['position', 'expanded'],
       subtree: false,
     });
+  }
+
+  protected override updated(changedProperties: PropertyValues): void {
+    super.updated(changedProperties);
+    // `layout` changes which region carries the `.dynamic` class — re-sync.
+    if (changedProperties.has('layout')) {
+      this.#syncPaneSlots();
+    }
   }
 
   override disconnectedCallback(): void {
@@ -156,7 +187,7 @@ export class Scaffold extends LitElement {
     this.removeEventListener('close', this.#onPaneClose as EventListener);
     this.removeEventListener('expand', this.#onPaneExpansionChange as EventListener);
     this.removeEventListener('collapse', this.#onPaneExpansionChange as EventListener);
-    this.removeEventListener('width-change', this.#onPaneExpansionChange as EventListener);
+    this.removeEventListener('navigation-width-change', this.#onPaneExpansionChange as EventListener);
   }
 
   /**
@@ -197,7 +228,7 @@ export class Scaffold extends LitElement {
     for (const child of Array.from(this.children)) {
       if (
         child.tagName === 'U-SCAFFOLD-PANE'
-        && (child.getAttribute('position') ?? 'start') === position
+        && (child.getAttribute('position') ?? 'navigation') === position
       ) {
         return child as ScaffoldPane;
       }
@@ -207,14 +238,11 @@ export class Scaffold extends LitElement {
   }
 
   readonly #syncPaneSlots = (): void => {
-    let hasStart = false;
+    let hasNavigation = false;
     let hasCenter = false;
-    let hasEnd = false;
-    let startExpanded = false;
-    let endExpanded = false;
-    let startWidth: string | null = null;
-    let centerWidth: string | null = null;
-    let endWidth: string | null = null;
+    let hasSide = false;
+    let navigationExpanded = false;
+    let sideExpanded = false;
     let centerPane: ScaffoldPane | null = null;
 
     for (const child of Array.from(this.children)) {
@@ -222,12 +250,12 @@ export class Scaffold extends LitElement {
         continue;
       }
 
-      const position = (child.getAttribute('position') ?? 'start') as ScaffoldPanePosition;
-      const target = position === 'end'
-        ? 'end-pane'
+      const position = (child.getAttribute('position') ?? 'navigation') as ScaffoldPanePosition;
+      const target = position === 'side'
+        ? 'side-pane'
         : position === 'center'
           ? 'center-pane'
-          : 'start-pane';
+          : 'navigation-pane';
 
       if (child.getAttribute('slot') !== target) {
         child.setAttribute('slot', target);
@@ -240,42 +268,47 @@ export class Scaffold extends LitElement {
       const expanded = (child as Partial<ScaffoldPane>).expanded
         ?? child.hasAttribute('expanded');
 
-      const width = this.#resolvePaneWidth(child as HTMLElement);
-
-      if (position === 'end') {
-        hasEnd = true;
-        endExpanded ||= expanded;
-        endWidth ??= width;
+      if (position === 'side') {
+        hasSide = true;
+        sideExpanded ||= expanded;
       } else if (position === 'center') {
         hasCenter = true;
-        centerWidth ??= width;
         centerPane ??= child as ScaffoldPane;
       } else {
-        hasStart = true;
-        startExpanded ||= expanded;
-        startWidth ??= width;
+        hasNavigation = true;
+        navigationExpanded ||= expanded;
       }
     }
 
-    this.toggleAttribute('has-start-pane', hasStart);
-    this.toggleAttribute('has-center-pane', hasCenter);
-    this.toggleAttribute('has-end-pane', hasEnd);
+    this.classList.toggle('has-navigation-pane', hasNavigation);
+    this.classList.toggle('has-center-pane', hasCenter);
+    this.classList.toggle('has-side-pane', hasSide);
 
-    const setOrRemove = (name: string, value: string | null): void => {
-      if (value) {
-        this.style.setProperty(name, value);
-      } else {
-        this.style.removeProperty(name);
-      }
-    };
+    // The `layout` attribute picks which column flexes. Instead of a
+    // cascade of `:host([layout=...]...) .region { flex: 1 1 0 }`
+    // selectors in SCSS, mirror the choice as a single `.dynamic` class
+    // on the relevant region wrapper. SCSS keeps one simple rule.
+    const layout = this.layout;
+    const navRegion = this.shadowRoot?.querySelector('.navigation-pane-region');
+    const centerRegion = this.shadowRoot?.querySelector('.center-pane-region');
+    const sideRegion = this.shadowRoot?.querySelector('.side-pane-region');
+    navRegion?.classList.remove('dynamic');
+    centerRegion?.classList.remove('dynamic');
+    sideRegion?.classList.remove('dynamic');
 
-    setOrRemove('--_u-scaffold-start-pane-width', startWidth);
-    setOrRemove('--_u-scaffold-center-pane-width', centerWidth);
-    setOrRemove('--_u-scaffold-end-pane-width', endWidth);
+    if (layout === 'list-detail' && hasSide && sideExpanded) {
+      // Side fills the remaining row space; center pane (if any) stays
+      // fixed at `--u-pane-fixed-width`.
+      sideRegion?.classList.add('dynamic');
+    } else if (layout === 'supporting' && hasCenter) {
+      // Center pane flexes; side stays fixed. (When no center pane is
+      // present, the default-slot `.scroll-container` already flexes.)
+      centerRegion?.classList.add('dynamic');
+    }
 
     const expanded: string[] = [];
-    if (startExpanded) expanded.push('start');
-    if (endExpanded) expanded.push('end');
+    if (navigationExpanded) expanded.push('navigation');
+    if (sideExpanded) expanded.push('side');
 
     const value = expanded.join(' ');
 
@@ -296,28 +329,6 @@ export class Scaffold extends LitElement {
     }
   };
 
-  /**
-   * Resolve a pane's expanded-column width. Priority:
-   *   1. `width` attribute on the pane — bare number → `${n}px`, anything
-   *      else passes through as a CSS length / function.
-   *   2. `--u-scaffold-pane-width` inline on the pane.
-   *   3. `null` — caller falls back to the scaffold-level `--u-scaffold-
-   *      {start,end}-pane-width` host var.
-   */
-  #resolvePaneWidth(pane: HTMLElement): string | null {
-    const attr = pane.getAttribute('width');
-
-    if (attr) {
-      return /^\d+(\.\d+)?$/.test(attr.trim()) ? `${attr.trim()}px` : attr;
-    }
-
-    const cssVar = getComputedStyle(pane)
-      .getPropertyValue('--u-scaffold-pane-width')
-      .trim();
-
-    return cssVar || null;
-  }
-
   readonly #onPaneExpansionChange = (event: Event): void => {
     const pane = event.target as Element | null;
 
@@ -335,7 +346,7 @@ export class Scaffold extends LitElement {
       return;
     }
 
-    const position = (pane.getAttribute('position') ?? 'start') as ScaffoldPanePosition;
+    const position = (pane.getAttribute('position') ?? 'navigation') as ScaffoldPanePosition;
     this.dispatchEvent(new CustomEvent('u-scaffold-pane-open', {
       detail: { position },
       bubbles: true,
@@ -350,7 +361,7 @@ export class Scaffold extends LitElement {
       return;
     }
 
-    const position = (pane.getAttribute('position') ?? 'start') as ScaffoldPanePosition;
+    const position = (pane.getAttribute('position') ?? 'navigation') as ScaffoldPanePosition;
     this.dispatchEvent(new CustomEvent('u-scaffold-pane-close', {
       detail: { position },
       bubbles: true,

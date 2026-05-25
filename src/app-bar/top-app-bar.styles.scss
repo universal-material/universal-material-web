@@ -23,6 +23,17 @@ slot[name="leading-icon"]::slotted(u-icon-button) {
   background-color: var(--u-top-app-bar-on-scroll-container-color, #{api.get-color-var(surface-container)});
 }
 
+// At md+ the bar typically sits over a scaffold whose panes carry their
+// own card chrome — adding a scrolled tint on top would double-paint
+// the surface. Keep the on-scroll color only on compact viewports.
+// Override via `--u-top-app-bar-on-scroll-container-color: <color>` if
+// you need it back at large.
+@include api.media-breakpoint-up(md) {
+  .scrolled {
+    background-color: var(--u-top-app-bar-on-scroll-container-color, transparent);
+  }
+}
+
 .leading-icon,
 .trailing-icon {
   display: none;
@@ -104,6 +115,19 @@ slot[name="leading-icon"]::slotted(u-icon-button) {
 
 .leading-icon {
   margin-inline: var(--u-leading-icon-margin, 8px);
+}
+
+// At lg+, when the bar lives inside a `u-scaffold` with a navigation
+// pane, the scaffold writes `--u-app-bar-leading-icon-width` matching
+// the resolved pane width. We size the leading-icon area to it so the
+// headline aligns with the start of the next column (center / main).
+// The default `0` leaves standalone bars unchanged — the rule is a
+// no-op when the var is unset.
+@include api.media-breakpoint-up(lg) {
+  .leading-icon {
+    min-width: var(--u-app-bar-leading-icon-width, 0);
+    box-sizing: border-box;
+  }
 }
 
 .trailing-icon {

@@ -4,36 +4,53 @@
 }
 
 // ---------------------------------------------------------------------------
-// App-bar headline area: brand + central search input.
+// App-bar leading: menu toggle + brand (logo + "Correio"). Both sit
+// inside the `leading-icon` area, whose width the scaffold sizes to
+// align with the start of the center column.
 // ---------------------------------------------------------------------------
 
-.bar-headline {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex: 1;
-  min-width: 0;
-}
-
 .brand {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 19px;
-  font-weight: 700;
   color: var(--u-color-primary);
   letter-spacing: -0.5px;
-  flex-shrink: 0;
 }
 
 .brand-icon {
   font-size: 25px !important;
 }
 
-u-search {
+.brand-label {
+  font-size: 19px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+// The search bar sits in the bar's headline area. Because the scaffold
+// writes `--u-app-bar-leading-icon-width` to push leading content out
+// to the start of the center column, the search starts aligned with
+// the list card. Cap its width to the center pane's fixed width so it
+// reads as the "search edition" of that same card column — start AND
+// end edges coincide visually.
+u-top-app-bar::part(headline) {
   flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+u-search {
+  // Match the center card's width: the scaffold's `--u-pane-fixed-width`
+  // sets the center pane's flex-basis. With flex+gap the gap sits
+  // between regions, so the search host's full width equals the center
+  // card's full width 1:1.
+  flex: 0 0 var(--u-pane-fixed-width, 432px);
   min-width: 0;
-  max-width: 720px;
+  // u-search's `.inner-container` adds 24dp horizontal padding around
+  // the visible pill (`--u-layout-margin-inline`). Zero it so the pill
+  // edges coincide with the host edges (and therefore with the center
+  // card edges).
+  --u-layout-margin-inline: 0px;
 }
 
 .bar-avatar {
@@ -157,7 +174,7 @@ u-search {
 }
 
 // ---------------------------------------------------------------------------
-// List pane (center, width 432, filled-low).
+// List pane (center, width 432, filled).
 // ---------------------------------------------------------------------------
 
 .list-pane,

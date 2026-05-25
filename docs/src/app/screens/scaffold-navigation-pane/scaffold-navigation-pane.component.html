@@ -1,0 +1,36 @@
+<u-scaffold>
+  <u-top-app-bar slot="top-bar" headline="Navigation pane — drawer">
+    <u-icon-button slot="leading-icon">
+      <span class="material-symbols-outlined">menu</span>
+    </u-icon-button>
+    <u-icon-button
+      slot="trailing-icon"
+      routerLink="/components/scaffold"
+      aria-label="Back to docs"
+    >
+      <span class="material-symbols-outlined">arrow_back</span>
+    </u-icon-button>
+  </u-top-app-bar>
+
+  <u-scaffold-pane
+    position="navigation"
+    collapse-mode="sidebar"
+    collapse-breakpoint="lg"
+    id="nav-pane"
+  >
+    <u-drawer slot="drawer">
+      <u-drawer-headline>Mail</u-drawer-headline>
+      <u-drawer-item>Inbox</u-drawer-item>
+      <u-drawer-item>Starred</u-drawer-item>
+      <u-drawer-item>Sent</u-drawer-item>
+      <u-drawer-item>Drafts</u-drawer-item>
+    </u-drawer>
+  </u-scaffold-pane>
+
+  <div class="screen-content">
+    <h3>Drawer hosted by navigation pane</h3>
+    <p>At <code>≥ lg</code> the column resolves to 360dp (M3 drawer width). The pane writes <code>--u-pane-navigation-width: 360px</code> on the scaffold, so the grid track and the top-app-bar's <code>.leading-icon</code> follow.</p>
+    <p>Click the toggle to slide the drawer off — the column collapses to 0 (no rail underneath).</p>
+    <u-button onclick="document.getElementById('nav-pane').toggleDrawer = !document.getElementById('nav-pane').toggleDrawer">Toggle drawer</u-button>
+  </div>
+</u-scaffold>

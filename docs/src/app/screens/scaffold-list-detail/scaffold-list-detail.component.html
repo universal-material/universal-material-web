@@ -1,22 +1,24 @@
-<u-scaffold id="screen-scaffold">
+<u-scaffold
+  id="screen-scaffold"
+  layout="list-detail"
+  style="--u-pane-navigation-width: 240px; --u-pane-fixed-width: 432px;"
+>
   <u-top-app-bar slot="top-bar" headline="">
     <u-icon-button
       slot="leading-icon"
-      onclick="document.getElementById('screen-nav').toggle()"
-      aria-label="Menu"
+      onclick="(function(p){p.expanded?(p.toggleDrawer=!p.toggleDrawer):p.toggle()})(document.getElementById('screen-nav'))"
+      aria-label="Toggle navigation"
     >
       <span class="material-symbols-outlined">menu</span>
     </u-icon-button>
+    <span slot="leading-icon" class="brand">
+      <span class="material-symbols-outlined brand-icon">mail</span>
+      <span class="brand-label">Correio</span>
+    </span>
 
-    <div class="bar-headline">
-      <span class="brand">
-        <span class="material-symbols-outlined brand-icon">mail</span>
-        <span class="brand-label">Correio</span>
-      </span>
-      <u-search position="static" placeholder="Pesquisar e-mail">
-        <span class="material-symbols-outlined" slot="leading-icon">search</span>
-      </u-search>
-    </div>
+    <u-search position="static" placeholder="Pesquisar e-mail">
+      <span class="material-symbols-outlined" slot="leading-icon">search</span>
+    </u-search>
 
     <u-icon-button slot="trailing-icon" class="md-up" aria-label="Ajuda">
       <span class="material-symbols-outlined">help</span>
@@ -36,11 +38,10 @@
   </u-top-app-bar>
 
   <u-scaffold-pane
-    position="start"
-    variant="filled-low"
-    collapse-mode="hidden"
+    position="navigation"
+    variant="filled"
+    collapse-mode="sidebar"
     collapse-breakpoint="lg"
-    width="240"
     id="screen-nav"
   >
     <nav class="side-nav scrollable">
@@ -95,8 +96,7 @@
 
   <u-scaffold-pane
     position="center"
-    variant="filled-low"
-    width="432"
+    variant="filled"
     class="list-pane"
     id="screen-list"
   >
@@ -144,11 +144,10 @@
   </u-scaffold-pane>
 
   <u-scaffold-pane
-    position="end"
-    variant="filled-low"
+    position="side"
+    variant="filled"
     collapse-mode="fullscreen"
     collapse-breakpoint="md"
-    width="1fr"
     class="detail-pane"
     id="screen-detail"
   >

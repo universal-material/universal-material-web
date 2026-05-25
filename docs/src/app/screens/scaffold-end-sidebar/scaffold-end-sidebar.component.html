@@ -14,7 +14,7 @@
     <u-button (click)="$any(pane).show()">Open details</u-button>
   </div>
 
-  <u-scaffold-pane position="end" variant="filled" collapse-mode="sidebar" #pane>
+  <u-scaffold-pane position="side" variant="filled" collapse-mode="sidebar" #pane>
     <div slot="header" class="pane-header">
       <strong>Inspector</strong>
       <u-icon-button (click)="$any(pane).close()">

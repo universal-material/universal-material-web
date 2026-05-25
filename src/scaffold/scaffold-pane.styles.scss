@@ -9,27 +9,13 @@
 
 // ---------------------------------------------------------------------------
 // Variant treatment — bg and corner radius. Applies in every state; the
-// compact rules below add fallbacks for `transparent` so the overlay still
-// has something visible to render against.
+// modal/fullscreen rules below override the bg for overlays so they sit
+// on `surface-container-lowest` regardless of the pane's in-flow variant.
 // ---------------------------------------------------------------------------
 
 :host([variant=filled]) .container {
   background-color: var(--u-scaffold-pane-filled-bg-color,
-    #{functions.get-color-var(surface-container-highest)});
-  border-radius: var(--u-scaffold-pane-filled-shape-corner,
-    #{functions.get-shape-corner-var(medium)});
-}
-
-:host([variant=filled-low]) .container {
-  background-color: var(--u-scaffold-pane-filled-bg-color,
     #{functions.get-color-var(surface-container-low)});
-  border-radius: var(--u-scaffold-pane-filled-shape-corner,
-    #{functions.get-shape-corner-var(medium)});
-}
-
-:host([variant=filled-lowest]) .container {
-  background-color: var(--u-scaffold-pane-filled-bg-color,
-    #{functions.get-color-var(surface-container-lowest)});
   border-radius: var(--u-scaffold-pane-filled-shape-corner,
     #{functions.get-shape-corner-var(medium)});
 }
@@ -76,7 +62,12 @@
   flex-direction: column;
   min-height: 0;
   overflow: hidden;
-  transition: transform var(--u-scaffold-pane-transition);
+  // Animate `inset` (matches u-side-navigation .drawer): the container
+  // slides from off-screen (negative inset on its leading edge) to 0,
+  // rather than using `transform: translateX(-100%)`. Inset interpolates
+  // cleanly, doesn't fight with the host's positioned context, and lets
+  // the scrim opacity transition in parallel without a 3D layer hand-off.
+  transition: inset var(--u-scaffold-pane-transition);
   pointer-events: auto;
 }
 
@@ -95,30 +86,34 @@
 // ---------------------------------------------------------------------------
 
 :host(:not([expanded])[collapse-mode=sidebar]) .container {
+  --_u-scaffold-pane-drawer-width: min(var(--u-scaffold-pane-mobile-width, 360px), 85%);
+
   inset-block: 0;
-  width: min(var(--u-scaffold-pane-mobile-width, 360px), 85%);
+  width: var(--_u-scaffold-pane-drawer-width);
   box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+  // M3 modal navigation drawer sits on the quietest surface tone so the
+  // scrim contrast is preserved. Overrides the in-flow variant bg.
+  background-color: var(--u-scaffold-pane-overlay-bg-color,
+    #{functions.get-color-var(surface-container-lowest)});
 }
 
-// `transparent` panes have no bg of their own — give the drawer a visible
-// surface so it doesn't render as an invisible click-eater.
-:host(:not([expanded])[collapse-mode=sidebar][variant=transparent]) .container {
-  background-color: var(--u-scaffold-pane-sidebar-fallback-bg-color,
-    #{functions.get-color-var(surface-container-highest)});
+// Closed (default): the drawer sits one full drawer-width off the
+// leading/trailing edge so its rendered box is entirely off-screen.
+// Opening animates `inset-inline-start` (or -end) to 0.
+:host(:not([expanded])[collapse-mode=sidebar][position=navigation]) .container {
+  inset-inline-start: calc(var(--_u-scaffold-pane-drawer-width) * -1);
 }
 
-:host(:not([expanded])[collapse-mode=sidebar][position=start]) .container {
+:host(:not([expanded])[collapse-mode=sidebar][position=navigation][open]) .container {
   inset-inline-start: 0;
-  transform: translateX(-100%);
 }
 
-:host(:not([expanded])[collapse-mode=sidebar][position=end]) .container {
+:host(:not([expanded])[collapse-mode=sidebar][position=side]) .container {
+  inset-inline-end: calc(var(--_u-scaffold-pane-drawer-width) * -1);
+}
+
+:host(:not([expanded])[collapse-mode=sidebar][position=side][open]) .container {
   inset-inline-end: 0;
-  transform: translateX(100%);
-}
-
-:host(:not([expanded])[collapse-mode=sidebar][open]) .container {
-  transform: translateX(0);
 }
 
 .scrim {
@@ -143,13 +138,26 @@
 
 // ---------------------------------------------------------------------------
 // Hidden collapse: pane is removed from the layout entirely below the
-// breakpoint. No overlay, no scrim, no slide-in. Use this for panes that
-// only make sense on large viewports (e.g. a permanent navigation rail
-// alongside a list-detail flow that switches to a bottom-bar on mobile).
+// breakpoint. No overlay, no scrim, no slide-in. We still animate the
+// transition via `transition-behavior: allow-discrete` + `@starting-style`
+// so the pane fades in/out instead of popping (Chrome 117+/Safari 17.5+).
 // ---------------------------------------------------------------------------
+
+:host([collapse-mode=hidden]) {
+  transition:
+    opacity var(--u-scaffold-pane-transition),
+    display var(--u-scaffold-pane-transition) allow-discrete;
+}
 
 :host(:not([expanded])[collapse-mode=hidden]) {
   display: none;
+  opacity: 0;
+}
+
+@starting-style {
+  :host([expanded][collapse-mode=hidden]) {
+    opacity: 0;
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -158,26 +166,30 @@
 // ---------------------------------------------------------------------------
 
 :host(:not([expanded])[collapse-mode=fullscreen]) .container {
-  inset: 0;
+  inset-block: 0;
+  width: 100%;
   border-radius: 0;
   box-shadow: none;
+  // Fullscreen takeover sits on `surface-container-lowest` to match
+  // modal nav drawer behaviour and avoid stacking two card tones.
+  background-color: var(--u-scaffold-pane-overlay-bg-color,
+    #{functions.get-color-var(surface-container-lowest)});
 }
 
-// Same rationale as the sidebar fallback — `transparent` overlays need a
-// surface to render against.
-:host(:not([expanded])[collapse-mode=fullscreen][variant=transparent]) .container {
-  background-color: var(--u-scaffold-pane-fullscreen-fallback-bg-color,
-    #{functions.get-color-var(surface)});
+// Same inset-based slide pattern as the sidebar drawer, just one full
+// scaffold width off-screen instead of one drawer width.
+:host(:not([expanded])[collapse-mode=fullscreen][position=navigation]) .container {
+  inset-inline-start: -100%;
 }
 
-:host(:not([expanded])[collapse-mode=fullscreen][position=start]) .container {
-  transform: translateX(-100%);
+:host(:not([expanded])[collapse-mode=fullscreen][position=navigation][open]) .container {
+  inset-inline-start: 0;
 }
 
-:host(:not([expanded])[collapse-mode=fullscreen][position=end]) .container {
-  transform: translateX(100%);
+:host(:not([expanded])[collapse-mode=fullscreen][position=side]) .container {
+  inset-inline-end: -100%;
 }
 
-:host(:not([expanded])[collapse-mode=fullscreen][open]) .container {
-  transform: translateX(0);
+:host(:not([expanded])[collapse-mode=fullscreen][position=side][open]) .container {
+  inset-inline-end: 0;
 }

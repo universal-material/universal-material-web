@@ -1,15 +1,12 @@
 import { Highlight } from 'ngx-highlightjs';
 import { MarkdownModule } from 'ngx-markdown';
 import { Component } from '@angular/core';
-
-import { ExampleComponent } from '@docs/docs/example/example.component';
-import { Snackbar } from '@universal-material/web';
 import { states } from '@docs/shared/states.model';
 
 @Component({
   selector: 'docs-introduction',
   standalone: true,
-  imports: [MarkdownModule, Highlight, ExampleComponent],
+  imports: [MarkdownModule, Highlight],
   templateUrl: './introduction.component.html',
   styleUrl: './introduction.component.scss',
 })
