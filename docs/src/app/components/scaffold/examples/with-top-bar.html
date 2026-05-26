@@ -5,28 +5,28 @@
     </u-icon-button>
   </u-top-app-bar>
 
-  <u-scaffold-pane position="navigation" variant="filled">
+  <u-pane variant="filled" style="width: 200px;">
     <div slot="header" style="padding: 12px 16px;"><strong>Files</strong></div>
     <u-list>
       <u-list-item>README.md</u-list-item>
       <u-list-item>package.json</u-list-item>
       <u-list-item>src/</u-list-item>
     </u-list>
-  </u-scaffold-pane>
+  </u-pane>
 
-  <div style="padding: 16px 24px;">
+  <div style="padding: 16px 24px; overflow: auto;">
     <h3 style="margin: 0 0 8px;">README.md</h3>
-    <p>Top bar, bottom bar, FAB and panes all coexist. The top bar still reacts to the main column's scroll (panes scroll independently).</p>
-    <p>Scroll inside the main column to see the top app bar collapse.</p>
+    <p>Top bar, bottom bar, FAB and panes all coexist. Body content (this <code>&lt;div&gt;</code>) flexes to fill the remaining space and scrolls inside itself.</p>
+    <p>Panes around it (filled <code>Files</code> on the left, transparent <code>Outline</code> on the right) keep their own widths and scroll independently.</p>
     <p style="margin-top: 1200px;">Bottom of main content.</p>
   </div>
 
-  <u-scaffold-pane position="side" variant="transparent">
+  <u-pane variant="transparent" style="width: 220px;">
     <div slot="header" style="padding: 12px 16px;"><strong>Outline</strong></div>
     <div style="padding: 16px;">
       <p>Right-side outline / context panel.</p>
     </div>
-  </u-scaffold-pane>
+  </u-pane>
 
   <u-fab slot="fab" color="primary">
     <span class="material-symbols-outlined">edit</span>

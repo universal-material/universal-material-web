@@ -1,18 +1,10 @@
 ---
-description: Lay out an app screen with u-scaffold — top app bar, scrollable content, optional navigation bar at the bottom, FAB anchored above the bar, and optional navigation/center/side panes for list-detail or supporting layouts.
+description: Lay out an app screen with u-scaffold — top app bar, flex-row body that accepts plain content and any number of u-pane children, an optional navigation bar at the bottom, and a FAB anchored above the bar. Panes behave per a mode attribute (fixed / collapsible / sidebar / fullscreen) that can vary by Material 3 breakpoint.
 ---
 
 # Scaffold (page layout)
 
-Use this when the user wants the typical Material 3 app shell: a top app bar pinned at the top, a scrollable content area, an optional navigation bar at the bottom, and a FAB that floats above the bar. For list-detail / supporting layouts, add `<u-scaffold-pane>` children for `navigation`, `center` and/or `side` regions.
-
-`<u-scaffold>` is a layout container that:
-- owns the scroll — content scrolls inside the scaffold, not the page,
-- publishes its internal scroll element through Lit context so descendants (`<u-top-app-bar>`, `<u-fab>`, `<u-fab-menu>`, ...) react to the right scroll target automatically,
-- auto-sets `position="absolute"` on slotted `<u-top-app-bar>` / `<u-navigation-bar>` so they anchor against the scaffold (not the viewport),
-- measures the navigation bar's height and offsets the FAB above it (16dp gap per M3),
-- arranges optional `<u-scaffold-pane>` children into grid columns based on the `layout` attribute and the panes' own collapse breakpoints,
-- writes `--u-app-bar-leading-icon-width` matching the navigation column width so a slotted `u-top-app-bar` can min-width its leading area and visually align its headline with the start of the center column.
+`<u-scaffold>` is a layout container that hosts a top app bar, a flex-row body, an optional navigation bar and a floating FAB. The body accepts plain content and any number of `<u-pane>` children as siblings — panes are flex items in DOM order; non-pane children flex to fill the remaining space.
 
 ## Basic usage
 
@@ -24,7 +16,7 @@ Use this when the user wants the typical Material 3 app shell: a top app bar pin
     </u-icon-button>
   </u-top-app-bar>
 
-  <main style="padding: 16px 24px">
+  <main style="padding: 16px 24px; overflow: auto">
     <!-- scrollable page content -->
   </main>
 
@@ -41,59 +33,94 @@ Use this when the user wants the typical Material 3 app shell: a top app bar pin
 </u-scaffold>
 ```
 
-## List-detail layout
+The scaffold:
+- arranges panes and non-pane content in a flex row with a 16dp gap,
+- auto-sets `position="absolute"` on slotted `<u-top-app-bar>` / `<u-navigation-bar>` so they anchor against the scaffold (not the viewport),
+- measures the navigation bar's height and offsets the FAB above it (16dp gap per M3),
+- writes `data-align="start|end"` on each `<u-pane>` child based on whether it appears before or after the first non-pane child — used by sidebar/fullscreen modes to pick the slide direction,
+- exposes itself as a named CSS container (`container-type: inline-size; container-name: u-scaffold`) so panes can opt into `query-context="container"`.
 
-Three carded columns: navigation (left), list (center, fixed width), detail (right, flexes). Below `lg` the navigation collapses to overlay; below `md` the detail covers everything.
+## Multi-pane layout via flex
+
+Drop panes around the body content; DOM order is visual order. Panes default to `mode="fixed"` (always visible flex item) — they keep their content's intrinsic width unless you style them.
 
 ```html
-<u-scaffold
-  layout="list-detail"
-  style="height: 100vh; --u-pane-navigation-width: 240px; --u-pane-fixed-width: 432px"
->
-  <u-top-app-bar slot="top-bar" headline="Inbox"></u-top-app-bar>
+<u-scaffold style="height: 100vh">
+  <u-pane variant="filled" style="width: 240px">
+    <!-- navigation pane -->
+  </u-pane>
 
-  <u-scaffold-pane
-    position="navigation"
-    variant="filled-low"
-    collapse-mode="hidden"
-    collapse-breakpoint="lg"
-  >
-    <!-- nav -->
-  </u-scaffold-pane>
+  <main style="padding: 16px 24px; overflow: auto">
+    <!-- body content; flex: 1 1 0 is applied for you -->
+  </main>
 
-  <u-scaffold-pane position="center" variant="filled-low">
-    <!-- list -->
-  </u-scaffold-pane>
-
-  <u-scaffold-pane
-    position="side"
-    variant="filled-low"
-    collapse-mode="fullscreen"
-    collapse-breakpoint="md"
-    id="detail"
-  >
-    <!-- detail; open programmatically with detail.show() -->
-  </u-scaffold-pane>
+  <u-pane variant="filled" style="width: 320px">
+    <!-- supporting pane -->
+  </u-pane>
 </u-scaffold>
 ```
 
-## Supporting layout
+The middle `<main>` automatically grows to fill the remaining row space (the scaffold applies `flex: 1 1 0` to every non-pane child via `::slotted(:not(u-pane))`). If you want a pane to grow instead, style it with `style="flex: 1 1 0"`.
 
-The center column flexes and the side column is fixed — e.g. an editor with a fixed-width supporting / inspector panel.
+## Modes and breakpoints
+
+Each pane picks a `mode` (default `fixed`). Optional `mode-sm` / `mode-md` / `mode-lg` / `mode-xl` attributes override the mode from that Material 3 breakpoint upward. The largest matching breakpoint wins — all resolution is CSS, no `matchMedia`.
+
+| Mode | Behaviour |
+| --- | --- |
+| `fixed` (default) | In-flow flex item, always visible. `open` is ignored. |
+| `collapsible` | In-flow when `open=true`, removed from the row when `open=false` (animated). |
+| `sidebar` | Modal drawer overlay against the scaffold when `open=true`. Slides from the leading or trailing edge per DOM order. Closed by default. |
+| `fullscreen` | Like `sidebar` but full-width and sits above the top app bar (no scrim). Closed by default. |
 
 ```html
-<u-scaffold layout="supporting" style="--u-pane-fixed-width: 320px">
-  <u-scaffold-pane position="side" variant="filled-low">
-    <!-- supporting panel -->
-  </u-scaffold-pane>
+<u-scaffold style="height: 100vh">
+  <!-- Navigation: sidebar on mobile, collapsible at md+, permanent at lg+ -->
+  <u-pane
+    id="nav"
+    mode="sidebar"
+    mode-md="collapsible"
+    mode-lg="fixed"
+    variant="filled"
+    style="width: 240px">
+    <!-- navigation -->
+  </u-pane>
 
-  <main>...</main>
+  <main style="overflow: auto">…</main>
+
+  <!-- Inspector: fullscreen on mobile, permanent at md+ -->
+  <u-pane
+    id="inspector"
+    mode="fullscreen"
+    mode-md="fixed"
+    variant="filled"
+    style="width: 320px">
+    <!-- details -->
+  </u-pane>
 </u-scaffold>
+
+<script>
+  document.getElementById('nav').show();   // open
+  document.getElementById('nav').toggle(); // flip
+  document.getElementById('inspector').close();
+</script>
 ```
 
-## Navigation pane absorbs `u-side-navigation`
+The default value of `open` follows the base `mode`: `true` for `fixed` / `collapsible`, `false` for `sidebar` / `fullscreen`. Once you write to `open` (attribute or property), your value sticks regardless of mode changes.
 
-A `position="navigation"` pane can host a `<u-drawer>` and/or `<u-navigation-rail>` via named slots. The pane resolves its own width based on what's slotted and writes it to the scaffold's `--u-pane-navigation-width` so the grid track and `--u-app-bar-leading-icon-width` follow automatically.
+## Container queries
+
+Switch a pane to react to the scaffold's own width rather than the viewport with `query-context="container"`. Useful when a scaffold is embedded in a narrower outer layout.
+
+```html
+<u-pane mode="sidebar" mode-md="fixed" query-context="container">
+  <!-- mode-md kicks in at md *of the scaffold's box*, not the viewport -->
+</u-pane>
+```
+
+## Hosting a drawer or rail
+
+`<u-drawer>` and `<u-navigation-rail>` are first-class body siblings or pane contents — there's no special slot.
 
 ```html
 <u-scaffold>
@@ -103,126 +130,117 @@ A `position="navigation"` pane can host a `<u-drawer>` and/or `<u-navigation-rai
     </u-icon-button>
   </u-top-app-bar>
 
-  <u-scaffold-pane position="navigation" id="nav">
-    <u-drawer slot="drawer">
+  <!-- Permanent drawer below lg, modal sidebar above -->
+  <u-pane id="nav" mode="sidebar" mode-lg="fixed" style="width: 360px">
+    <u-drawer>
       <u-drawer-headline>Mail</u-drawer-headline>
       <u-drawer-item>Inbox</u-drawer-item>
       <u-drawer-item>Sent</u-drawer-item>
     </u-drawer>
-  </u-scaffold-pane>
+  </u-pane>
 
-  <main>...</main>
+  <main>…</main>
 </u-scaffold>
-
-<script>
-  // Slide the drawer off (column collapses to 0 if no rail is also slotted).
-  document.getElementById('nav').toggleDrawer = true;
-</script>
 ```
 
-### Width resolution matrix (navigation pane only)
+For a rail at all sizes, drop it directly in the body row:
 
-| Slotted | ≥ lg | md (840–1199) | < md |
-| --- | --- | --- | --- |
-| drawer, not toggled | 360dp (M3 drawer width) | 0 (overlay via collapse-mode) | 0 |
-| drawer, toggled | 0 | 0 | 0 |
-| rail, not toggled | 96dp (rail collapsed) | 96dp | 0 |
-| rail, toggled (expanded panel) | 360dp | overlay | overlay |
-| drawer + rail, not toggled | 360dp (drawer over rail) | 96dp | overlay |
-| drawer + rail, toggled | 96dp (rail visible) | 96dp | overlay |
-| custom content (no slots) | `var(--u-pane-navigation-width)` (consumer-set) | same | overlay |
+```html
+<u-scaffold>
+  <u-navigation-rail>…</u-navigation-rail>
+  <main>…</main>
+</u-scaffold>
+```
 
-## `<u-scaffold>` attribute reference
+## Scroll behaviour
+
+The scaffold doesn't own the scroll. Non-pane body content needs its own `overflow: auto` (the scaffold applies `min-height: 0` so the rule works). Pane content scrolls inside the pane's own `.content` part.
+
+The top app bar, FAB and FAB menu listen to `window` by default. Use the bar's `scrollContainer` attribute to point it at a specific element:
+
+```html
+<u-top-app-bar slot="top-bar" scrollContainer="body-scroll" headline="…"></u-top-app-bar>
+
+<div id="body-scroll" style="overflow: auto">…</div>
+```
+
+## `<u-pane>` attribute reference
 
 | Attribute | Values | Default | What it does |
 | --- | --- | --- | --- |
-| `layout` | `list-detail` \| `supporting` | `list-detail` | Picks which column gets `--u-pane-fixed-width`. `list-detail`: center fixed, side flexes. `supporting`: center flexes, side fixed. |
+| `variant` | `transparent` \| `filled` | `transparent` | `filled` gives a `surface-container-low` background + 12dp corner. Modal-mode overlays use `surface-container-low` (sidebar) or `surface-container-lowest` (fullscreen) automatically. |
+| `mode` | `fixed` \| `collapsible` \| `sidebar` \| `fullscreen` | `fixed` | Base behaviour. |
+| `mode-sm` / `mode-md` / `mode-lg` / `mode-xl` | same values | unset | Per-breakpoint override (≥ 600 / 840 / 1200 / 1600 px). Larger breakpoints win. |
+| `query-context` | `media` \| `container` | `media` | Whether breakpoint overrides query the viewport or the scaffold's container. |
+| `open` | boolean | `true` for `fixed`/`collapsible`, `false` for `sidebar`/`fullscreen` | Programmatic open state. Ignored in `fixed`. |
+| `animation` | `none` \| `exit` \| `exit-start` \| `exit-end` \| `fade` | `exit` | How the pane transitions in/out. `exit` (default) slides off-screen and infers the edge from `data-align` (start → leading, end → trailing). `exit-start`/`exit-end` force a side. `fade` swaps the slide for an opacity transition. `none` disables the transition. |
+| `animation-sm` / `animation-md` / `animation-lg` / `animation-xl` | same values | unset | Per-breakpoint override for `animation`. Larger breakpoints win. |
 
-## `<u-scaffold-pane>` attribute reference
+### `--u-pane-width` (collapsible slide distance)
 
-| Attribute | Values | Default | What it does |
-| --- | --- | --- | --- |
-| `position` | `navigation` \| `center` \| `side` | `navigation` | Where in the scaffold the pane lives. `center` replaces the scaffold's default slot. |
-| `variant` | `transparent` \| `filled` \| `filled-low` \| `filled-lowest` | `transparent` | Surface tone. `filled` = `surface-container-highest`, `filled-low` = `surface-container-low` (recommended for list-detail), `filled-lowest` = `surface-container-lowest`. |
-| `collapse-mode` | `sidebar` \| `fullscreen` \| `hidden` | `sidebar` | Below breakpoint: `sidebar` = slide-in drawer with scrim; `fullscreen` = covers the whole scaffold including the top bar; `hidden` = removed from layout, no overlay. |
-| `collapse-breakpoint` | `sm` (600) \| `md` (840) \| `lg` (1200) | `lg` | Viewport min-width below which the pane collapses. |
-| `toggle-drawer` | boolean | `false` | (navigation pane only) When `true`, slides the slotted drawer off and collapses the column to the rail width (or 0 if no rail). |
+In `collapsible` mode the pane slides off via a negative `margin-inline-start` (or `margin-inline-end` when `data-align=end`). The slide distance defaults to `100%` of the body row — for the math to match the pane's actual open width, set `--u-pane-width` to that width.
 
-Ignored for `position="center"`: `collapse-mode`, `collapse-breakpoint`, `toggle-drawer` (a center pane never overlays itself).
+```html
+<!-- Sets both the visible width and the slide distance -->
+<u-pane mode-md="collapsible" style="width: 280px; --u-pane-width: 280px;">…</u-pane>
+```
 
 ## Programmatic control
 
-Each pane exposes `show()`, `close()`, `toggle()` plus `open`, `expanded`, `toggleDrawer` boolean properties. The scaffold has `openPane(position)`, `closePane(position)`, `togglePane(position)`.
+Each pane exposes `show()`, `close()`, `toggle()`, plus the `open` boolean property. The pane fires `open` and `close` events when the consumer writes to `open`; `expand` / `collapse` events no longer exist (mode resolution is CSS-only).
 
 ```ts
-document.getElementById('detail').show();
-document.querySelector('u-scaffold').openPane('navigation');
-navPane.toggleDrawer = true;
+const pane = document.getElementById('nav');
+pane.show();
+pane.close();
+pane.toggle();
+pane.open = true;
 ```
 
-Events bubble from the pane and re-dispatch from the scaffold:
-
-| Pane event | Scaffold event | When |
-| --- | --- | --- |
-| `open` / `close` | `u-scaffold-pane-open` / `u-scaffold-pane-close` (with `detail.position`) | Pane opens/closes (mobile overlay). |
-| `expand` / `collapse` | — | Viewport crosses `collapse-breakpoint`. |
-| `navigation-width-change` | — | Navigation pane's resolved width changes (drawer/rail/toggle change). Internal — scaffold uses it to re-sync the app-bar var. |
-
 ## Slots
+
+`<u-scaffold>`:
 
 | Slot | Goes into |
 | --- | --- |
 | `top-bar` | A `<u-top-app-bar>` (auto-positioned absolute). |
-| default | The scrollable page content. **Hidden when a `position="center"` pane is present.** |
+| default | Panes (`<u-pane>`) and the page content as siblings. Non-pane children flex to fill the remaining space. |
 | `bottom-bar` | A `<u-navigation-bar>` (auto-positioned absolute). |
 | `fab` | A `<u-fab>` or `<u-fab-menu>` — anchored above the bottom bar. |
-| `navigation-pane` | Auto-populated from `u-scaffold-pane[position=navigation]` children. |
-| `center-pane` | Auto-populated from `u-scaffold-pane[position=center]` children. |
-| `side-pane` | Auto-populated from `u-scaffold-pane[position=side]` children. |
 
-`<u-scaffold-pane position="navigation">` additionally accepts:
+`<u-pane>`:
 
 | Slot | Goes into |
 | --- | --- |
-| `drawer` | A `<u-drawer>` — pane sizes its column to the M3 drawer width. |
-| `rail` | A `<u-navigation-rail>` — pane sizes to the rail collapsed / expanded width. |
-| `header` | Sticks to the top of the pane (when used without drawer/rail). |
-| default | Custom navigation content (when no drawer/rail is slotted). |
+| `header` | Sticks to the top of the pane. |
+| default | The pane content (scrolls inside the pane's `.content` part). |
 
 ## Parts
 
-Scaffold: `scroll-container`, `top-bar`, `bottom-bar`, `fab`, `pane-row`, `navigation-pane`, `center-pane`, `side-pane`.
+Scaffold: `top-bar`, `bottom-bar`, `fab`, `body-row`.
 
 Pane: `container`, `header`, `content`, `scrim`.
 
 ## CSS custom properties
 
 Scaffold:
-- `--u-pane-navigation-width` — width of the navigation column when a custom-content navigation pane is present (no drawer/rail slotted). When the pane *does* host a drawer/rail, the pane overrides this with its resolved width. Default `360px`.
-- `--u-pane-fixed-width` — width of the column marked as "fixed" by the current `layout` (`center` under `list-detail`, `side` under `supporting`). Default `360px`.
-- `--u-app-bar-leading-icon-width` — written by the scaffold; consumed by a slotted `u-top-app-bar` at `lg+` to min-width its `.leading-icon`. You don't normally set this yourself.
-- `--u-scaffold-pane-gap` (default `16px`), `--u-scaffold-pane-padding` (default `0`) — spacing in the pane row.
+- `--u-pane-gap` (default `16px`), `--u-pane-padding` (default `0` below md, `16px` at md+) — spacing in the body row.
 - `--u-scaffold-fab-inline-offset`, `--u-scaffold-fab-block-offset` (defaults `16px`).
 - `--u-scaffold-container-color` — scaffold background.
 
 Pane (set on the pane host):
-- `--u-scaffold-pane-filled-bg-color` — overrides the variant background.
-- `--u-scaffold-pane-filled-shape-corner` — overrides the corner radius (default `medium`/12dp; the canonical list-detail layout uses 20px).
-- `--u-scaffold-pane-mobile-width` (default `360px`) — sidebar drawer width when collapsed.
-- `--u-scaffold-pane-scrim-color`, `--u-scaffold-pane-scrim-opacity` (default `.4`).
-- `--u-scaffold-pane-z-index` (default `1030`), `--u-scaffold-pane-transition`.
-
-## Migration from round 2
-
-`position="start"`/`"end"` were renamed to `"navigation"`/`"side"`. **No aliases.** The per-pane `width` attribute and `--u-scaffold-pane-width` CSS var are gone — set widths on the scaffold via `--u-pane-navigation-width` and `--u-pane-fixed-width` (plus pick the right `layout`).
+- `--u-pane-filled-bg-color`, `--u-pane-filled-shape-corner` — in-flow filled variant.
+- `--u-pane-overlay-bg-color`, `--u-pane-overlay-corner-shape` — sidebar/fullscreen overlay.
+- `--u-pane-mobile-width` (default `360px`) — sidebar drawer width.
+- `--u-pane-scrim-color`, `--u-pane-scrim-opacity` (default `.4`).
+- `--u-pane-z-index` (default `1030`, sidebar), `--u-pane-fullscreen-z-index` (default `1040`).
+- `--u-pane-transition` (default `300ms` ease).
 
 ## Caveats
 
-- The scaffold must have an explicit height (`100vh`, fixed px, or flex parent). Without it the scroll area collapses to 0.
-- Don't set the page `<body>` to `overflow: hidden` and the scaffold to a flex parent at the same time — let the scaffold own the scroll.
-- The scaffold sets `--_u-scaffold-bottom-bar-height` from a ResizeObserver on the bottom-bar row; the FAB consumes it via `calc(16px + var(--_u-scaffold-bottom-bar-height, 0px))`.
-- A `position="center"` pane hides the scaffold's default slot — put your content inside the pane or use the default slot, not both.
-- Under `layout="list-detail"`, the center column is *fixed* at `--u-pane-fixed-width`. If you don't slot a center pane, the default-slot scroll-container still takes that fixed width — usually you want `layout="supporting"` for the navigation+content+side pattern.
-- `collapse-mode="hidden"` panes still fire `open`/`close` events on `show()` / `close()`, but render nothing below the breakpoint — useful when the mobile UI provides an alternative (e.g. a bottom nav).
-- The standalone `u-side-navigation` is `@deprecated`. Inside a scaffold, use the navigation pane with `drawer` / `rail` slots instead.
-- The bars consume the scaffold's scroll container via Lit context. If you set `scrollContainer="window"` (or any explicit value) on a bar, that explicit value wins. When a center pane is present, the context points at the center pane's internal scroll area.
+- The scaffold must have an explicit height (`100vh`, fixed px, or flex parent). Without it the body row collapses to 0.
+- Non-pane body content does not get an automatic scroll container — apply `overflow: auto` yourself if you want the column to scroll independently of the page.
+- The top app bar / FAB default to `window` scroll. To make them react to in-scaffold scroll, set `scrollContainer="..."` to the id of a scrolling element or pass an `HTMLElement` directly to the property.
+- `<u-pane mode="sidebar">` slides from the leading edge by default. Place the pane *after* your body content in DOM order to slide from the trailing edge — the scaffold writes `data-align="end"` on it automatically.
+- `query-context="container"` requires the scaffold ancestor (which sets `container-type`). If you use a pane outside a `<u-scaffold>`, container queries won't resolve.
+- The standalone `u-side-navigation` is `@deprecated` — use a `<u-pane>` with a slotted `<u-drawer>` / `<u-navigation-rail>` instead.

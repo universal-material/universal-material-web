@@ -1,10 +1,10 @@
 <u-scaffold style="height: 480px; border: 1px solid var(--u-color-outline-variant, rgba(0,0,0,.12)); border-radius: 12px;">
   <div style="padding: 16px 24px;">
-    <p>The end pane covers the viewport on mobile.</p>
+    <p>The end pane covers the viewport on mobile (below <code>md</code>). DOM order puts it after the body, so the slide-in animates from the trailing edge.</p>
     <u-button onclick="document.getElementById('end-fullscreen-pane').show()">Open editor</u-button>
   </div>
 
-  <u-scaffold-pane position="side" variant="filled" collapse-mode="fullscreen" id="end-fullscreen-pane">
+  <u-pane mode="fullscreen" mode-md="fixed" variant="filled" id="end-fullscreen-pane" style="width: 320px;">
     <div slot="header" style="padding: 12px 16px; display: flex; align-items: center; justify-content: space-between;">
       <strong>Editor</strong>
       <u-icon-button onclick="document.getElementById('end-fullscreen-pane').close()">
@@ -14,5 +14,5 @@
     <div style="padding: 16px;">
       <p>A roomy editing surface that takes over the screen on smaller viewports.</p>
     </div>
-  </u-scaffold-pane>
+  </u-pane>
 </u-scaffold>

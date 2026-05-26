@@ -1,4 +1,4 @@
-<docs-title title="Scaffold" tag="u-scaffold">A layout container that hosts a top app bar, the scrollable page content, an optional bottom app bar, a floating FAB and optional side panes. The scaffold publishes its internal scroll element through Lit context so descendants like the top app bar and FABs can react to the same scroll source without manual wiring.</docs-title>
+<docs-title title="Scaffold" tag="u-scaffold">A layout container that hosts a top app bar, a flex-row body, an optional bottom app bar and a floating FAB. The body accepts plain content and any number of <code>&lt;u-pane&gt;</code> children as siblings — panes auto-arrange by DOM order, and non-pane children flex to fill the remaining space.</docs-title>
 
 <docs-example
   [html]="basicHtml"
@@ -14,40 +14,46 @@
 ></docs-example>
 <docs-example
   [html]="explicitScrollContainerHtml"
-  sectionTitle="Override scroll container"
+  sectionTitle="Pointing the top app bar at a scroll target"
   screenRoute="/screens/scaffold-explicit-scroll-container"
   fluid
 ></docs-example>
 
-<docs-title title="Side panes" tag="u-scaffold-pane">Declare `u-scaffold-pane` children with `position="start"` or `position="end"` to add side regions. Each pane picks its own `collapse-breakpoint` (`sm`, `md`, `lg`, default `lg`): above it the pane joins the scaffold grid, below it the pane leaves the flow and renders as an overlay anchored to the scaffold. `collapse-mode="sidebar"` slides in a modal drawer with a scrim, `collapse-mode="fullscreen"` takes over the whole scaffold (top app bar included). For a list-detail layout, set the start (navigation) pane to `sidebar`/`lg` and the end (detail) pane to `fullscreen`/`md` — the list and main column stay side-by-side until the viewport drops below 840px.</docs-title>
+<docs-title title="Panes" tag="u-pane">Declare any number of <code>&lt;u-pane&gt;</code> children. The pane's <code>mode</code> attribute drives its behaviour: <code>fixed</code> (default, always visible), <code>collapsible</code> (in flow when <code>open</code>, removed otherwise), <code>sidebar</code> (modal drawer overlay when <code>open</code>) and <code>fullscreen</code> (full-width modal overlay when <code>open</code>, sits above the top app bar). Override the mode at each Material 3 breakpoint with <code>mode-sm</code>, <code>mode-md</code>, <code>mode-lg</code>, <code>mode-xl</code> — applied purely via CSS, so no <code>matchMedia</code> wiring is needed. Use <code>query-context="container"</code> to react to the scaffold's own size rather than the viewport.</docs-title>
 
 <docs-example
+  [html]="breakpointModesHtml"
+  sectionTitle="Mode per breakpoint"
+  screenRoute="/screens/scaffold-breakpoint-modes"
+  fluid
+></docs-example>
+<docs-example
   [html]="listDetailHtml"
-  sectionTitle="List-detail (start + main + end)"
+  sectionTitle="List-detail (three panes)"
   screenRoute="/screens/scaffold-list-detail"
   fluid
 ></docs-example>
 <docs-example
   [html]="startSidebarHtml"
-  sectionTitle="Start pane, sidebar collapse"
+  sectionTitle="Start pane, sidebar at sub-lg"
   screenRoute="/screens/scaffold-start-sidebar"
   fluid
 ></docs-example>
 <docs-example
   [html]="startFullscreenHtml"
-  sectionTitle="Start pane, fullscreen collapse"
+  sectionTitle="Start pane, fullscreen at sub-lg"
   screenRoute="/screens/scaffold-start-fullscreen"
   fluid
 ></docs-example>
 <docs-example
   [html]="endSidebarHtml"
-  sectionTitle="End pane, sidebar collapse"
+  sectionTitle="End pane, sidebar at sub-lg"
   screenRoute="/screens/scaffold-end-sidebar"
   fluid
 ></docs-example>
 <docs-example
   [html]="endFullscreenHtml"
-  sectionTitle="End pane, fullscreen collapse"
+  sectionTitle="End pane, fullscreen at sub-md"
   screenRoute="/screens/scaffold-end-fullscreen"
   fluid
 ></docs-example>
@@ -65,4 +71,4 @@
 ></docs-example>
 
 <docs-apis-table key="scaffold"></docs-apis-table>
-<docs-apis-table key="scaffoldPane"></docs-apis-table>
+<docs-apis-table key="pane"></docs-apis-table>

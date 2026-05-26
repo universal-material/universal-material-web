@@ -1,21 +1,19 @@
-<u-scaffold
-  style="height: 360px; border: 1px solid var(--u-color-outline-variant, rgba(0,0,0,.12)); border-radius: 12px; --u-pane-navigation-width: 220px; --u-pane-fixed-width: 220px;"
->
-  <u-scaffold-pane position="navigation" variant="filled">
+<u-scaffold style="height: 360px; border: 1px solid var(--u-color-outline-variant, rgba(0,0,0,.12)); border-radius: 12px;">
+  <u-pane variant="filled" style="width: 220px;">
     <div slot="header" style="padding: 12px 16px;"><strong>filled</strong></div>
     <div style="padding: 12px 16px; font-size: 13px;">
       <p><code>surface-container-low</code> + medium (12dp) corner. The canonical card chrome for in-flow panes.</p>
     </div>
-  </u-scaffold-pane>
+  </u-pane>
 
   <div style="padding: 16px 24px; display: flex; flex-direction: column; gap: 8px;">
-    <p style="margin: 0;">Override the bg via <code>--u-scaffold-pane-filled-bg-color</code> and the corner via <code>--u-scaffold-pane-filled-shape-corner</code>. When a filled pane collapses into a sidebar drawer or fullscreen overlay it switches to <code>surface-container-lowest</code> automatically — override <code>--u-scaffold-pane-overlay-bg-color</code> to change that.</p>
+    <p style="margin: 0;">Override the bg via <code>--u-pane-filled-bg-color</code> and the corner via <code>--u-pane-filled-shape-corner</code>. When a filled pane collapses into a sidebar drawer or fullscreen overlay it switches to <code>surface-container-lowest</code> automatically — override <code>--u-pane-overlay-bg-color</code> to change that.</p>
   </div>
 
-  <u-scaffold-pane position="side" variant="transparent">
+  <u-pane variant="transparent" style="width: 220px;">
     <div slot="header" style="padding: 12px 16px;"><strong>transparent</strong></div>
     <div style="padding: 12px 16px; font-size: 13px;">
       <p>No background, no corner. Blends with the scaffold.</p>
     </div>
-  </u-scaffold-pane>
+  </u-pane>
 </u-scaffold>

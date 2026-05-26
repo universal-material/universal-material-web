@@ -10,13 +10,11 @@ import { styles } from './side-navigation.styles.js';
 import '../elevation/elevation.js';
 
 /**
- * @deprecated Use `<u-scaffold>` with a `<u-scaffold-pane position="navigation">`
- * that hosts a `<u-drawer slot="drawer">` and/or `<u-navigation-rail slot="rail">`.
- * The scaffold pane absorbs the same width-resolution / drawer-toggle /
- * app-bar-offset behavior this component provides, and integrates with
- * the scaffold's grid (center pane, side pane, layout="list-detail" |
- * "supporting", FAB anchoring, etc.). Standalone usage outside of a
- * scaffold remains supported.
+ * @deprecated Use `<u-scaffold>` and place a `<u-drawer>` or
+ * `<u-navigation-rail>` directly as a body sibling (for a permanent
+ * sidebar) or wrap it in `<u-pane mode="sidebar" mode-lg="fixed">` for
+ * a sidebar that collapses to an overlay below `lg`. Standalone usage
+ * outside of a scaffold remains supported.
  */
 @customElement('u-side-navigation')
 export class SideNavigation extends LitElement {

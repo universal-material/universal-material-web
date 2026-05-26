@@ -9,7 +9,7 @@
     </u-icon-button>
   </u-top-app-bar>
 
-  <u-scaffold-pane position="navigation" variant="filled" collapse-mode="sidebar" #pane>
+  <u-pane mode="sidebar" mode-lg="fixed" variant="filled" #pane style="width: 220px;">
     <div slot="header" class="pane-header">
       <strong>Navigation</strong>
       <u-icon-button (click)="$any(pane).close()">
@@ -21,10 +21,10 @@
       <u-list-item>Projects</u-list-item>
       <u-list-item>Settings</u-list-item>
     </u-list>
-  </u-scaffold-pane>
+  </u-pane>
 
   <div class="screen-content">
-    <p>On a viewport ≥ 1200px the start pane is permanent on the left. Shrink the window to under 1200px to see it collapse — open it with the button below.</p>
+    <p>On a viewport ≥ 1200px (<code>lg</code>) the start pane is permanent. Below that it collapses to a sidebar overlay — open it with the button below.</p>
     <u-button (click)="$any(pane).show()">Open start pane</u-button>
   </div>
 </u-scaffold>

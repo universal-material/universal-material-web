@@ -9,28 +9,28 @@
     </u-icon-button>
   </u-top-app-bar>
 
-  <u-scaffold-pane position="navigation" variant="filled">
+  <u-pane variant="filled" style="width: 240px;">
     <div slot="header" class="pane-header"><strong>Files</strong></div>
     <u-list>
       <u-list-item>README.md</u-list-item>
       <u-list-item>package.json</u-list-item>
       <u-list-item>src/</u-list-item>
     </u-list>
-  </u-scaffold-pane>
+  </u-pane>
 
-  <div class="screen-content">
+  <div class="screen-content scrollable">
     <h3>README.md</h3>
-    <p>Top bar, bottom bar, FAB and panes all coexist. The top bar still reacts to the main column's scroll (panes scroll independently).</p>
-    <p>Scroll inside the main column to see the top app bar collapse.</p>
+    <p>Top bar, FAB and panes coexist. Non-pane body content flexes to fill the remaining space and scrolls inside itself.</p>
+    <p>Panes around it (filled <code>Files</code> on the left, transparent <code>Outline</code> on the right) keep their own widths and scroll independently.</p>
     <p class="bottom-anchor">Bottom of main content.</p>
   </div>
 
-  <u-scaffold-pane position="side" variant="transparent">
+  <u-pane variant="transparent" style="width: 280px;">
     <div slot="header" class="pane-header"><strong>Outline</strong></div>
     <div class="pane-body">
       <p>Right-side outline / context panel.</p>
     </div>
-  </u-scaffold-pane>
+  </u-pane>
 
   <u-fab slot="fab" color="primary">
     <span class="material-symbols-outlined">edit</span>

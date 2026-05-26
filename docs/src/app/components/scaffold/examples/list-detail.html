@@ -1,9 +1,8 @@
 <u-scaffold
   id="list-detail-scaffold"
-  layout="list-detail"
-  style="height: 560px; border: 1px solid var(--u-color-outline-variant, rgba(0,0,0,.12)); border-radius: 12px; --u-pane-navigation-width: 200px; --u-pane-fixed-width: 320px;"
+  style="height: 560px; border: 1px solid var(--u-color-outline-variant, rgba(0,0,0,.12)); border-radius: 12px;"
 >
-  <u-scaffold-pane position="navigation" variant="filled" collapse-mode="sidebar" collapse-breakpoint="lg" id="list-detail-nav">
+  <u-pane mode="sidebar" mode-lg="fixed" variant="filled" id="list-detail-nav" style="width: 200px;">
     <div slot="header" style="padding: 12px 16px; display: flex; align-items: center; justify-content: space-between;">
       <strong>Inbox</strong>
       <u-icon-button onclick="document.getElementById('list-detail-nav').close()">
@@ -17,9 +16,9 @@
       <u-list-item>Sent</u-list-item>
       <u-list-item>Drafts</u-list-item>
     </u-list>
-  </u-scaffold-pane>
+  </u-pane>
 
-  <u-scaffold-pane position="center" variant="filled">
+  <u-pane mode="fixed" variant="filled" style="flex: 1 1 0; min-width: 0;">
     <div slot="header" style="display: flex; align-items: center; gap: 8px; padding: 10px 12px;">
       <u-icon-button onclick="document.getElementById('list-detail-nav').show()">
         <span class="material-symbols-outlined">menu</span>
@@ -48,9 +47,9 @@
         <span slot="supporting-text">CI · main · 6m 12s · staging deploy queued.</span>
       </u-list-item>
     </u-list>
-  </u-scaffold-pane>
+  </u-pane>
 
-  <u-scaffold-pane position="side" variant="filled" collapse-mode="fullscreen" collapse-breakpoint="md" id="list-detail-message">
+  <u-pane mode="fullscreen" mode-md="fixed" variant="filled" id="list-detail-message" style="flex: 1 1 0; min-width: 0;">
     <div slot="header" style="display: flex; align-items: center; gap: 4px; padding: 8px 12px;">
       <u-icon-button onclick="document.getElementById('list-detail-message').close()">
         <span class="material-symbols-outlined">arrow_back</span>
@@ -65,7 +64,7 @@
       <p id="list-detail-sender" style="margin: 0 0 4px; font-size: 13px; color: var(--u-color-on-surface-variant);">—</p>
       <p id="list-detail-body" style="margin: 16px 0 0; line-height: 1.6;">Pick a message from the list to read it here. On narrow viewports (≤ 840px) this pane will take over the scaffold — the back button slides it away.</p>
     </div>
-  </u-scaffold-pane>
+  </u-pane>
 </u-scaffold>
 
 <script>

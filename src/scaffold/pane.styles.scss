@@ -1,0 +1,403 @@
+@use "sass:map";
+@use "../../scss/variables";
+@use "../../scss/functions";
+
+// ---------------------------------------------------------------------------
+// Base host / chrome.
+//
+// Mode rules below set CSS custom properties on the host that `.container`
+// consumes — switching modes at a breakpoint cleanly re-paints chrome
+// (bg, shape, shadow) without leakage from the previous mode. Every mode
+// rule also explicitly RESETS layout properties on `.container`
+// (inset, transition, etc.) so a breakpoint flip from sidebar→fixed
+// doesn't leave the drawer slid off-screen.
+// ---------------------------------------------------------------------------
+
+:host {
+  display: block;
+  min-height: 0;
+  --u-pane-transition: 300ms #{variables.$awesome-cubic-bezier};
+
+  // Variant-aware defaults (overridden by [variant=*] rules below).
+  --_u-pane-variant-bg: transparent;
+  --_u-pane-variant-radius: 0;
+
+  // Mode-aware container chrome (overridden by [mode=*] rules below).
+  --_u-pane-bg-color: var(--_u-pane-variant-bg);
+  --_u-pane-shape-corner: var(--_u-pane-variant-radius);
+  --_u-pane-box-shadow: none;
+
+  // Drawer width + slide distance (set per modal mode).
+  --_u-pane-drawer-width: 100%;
+  --_u-pane-slide-distance: -100%;
+  --_u-pane-shape-corner-end: 0;
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  background-color: var(--_u-pane-bg-color);
+  border-radius: var(--_u-pane-shape-corner);
+  box-shadow: var(--_u-pane-box-shadow);
+}
+
+.header { flex: 0 0 auto; }
+.content { flex: 1 1 auto; min-height: 0; overflow: auto; }
+
+// Variant treatment.
+:host([variant=filled]) {
+  --_u-pane-variant-bg: var(--u-pane-filled-bg-color,
+    #{functions.get-color-var(surface-container-low)});
+  --_u-pane-variant-radius: var(--u-pane-filled-shape-corner,
+    #{functions.get-shape-corner-var(medium)});
+}
+
+:host([variant=transparent]) {
+  --_u-pane-variant-bg: transparent;
+  --_u-pane-variant-radius: 0;
+}
+
+// Below md the scaffold zeroes its outer padding so panes butt against
+// the viewport edges and against the top app bar / navigation bar. The
+// corner radius is no longer "wasted" — it actively creates visible
+// notches between the pane and the bars. Drop the radius so the mobile
+// pane reads as a fullscreen surface. Modal modes (sidebar / fullscreen)
+// keep their own corner rules below.
+@media (max-width: 839.98px) {
+  :host([variant=filled]) {
+    --_u-pane-variant-radius: 0;
+  }
+}
+
+// Scrim — `position: fixed` so it covers the entire scaffold (top app bar
+// included). The scaffold's `:host` has `contain: layout paint style`,
+// which makes it the containing block for fixed-positioned descendants.
+.scrim {
+  position: fixed;
+  inset: 0;
+  background-color: var(--u-pane-scrim-color,
+    #{functions.get-color-var(scrim)});
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--u-pane-transition);
+  display: none;
+}
+
+// ---------------------------------------------------------------------------
+// Mode rules — visual treatment AND default slide animation.
+//
+// Animation pattern is borrowed from the original scaffold-pane: transition
+// `inset` on the `.container`, then flip `inset-inline-start|end` between
+// `-drawer-width` and `0` to drive the slide. `inset` interpolates cleanly
+// between two numeric values; we deliberately don't transition properties
+// (e.g. `transform`) that the cascade might leave at competing values.
+//
+// Every mode rule fully RESETS the `.container`'s layout state so that
+// switching modes via a breakpoint repaints cleanly with no leftover
+// slide-off-screen or shadow from the previous mode.
+// ---------------------------------------------------------------------------
+
+@mixin pane-mode-rules($attr, $context: "") {
+  // ---- fixed ----
+  // Always visible, in-flow flex item. `open` has zero effect — the
+  // container fully resets any modal-mode positioning/animation.
+  :host(#{$context}[#{$attr}=fixed]) {
+    display: block;
+    position: relative;
+    flex: 0 1 auto;
+    height: auto;
+    inset: auto;
+    z-index: auto;
+    pointer-events: auto;
+    opacity: 1;
+    transition: none;
+    --_u-pane-bg-color: var(--_u-pane-variant-bg);
+    --_u-pane-shape-corner: var(--_u-pane-variant-radius);
+    --_u-pane-box-shadow: none;
+  }
+  :host(#{$context}[#{$attr}=fixed]) .container {
+    position: relative;
+    inset: auto;
+    width: auto;
+    transition: none;
+    opacity: 1;
+  }
+  :host(#{$context}[#{$attr}=fixed]) .scrim {
+    display: none;
+  }
+
+  // ---- collapsible ----
+  // In-flow flex item that slides off via negative `margin-inline-start`
+  // (or `-end` when `data-align=end`) — same pattern the original
+  // scaffold used for `nav-collapsed`. No fade: pure positional movement,
+  // matching the legacy behaviour the consumer expects.
+  //
+  // The slide distance comes from `--u-pane-width`, which the consumer
+  // sets to the pane's open width (e.g. `style="--u-pane-width: 280px"`).
+  // `display: none` is layered on via `transition-behavior: allow-discrete`
+  // so the pane fully drops out of the flow once the slide completes,
+  // and `@starting-style` provides the off-screen margin for the
+  // closed→open re-entry so the slide-in animates from the correct edge.
+  :host(#{$context}[#{$attr}=collapsible]) {
+    display: block;
+    position: relative;
+    flex: 0 1 auto;
+    height: auto;
+    inset: auto;
+    z-index: auto;
+    pointer-events: auto;
+    opacity: 1;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+    transition:
+      margin-inline-start var(--u-pane-transition),
+      margin-inline-end var(--u-pane-transition),
+      display var(--u-pane-transition) allow-discrete;
+    --_u-pane-bg-color: var(--_u-pane-variant-bg);
+    --_u-pane-shape-corner: var(--_u-pane-variant-radius);
+    --_u-pane-box-shadow: none;
+    --_u-pane-collapsed-offset: calc(
+      -1 * (var(--u-pane-width, 100%) + var(--u-pane-gap, 16px))
+    );
+  }
+  // Default slide direction = leading edge (start).
+  :host(#{$context}[#{$attr}=collapsible]:where(:not([open]))) {
+    margin-inline-start: var(--_u-pane-collapsed-offset);
+    display: none;
+  }
+  // Trailing-edge slide when the scaffold tagged the pane data-align=end.
+  :host(#{$context}[#{$attr}=collapsible]:where([data-align=end]:not([open]))) {
+    margin-inline-start: 0;
+    margin-inline-end: var(--_u-pane-collapsed-offset);
+  }
+  // Provide the off-screen margin as the starting frame for the slide-in,
+  // so the pane animates IN from the same edge it slid out to.
+  @starting-style {
+    :host(#{$context}[#{$attr}=collapsible]:where([open])) {
+      margin-inline-start: var(--_u-pane-collapsed-offset);
+    }
+    :host(#{$context}[#{$attr}=collapsible]:where([data-align=end][open])) {
+      margin-inline-start: 0;
+      margin-inline-end: var(--_u-pane-collapsed-offset);
+    }
+  }
+  :host(#{$context}[#{$attr}=collapsible]) .container {
+    position: relative;
+    inset: auto;
+    width: auto;
+    transition: none;
+    opacity: 1;
+  }
+  :host(#{$context}[#{$attr}=collapsible]) .scrim {
+    display: none;
+  }
+
+  // ---- sidebar ----
+  // Modal drawer overlay. Host stretches across the entire scaffold via
+  // `position: fixed` (anchored to the scaffold's `contain: paint`
+  // containing block), so the drawer reaches full scaffold height — over
+  // the top app bar and bottom navigation bar. The drawer chrome
+  // (`.container`) is pinned to the leading edge and animated via
+  // `transition: inset` — the same pattern the original `scaffold-pane`
+  // used. `data-align=end` mirrors the slide to the trailing edge.
+  :host(#{$context}[#{$attr}=sidebar]) {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: var(--u-pane-z-index, 1030);
+    pointer-events: none;
+    flex: none;
+    width: auto;
+    height: auto;
+    opacity: 1;
+    transition: none;
+
+    --_u-pane-bg-color: var(--u-pane-overlay-bg-color,
+      #{functions.get-color-var(surface-container-low)});
+    --_u-pane-shape-corner: 0;
+    --_u-pane-shape-corner-end: var(--u-pane-overlay-corner-shape,
+      #{functions.get-shape-corner-var(large)});
+    --_u-pane-box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+    --_u-pane-drawer-width: min(var(--u-pane-mobile-width, 360px), 85%);
+    --_u-pane-slide-distance: calc(var(--_u-pane-drawer-width) * -1);
+  }
+  // Sidebar drawer chrome — pinned to leading edge by default; slides
+  // off via `inset-inline-start: -drawer-width`. `data-align=end` is
+  // mirrored.
+  :host(#{$context}[#{$attr}=sidebar]) .container {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: var(--_u-pane-slide-distance);
+    inset-inline-end: auto;
+    width: var(--_u-pane-drawer-width);
+    transition: inset var(--u-pane-transition);
+    pointer-events: auto;
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+    border-start-end-radius: var(--_u-pane-shape-corner-end);
+    border-end-end-radius: var(--_u-pane-shape-corner-end);
+  }
+  :host(#{$context}[#{$attr}=sidebar]:where([open])) .container {
+    inset-inline-start: 0;
+  }
+  :host(#{$context}[#{$attr}=sidebar]:where([data-align=end])) .container {
+    inset-inline-start: auto;
+    inset-inline-end: var(--_u-pane-slide-distance);
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+    border-start-start-radius: var(--_u-pane-shape-corner-end);
+    border-end-start-radius: var(--_u-pane-shape-corner-end);
+  }
+  :host(#{$context}[#{$attr}=sidebar]:where([data-align=end][open])) .container {
+    inset-inline-end: 0;
+  }
+  :host(#{$context}[#{$attr}=sidebar]) .scrim {
+    display: block;
+  }
+  :host(#{$context}[#{$attr}=sidebar]:where([open])) .scrim {
+    opacity: var(--u-pane-scrim-opacity, .4);
+    pointer-events: auto;
+  }
+
+  // ---- fullscreen ----
+  // Full-coverage modal. `position: fixed` so it covers the whole
+  // scaffold (top app bar included) via the scaffold's `contain: paint`
+  // containing block. Same `inset` slide pattern as sidebar.
+  :host(#{$context}[#{$attr}=fullscreen]) {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: var(--u-pane-fullscreen-z-index, 1040);
+    pointer-events: none;
+    flex: none;
+    width: auto;
+    height: auto;
+    opacity: 1;
+    transition: none;
+
+    --_u-pane-bg-color: var(--u-pane-overlay-bg-color,
+      #{functions.get-color-var(surface-container-lowest)});
+    --_u-pane-shape-corner: 0;
+    --_u-pane-shape-corner-end: 0;
+    --_u-pane-box-shadow: none;
+    --_u-pane-drawer-width: 100%;
+    --_u-pane-slide-distance: -100%;
+  }
+  :host(#{$context}[#{$attr}=fullscreen]) .container {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: var(--_u-pane-slide-distance);
+    inset-inline-end: auto;
+    width: 100%;
+    transition: inset var(--u-pane-transition);
+    pointer-events: auto;
+  }
+  :host(#{$context}[#{$attr}=fullscreen]:where([open])) .container {
+    inset-inline-start: 0;
+  }
+  :host(#{$context}[#{$attr}=fullscreen]:where([data-align=end])) .container {
+    inset-inline-start: auto;
+    inset-inline-end: var(--_u-pane-slide-distance);
+  }
+  :host(#{$context}[#{$attr}=fullscreen]:where([data-align=end][open])) .container {
+    inset-inline-end: 0;
+  }
+  :host(#{$context}[#{$attr}=fullscreen]) .scrim {
+    display: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Animation override rules — applied AFTER all mode rules in source order
+// so they override the default slide direction set above.
+//
+// - `animation=exit` (default) is a no-op; the mode rules already infer
+//   direction from `data-align`.
+// - `animation=none` disables the slide transition.
+// - `animation=fade` swaps the slide for an opacity transition.
+// - `animation=exit-start` / `exit-end` force the side regardless of
+//   `data-align`.
+// ---------------------------------------------------------------------------
+
+@mixin pane-animation-rules($attr, $context: "") {
+  :host(#{$context}[#{$attr}=none]),
+  :host(#{$context}[#{$attr}=none]) .container,
+  :host(#{$context}[#{$attr}=none]) .scrim {
+    transition: none;
+  }
+
+  // fade: pin the container at the visible position; transition opacity.
+  :host(#{$context}[#{$attr}=fade]) .container {
+    inset-inline-start: 0;
+    inset-inline-end: auto;
+    transition: opacity var(--u-pane-transition);
+    opacity: 1;
+  }
+  :host(#{$context}[#{$attr}=fade]:where(:not([open]))) .container {
+    opacity: 0;
+  }
+
+  // exit-start: force leading-edge slide.
+  :host(#{$context}[#{$attr}=exit-start]) .container {
+    inset-inline-start: var(--_u-pane-slide-distance);
+    inset-inline-end: auto;
+    transition: inset var(--u-pane-transition);
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+    border-start-end-radius: var(--_u-pane-shape-corner-end);
+    border-end-end-radius: var(--_u-pane-shape-corner-end);
+  }
+  :host(#{$context}[#{$attr}=exit-start]:where([open])) .container {
+    inset-inline-start: 0;
+  }
+
+  // exit-end: force trailing-edge slide.
+  :host(#{$context}[#{$attr}=exit-end]) .container {
+    inset-inline-start: auto;
+    inset-inline-end: var(--_u-pane-slide-distance);
+    transition: inset var(--u-pane-transition);
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+    border-start-start-radius: var(--_u-pane-shape-corner-end);
+    border-end-start-radius: var(--_u-pane-shape-corner-end);
+  }
+  :host(#{$context}[#{$attr}=exit-end]:where([open])) .container {
+    inset-inline-end: 0;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Emit the matrix.
+// ---------------------------------------------------------------------------
+
+@include pane-mode-rules(mode);
+
+@each $bp in (sm, md, lg, xl) {
+  $min: map.get(variables.$breakpoints, $bp);
+  @if $min and $min != 0 {
+    @media (min-width: $min) {
+      @include pane-mode-rules("mode-#{$bp}", ":where(:not([query-context=container]))");
+    }
+    @container (min-width: #{$min}) {
+      @include pane-mode-rules("mode-#{$bp}", ":where([query-context=container])");
+    }
+  }
+}
+
+@include pane-animation-rules(animation);
+
+@each $bp in (sm, md, lg, xl) {
+  $min: map.get(variables.$breakpoints, $bp);
+  @if $min and $min != 0 {
+    @media (min-width: $min) {
+      @include pane-animation-rules("animation-#{$bp}", ":where(:not([query-context=container]))");
+    }
+    @container (min-width: #{$min}) {
+      @include pane-animation-rules("animation-#{$bp}", ":where([query-context=container])");
+    }
+  }
+}

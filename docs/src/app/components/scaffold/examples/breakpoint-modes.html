@@ -1,0 +1,39 @@
+<u-scaffold id="bp-scaffold" style="height: 480px; border: 1px solid var(--u-color-outline-variant, rgba(0,0,0,.12)); border-radius: 12px;">
+  <u-pane
+    id="bp-nav"
+    mode="sidebar"
+    mode-md="collapsible"
+    mode-lg="fixed"
+    variant="filled"
+    style="width: 200px; --u-pane-width: 200px;"
+  >
+    <div slot="header" style="padding: 12px 16px; display: flex; align-items: center; justify-content: space-between;">
+      <strong>Navigation</strong>
+      <u-icon-button onclick="document.getElementById('bp-nav').close()">
+        <span class="material-symbols-outlined">close</span>
+      </u-icon-button>
+    </div>
+    <u-list>
+      <u-list-item>Inbox</u-list-item>
+      <u-list-item>Drafts</u-list-item>
+      <u-list-item>Sent</u-list-item>
+    </u-list>
+  </u-pane>
+
+  <div style="padding: 16px 24px; overflow: auto;">
+    <p>This pane has <code>mode="sidebar"</code> base, <code>mode-md="collapsible"</code> from 840px, and <code>mode-lg="fixed"</code> from 1200px:</p>
+    <ul>
+      <li>&lt; <strong>md</strong> (sub-840): modal sidebar — opens with the button below</li>
+      <li><strong>md – lg</strong>: collapsible in-flow flex item — toggle to slide off without overlay</li>
+      <li>≥ <strong>lg</strong>: always visible</li>
+    </ul>
+    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+      <u-button onclick="document.getElementById('bp-nav').show()">Open</u-button>
+      <u-button color="secondary" onclick="document.getElementById('bp-nav').close()">Close</u-button>
+      <u-button color="tertiary" onclick="document.getElementById('bp-nav').toggle()">Toggle</u-button>
+    </div>
+    <p style="margin-top: 16px; font-size: 13px; color: var(--u-color-on-surface-variant);">
+      Resize the browser to cross the breakpoints — no JS reactivity needed; the CSS owns the resolution.
+    </p>
+  </div>
+</u-scaffold>

@@ -2,17 +2,17 @@
   <u-top-app-bar
     slot="top-bar"
     size="small"
-    headline="Explicit override"
-    scrollContainer="none"
+    headline="Explicit scroll target"
+    scrollContainer="explicit-scroll-body"
   >
     <u-icon-button slot="leading-icon">
       <span class="material-symbols-outlined">menu</span>
     </u-icon-button>
   </u-top-app-bar>
 
-  <div style="padding: 16px 24px;">
-    <p>This top app bar has <code>scrollContainer="none"</code>, which overrides the scaffold's context and disables scroll reactivity entirely. Scroll the content — the app bar won't collapse.</p>
-    <p>Explicit values always win over the context. Set <code>scrollContainer</code> on the top app bar to take manual control.</p>
+  <div id="explicit-scroll-body" style="padding: 16px 24px; overflow: auto;">
+    <p>The scaffold no longer publishes a scroll-container via Lit context. By default the top app bar listens to the window — point it at a specific element with <code>scrollContainer</code> (here, this <code>&lt;div&gt;</code>) when you want it to react to in-scaffold scroll instead.</p>
+    <p>Try <code>scrollContainer="none"</code> if you want to disable scroll reactivity entirely.</p>
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
     <p>Aenean commodo ligula eget dolor. Aenean massa.</p>
     <p>Cum sociis natoque penatibus et magnis dis parturient montes.</p>

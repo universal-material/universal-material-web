@@ -1,7 +1,4 @@
-<u-scaffold
-  id="screen-scaffold"
-  layout="list-detail"
->
+<u-scaffold id="screen-scaffold">
   <u-top-app-bar
     slot="top-bar"
     headline=""
@@ -9,7 +6,7 @@
     <u-icon-button
       slot="leading-icon"
       aria-label="Toggle navigation"
-      (click)="nav.toggleDrawer = !nav.toggleDrawer"
+      (click)="$any(nav).toggle()"
     >
       <span class="material-symbols-outlined">menu</span>
     </u-icon-button>
@@ -63,11 +60,11 @@
     </u-icon-button>
   </u-top-app-bar>
 
-  <u-scaffold-pane
+  <u-pane
+    class="nav-pane"
     #nav
-    position="navigation"
-    collapse-mode="sidebar"
-    collapse-breakpoint="lg"
+    mode="sidebar"
+    mode-lg="collapsible"
   >
     <div class="u-container u-margin-inline-small u-margin-lg-0 u-margin-inline-lg-0">
       <u-fab
@@ -158,12 +155,12 @@
         <span slot="badge">587</span>
       </u-drawer-item>
     </div>
-  </u-scaffold-pane>
+  </u-pane>
 
-  <u-scaffold-pane
+  <u-pane
     class="list-pane"
     variant="filled"
-    position="center"
+    mode="fixed"
   >
     <div
       class="list-bar"
@@ -221,15 +218,14 @@
         </u-list-item>
       }
     </u-list>
-  </u-scaffold-pane>
+  </u-pane>
 
-  <u-scaffold-pane
+  <u-pane
     class="detail-pane"
     id="screen-detail"
     variant="filled"
-    position="side"
-    collapse-mode="fullscreen"
-    collapse-breakpoint="md"
+    mode="fullscreen"
+    mode-md="fixed"
   >
     <div
       class="detail-bar"
@@ -303,7 +299,7 @@
         <p class="detail-empty-sub">Pick an email from the list to read it here</p>
       </div>
     }
-  </u-scaffold-pane>
+  </u-pane>
 
   <u-navigation-bar
     class="mobile-bottom-nav"

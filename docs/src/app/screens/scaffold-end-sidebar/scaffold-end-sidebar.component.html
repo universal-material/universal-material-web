@@ -10,11 +10,11 @@
   </u-top-app-bar>
 
   <div class="screen-content">
-    <p>On a viewport ≥ 1200px the end pane is permanent on the right. Below that, open it as a modal sidebar from the trailing edge.</p>
+    <p>On a viewport ≥ 1200px (<code>lg</code>) the end pane is permanent on the right. Below that, it opens as a modal sidebar from the trailing edge — DOM order (pane after body) drives the slide direction.</p>
     <u-button (click)="$any(pane).show()">Open details</u-button>
   </div>
 
-  <u-scaffold-pane position="side" variant="filled" collapse-mode="sidebar" #pane>
+  <u-pane mode="sidebar" mode-lg="fixed" variant="filled" #pane style="width: 280px;">
     <div slot="header" class="pane-header">
       <strong>Inspector</strong>
       <u-icon-button (click)="$any(pane).close()">
@@ -24,5 +24,5 @@
     <div class="pane-body">
       <p>Inspector content goes here. Properties, metadata, related actions.</p>
     </div>
-  </u-scaffold-pane>
+  </u-pane>
 </u-scaffold>

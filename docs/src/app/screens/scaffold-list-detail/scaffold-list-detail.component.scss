@@ -1,6 +1,6 @@
 :host {
-  --u-pane-navigation-width: 280px;
-  --u-pane-fixed-width: 432px;
+  --u-pane-nav-width: 280px;
+  --u-pane-list-width: 432px;
 
   display: block;
   height: 100vh;
@@ -37,7 +37,7 @@ u-top-app-bar {
   }
 
   &::part(leading) {
-    width: var(--u-pane-navigation-width);
+    width: var(--u-pane-nav-width);
   }
 
   &::part(headline) {
@@ -49,7 +49,7 @@ u-top-app-bar {
 
 u-search {
   --u-layout-margin-inline: 0px;
-  flex: 0 0 var(--u-pane-fixed-width, 432px);
+  flex: 0 0 var(--u-pane-list-width, 432px);
   min-width: 0;
 }
 
@@ -126,7 +126,36 @@ u-drawer-headline {
 
 .list-pane,
 .detail-pane {
-  --u-scaffold-pane-filled-shape-corner: 20px;
+  --u-pane-filled-shape-corner: 20px;
+}
+
+.list-pane {
+  width: var(--u-pane-list-width);
+  flex-shrink: 0;
+}
+
+.detail-pane {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+// Sub-md: the detail pane is in fullscreen modal mode (out of the flow).
+// Let the list pane stretch to fill the body row instead of leaving the
+// 432dp track empty next to the viewport edge.
+@media (max-width: 839.98px) {
+  .list-pane {
+    width: auto;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+}
+
+.nav-pane {
+  width: var(--u-pane-nav-width);
+  // Expose the open width via `--u-pane-width` so the collapsible-mode
+  // slide animation (margin-inline-start = -(width + gap)) lands on the
+  // correct distance.
+  --u-pane-width: var(--u-pane-nav-width);
 }
 
 .list-bar {

@@ -1,4 +1,4 @@
-<u-scaffold style="--u-pane-navigation-width: 260px; --u-pane-fixed-width: 260px;">
+<u-scaffold>
   <u-top-app-bar slot="top-bar" headline="Pane variants">
     <u-icon-button
       slot="leading-icon"
@@ -9,21 +9,21 @@
     </u-icon-button>
   </u-top-app-bar>
 
-  <u-scaffold-pane position="navigation" variant="filled">
+  <u-pane variant="filled" style="width: 260px;">
     <div slot="header" class="pane-header"><strong>filled</strong></div>
     <div class="pane-body">
       <p><code>surface-container-low</code> + medium (12dp) corner.</p>
     </div>
-  </u-scaffold-pane>
+  </u-pane>
 
   <div class="screen-content">
-    <p>Two variants: <code>filled</code> (canonical card chrome, <code>surface-container-low</code>) and <code>transparent</code> (blends with the scaffold). When a filled pane collapses to a sidebar drawer or fullscreen overlay it switches to <code>surface-container-lowest</code> automatically; override <code>--u-scaffold-pane-overlay-bg-color</code> to change that.</p>
+    <p>Two variants: <code>filled</code> (canonical card chrome, <code>surface-container-low</code>) and <code>transparent</code> (blends with the scaffold). When a filled pane collapses to a sidebar drawer or fullscreen overlay it switches to <code>surface-container-lowest</code> automatically; override <code>--u-pane-overlay-bg-color</code> to change that.</p>
   </div>
 
-  <u-scaffold-pane position="side" variant="transparent">
+  <u-pane variant="transparent" style="width: 260px;">
     <div slot="header" class="pane-header"><strong>transparent</strong></div>
     <div class="pane-body">
       <p>No background, no corner. Blends with the scaffold.</p>
     </div>
-  </u-scaffold-pane>
+  </u-pane>
 </u-scaffold>

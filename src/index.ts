@@ -1,7 +1,7 @@
 import '@bart-krakowski/get-week-info-polyfill';
 
 import './scaffold/scaffold.js';
-import './scaffold/scaffold-pane.js';
+import './scaffold/pane.js';
 import './navigation/side-navigation.js';
 import './navigation-rail/navigation-rail.js';
 import './navigation-rail/navigation-rail-item.js';
@@ -115,7 +115,7 @@ export * from './progress/circular-progress.js';
 export * from './progress/progress-bar.js';
 export * from './ripple/ripple.js';
 export * from './scaffold/scaffold.js';
-export * from './scaffold/scaffold-pane.js';
+export * from './scaffold/pane.js';
 export { scrollContainerContext } from './scaffold/scroll-container-context.js';
 export * from './snackbar/snackbar.js';
 export * from './tab-bar/tab-bar.js';

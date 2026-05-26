@@ -45,8 +45,8 @@ export const routes: Routes = [
         loadComponent: () => import('@docs/screens/scaffold-with-top-bar/scaffold-with-top-bar.component').then(m => m.ScaffoldWithTopBarScreenComponent)
       },
       {
-        path: 'scaffold-navigation-pane',
-        loadComponent: () => import('@docs/screens/scaffold-navigation-pane/scaffold-navigation-pane.component').then(m => m.ScaffoldNavigationPaneScreenComponent)
+        path: 'scaffold-breakpoint-modes',
+        loadComponent: () => import('@docs/screens/scaffold-breakpoint-modes/scaffold-breakpoint-modes.component').then(m => m.ScaffoldBreakpointModesScreenComponent)
       },
     ]
   },

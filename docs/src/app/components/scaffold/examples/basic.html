@@ -12,12 +12,12 @@
     </u-icon-button>
   </u-top-app-bar>
 
-  <div style="padding: 16px 24px;">
-    <p>Scroll inside this scaffold to see the top app bar react. The scaffold owns the scroll, not the page.</p>
-    <p>The headline and extended content collapse based on the scroll position of the scaffold's internal container, which is shared via context.</p>
+  <div style="padding: 16px 24px; overflow: auto;">
+    <p>Body content lives directly inside the scaffold — no pane needed. Any non-pane child flexes to fill the body row.</p>
+    <p>The scaffold no longer owns the scroll. If you want this column to scroll, give it <code>overflow: auto</code> (as this <code>&lt;div&gt;</code> does); to scroll the top app bar in sync, point it at this element via <code>scrollContainer</code>.</p>
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</p>
     <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Aenean lacinia bibendum nulla sed consectetur.</p>
-    <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec ullamcorper nulla non metus auctor fringilla.</p>
+    <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
     <p>Maecenas faucibus mollis interdum. Nullam quis risus eget urna mollis ornare vel eu leo.</p>
     <p>Etiam porta sem malesuada magna mollis euismod. Donec id elit non mi porta gravida at eget metus.</p>
     <p>Nullam id dolor id nibh ultricies vehicula ut id elit. Sed posuere consectetur est at lobortis.</p>

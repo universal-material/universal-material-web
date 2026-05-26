@@ -14,6 +14,7 @@ import endSidebarHtml from './examples/end-sidebar.html';
 import endFullscreenHtml from './examples/end-fullscreen.html';
 import filledVariantsHtml from './examples/filled-variants.html';
 import withTopBarHtml from './examples/with-top-bar.html';
+import breakpointModesHtml from './examples/breakpoint-modes.html';
 
 @Component({
   selector: 'docs-scaffold',
@@ -37,4 +38,5 @@ export class ScaffoldComponent {
   endFullscreenHtml = endFullscreenHtml;
   filledVariantsHtml = filledVariantsHtml;
   withTopBarHtml = withTopBarHtml;
+  breakpointModesHtml = breakpointModesHtml;
 }

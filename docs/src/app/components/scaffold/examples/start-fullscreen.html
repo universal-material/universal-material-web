@@ -1,5 +1,5 @@
 <u-scaffold style="height: 480px; border: 1px solid var(--u-color-outline-variant, rgba(0,0,0,.12)); border-radius: 12px;">
-  <u-scaffold-pane position="navigation" variant="filled" collapse-mode="fullscreen" id="start-fullscreen-pane">
+  <u-pane mode="fullscreen" mode-lg="fixed" variant="filled" id="start-fullscreen-pane" style="width: 240px;">
     <div slot="header" style="padding: 12px 16px; display: flex; align-items: center; justify-content: space-between;">
       <strong>Browse</strong>
       <u-icon-button onclick="document.getElementById('start-fullscreen-pane').close()">
@@ -7,9 +7,9 @@
       </u-icon-button>
     </div>
     <div style="padding: 16px;">
-      <p>This pane takes over the entire viewport when collapsed on mobile. Useful for richer browse / picker experiences.</p>
+      <p>Below <code>lg</code> this pane takes over the entire scaffold (above the top app bar) instead of sliding in as a sidebar. Useful for richer browse / picker experiences.</p>
     </div>
-  </u-scaffold-pane>
+  </u-pane>
 
   <div style="padding: 16px 24px;">
     <p>Below 1200px the pane covers the screen instead of sliding in as a sidebar.</p>

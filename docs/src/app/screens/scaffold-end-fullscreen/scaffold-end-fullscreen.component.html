@@ -10,11 +10,11 @@
   </u-top-app-bar>
 
   <div class="screen-content">
-    <p>The end pane covers the viewport on mobile.</p>
+    <p>Below <code>md</code> the pane covers the scaffold. DOM order puts it after the body, so the slide-in animates from the trailing edge.</p>
     <u-button (click)="$any(pane).show()">Open editor</u-button>
   </div>
 
-  <u-scaffold-pane position="side" variant="filled" collapse-mode="fullscreen" #pane>
+  <u-pane mode="fullscreen" mode-md="fixed" variant="filled" #pane style="width: 360px;">
     <div slot="header" class="pane-header">
       <strong>Editor</strong>
       <u-icon-button (click)="$any(pane).close()">
@@ -24,5 +24,5 @@
     <div class="pane-body">
       <p>A roomy editing surface that takes over the screen on smaller viewports.</p>
     </div>
-  </u-scaffold-pane>
+  </u-pane>
 </u-scaffold>
