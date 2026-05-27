@@ -164,17 +164,21 @@
 //     (16dp from the common item tokens) offsets the icon/label from the
 //     pill's edges.
 :host([variant=expanded]) {
-  // The host shrinks to the pill width — the 16dp leading space the spec
-  // calls for lives on the parent `.rail-items-expanded` instead, so clicks
-  // outside the pill don't hit the host at all. Using `fit-content` keeps
-  // the host content-sized while letting sibling slotted elements (dividers,
-  // brand footers, etc.) still stretch to the parent's content width.
+  // Host stretches to the rail's full width so the ButtonWrapper's
+  // absolutely-positioned `.button` (inset 0, width 100% of .container)
+  // covers the entire row — clicks anywhere in the line still navigate.
+  // The visible pill stays content-sized (`.active-indicator { flex: 0 0
+  // auto }`) and remains leading-aligned via `.content`'s flex-start,
+  // matching the M3 spec which calls for a content-hugging pill rather
+  // than a stretched one. The spec's 16dp `full-width.leading-space`
+  // now lives on `.container` (as inline-start padding) rather than on
+  // the parent `.rail-items-expanded`.
   //
   // The container drives the height (via min-height + padding-block); the
   // content + pill stretch to fill it so the active-indicator follows the
   // container dynamically — no hardcoded pill height.
-  width: fit-content;
-  max-width: 100%;
+  width: 100%;
+
   .content {
     flex-direction: row;
     align-items: center;
@@ -197,6 +201,7 @@
     justify-content: flex-start;
     min-height: var(--u-nav-rail-item-container-height, 64px);
     padding-block: var(--u-nav-rail-item-expanded-padding-block, 2px);
+    padding-inline-start: var(--u-nav-rail-item-horizontal-full-width-leading-space, 16px);
   }
 
   .label {

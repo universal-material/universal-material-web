@@ -153,11 +153,11 @@
   flex-direction: column;
   gap: var(--u-nav-rail-expanded-between-item-space, 0);
   padding-block: var(--u-nav-rail-vertical-trailing-space, 20px);
-  // Symmetric inline padding so the spec's 16dp leading space lives on the
-  // parent (the item host shrinks to the pill, so clicks outside the pill
-  // never touch the host). Trailing matches for visual symmetry; siblings
-  // like dividers and footer links stretch into both insets naturally.
-  padding-inline: var(--u-nav-rail-item-horizontal-full-width-leading-space, 16px);
+  // No inline padding: expanded rail items stretch to the rail's full
+  // width so their click target covers the entire row. The spec's 16dp
+  // leading space now lives inside each item's `.container`, and
+  // non-item siblings (headlines, dividers, footer links) carry their
+  // own inline padding to land on the same vertical guideline.
   overflow-y: auto;
   overflow-x: hidden;
   min-height: 0;
