@@ -6,6 +6,10 @@
   height: 100vh;
 }
 
+u-navigation-rail {
+  --u-nav-rail-container-color: var(--u-color-surface-container);
+}
+
 // ---------------------------------------------------------------------------
 // App-bar leading: menu toggle + brand (logo + "Correio"). Both sit
 // inside the `leading-icon` area, whose width the scaffold sizes to
