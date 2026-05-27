@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false,
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "types": ["mocha"]
+  },
+  "include": ["src/**/*.ts"]
+}

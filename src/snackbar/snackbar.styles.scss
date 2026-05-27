@@ -37,7 +37,7 @@
 }
 
 u-button {
-  color: #{api.get-color-var(inverse-primary)};
+  --u-color-primary: #{api.get-color-var(inverse-primary)};
   margin: var(--u-snackbar-action-margin, #{api.get-spacing-var(extra-small)});
 }
 
