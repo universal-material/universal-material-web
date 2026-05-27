@@ -169,4 +169,129 @@ suite('u-select / u-option', () => {
       expect(data.get('letter')).to.equal('b');
     });
   });
+
+  // Exercises SelectNavigationController (which extends MenuFieldNavigationController).
+  suite('keyboard navigation', () => {
+    const sendKey = (target: HTMLElement, key: string) => {
+      target.dispatchEvent(new KeyboardEvent('keydown', {
+        key,
+        bubbles: true,
+        cancelable: true,
+        composed: true,
+      }));
+    };
+
+    const mountWithOptions = async () => {
+      const el = await fixture<Select>(html`
+        <u-select>
+          <u-option value="a">Alpha</u-option>
+          <u-option value="b">Beta</u-option>
+          <u-option value="c">Carrot</u-option>
+          <u-option value="d">Carrots</u-option>
+        </u-select>
+      `);
+      await el.updateComplete;
+      return el;
+    };
+
+    test('ArrowDown on a closed select opens the menu', async () => {
+      const el = await mountWithOptions();
+      sendKey(el, 'ArrowDown');
+      await el.updateComplete;
+      expect(el._menu.open).to.be.true;
+    });
+
+    test('ArrowUp on a closed select also opens the menu', async () => {
+      const el = await mountWithOptions();
+      sendKey(el, 'ArrowUp');
+      await el.updateComplete;
+      expect(el._menu.open).to.be.true;
+    });
+
+    test('Escape closes an open menu', async () => {
+      const el = await mountWithOptions();
+      el._menu.open = true;
+      await el.updateComplete;
+      sendKey(el, 'Escape');
+      await el.updateComplete;
+      expect(el._menu.open).to.be.false;
+    });
+
+    test('Home focuses the first option', async () => {
+      const el = await mountWithOptions();
+      el._menu.open = true;
+      await el.updateComplete;
+      sendKey(el, 'Home');
+      expect(el._options[0].active).to.be.true;
+    });
+
+    test('End focuses the last option', async () => {
+      const el = await mountWithOptions();
+      el._menu.open = true;
+      await el.updateComplete;
+      sendKey(el, 'End');
+      const last = el._options.length - 1;
+      expect(el._options[last].active).to.be.true;
+    });
+
+    test('ArrowDown moves the focus forward in an open menu', async () => {
+      const el = await mountWithOptions();
+      el._menu.open = true;
+      await el.updateComplete;
+      sendKey(el, 'Home');
+      sendKey(el, 'ArrowDown');
+      expect(el._options[1].active).to.be.true;
+    });
+
+    test('ArrowUp wraps to the last option from the first', async () => {
+      const el = await mountWithOptions();
+      el._menu.open = true;
+      await el.updateComplete;
+      sendKey(el, 'Home');
+      sendKey(el, 'ArrowUp');
+      const last = el._options.length - 1;
+      expect(el._options[last].active).to.be.true;
+    });
+
+    test('Enter selects the focused option and closes the menu', async () => {
+      const el = await mountWithOptions();
+      el._menu.open = true;
+      await el.updateComplete;
+      sendKey(el, 'Home');
+      sendKey(el, 'ArrowDown'); // focus index 1 = "Beta"
+
+      setTimeout(() => sendKey(el, 'Enter'));
+      await oneEvent(el, 'change');
+      expect(el.value).to.equal('b');
+      expect(el._menu.open).to.be.false;
+    });
+
+    test('typeahead jumps to the option whose label starts with the typed letter', async () => {
+      const el = await mountWithOptions();
+      el._menu.open = true;
+      await el.updateComplete;
+      sendKey(el, 'c');
+      // "Carrot" (index 2) starts with 'c'.
+      expect(el._options[2].active).to.be.true;
+    });
+
+    test('typeahead with multiple letters refines the match', async () => {
+      const el = await mountWithOptions();
+      el._menu.open = true;
+      await el.updateComplete;
+      sendKey(el, 'c');
+      sendKey(el, 'a');
+      sendKey(el, 'r');
+      // Still matches first "Carrot" prefix; nothing closer matches.
+      expect(el._options[2].active).to.be.true;
+    });
+
+    test('typeahead with a closed menu selects the matching option without opening', async () => {
+      const el = await mountWithOptions();
+      // Menu starts closed.
+      sendKey(el, 'b');
+      await el.updateComplete;
+      expect(el.value).to.equal('b');
+    });
+  });
 });
