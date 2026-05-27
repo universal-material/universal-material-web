@@ -77,9 +77,11 @@ export class TabBar extends LitElement {
 
   override attributeChangedCallback(
     name: string,
-    _: string | null,
-    __: string | null,
+    _old: string | null,
+    _new: string | null,
   ) {
+    super.attributeChangedCallback(name, _old, _new);
+
     if (name === 'variant') {
       this._updateTabIndicator();
     }
