@@ -50,9 +50,9 @@ Drop panes around the body content; DOM order is visual order. Panes default to 
     <!-- navigation pane -->
   </u-pane>
 
-  <main style="padding: 16px 24px; overflow: auto">
-    <!-- body content; flex: 1 1 0 is applied for you -->
-  </main>
+  <u-pane variant="transparent" style="flex: 1 1 0">
+    <!-- main body content; transparent = no background, scrolls inside .content -->
+  </u-pane>
 
   <u-pane variant="filled" style="width: 320px">
     <!-- supporting pane -->
@@ -60,7 +60,152 @@ Drop panes around the body content; DOM order is visual order. Panes default to 
 </u-scaffold>
 ```
 
-The middle `<main>` automatically grows to fill the remaining row space (the scaffold applies `flex: 1 1 0` to every non-pane child via `::slotted(:not(u-pane))`). If you want a pane to grow instead, style it with `style="flex: 1 1 0"`.
+The scaffold applies `flex: 1 1 0` to every non-pane child via `::slotted(:not(u-pane))`, so a plain `<main>` would also flex correctly — but see the recommendation below for why panes are preferred when other panes are present.
+
+### Recommendation: be consistent — if you use panes, use them for every body sibling
+
+When any body child of a scaffold is a `<u-pane>`, prefer making **all** body children panes (even the central content). Mixing `<u-pane>` with raw `<main>` / `<aside>` creates three forms of inconsistency:
+
+1. **Surface**: panes pick up Material 3 surface tokens (filled = `surface-container-low` + 12dp corner; transparent = no bg). Raw `<main>` sits on `surface` without that shape. Side-by-side, the pane looks like a "real panel" and the main looks like loose content.
+2. **Scrolling**: panes scroll inside their internal `.content` part — set the pane's height and overflow is handled automatically. Raw `<main>` needs `overflow: auto` set explicitly and `min-height: 0` to work right inside the flex row.
+3. **Responsive modes**: panes accept `mode` / `mode-sm` / `mode-md` / `mode-lg` / `mode-xl` for breakpoint-driven layout changes. Raw `<main>` doesn't — you'd have to write `@media` rules to mirror the same behavior.
+
+Use the `transparent` variant for the central content area when you want it to read as the page surface rather than a raised panel:
+
+```html
+<u-scaffold style="height: 100vh">
+  <u-pane mode="sidebar" mode-md="fixed" variant="filled" style="width: 240px">…sub-nav…</u-pane>
+  <u-pane variant="transparent" style="flex: 1 1 0">…page content…</u-pane>
+</u-scaffold>
+```
+
+The rule is "be deliberate about the mix": use raw `<main>` when no panes exist in the layout at all (simpler), and use panes everywhere when any pane is present (consistent).
+
+## Canonical patterns
+
+Two layouts come up over and over in real apps. Use these as the starting point and tune from there.
+
+### Pattern A — "Settings / section nav" (settings, profile, admin)
+
+A settings screen **is a list-detail**: the section nav is the *list* and the section's content is the *detail*. Don't model it as "a modal sidebar + always-on content" — that hides the nav on mobile and forces a redundant mobile picker. Instead:
+
+- **Section nav = the list**: `mode="fixed"` (always visible). On mobile it fills the viewport (it's the only thing shown until you pick a section); on md+ it's a fixed-width column. Drive the width with a class, not inline style, so a media query can switch it.
+- **Section content = the detail**: `mode="fullscreen" mode-md="fixed"`. On mobile, picking a section opens the content as a fullscreen overlay with a back button; on md+ both sit side by side.
+
+```html
+<u-scaffold style="height: 100vh">
+  <u-top-app-bar slot="top-bar" headline="Settings">…</u-top-app-bar>
+
+  <!-- Nav (the list): fills the screen on mobile, fixed column on md+ -->
+  <u-pane id="nav" mode="fixed" variant="filled" class="settings-nav">
+    <u-drawer>
+      <u-drawer-item active data-section="general" keep-drawer-open>General</u-drawer-item>
+      <u-drawer-item data-section="security" keep-drawer-open>Security</u-drawer-item>
+    </u-drawer>
+  </u-pane>
+
+  <!-- Content (the detail): fullscreen overlay on mobile, fixed on md+ -->
+  <u-pane id="content" mode="fullscreen" mode-md="fixed" variant="transparent" style="flex: 1 1 0; min-width: 0;">
+    <div slot="header" class="settings-back"><!-- shown only on mobile -->
+      <u-icon-button onclick="document.getElementById('content').close()">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </u-icon-button>
+      <span class="u-title-s">Settings</span>
+    </div>
+    <!-- sections, forms, etc. -->
+  </u-pane>
+</u-scaffold>
+
+<style>
+  .settings-nav { flex: 1 1 0; }                 /* mobile: nav fills viewport */
+  @media (min-width: 840px) { .settings-nav { flex: 0 0 320px; } }  /* md+: fixed column */
+  .settings-back { display: none; align-items: center; gap: 8px; padding: 8px 12px; }
+  @media (max-width: 839.98px) { .settings-back { display: flex; } }  /* back only on mobile */
+</style>
+
+<script>
+  // Picking a section reveals it AND opens the detail (no-op at md+ where it's fixed).
+  document.querySelectorAll('u-drawer-item[data-section]').forEach(it =>
+    it.addEventListener('click', () => {
+      showSection(it.dataset.section);
+      document.getElementById('content').show();
+    }));
+</script>
+```
+
+Two cascade traps this pattern walks into (both bit real builds):
+- **`display` on the mobile-only back header**: put it in a class with the media query, never `style="display:flex"` inline — inline beats the class's `display:none` and the header leaks onto desktop.
+- **Pane width**: `mode="fixed"` panes set their own `flex` internally; override it from a document-scope **class** (not the component's `:host`) so a media query can flip `flex: 1 1 0` ↔ `flex: 0 0 320px`.
+
+### Pattern B — "List-detail" (mail, messaging, file managers, CRM contacts)
+
+Three panes: a small top-level nav, a list of items, and a detail view. The detail collapses to a fullscreen overlay on mobile so it can take over the viewport when the user picks an item, then slides back out when they hit back.
+
+```html
+<u-scaffold style="height: 100vh">
+  <u-top-app-bar slot="top-bar" headline="Mail">
+    <u-icon-button slot="leading-icon" onclick="document.getElementById('mailnav').toggle()">
+      <span class="material-symbols-outlined">menu</span>
+    </u-icon-button>
+  </u-top-app-bar>
+
+  <!-- Nav: modal on mobile/medium, fixed at lg -->
+  <u-pane id="mailnav" mode="sidebar" mode-lg="fixed" variant="filled" style="width: 240px;">
+    <u-drawer>
+      <u-drawer-item active>
+        <span slot="icon" class="material-symbols-outlined">inbox</span>
+        Inbox
+        <span slot="badge">12</span>
+      </u-drawer-item>
+      <u-drawer-item>
+        <span slot="icon" class="material-symbols-outlined">send</span>
+        Sent
+      </u-drawer-item>
+    </u-drawer>
+  </u-pane>
+
+  <!-- List: always in-flow. Filled gives it a distinct surface. -->
+  <u-pane variant="filled" mode="fixed" style="width: 360px;">
+    <div slot="header" style="padding: 8px 12px; display: flex; align-items: center; gap: 8px;">
+      <strong>Primary · 5 messages</strong>
+    </div>
+    <u-list>
+      <u-list-item selectable onclick="openMessage(...)">…</u-list-item>
+      <!-- ... -->
+    </u-list>
+  </u-pane>
+
+  <!-- Detail: fullscreen overlay on mobile, fixed in-flow on md+. THIS is the key. -->
+  <u-pane id="detail" mode="fullscreen" mode-md="fixed" variant="filled" style="flex: 1 1 0; min-width: 0;">
+    <div slot="header" style="display: flex; align-items: center; gap: 4px; padding: 8px 12px;">
+      <u-icon-button onclick="document.getElementById('detail').close()" aria-label="Back">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </u-icon-button>
+      <span style="flex: 1"></span>
+      <u-icon-button aria-label="Archive"><span class="material-symbols-outlined">archive</span></u-icon-button>
+    </div>
+    <div style="padding: 0 24px 24px;">
+      <!-- subject, sender, body -->
+    </div>
+  </u-pane>
+</u-scaffold>
+
+<script>
+  function openMessage(id) {
+    // populate detail content...
+    document.getElementById('detail').show();  // opens fullscreen overlay on mobile, no-op at md+ where it's already fixed
+  }
+</script>
+```
+
+What makes this work:
+
+- **Nav pane**: `mode="sidebar" mode-lg="fixed"` — closed-by-default modal until lg, where it docks in-flow. (`mode-md="collapsible"` is another option if you want it visible at md but collapsible.)
+- **List pane**: `mode="fixed"` — always visible. `filled` so it has its own surface, distinct from the detail.
+- **Detail pane**: `mode="fullscreen" mode-md="fixed"` — **this is the linchpin of the list-detail pattern**. At mobile sizes the detail slides in OVER the list when opened; the back button calls `pane.close()` to dismiss. At md+ it's a fixed flex item beside the list. The mode change is pure CSS; the `open` property persists across breakpoints (once you set it, it sticks).
+- **Header slot**: each pane uses `slot="header"` for its toolbar so it stays pinned while the list/detail content scrolls.
+
+There's a working version of this in the docs site under `docs/src/app/screens/scaffold-list-detail/` (a Mail clone) — read it whenever you need the full responsive choreography.
 
 ## Modes and breakpoints
 
@@ -244,3 +389,4 @@ Pane (set on the pane host):
 - `<u-pane mode="sidebar">` slides from the leading edge by default. Place the pane *after* your body content in DOM order to slide from the trailing edge — the scaffold writes `data-align="end"` on it automatically.
 - `query-context="container"` requires the scaffold ancestor (which sets `container-type`). If you use a pane outside a `<u-scaffold>`, container queries won't resolve.
 - The standalone `u-side-navigation` is `@deprecated` — use a `<u-pane>` with a slotted `<u-drawer>` / `<u-navigation-rail>` instead.
+- **A `<u-drawer>` slotted into a `filled` pane paints over the pane's own background.** The drawer renders its own surface, and at `lg`+ that surface becomes `surface`/body (the "standard drawer" treatment for a permanent side-nav) — identical to the scaffold background. So a filled nav pane shows its background at small/medium widths and then *loses it on desktop*, exactly where the drawer flips to body color. The pane background is there; the drawer is painting on top. Fix at the drawer, not the pane: neutralize the drawer's surface so the pane shows through — `--u-modal-drawer-bg-color: transparent; --u-standard-drawer-bg-color: transparent;` (set on the pane; they inherit to the drawer). See the drawer skill for detail.

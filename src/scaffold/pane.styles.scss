@@ -218,9 +218,7 @@
 
     --_u-pane-bg-color: var(--u-pane-overlay-bg-color,
       #{functions.get-color-var(surface-container-low)});
-    --_u-pane-shape-corner: 0;
-    --_u-pane-shape-corner-end: var(--u-pane-overlay-corner-shape,
-      #{functions.get-shape-corner-var(large)});
+    --_u-pane-shape-corner: var(--u-pane-overlay-corner-shape, #{functions.get-shape-corner-var(large)});
     --_u-pane-box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
     --_u-pane-drawer-width: min(var(--u-pane-mobile-width, 360px), 85%);
     --_u-pane-slide-distance: calc(var(--_u-pane-drawer-width) * -1);
@@ -236,10 +234,7 @@
     width: var(--_u-pane-drawer-width);
     transition: inset var(--u-pane-transition);
     pointer-events: auto;
-    border-start-start-radius: 0;
-    border-end-start-radius: 0;
-    border-start-end-radius: var(--_u-pane-shape-corner-end);
-    border-end-end-radius: var(--_u-pane-shape-corner-end);
+    border-radius: var(--_u-pane-shape-corner);
   }
   :host(#{$context}[#{$attr}=sidebar]:where([open])) .container {
     inset-inline-start: 0;

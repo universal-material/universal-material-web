@@ -40,6 +40,11 @@ testem.log
 .DS_Store
 Thumbs.db
 
+# Aurora mockup — disposable skill-testing artifact. Keep only the README
+# (regeneration instructions); everything else is generated and not versioned.
+/mockup/*
+!/mockup/README.md
+
 
 /docs/src/app/apis.ts
 /docs/dist/

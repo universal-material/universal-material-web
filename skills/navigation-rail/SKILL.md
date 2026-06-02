@@ -107,6 +107,18 @@ Sources: `md.comp.nav-rail`, `md.comp.nav-rail-collapsed`, `md.comp.nav-rail-exp
 - **Label**: label-medium 12sp (collapsed) / label-large 14sp (expanded). Active color is `secondary` (collapsed/vertical) or `on-secondary-container` (expanded/horizontal); inactive is `on-surface-variant`. Active items use `weight-prominent` (700 / bold).
 - **State layer**: `on-secondary-container` color; hover 8%, focus 10%, pressed 10% — applied **only inside the active-indicator pill**. Click target remains the entire item, ripples confined to the pill via `u-ripple` inside the indicator.
 
+## The two slots are the SAME navigation at two detail levels — not two different menus
+
+`slot="rail"` (collapsed) and `slot="expanded"` are the **same destination set** shown at two levels of detail: collapsed = icons only; expanded = icons + labels grouped under headlines. They are *not* a place to put two different navigations.
+
+A tempting-but-wrong idea: make the collapsed rail the product nav (Mail, Chat, Meet) and the expanded rail the current section's sub-navigation (mail folders — Inbox, Starred, Sent…). This breaks the user's mental model: toggling the rail should reveal *more detail about the same destinations*, not **swap** what the rail navigates. A user who expands the rail expecting fuller product labels instead finds an unrelated folder list. Don't do this.
+
+Where section sub-navigation belongs instead:
+- **A small set of peer views** (e.g. "All / Unread / Starred"): a `u-chip-set` or `u-tab-bar` in the list header.
+- **A genuinely large folder tree** that warrants its own surface: a separate `<u-pane>` with a `<u-drawer>` — but first ask whether the screen actually needs it. A CRM "inbox" is a list of conversations; it usually does **not** need Gmail-style Sent/Drafts/Trash folders at all. Cut the layer rather than house it.
+
+The rail carries **product-level** destinations only. If a sub-navigation doesn't fit as collapsed-icon + expanded-label of those same destinations, it doesn't belong in the rail.
+
 ## Caveats
 
 - Don't slot a `<u-drawer>`: the expanded rail is a distinct M3 surface with its own pill-shaped items, not a drawer.
