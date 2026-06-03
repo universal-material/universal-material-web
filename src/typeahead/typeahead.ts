@@ -205,6 +205,10 @@ export class Typeahead extends LitElement {
     super.disconnectedCallback();
     this.#connected = false;
     this.#detach();
+    // When the element is moved in the DOM (disconnect + reconnect), null the target
+    // so connectedCallback's #attach() re-binds the input listener instead of
+    // early-returning on an unchanged target node (which left the typeahead deaf).
+    this.#target = null;
     this.#documentMutationObserver!.disconnect();
     this.#documentMutationObserver = null;
   }

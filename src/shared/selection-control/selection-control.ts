@@ -129,6 +129,15 @@ export abstract class SelectionControl extends LitElement {
   override firstUpdated(changedProperties: PropertyValues) {
     super.firstUpdated(changedProperties);
 
+    // Honor the initial `checked` boolean attribute. It is captured separately as
+    // `_checkedAttribute` (the `checked` accessor can't read the not-yet-rendered
+    // input), so seed `#checked` from it — otherwise this method resets
+    // `input.checked` to the un-seeded default and a markup `checked` never applies.
+    if (this._checkedAttribute && !this.#checked) {
+      this.#checked = true;
+      this.elementInternals.setFormValue(this.value);
+    }
+
     this.input.checked = this.#checked;
   }
 

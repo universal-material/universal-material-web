@@ -143,21 +143,36 @@ export class TabBar extends LitElement {
     this.#resizeObserver.observe(this);
   }
 
-  readonly #handleSlotChange = (e: Event) => {
-    const slot = e.target as HTMLSlotElement;
-    this.#tabs =
-      slot.assignedElements({ flatten: true }).filter(element => element instanceof Tab);
+  readonly #handleSlotChange = () => {
+    this.#registerTabs();
+  };
 
-    for (const tab of this.#tabs) {
-      tab._bar = this;
-    }
+  // Re-acquire the slotted tabs and (re)bind their `_bar`. Tabs null their `_bar`
+  // on disconnect, and the default slot's `slotchange` does NOT re-fire when the
+  // bar is moved in the DOM as a unit — so without re-registering on connect, a
+  // moved tab-bar's tabs go inert (clicks no-op, active indicator lost).
+  #registerTabs(): void {
+    const tabs = this.assignedElements.filter(
+      (element): element is Tab => element instanceof Tab,
+    );
 
-    if (this.activeTabIndex > -1) {
+    if (!tabs.length) {
       return;
     }
 
-    this.activeTab = this.#tabs[0];
-  };
+    this.#tabs = tabs;
+
+    for (const tab of tabs) {
+      tab._bar = this;
+    }
+
+    if (this.activeTabIndex < 0) {
+      this.activeTab = this.#tabs[0];
+    } else {
+      this.activeTab?.requestUpdate();
+      this._updateTabIndicator();
+    }
+  }
 
   readonly #handleContainerScrollEnd = () => {
     this._setScrollIndicatorsActive();
@@ -226,6 +241,7 @@ export class TabBar extends LitElement {
 
   async #attach(): Promise<void> {
     await this.updateComplete;
+    this.#registerTabs();
     this._setScrollIndicatorsActive();
   }
 }
