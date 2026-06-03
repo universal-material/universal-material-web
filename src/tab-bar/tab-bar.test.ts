@@ -156,4 +156,35 @@ suite('u-tab-bar / u-tab', () => {
       expect(event.cancelable).to.be.true;
     });
   });
+
+  suite('re-registration after a DOM move', () => {
+    test('rebinds tabs and keeps clicks working after the bar is moved', async () => {
+      const bar = await fixture<TabBar>(html`
+        <u-tab-bar>
+          <u-tab>A</u-tab>
+          <u-tab>B</u-tab>
+          <u-tab>C</u-tab>
+        </u-tab-bar>
+      `);
+      await bar.updateComplete;
+      const tabs = bar.querySelectorAll<Tab>('u-tab');
+
+      // Move the bar (and its tabs) to a new parent: disconnect + reconnect.
+      const newParent = document.createElement('div');
+      document.body.appendChild(newParent);
+      newParent.appendChild(bar);
+      await bar.updateComplete;
+      await new Promise((resolve) => setTimeout(resolve));
+
+      // Tabs null their _bar on disconnect; the bar must rebind them on reconnect.
+      tabs.forEach((tab) =>
+        expect((tab as unknown as { _bar: TabBar })._bar).to.equal(bar));
+
+      // ...and clicking a tab still activates it.
+      tabs[2].shadowRoot!.querySelector<HTMLElement>('button')!.click();
+      expect(bar.activeTabIndex).to.equal(2);
+
+      newParent.remove();
+    });
+  });
 });

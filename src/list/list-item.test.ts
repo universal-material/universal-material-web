@@ -86,4 +86,36 @@ suite('u-list-item', () => {
       expect(el.shadowRoot!.querySelector('u-ripple')).to.be.null;
     });
   });
+
+  suite('no-inset property', () => {
+    test('defaults to false', async () => {
+      const el = await fixture<ListItem>(html`<u-list-item>x</u-list-item>`);
+      expect(el.noInset).to.be.false;
+      expect(el.hasAttribute('no-inset')).to.be.false;
+    });
+
+    test('reflects to the no-inset attribute', async () => {
+      const el = await fixture<ListItem>(html`<u-list-item>x</u-list-item>`);
+      el.noInset = true;
+      await el.updateComplete;
+      expect(el.hasAttribute('no-inset')).to.be.true;
+    });
+
+    test('applies a negative inline margin equal to the inline padding', async () => {
+      const el = await fixture<ListItem>(html`<u-list-item no-inset>x</u-list-item>`);
+      await el.updateComplete;
+      const container = el.shadowRoot!.querySelector<HTMLElement>('[part="container"]')!;
+      const style = getComputedStyle(container);
+      // default inline padding is 16px -> the margin cancels it on both sides
+      expect(style.marginLeft).to.equal('-16px');
+      expect(style.marginRight).to.equal('-16px');
+    });
+
+    test('has no negative margin without the attribute', async () => {
+      const el = await fixture<ListItem>(html`<u-list-item>x</u-list-item>`);
+      await el.updateComplete;
+      const container = el.shadowRoot!.querySelector<HTMLElement>('[part="container"]')!;
+      expect(getComputedStyle(container).marginLeft).to.equal('0px');
+    });
+  });
 });

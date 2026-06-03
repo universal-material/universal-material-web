@@ -73,6 +73,12 @@ suite('u-checkbox', () => {
       expect(internalInput(el).checked).to.be.true;
     });
 
+    test('honors the initial `checked` attribute (markup)', async () => {
+      const el = await fixture<Checkbox>(html`<u-checkbox checked></u-checkbox>`);
+      expect(el.checked).to.be.true;
+      expect(internalInput(el).checked).to.be.true;
+    });
+
     test('setting checked=true clears indeterminate', async () => {
       const el = await fixture<Checkbox>(html`<u-checkbox></u-checkbox>`);
       el.indeterminate = true;

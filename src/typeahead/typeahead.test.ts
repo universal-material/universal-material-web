@@ -202,4 +202,33 @@ suite('u-typeahead', () => {
       expect(target.value).to.equal('');
     });
   });
+
+  suite('re-attach after a DOM move', () => {
+    test('still reacts to input after the typeahead is moved in the DOM', async () => {
+      const wrap = await fixture<HTMLElement>(html`
+        <div>
+          <input id="tm" type="text" class="typeahead-target" />
+          <u-typeahead target-id="tm" debounce="10" .source=${['apple', 'apricot', 'banana']}></u-typeahead>
+        </div>
+      `);
+      const ta = wrap.querySelector('u-typeahead') as Typeahead;
+      const target = wrap.querySelector<HTMLInputElement>('#tm')!;
+
+      // Move the typeahead to a new parent: disconnect + reconnect.
+      const newParent = document.createElement('div');
+      document.body.appendChild(newParent);
+      newParent.appendChild(ta);
+      await flush(20);
+
+      // Typing in the (unchanged) target must still drive the typeahead.
+      target.value = 'ap';
+      target.dispatchEvent(new Event('input', { bubbles: true }));
+
+      await flush(50);
+      await ta.updateComplete;
+
+      expect(ta.shadowRoot!.querySelectorAll('u-menu-item').length).to.equal(2);
+      newParent.remove();
+    });
+  });
 });
