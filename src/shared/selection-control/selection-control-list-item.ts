@@ -28,13 +28,20 @@ export const mixinSelectionControlListItem = <T extends MixinBase<SelectionContr
      */
     @property({ type: Boolean }) leading = false;
 
+    /**
+     * Pull the row flush with surrounding content (negative inline margin equal
+     * to the inline padding) so it aligns with adjacent labels / section headings.
+     * Forwarded to the inner `u-list-item`.
+     */
+    @property({ type: Boolean, attribute: 'no-inset' }) noInset = false;
+
     protected override inputDescribedById = 'description';
     protected override inputLabelledById = 'label';
 
     override render(): HTMLTemplateResult {
       return html`
         <label>
-          <u-list-item ?selectable=${!this.disabled}>
+          <u-list-item ?selectable=${!this.disabled} ?no-inset=${this.noInset}>
             <div slot="${this.leading ? 'leading-icon' : 'trailing-icon'}">${super.render()}</div>
             <span id="label"><slot></slot></span>
             <span id="description" slot="supporting-text"><slot name="supporting-text"></slot></span>

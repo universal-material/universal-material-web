@@ -15,6 +15,13 @@ export class ListItem extends LitElement {
    */
   @property({ type: Boolean, reflect: true }) selectable = false;
 
+  /**
+   * Pull the row flush with surrounding content: cancels the inline padding with
+   * an equal negative inline margin, so the content lines up with adjacent labels
+   * or section headings (the row's state layer bleeds to the container edges).
+   */
+  @property({ type: Boolean, reflect: true, attribute: 'no-inset' }) noInset = false;
+
   override render(): HTMLTemplateResult {
     const ripple = html`<u-ripple></u-ripple>`;
 

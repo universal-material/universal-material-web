@@ -8,6 +8,7 @@ import simpleListHtml from './examples/simple-list.html';
 import listIconsHtml from './examples/list-icons.html';
 import listTwoLinesHtml from './examples/list-two-lines.html';
 import listWithActionHtml from './examples/list-with-action.html';
+import listNoInsetHtml from './examples/list-no-inset.html';
 
 @Component({
   selector: 'docs-lists',
@@ -25,4 +26,5 @@ export class ListsComponent {
   listIconsHtml = listIconsHtml;
   listTwoLinesHtml = listTwoLinesHtml;
   listWithActionHtml = listWithActionHtml;
+  listNoInsetHtml = listNoInsetHtml;
 }

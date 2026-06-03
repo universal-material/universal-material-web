@@ -18,6 +18,12 @@
   gap: var(--u-list-item-gap, 16px);
 }
 
+// `no-inset`: cancel the inline padding with an equal negative inline margin so
+// the row aligns flush with adjacent content (section labels / headings).
+:host([no-inset]) .container {
+  margin-inline: calc(var(--u-list-item-inline-padding, 16px) * -1);
+}
+
 .selectable {
   cursor: pointer;
 }
