@@ -55,6 +55,21 @@ suite('u-tab-bar / u-tab', () => {
       expect(bar.activeTab).to.equal(tabs[0]);
       expect(bar.activeTabIndex).to.equal(0);
     });
+
+    test('honors [active] in markup on a non-first tab', async () => {
+      const bar = await fixture<TabBar>(html`
+        <u-tab-bar>
+          <u-tab>A</u-tab>
+          <u-tab active>B</u-tab>
+          <u-tab>C</u-tab>
+        </u-tab-bar>
+      `);
+      await bar.updateComplete;
+      const tabs = bar.querySelectorAll<Tab>('u-tab');
+      expect(bar.activeTabIndex).to.equal(1);
+      expect(bar.activeTab).to.equal(tabs[1]);
+      expect(tabs[1].active).to.be.true;
+    });
   });
 
   suite('activeTab setter', () => {

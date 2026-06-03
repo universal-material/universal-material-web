@@ -101,6 +101,23 @@ suite('u-chip', () => {
       btn.click();
       expect(wrap.querySelector('u-chip')).to.equal(chip);
     });
+
+    test('the "remove" event bubbles and composes so a chip-set can delegate', async () => {
+      const set = await fixture<ChipSet>(html`
+        <u-chip-set><u-chip removable>x</u-chip></u-chip-set>
+      `);
+      const chip = set.querySelector('u-chip') as Chip;
+      let target: EventTarget | null = null;
+      let composed = false;
+      set.addEventListener('remove', (e) => {
+        target = e.target;
+        composed = e.composed;
+        e.preventDefault();
+      });
+      chip.shadowRoot!.querySelector<HTMLElement>('.remove-button')!.click();
+      expect(target).to.equal(chip);
+      expect(composed).to.be.true;
+    });
   });
 
   suite('toggle behavior', () => {

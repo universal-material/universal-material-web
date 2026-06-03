@@ -80,6 +80,82 @@ suite('u-select / u-option', () => {
     });
   });
 
+  suite('value attribute', () => {
+    test('selects the option matching the initial value attribute', async () => {
+      const el = await fixture<Select>(html`
+        <u-select value="b">
+          <u-option value="a">A</u-option>
+          <u-option value="b">B</u-option>
+          <u-option value="c">C</u-option>
+        </u-select>
+      `);
+      await el.updateComplete;
+      expect(el.value).to.equal('b');
+      expect(el.selectedIndex).to.equal(1);
+    });
+
+    test('the value attribute wins over <u-option selected>', async () => {
+      const el = await fixture<Select>(html`
+        <u-select value="a">
+          <u-option value="a">A</u-option>
+          <u-option value="b" selected>B</u-option>
+        </u-select>
+      `);
+      await el.updateComplete;
+      expect(el.value).to.equal('a');
+    });
+
+    test('reflects the current value back to the attribute', async () => {
+      const el = await fixture<Select>(html`
+        <u-select>
+          <u-option value="a">A</u-option>
+          <u-option value="b">B</u-option>
+        </u-select>
+      `);
+      await el.updateComplete;
+      expect(el.getAttribute('value')).to.equal('a');
+      el.value = 'b';
+      await el.updateComplete;
+      expect(el.getAttribute('value')).to.equal('b');
+    });
+  });
+
+  suite('constraint validation', () => {
+    test('required with an empty-valued option is invalid until a value is chosen', async () => {
+      const el = await fixture<Select>(html`
+        <u-select required>
+          <u-option value="">Choose…</u-option>
+          <u-option value="a">A</u-option>
+        </u-select>
+      `);
+      await el.updateComplete;
+      expect(el.value).to.equal('');
+      expect(el.checkValidity()).to.be.false;
+      expect(el.validity.valueMissing).to.be.true;
+
+      el.value = 'a';
+      await el.updateComplete;
+      expect(el.checkValidity()).to.be.true;
+    });
+
+    test('blocks native form submission while invalid', async () => {
+      const formEl = await fixture<HTMLFormElement>(html`
+        <form>
+          <u-select name="x" required>
+            <u-option value="">Choose…</u-option>
+            <u-option value="a">A</u-option>
+          </u-select>
+        </form>
+      `);
+      const select = formEl.querySelector('u-select') as Select;
+      await select.updateComplete;
+      let submitted = false;
+      formEl.addEventListener('submit', (e) => { e.preventDefault(); submitted = true; });
+      formEl.requestSubmit();
+      expect(submitted).to.be.false;
+    });
+  });
+
   suite('selectedIndex setter', () => {
     test('selects the option at the given index', async () => {
       const el = await fixture<Select>(html`

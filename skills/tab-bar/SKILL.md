@@ -50,6 +50,6 @@ There's also a cancelable `changing` event — call `preventDefault()` to block 
 ## Caveats
 
 - The bar is meant for **content** tabs (switching the body view). For top-level navigation between pages, use `<u-navigation-bar>` (mobile) or `<u-drawer>` items.
-- The bar **auto-activates the first tab** on load. `active` in markup is only honored for that first tab — putting `active` on a *non-first* `<u-tab>` to set the initial selection is **inert**. To start on another tab, set `bar.activeTabIndex = n` after render.
+- `active` in markup sets the **initial** selection — put it on any `<u-tab>` (`<u-tab active>` on the second tab starts there). With no `active`, the first tab is selected. `tab.active` is read-only at runtime (derived from `bar.activeTab`); switch with `bar.activeTabIndex = n`.
 - Don't manually toggle `active` on multiple tabs at once — only one should be active. The bar enforces this on click but not on attribute writes.
 - The underline indicator animates between tabs via CSS. If you toggle `active` programmatically very fast, the indicator may skip frames.

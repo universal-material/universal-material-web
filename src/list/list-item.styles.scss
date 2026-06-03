@@ -28,6 +28,17 @@
   cursor: pointer;
 }
 
+// Selected (active) row: M3 selected container — `secondary-container` fill with
+// `on-secondary-container` text. Matches the active item in a list-detail/nav list.
+:host([selected]) .container {
+  background-color: var(--u-list-item-selected-container-color, #{api.get-color-var(secondary-container)});
+  color: var(--u-list-item-selected-label-color, #{api.get-color-var(on-secondary-container)});
+}
+
+:host([selected]) .supporting-text {
+  color: var(--u-list-item-selected-label-color, #{api.get-color-var(on-secondary-container)});
+}
+
 slot:not([name]) {
   display: block;
   margin-inline-end: auto;

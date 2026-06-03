@@ -16,6 +16,15 @@ export class ListItem extends LitElement {
   @property({ type: Boolean, reflect: true }) selectable = false;
 
   /**
+   * Whether the row is in the selected (active) state. Paints the M3 selected
+   * container (`secondary-container` / `on-secondary-container`) so the row
+   * reads as the current choice in a list-detail or navigation list. Purely
+   * visual — pair it with your own click handling (and `selectable` for the
+   * ripple/hover state layer).
+   */
+  @property({ type: Boolean, reflect: true }) selected = false;
+
+  /**
    * Pull the row flush with surrounding content: cancels the inline padding with
    * an equal negative inline margin, so the content lines up with adjacent labels
    * or section headings (the row's state layer bleeds to the container edges).
@@ -25,7 +34,7 @@ export class ListItem extends LitElement {
   override render(): HTMLTemplateResult {
     const ripple = html`<u-ripple></u-ripple>`;
 
-    const containerClasses = classMap({ selectable: this.selectable });
+    const containerClasses = classMap({ selectable: this.selectable, selected: this.selected });
 
     return html`
       <div class="container ${containerClasses}" part="container">

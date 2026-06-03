@@ -167,7 +167,10 @@ export class TabBar extends LitElement {
     }
 
     if (this.activeTabIndex < 0) {
-      this.activeTab = this.#tabs[0];
+      // Honor a `<u-tab active>` in markup for the initial selection; fall back
+      // to the first tab. `tab.active` is derived from `bar.activeTab`, so the
+      // attribute is the only initial-state signal a tab can carry on its own.
+      this.activeTab = this.#tabs.find(tab => tab.hasAttribute('active')) ?? this.#tabs[0];
     } else {
       this.activeTab?.requestUpdate();
       this._updateTabIndicator();

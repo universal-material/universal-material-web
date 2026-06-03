@@ -76,6 +76,24 @@ Set a global default with `FieldBase.setDefaults(rootElement, { variant: 'outlin
 <u-text-field label="Locked" disabled></u-text-field>
 ```
 
+## Validation
+
+`required`, `pattern`, `minlength` and `maxlength` are forwarded to the inner input and participate in **constraint validation** — they block native `<form>` submit and feed `checkValidity()` / `reportValidity()`:
+
+```html
+<u-text-field label="Email" type="email" required></u-text-field>
+<u-text-field label="ZIP" pattern="[0-9]{5}" minlength="5"></u-text-field>
+```
+
+```ts
+field.checkValidity();    // boolean; fires `invalid` if not valid
+field.reportValidity();   // also shows the native bubble + sets the visual `invalid` state
+field.validity.patternMismatch;   // live ValidityState
+field.validationMessage;          // localized message
+```
+
+For custom errors, keep driving `invalid` + `error-text` yourself (`field.invalid = true; field.errorText = 'Already taken'`).
+
 ## Reading and writing the value
 
 Form integration via `ElementInternals` — the field participates in `<form>` submission and `FormData`. From JS:
@@ -93,4 +111,4 @@ field.addEventListener('input', () => console.log(field.value));
 - The placeholder is hidden visually while the field is empty AND not focused so it doesn't collide with the floating label. Don't fight this with custom CSS — that's the M3 behavior.
 - For `type="date"` use `<u-datepicker>` (not `<u-text-field type="date">`) — the datepicker handles the calendar popover, the M3 chrome and the native browser-mask hiding.
 - Wrap inside `<form>` for native submit; `Enter` in the input triggers `form.requestSubmit()` automatically.
-- **No constraint validation.** `required` / `pattern` are not enforced and number `min` / `max` / `step` / `inputmode` are not forwarded to the inner input; there is no `checkValidity()` / `reportValidity()`. Validate in script (on `input`/submit) and drive `invalid` + `error-text` yourself — e.g. `field.invalid = true; field.errorText = 'Required'`.
+- Constraint validation covers `required` / `pattern` / `minlength` / `maxlength`. Number `min` / `max` / `step` and `inputmode` are **not** forwarded yet — for those, validate in script and drive `invalid` + `error-text` yourself.

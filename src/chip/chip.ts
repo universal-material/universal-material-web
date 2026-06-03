@@ -89,7 +89,7 @@ export class Chip extends ButtonWrapper {
       this.removeRipple.createRipple();
     }
 
-    const removeEvent = new Event('remove', { cancelable: true });
+    const removeEvent = new Event('remove', { bubbles: true, composed: true, cancelable: true });
     this.dispatchEvent(removeEvent);
 
     if (!removeEvent.defaultPrevented) {

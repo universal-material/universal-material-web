@@ -87,6 +87,36 @@ suite('u-list-item', () => {
     });
   });
 
+  suite('selected property', () => {
+    test('defaults to false', async () => {
+      const el = await fixture<ListItem>(html`<u-list-item>x</u-list-item>`);
+      expect(el.selected).to.be.false;
+      expect(el.hasAttribute('selected')).to.be.false;
+    });
+
+    test('reflects to the selected attribute', async () => {
+      const el = await fixture<ListItem>(html`<u-list-item>x</u-list-item>`);
+      el.selected = true;
+      await el.updateComplete;
+      expect(el.hasAttribute('selected')).to.be.true;
+    });
+
+    test('adds the "selected" class to the container when selected=true', async () => {
+      const el = await fixture<ListItem>(html`<u-list-item selected>x</u-list-item>`);
+      await el.updateComplete;
+      const container = el.shadowRoot!.querySelector<HTMLElement>('[part="container"]')!;
+      expect(container.classList.contains('selected')).to.be.true;
+    });
+
+    test('paints a non-transparent container background when selected', async () => {
+      const el = await fixture<ListItem>(html`<u-list-item selected>x</u-list-item>`);
+      await el.updateComplete;
+      const container = el.shadowRoot!.querySelector<HTMLElement>('[part="container"]')!;
+      const bg = getComputedStyle(container).backgroundColor;
+      expect(bg).to.not.equal('rgba(0, 0, 0, 0)');
+    });
+  });
+
   suite('no-inset property', () => {
     test('defaults to false', async () => {
       const el = await fixture<ListItem>(html`<u-list-item>x</u-list-item>`);

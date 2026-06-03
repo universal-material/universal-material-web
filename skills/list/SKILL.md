@@ -48,7 +48,7 @@ description: Render Material 3 lists — u-list + u-list-item, with leading icon
 
 ## Selectable rows
 
-`selectable` adds the ripple + hover **state layer** so the row reads as interactive. It does **not** add a persistent selected state — `<u-list-item>` has **no `selected` property or attribute** (only `selectable`):
+`selectable` adds the ripple + hover **state layer** so the row reads as interactive:
 
 ```html
 <u-list>
@@ -57,23 +57,24 @@ description: Render Material 3 lists — u-list + u-list-item, with leading icon
 </u-list>
 ```
 
-For a persistent **active / selected** highlight (e.g. the open row in a list-detail or mail list), toggle a class yourself and style the exposed `container` part — don't rebuild the list:
+For a persistent **active / selected** highlight (e.g. the open row in a list-detail or mail list), use the **`selected`** attribute/property — it paints the M3 selected container (`secondary-container` / `on-secondary-container`):
 
 ```html
-<style>
-  u-list-item.is-active::part(container) { background: var(--u-color-secondary-container); }
-</style>
+<u-list>
+  <u-list-item selectable selected>One</u-list-item>
+  <u-list-item selectable>Two</u-list-item>
+</u-list>
 <script>
   list.addEventListener('click', (e) => {
     const item = e.target.closest('u-list-item');
     if (!item) return;
-    list.querySelectorAll('.is-active').forEach((i) => i.classList.remove('is-active'));
-    item.classList.add('is-active');
+    list.querySelectorAll('u-list-item[selected]').forEach((i) => (i.selected = false));
+    item.selected = true;
   });
 </script>
 ```
 
-For selection lists tied to a form value, use the dedicated `<u-checkbox-list-item>`, `<u-radio-list-item>`, or `<u-switch-list-item>` (see the **selection-controls** skill).
+Override the selected colors per call site with `--u-list-item-selected-container-color` / `--u-list-item-selected-label-color`. For selection lists tied to a form value, use the dedicated `<u-checkbox-list-item>`, `<u-radio-list-item>`, or `<u-switch-list-item>` (see the **selection-controls** skill).
 
 ## Aligning a row flush (`no-inset`)
 

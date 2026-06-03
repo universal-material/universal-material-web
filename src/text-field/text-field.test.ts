@@ -177,6 +177,67 @@ suite('u-text-field', () => {
     });
   });
 
+  suite('constraint validation', () => {
+    test('required: empty is invalid, filled is valid', async () => {
+      const el = await fixture<TextField>(html`<u-text-field required></u-text-field>`);
+      await el.updateComplete;
+      expect(el.checkValidity()).to.be.false;
+      expect(el.validity.valueMissing).to.be.true;
+
+      const input = inputOf(el);
+      input.value = 'hi';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      await el.updateComplete;
+      expect(el.checkValidity()).to.be.true;
+    });
+
+    test('pattern: mismatch is invalid', async () => {
+      const el = await fixture<TextField>(html`<u-text-field pattern="[0-9]+"></u-text-field>`);
+      await el.updateComplete;
+      const input = inputOf(el);
+      input.value = 'abc';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      await el.updateComplete;
+      expect(el.checkValidity()).to.be.false;
+      expect(el.validity.patternMismatch).to.be.true;
+
+      input.value = '123';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      await el.updateComplete;
+      expect(el.checkValidity()).to.be.true;
+    });
+
+    test('mirrors required/pattern/minlength onto the inner input', async () => {
+      const el = await fixture<TextField>(html`
+        <u-text-field required pattern="[0-9]+" minlength="3"></u-text-field>
+      `);
+      await el.updateComplete;
+      const input = inputOf(el);
+      expect(input.required).to.be.true;
+      expect(input.pattern).to.equal('[0-9]+');
+      expect(input.minLength).to.equal(3);
+    });
+
+    test('reportValidity reflects onto the visual invalid state', async () => {
+      const el = await fixture<TextField>(html`<u-text-field required></u-text-field>`);
+      await el.updateComplete;
+      expect(el.reportValidity()).to.be.false;
+      expect(el.invalid).to.be.true;
+    });
+
+    test('blocks native form submission while invalid', async () => {
+      const formEl = await fixture<HTMLFormElement>(html`
+        <form><u-text-field name="x" required></u-text-field></form>
+      `);
+      const tf = formEl.querySelector('u-text-field') as TextField;
+      await tf.updateComplete;
+      let submitted = false;
+      formEl.addEventListener('submit', (e) => { e.preventDefault(); submitted = true; });
+      formEl.requestSubmit();
+      expect(submitted).to.be.false;
+    });
+  });
+
   suite('variant', () => {
     test('applies the filled variant class by default (via TextFieldBase init)', async () => {
       const el = await fixture<TextField>(html`<u-text-field></u-text-field>`);
