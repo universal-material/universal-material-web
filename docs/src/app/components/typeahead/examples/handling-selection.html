@@ -1,28 +1,37 @@
 <u-chip-field
   id="chip-field"
   label="States"
-  supporting-text="Select a state"
+  supporting-text="Type to add a state"
   manual
 >
 </u-chip-field>
-<u-typeahead target-id="text-field"></u-typeahead>
+<u-typeahead target-id="chip-field"></u-typeahead>
 
 <script>
+  const states = [
+    { id: "ca", name: "California" },
+    { id: "tx", name: "Texas" },
+    { id: "ny", name: "New York" },
+    { id: "fl", name: "Florida" },
+    { id: "wa", name: "Washington" },
+  ];
   const formatter = (state) => state.name;
 
   const chipField = document.querySelector("u-chip-field");
   chipField.formatter = formatter;
 
   const typeahead = document.querySelector("u-typeahead");
-
-  typeahead.source = [];
+  typeahead.source = (term) =>
+    states.filter((s) => s.name.toLowerCase().includes(term.toLowerCase()));
   typeahead.formatter = formatter;
-  typeahead.selected = (e) => {
-    e.preventDefault();
 
-    const typeahead = e.target;
+  // The typeahead dispatches a `selected` event — listen for it (do NOT assign a
+  // `.selected` property). preventDefault keeps the chosen value out of the input;
+  // we add it to the chip-field instead.
+  typeahead.addEventListener("selected", (e) => {
+    e.preventDefault();
     typeahead.clear();
-    this.chipField.add(e.detail, true);
+    chipField.add(e.detail, true);
     typeahead.focus();
-  };
+  });
 </script>

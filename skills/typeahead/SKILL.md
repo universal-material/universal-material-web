@@ -24,6 +24,26 @@ description: Build an autocomplete / typeahead with u-typeahead — a controller
 
 When `source` is a plain array, the component filters it internally by case-insensitive substring. When it's a function, you do the filtering and may return a `Promise`.
 
+## Attaching to any input (`target-id`)
+
+`target-id` can point to **any** input — not only `<u-text-field>`. The typeahead reads `target.input?.value ?? target.value` and listens for the target's `input` event, so it works with:
+
+- `<u-search>` — the M3 search bar; this is the **idiomatic pairing** (the popover anchors to its input). See the **search** skill.
+- `<u-text-field>` / `<u-text-area>`.
+- `<u-chip-field>` — multi-select chips.
+- a plain native `<input>`, or any element from **another library** that exposes a `.value` and fires an `input` event.
+
+```html
+<u-search id="q" position="static"><span class="material-symbols-outlined" slot="leading-icon">search</span></u-search>
+<u-typeahead target-id="q"></u-typeahead>
+
+<!-- a native input (or a non-u-* component) works too -->
+<input id="q2" />
+<u-typeahead target-id="q2"></u-typeahead>
+```
+
+The popover anchors to the target's natural box: the search / text-field's inner input or container, or the bare element for a native input.
+
 ## Object results + label mapping
 
 ```html

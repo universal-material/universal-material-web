@@ -48,17 +48,46 @@ description: Render Material 3 lists — u-list + u-list-item, with leading icon
 
 ## Selectable rows
 
-`selectable` enables ripple + hover and a selection highlight:
+`selectable` adds the ripple + hover **state layer** so the row reads as interactive. It does **not** add a persistent selected state — `<u-list-item>` has **no `selected` property or attribute** (only `selectable`):
 
 ```html
 <u-list>
-  <u-list-item selectable>One</u-list-item>
-  <u-list-item selectable selected>Two (selected)</u-list-item>
-  <u-list-item selectable>Three</u-list-item>
+  <u-list-item selectable onclick="…">One</u-list-item>
+  <u-list-item selectable onclick="…">Two</u-list-item>
 </u-list>
 ```
 
+For a persistent **active / selected** highlight (e.g. the open row in a list-detail or mail list), toggle a class yourself and style the exposed `container` part — don't rebuild the list:
+
+```html
+<style>
+  u-list-item.is-active::part(container) { background: var(--u-color-secondary-container); }
+</style>
+<script>
+  list.addEventListener('click', (e) => {
+    const item = e.target.closest('u-list-item');
+    if (!item) return;
+    list.querySelectorAll('.is-active').forEach((i) => i.classList.remove('is-active'));
+    item.classList.add('is-active');
+  });
+</script>
+```
+
 For selection lists tied to a form value, use the dedicated `<u-checkbox-list-item>`, `<u-radio-list-item>`, or `<u-switch-list-item>` (see the **selection-controls** skill).
+
+## Aligning a row flush (`no-inset`)
+
+List items carry a 16dp inline inset, so their content sits indented from adjacent non-list content (section headings, paragraph labels). Add **`no-inset`** to pull the row flush — it cancels the inline padding with an equal negative inline margin, so the content lines up with the surrounding labels (the state layer bleeds to the container edges):
+
+```html
+<div class="u-title-s">Channels</div>
+<u-list>
+  <u-list-item no-inset>Email</u-list-item>
+  <u-list-item no-inset>Push</u-list-item>
+</u-list>
+```
+
+The `*-list-item` selection variants accept `no-inset` too (it's forwarded to their inner list item) — handy in settings sections where the row should line up with the heading.
 
 ## Three-line items
 

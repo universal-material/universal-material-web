@@ -30,6 +30,7 @@ Material Design 3 web components built with Lit. Custom elements with the `u-` p
 | Badge | `<u-badge>` | `badge` |
 | Cards | `<u-card>`, `<u-card-content>`, `<u-card-media>` | `card` |
 | Autocomplete | `<u-typeahead>`, `<u-highlight>` | `typeahead` |
+| Search | `<u-search>` (M3 search bar; pairs with `u-typeahead`) | `search` |
 
 ## Core conventions
 

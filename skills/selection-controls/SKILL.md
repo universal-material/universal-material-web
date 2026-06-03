@@ -85,3 +85,4 @@ cb.addEventListener('change', () => console.log(cb.checked));
 - `indeterminate` is visual only — `checked` still reads the underlying boolean. For **dynamically-built DOM** (innerHTML / generated rows) set it via the **property** after upgrade (`cb.indeterminate = true`), not the markup attribute. Setting `checked = true` clears `indeterminate`.
 - `change` **bubbles**, so you can delegate it on an ancestor (e.g. a `<tbody>`) for bulk-selection — `wrapper.addEventListener('change', e => e.target.closest('u-checkbox') && …)` works.
 - For groups of switches/checkboxes in settings, prefer the `*-list-item` variants — they're keyboard-accessible across the whole row and follow the M3 list spec.
+- The `*-list-item` variants accept **`no-inset`** — pulls the row flush with surrounding content (a negative inline margin equal to the inline padding) so it lines up with the section heading/labels. See the **list** skill.
