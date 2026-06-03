@@ -12,8 +12,7 @@
   display: none;
 }
 
-slot[name="leading-icon"],
-slot[name="trailing-icon"] {
+.icon {
   display: inline-flex;
   align-items: center;
   gap: var(--u-search-icons-gap, 8px);
@@ -85,12 +84,14 @@ slot[name="leading-icon"]::slotted(u-icon-button) {
   margin-inline: auto;
 }
 
-//.icon {
-//  display: flex;
-//  align-items: center;
-//  justify-content: center;
-//  font-size: var(--u-search-icon-size, 1.5rem);
-//}
+// In `static` (inline) mode the search bar is just the rounded box filling its
+// container. Drop the floating-bar layout (outer padding, max-width, centering)
+// so it doesn't add unintended spacing around itself in a toolbar/header.
+:host([position="static"]) .inner-container {
+  padding: 0;
+  max-width: none;
+  margin-inline: 0;
+}
 
 .leading-icon {
   margin-inline: var(--u-search-leading-icon-margin, 8px);
