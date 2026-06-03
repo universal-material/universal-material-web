@@ -93,3 +93,4 @@ field.addEventListener('input', () => console.log(field.value));
 - The placeholder is hidden visually while the field is empty AND not focused so it doesn't collide with the floating label. Don't fight this with custom CSS — that's the M3 behavior.
 - For `type="date"` use `<u-datepicker>` (not `<u-text-field type="date">`) — the datepicker handles the calendar popover, the M3 chrome and the native browser-mask hiding.
 - Wrap inside `<form>` for native submit; `Enter` in the input triggers `form.requestSubmit()` automatically.
+- **No constraint validation.** `required` / `pattern` are not enforced and number `min` / `max` / `step` / `inputmode` are not forwarded to the inner input; there is no `checkValidity()` / `reportValidity()`. Validate in script (on `input`/submit) and drive `invalid` + `error-text` yourself — e.g. `field.invalid = true; field.errorText = 'Required'`.

@@ -34,13 +34,23 @@ function setTheme(hex: string): void {
 
 ## Dark mode
 
-`ThemeBuilder` emits both light and dark variants under `prefers-color-scheme`. To force dark mode, set the `theme` attribute on `<html>` (or a CSS class) and use the matching tokens:
+`ThemeBuilder` emits each token as a CSS `light-dark(<light>, <dark>)` value, so every color follows the document's **`color-scheme`**. With no override, that tracks the OS via `prefers-color-scheme`.
 
-```ts
-document.documentElement.setAttribute('theme', 'dark');
+To force a scheme, add the library's utility class to the **`<body>`** — `u-dark` or `u-light`. No class = follow the system:
+
+```html
+<body class="u-dark">…</body>   <!-- force dark -->
+<body class="u-light">…</body>  <!-- force light -->
+<body>…</body>                  <!-- system default -->
 ```
 
-If the app needs a "system / light / dark" toggle, store the preference and apply it imperatively.
+```ts
+// runtime toggle
+document.body.classList.remove('u-dark', 'u-light');
+document.body.classList.add(scheme === 'dark' ? 'u-dark' : 'u-light'); // add neither for "system"
+```
+
+`u-dark` / `u-light` set `color-scheme: dark/light !important` (plus the body text color), which is what `light-dark()` resolves against. There is **no** `theme` attribute hook — use these classes. For a "system / light / dark" toggle, persist the choice and apply the class at boot, before first paint.
 
 ## Reading current token values
 

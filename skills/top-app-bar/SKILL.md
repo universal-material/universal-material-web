@@ -27,7 +27,7 @@ description: Add a top app bar to a screen — small/medium/large sizes, leading
 <u-top-app-bar size="large"  headline="Large"></u-top-app-bar>
 ```
 
-- `small` (56dp) — default.
+- `small` (64dp) — default.
 - `medium` (112dp) and `large` (152dp) — render an "extended" headline area that fades out as the user scrolls.
 
 ## Positioning

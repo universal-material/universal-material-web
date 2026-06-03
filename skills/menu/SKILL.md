@@ -92,6 +92,27 @@ Inside a clipped wrapper (e.g. a card with `overflow: hidden`), set `menuPositio
 <u-overflow-menu menuPositioning="fixed">…</u-overflow-menu>
 ```
 
+### Row "kebab" (all actions behind one trigger)
+
+Mark every item `collapse="always"` so nothing renders inline and only the "more" trigger shows. Items render as **icon buttons** — the `label` is the tooltip/aria text, not visible — so give each an icon. Activation bubbles a `click` from the item; delegate and read it:
+
+```html
+<u-overflow-menu menuPositioning="fixed">
+  <u-overflow-menu-item label="Ver" collapse="always"><span class="material-symbols-outlined">visibility</span></u-overflow-menu-item>
+  <u-overflow-menu-item label="Editar" collapse="always"><span class="material-symbols-outlined">edit</span></u-overflow-menu-item>
+  <u-overflow-menu-item label="Excluir" collapse="always"><span class="material-symbols-outlined">delete</span></u-overflow-menu-item>
+</u-overflow-menu>
+
+<script>
+  table.addEventListener('click', (e) => {
+    const item = e.target.closest('u-overflow-menu-item');
+    if (item) doAction(item.getAttribute('label'), e.target.closest('tr'));
+  });
+</script>
+```
+
+For a single-trigger row menu, `<u-icon-button>` + `<u-menu>` (with `menu.anchorElement = theButton`) is often simpler than `<u-overflow-menu>`.
+
 ## Caveats
 
 - A `<u-menu>` is not modal — it doesn't trap focus or scrim the background. Use `<u-dialog>` for modal flows.

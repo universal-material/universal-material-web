@@ -25,7 +25,9 @@ Material Design 3 web components built with Lit. Custom elements with the `u-` p
 | Menus | `<u-menu>`, `<u-menu-item>`, `<u-overflow-menu>` | `menu` |
 | Lists | `<u-list>`, `<u-list-item>` | `list` |
 | Tabs | `<u-tab-bar>`, `<u-tab>` | `tab-bar` |
-| Feedback | `Snackbar.show`, `<u-badge>`, `<u-progress-bar>`, `<u-circular-progress>` | `snackbar` |
+| Feedback | `Snackbar.show` | `snackbar` |
+| Progress | `<u-progress-bar>`, `<u-circular-progress>` | `progress` |
+| Badge | `<u-badge>` | `badge` |
 | Cards | `<u-card>`, `<u-card-content>`, `<u-card-media>` | `card` |
 | Autocomplete | `<u-typeahead>`, `<u-highlight>` | `typeahead` |
 

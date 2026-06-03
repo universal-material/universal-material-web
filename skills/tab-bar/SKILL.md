@@ -17,21 +17,20 @@ description: Use u-tab-bar and u-tab for horizontally arranged content tabs with
 </u-tab-bar>
 ```
 
-## Click handling
+## Tracking the selected tab
 
-Each `<u-tab>` emits `click`; the bar handles toggling `active` on the clicked tab and clearing it from siblings:
+The bar fires a **`change`** event on user selection and exposes **`activeTabIndex`** / **`activeTab`** (read + write). Use these to switch the body view — more robust than reading `click` + `textContent`:
 
 ```ts
 const bar = document.querySelector('u-tab-bar')!;
-bar.addEventListener('click', (e) => {
-  const tab = (e.target as HTMLElement).closest('u-tab');
-  if (tab) {
-    console.log('Selected:', tab.textContent?.trim());
-  }
+bar.addEventListener('change', () => {
+  showPanel(bar.activeTabIndex);   // 0-based index of the selected tab
 });
+
+bar.activeTabIndex = 2;            // select programmatically (does NOT fire `change`)
 ```
 
-In a framework, bind `[active]="route === 'overview'"` on each tab and switch the view on click.
+There's also a cancelable `changing` event — call `preventDefault()` to block the switch. (`variant="primary" | "secondary"` chooses the indicator style.)
 
 ## With icons
 
@@ -51,5 +50,6 @@ In a framework, bind `[active]="route === 'overview'"` on each tab and switch th
 ## Caveats
 
 - The bar is meant for **content** tabs (switching the body view). For top-level navigation between pages, use `<u-navigation-bar>` (mobile) or `<u-drawer>` items.
+- The bar **auto-activates the first tab** on load. `active` in markup is only honored for that first tab — putting `active` on a *non-first* `<u-tab>` to set the initial selection is **inert**. To start on another tab, set `bar.activeTabIndex = n` after render.
 - Don't manually toggle `active` on multiple tabs at once — only one should be active. The bar enforces this on click but not on attribute writes.
 - The underline indicator animates between tabs via CSS. If you toggle `active` programmatically very fast, the indicator may skip frames.

@@ -87,6 +87,24 @@ Place `<u-card-media>` in `slot="before-content"` so it sits flush against the c
 </u-card-media>
 ```
 
+**Banner caveat:** `wide` sets a 16:9 *aspect ratio*, so at full container width the media becomes very tall (≈1200px on a wide page; the default square is worse). For a profile/detail **banner**, set an explicit height instead of `wide`:
+
+```html
+<u-card-media slot="before-content" style="height: 180px">…</u-card-media>
+```
+
+For a profile header (banner with an avatar straddling its bottom edge), pull the body up over the flush media with a negative top margin:
+
+```html
+<u-card variant="outlined">
+  <u-card-media slot="before-content" style="height: 160px">…</u-card-media>
+  <div style="display: flex; align-items: flex-end; gap: 16px; margin-top: -48px">
+    <span class="avatar" style="border: 4px solid var(--u-color-surface)">AB</span>
+    <div class="u-title-l">Name</div>
+  </div>
+</u-card>
+```
+
 ## Actions
 
 Put action buttons inside a `<u-button-set>` at the bottom of the card:
@@ -141,4 +159,4 @@ Don't put `position: absolute` chips as direct children of `<u-card-media>` — 
 - **Don't use `<u-card-content>` manually.** The card already wraps the default slot in a padded region — adding `<u-card-content>` on top stacks two layers of padding and is being phased out of the public API. Body content goes directly inside `<u-card>`.
 - `<u-card>` is just a container; it doesn't impose a layout on its children. Use `u-grid`, `u-column`, flex, etc. for the body's internal layout.
 - For clickable cards, wrap the entire card in `<a>` or `<button>`, or add an absolute-positioned overlay button (M3 doesn't define a built-in clickable card variant in this lib).
-- The internal padded region uses 16dp. Override via `--u-card-content-padding` if you need a different value, or use `slot="before-content"` / `slot="after-content"` for sections that need to escape the padding entirely.
+- The internal padded region uses 16dp. Override via **`--u-card-padding`** (set on the card; it inherits to the internal content region) if you need a different value, or use `slot="before-content"` / `slot="after-content"` for sections that need to escape the padding entirely. (Note: it is `--u-card-padding`, not `--u-card-content-padding`.)

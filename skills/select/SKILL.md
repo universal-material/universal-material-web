@@ -41,6 +41,17 @@ select.addEventListener('change', () => console.log(select.value));
 
 In Angular, bind with `[(ngModel)]` and `ngDefaultControl`; in React, use `value` + `onChange`.
 
+## Initial selection (in markup)
+
+The `value` **attribute is inert** — `<u-select value="br">` does nothing and the select shows the first option. Set the initial selection with `selected` on the option (or assign `.value` in JS after upgrade):
+
+```html
+<u-select label="Country">
+  <u-option value="br" selected>Brazil</u-option>
+  <u-option value="us">United States</u-option>
+</u-select>
+```
+
 ## Icons in options
 
 ```html
@@ -83,6 +94,9 @@ When the select sits inside a scrollable/clipped wrapper, set `menu-positioning=
 
 ## Caveats
 
-- The displayed value is the matching `<u-option>`'s text content. Keep option text concise.
+- The displayed value is the matching `<u-option>`'s text content. Keep option text concise. **An icon inside an option** (`<span slot="icon">`) shows in the dropdown but its ligature text leaks into the *closed* select's displayed value (e.g. "groups Todos") — omit option icons when the value is shown as text.
+- **Single-select only** — there is no `multiple` attribute. For multiple values use `<u-chip-field>`.
+- **No constraint validation**: `required` is not enforced and there is no `checkValidity()`/`reportValidity()` — validate in script / on submit.
+- A page with several `<u-select>`s logs a harmless `_scheduleSync` / `_renderOptionRelatedElements` error on load (options upgrade before the select); the selects still render and work.
 - For long lists, the menu virtualizes after a threshold but very large lists (1000+) feel sluggish — consider a typeahead instead.
 - Don't put non-`u-option` children inside `<u-select>` — they're ignored.

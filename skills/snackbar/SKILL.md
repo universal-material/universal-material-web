@@ -19,14 +19,13 @@ Snackbar.show({
 ## With an action
 
 ```ts
-Snackbar.show({
-  message: 'Item deleted.',
-  action: 'Undo',
-  onAction: () => undoDelete(),
-});
+const sb = Snackbar.show({ message: 'Item deleted.', action: 'Undo' });
+// The action button fires an `actionClick` event on the returned snackbar.
+// There is NO `onAction` config option — passing one is silently ignored.
+sb.addEventListener('actionClick', () => undoDelete());
 ```
 
-Clicking the action button triggers `onAction` and closes the snackbar.
+Clicking the action button fires `actionClick` and closes the snackbar.
 
 ## Duration
 
@@ -35,12 +34,12 @@ import { Snackbar, SnackbarDuration } from '@universal-material/web';
 
 Snackbar.show({
   message: 'Saved as draft',
-  duration: SnackbarDuration.long,   // ~10s
+  duration: SnackbarDuration.long,   // 5000ms — this is the default when omitted
 });
 
 Snackbar.show({
   message: 'Quick toast',
-  duration: SnackbarDuration.short,  // ~4s (default)
+  duration: SnackbarDuration.short,  // 2500ms
 });
 
 Snackbar.show({

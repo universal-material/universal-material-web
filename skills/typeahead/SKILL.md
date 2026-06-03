@@ -1,82 +1,93 @@
 ---
-description: Build an autocomplete / typeahead with u-typeahead — async option fetching, object results, custom item templates, highlight matches.
+description: Build an autocomplete / typeahead with u-typeahead — a controller attached to a text field via target-id, with sync/async sources, object results, custom item templates, and match highlighting.
 ---
 
 # Typeahead
 
-`<u-typeahead>` is a text field that opens a popover of suggestions as the user types. Suggestions are supplied by you — synchronous or async — and can be plain strings or arbitrary objects.
+`<u-typeahead>` is **not** a field — it's a controller that attaches to a separate input (`<u-text-field>` or a native input) and opens a popover of suggestions as the user types. You give it a `source`; it renders the dropdown and emits a `selected` event.
+
+> **Key shape (easy to get wrong):** the typeahead has no label/field of its own. Pair it with a field via `target-id`. A standalone `<u-typeahead label="…">` renders nothing.
 
 ## Simple string suggestions
 
 ```html
-<u-typeahead label="Country" #t></u-typeahead>
+<u-text-field id="country-input" label="Country"></u-text-field>
+<u-typeahead target-id="country-input"></u-typeahead>
 
 <script>
   const countries = ['Argentina', 'Brazil', 'Chile', 'Spain', 'United States'];
-  document.querySelector('u-typeahead').optionsProvider = (query) =>
-    countries.filter(c => c.toLowerCase().includes(query.toLowerCase()));
+  const ta = document.querySelector('u-typeahead');
+  // `source` = an array, or a (term) => Array | Promise<Array>
+  ta.source = (term) => countries.filter(c => c.toLowerCase().includes(term.toLowerCase()));
 </script>
 ```
 
-`optionsProvider` is called whenever the input changes; return an array (or a `Promise<Array>`).
+When `source` is a plain array, the component filters it internally by case-insensitive substring. When it's a function, you do the filtering and may return a `Promise`.
 
-## Object results with custom templates
+## Object results + label mapping
 
 ```html
-<u-typeahead label="User" #t>
-  <template slot="option">
-    <div style="display: flex; align-items: center; gap: 8px">
-      <img src="{{ avatar }}" width="24" height="24" style="border-radius: 50%" />
-      <span>{{ name }}</span>
-      <span class="u-label-s u-text-low-emphasis">{{ email }}</span>
-    </div>
-  </template>
-</u-typeahead>
+<u-text-field id="user-input" label="User"></u-text-field>
+<u-typeahead target-id="user-input"></u-typeahead>
 
 <script>
-  document.querySelector('u-typeahead').optionsProvider = async (q) => {
-    const r = await fetch(`/api/users?q=${encodeURIComponent(q)}`);
-    return await r.json(); // [{ id, name, email, avatar }]
+  const ta = document.querySelector('u-typeahead');
+  ta.source = async (term) => {
+    const r = await fetch(`/api/users?q=${encodeURIComponent(term)}`);
+    return await r.json(); // [{ id, name, email }]
   };
-
-  // Tell the typeahead which field is the displayed label
-  document.querySelector('u-typeahead').labelField = 'name';
+  // `formatter` maps an object value to the displayed string (input + default option label)
+  ta.formatter = (u) => u.name;
 </script>
 ```
 
-## Highlighting matched text
+## Custom option rendering
 
-```html
-<u-typeahead label="Country">
-  <template slot="option">
-    <u-highlight [text]="$option.name" [match]="$query"></u-highlight>
-  </template>
-</u-typeahead>
+`template` is a **function** returning a string / `HTMLElement` / Lit `TemplateResult` per option (not a `<template>` element):
+
+```js
+import { html } from 'lit';
+ta.template = (term, user) => html`
+  <div style="display:flex; align-items:center; gap:8px">
+    <span>${user.name}</span>
+    <span class="u-label-s u-text-low-emphasis">${user.email}</span>
+  </div>`;
 ```
 
-`<u-highlight>` wraps the matched substring of the query in a styled span — useful for showing why a suggestion is in the list.
+`<u-highlight text="..." match="...">` wraps the matched substring of the query in a styled span — useful inside a template to show why a suggestion matched.
 
 ## Selection
 
 ```ts
 const ta = document.querySelector('u-typeahead')!;
-ta.addEventListener('select', (e: CustomEvent) => {
-  console.log('Selected:', e.detail); // the chosen option (string or object)
+ta.addEventListener('selected', (e: CustomEvent) => {
+  console.log('Selected:', e.detail); // the chosen value (string or object)
 });
 ```
 
-For multi-select with chips, use `<u-chip-field>` with a `<u-typeahead>` driving suggestions.
+The event is **`selected`** (cancelable; `e.detail` is the value). There is no `select` event.
 
-## Positioning inside clipped containers
+## Useful properties / attributes
 
-Set `positioning="fixed"` on the typeahead so the suggestion list escapes any `overflow:hidden` wrapper:
+| Name | Default | Purpose |
+| --- | --- | --- |
+| `target-id` | — | **Required.** Id of the input/field the typeahead drives. |
+| `source` (prop) | — | Array, or `(term) => Array \| Promise<Array>`. |
+| `formatter` (prop) | `String(value)` | Maps an object value to its displayed label. |
+| `template` (prop) | — | `(term, value) => string \| HTMLElement \| TemplateResult` per option. |
+| `minlength` | `2` | Min chars before suggestions show. **Array sources show nothing until 2 chars** unless lowered. |
+| `debounce` | `300` (ms) | Debounce before `source` is called. |
+| `limit` | — | Max options shown. |
+| `open-on-focus` | off | Open the popover on focus (before typing). |
+| `editable` | — | Allow free text alongside suggestions. |
+| `positioning="fixed"` | — | Let the popover escape an `overflow:hidden`/scroll wrapper. |
+| `clear()` (method) | — | Clear the current value. |
 
-```html
-<u-typeahead positioning="fixed" label="Search">…</u-typeahead>
-```
+For multi-select with chips, drive a `<u-chip-field>` from a typeahead instead.
 
 ## Caveats
 
-- `optionsProvider` is called on every keystroke — debounce the network in your provider (`setTimeout` + `AbortController`) for large remote datasets.
-- When using object results, set `labelField` to the property used as the displayed label, or render it explicitly via the `option` template.
-- The component does not de-duplicate options — if your data has duplicates, dedupe in the provider.
+- **No `optionsProvider` / `labelField` / `select`.** Those don't exist — use `source` / `formatter` / the `selected` event. A standalone `<u-typeahead label="…">` (no `target-id`) renders nothing.
+- `source` is called on every keystroke (after `debounce`) — for remote data, abort in-flight requests (`AbortController`).
+- The component does not de-duplicate — dedupe in your `source`.
+- `positioning="fixed"` is needed inside a `<u-scaffold>`'s scrolling `<main>`.

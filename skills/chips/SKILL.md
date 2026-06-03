@@ -84,3 +84,5 @@ For object-valued chips (e.g. typeahead-driven), set `.value` to `Array<{ value,
 - Always include `<span slot="icon-selected">done</span>` on `clickable`/`toggle` chips so users see the check when selected.
 - Don't use `toggle` for radio-like selectors — the user could deselect the only choice and the UI ends up in an invalid empty state.
 - `<u-chip-field>` is form-associated; pair with a `<form>` for native submit.
+- **The `remove` event does NOT bubble.** Attach the listener on each `<u-chip removable>` directly — delegating on the parent `<u-chip-set>` won't fire. The chip also **removes itself from the DOM** on remove unless you `preventDefault()` the event (do so when the chip's presence is driven by your own state).
+- **`<u-chip-field>` value:** reassign `.value = [...]` to re-render (mutating the array in place does not). Use `add(value, triggerChange?)` / `removeAt(index, triggerChange?)` to mutate, and set a `formatter` (`value => string`) for object items — otherwise objects render as `[object Object]`. The `change` event only fires on user add/remove (or when `triggerChange` is true).

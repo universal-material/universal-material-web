@@ -79,12 +79,21 @@ Value format is `YYYY-MM-DD - YYYY-MM-DD`. Same `format`/`locale`/`editable`/`re
 
 ## Inline calendar (no field)
 
+`<u-calendar>` (single) and `<u-range-calendar>` (range) embed the calendar in your own layout (sidebars, custom popovers).
+
 ```html
-<u-calendar (input)="onPick($event.target.value)"></u-calendar>
-<u-range-calendar (change)="onRange($event.target.value)"></u-range-calendar>
+<u-calendar id="cal" locale="pt-BR"></u-calendar>
+<script>
+  const cal = document.getElementById('cal');
+  cal.value = '2026-06-02';                                   // ISO get/set (range: 'YYYY-MM-DD - YYYY-MM-DD')
+  cal.addEventListener('change', () => console.log(cal.value)); // a pick also fires `input`
+</script>
 ```
 
-Use these when you want the calendar embedded in your own layout (sidebars, custom popovers).
+Inline-calendar gotchas (not obvious):
+- `value` is an ISO string (get/set). A day click fires **both** `input` and `change`, with `e.target.value` = the ISO date.
+- Setting `.value` does **not** move the displayed month — set `.month` / `.year` separately to open on a specific month.
+- `locale` drives the month/weekday labels (defaults to `navigator.language`; use `locale="pt-BR"` for Portuguese).
 
 ## Positioning inside clipped containers
 
