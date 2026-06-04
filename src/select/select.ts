@@ -32,6 +32,13 @@ export class Select extends TextFieldBase implements MenuField {
   #syncScheduled = false;
   #selectedIndex = -1;
   #lastSyncSignature = '';
+  // The last value the consumer intentionally selected (via the `value`/
+  // `selectedIndex` setters, a user click, or an `<u-option selected>`). It is
+  // re-applied whenever the options change so the selection survives a
+  // framework re-rendering the `<u-option>` nodes — which otherwise drops the
+  // per-element `.selected` flag. `null` = no intentional selection yet (the
+  // first-enabled fallback is not sticky, preserving native parity).
+  #desiredValue: string | null = null;
 
   @query('u-menu', true) _menu!: Menu;
   @query('.button', true) _button!: HTMLButtonElement;
@@ -47,6 +54,9 @@ export class Select extends TextFieldBase implements MenuField {
    * The `value` of the selected option. Mirrors the native `<select>`'s
    * `value` IDL property — there is no `value` *attribute*; set the initial
    * selection with `<u-option selected>`.
+   *
+   * Setting a value whose option isn't present yet (e.g. before an async list
+   * loads) is remembered and applied once that option appears.
    */
   @state()
   get value(): string {
@@ -54,6 +64,7 @@ export class Select extends TextFieldBase implements MenuField {
   }
 
   set value(value: string) {
+    this.#desiredValue = value;
     this.#commitIndex(this._options.findIndex(o => o.value === value));
   }
 
@@ -67,7 +78,9 @@ export class Select extends TextFieldBase implements MenuField {
 
   set selectedIndex(index: number) {
     const len = this._options.length;
-    this.#commitIndex(index >= 0 && index < len ? index : -1);
+    const target = index >= 0 && index < len ? index : -1;
+    this.#desiredValue = target >= 0 ? this._options[target].value : null;
+    this.#commitIndex(target);
   }
 
   get _options(): Option[] {
@@ -130,6 +143,8 @@ export class Select extends TextFieldBase implements MenuField {
       o.selected = o.defaultSelected;
     }
 
+    // Drop the sticky value so the reset honors `<u-option selected>` defaults.
+    this.#desiredValue = null;
     this.#syncFromOptions();
   }
 
@@ -162,6 +177,7 @@ export class Select extends TextFieldBase implements MenuField {
       return;
     }
 
+    this.#desiredValue = option.value;
     this.#commitIndex(newIndex);
 
     if (previousIndex !== newIndex) {
@@ -210,33 +226,40 @@ export class Select extends TextFieldBase implements MenuField {
 
   #syncFromOptions(): void {
     const options = this._options;
-    let lastSelected = -1;
 
-    // last-wins
+    // 1. Sticky: re-apply the last intentional value if its option is (still or
+    //    newly) present. This keeps the selection across option re-renders and
+    //    applies a value set before its option existed.
+    if (this.#desiredValue !== null) {
+      const desiredIndex = options.findIndex(o => o.value === this.#desiredValue && !o.disabled);
+
+      if (desiredIndex >= 0) {
+        this.#commitIndex(desiredIndex);
+        return;
+      }
+    }
+
+    // 2. Authored default: the last `<u-option selected>` — read the *attribute*
+    //    (`defaultSelected`), not the runtime `.selected` flag, so the
+    //    first-enabled fallback below can't be mistaken for an authored choice
+    //    on a later sync. An authored choice is intentional, so make it sticky.
+    let authoredIndex = -1;
+
     for (let i = 0; i < options.length; i++) {
-      if (!options[i].selected) {
-        continue;
-      }
-
-      if (lastSelected >= 0) {
-        options[lastSelected].selected = false;
-      }
-
-      lastSelected = i;
-    }
-
-    if (lastSelected < 0 && options.length > 0) {
-      const firstEnabled = options.findIndex(o => !o.disabled);
-
-      if (firstEnabled >= 0) {
-        options[firstEnabled].selected = true;
-        lastSelected = firstEnabled;
+      if (options[i].defaultSelected) {
+        authoredIndex = i;
       }
     }
 
-    this.#selectedIndex = lastSelected;
-    this.#lastSyncSignature = this.#computeSignature();
-    this.#emitState();
+    if (authoredIndex >= 0) {
+      this.#desiredValue = options[authoredIndex].value;
+      this.#commitIndex(authoredIndex);
+      return;
+    }
+
+    // 3. First-enabled fallback: a default, not an intentional choice, so it is
+    //    left non-sticky — a later reorder/rebuild follows the native <select>.
+    this.#commitIndex(options.length ? options.findIndex(o => !o.disabled) : -1);
   }
 
   #computeSignature(): string {

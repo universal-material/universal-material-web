@@ -110,6 +110,116 @@ suite('u-select / u-option', () => {
     });
   });
 
+  // The select keeps its selection when a framework re-renders the <u-option>
+  // nodes (which drops the per-element `.selected` flag). Verified by replacing
+  // the option elements and asserting the value survives.
+  suite('sticky value across option re-renders', () => {
+    const settle = () => new Promise((r) => setTimeout(r));
+
+    test('preserves the selected value when the option elements are rebuilt', async () => {
+      const el = await fixture<Select>(html`
+        <u-select>
+          <u-option value="a">A</u-option>
+          <u-option value="b">B</u-option>
+          <u-option value="c">C</u-option>
+        </u-select>
+      `);
+      await el.updateComplete;
+      el.value = 'c';
+      await el.updateComplete;
+
+      el.innerHTML = `
+        <u-option value="a">A</u-option>
+        <u-option value="b">B</u-option>
+        <u-option value="c">C</u-option>
+      `;
+      await settle();
+      await el.updateComplete;
+      expect(el.value).to.equal('c');
+    });
+
+    test('keeps the selection across an empty-then-refill of the options', async () => {
+      const el = await fixture<Select>(html`
+        <u-select>
+          <u-option value="a">A</u-option>
+          <u-option value="b">B</u-option>
+          <u-option value="c">C</u-option>
+        </u-select>
+      `);
+      await el.updateComplete;
+      el.value = 'c';
+      await el.updateComplete;
+
+      el.innerHTML = '';
+      await settle();
+      el.innerHTML = `
+        <u-option value="a">A</u-option>
+        <u-option value="b">B</u-option>
+        <u-option value="c">C</u-option>
+      `;
+      await settle();
+      await el.updateComplete;
+      expect(el.value).to.equal('c');
+    });
+
+    test('applies a value set before its option exists once it appears', async () => {
+      const el = await fixture<Select>(html`<u-select></u-select>`);
+      await el.updateComplete;
+      el.value = 'b';
+      await el.updateComplete;
+      expect(el.value).to.equal(''); // no matching option yet
+
+      el.innerHTML = `
+        <u-option value="a">A</u-option>
+        <u-option value="b">B</u-option>
+      `;
+      await settle();
+      await el.updateComplete;
+      expect(el.value).to.equal('b');
+    });
+
+    test('an explicit <u-option selected> survives a rebuild that drops the attribute', async () => {
+      const el = await fixture<Select>(html`
+        <u-select>
+          <u-option value="a">A</u-option>
+          <u-option value="b" selected>B</u-option>
+        </u-select>
+      `);
+      await el.updateComplete;
+      expect(el.value).to.equal('b');
+
+      // Re-render WITHOUT the `selected` attribute (e.g. the binding moved to value).
+      el.innerHTML = `
+        <u-option value="a">A</u-option>
+        <u-option value="b">B</u-option>
+      `;
+      await settle();
+      await el.updateComplete;
+      expect(el.value).to.equal('b');
+    });
+
+    test('the first-option default is NOT sticky — reorder follows native', async () => {
+      const el = await fixture<Select>(html`
+        <u-select>
+          <u-option value="a">A</u-option>
+          <u-option value="b">B</u-option>
+          <u-option value="c">C</u-option>
+        </u-select>
+      `);
+      await el.updateComplete;
+      expect(el.value).to.equal('a'); // first-enabled default, no intentional pick
+
+      el.innerHTML = `
+        <u-option value="c">C</u-option>
+        <u-option value="b">B</u-option>
+        <u-option value="a">A</u-option>
+      `;
+      await settle();
+      await el.updateComplete;
+      expect(el.value).to.equal('c'); // new first, not the old default 'a'
+    });
+  });
+
   suite('constraint validation', () => {
     test('required with an empty-valued option is invalid until a value is chosen', async () => {
       const el = await fixture<Select>(html`

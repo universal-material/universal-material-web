@@ -107,6 +107,10 @@ select.reportValidity();   // also shows the bubble + sets the visual `invalid` 
 - Multi-select chip input → use `<u-chip-field>`.
 - A non-form action menu (Edit/Delete/Share) → use `<u-button>` + `<u-menu>` directly.
 
+## SPA / framework binding
+
+The select keeps its selection when the framework **re-renders the `<u-option>` list** (e.g. an `*ngFor`/`v-for`). It remembers the last value you set (via `.value`/`.selectedIndex`, a click, or `<u-option selected>`) and re-applies it once the matching option is present — so you don't need to re-assign `.value` after the options change. Setting `.value` **before** the options exist (async load) also works: it applies when that option appears. The first-option default is *not* sticky, matching the native `<select>`.
+
 ## Caveats
 
 - The displayed value is the matching `<u-option>`'s text content. Keep option text concise. **An icon inside an option** (`<span slot="icon">`) shows in the dropdown but its ligature text leaks into the *closed* select's displayed value (e.g. "groups Todos") — omit option icons when the value is shown as text.
