@@ -1,20 +1,16 @@
-<docs-title title="Tabs" tag="u-tab-bar, u-tab">Horizontal switchers that organize content across different views.</docs-title>
+<docs-title title="Tabs" tag="u-tab-bar, u-tab">Horizontal switchers that organize content across different views, with an animated underline indicator under the active tab.</docs-title>
 
-<div class="u-column">
-  <u-button-set alignment="start">
-    <u-icon-button (click)="addTab()"><span class="materi material-symbols-outlined">add</span></u-icon-button>
-    <u-icon-button (click)="tabs.splice(tabs.length - 1, 1)">
-      <span class="materi material-symbols-outlined">remove</span>
-    </u-icon-button>
-  </u-button-set>
-  <u-tab-bar>
-    <u-tab *ngFor="let tab of tabs; let i = index">
-      <span
-        class="material-symbols-outlined"
-        slot="icon"
-        >flight
-      </span>
-      <span>{{ tab }} {{ i + 1 }}</span>
-    </u-tab>
-  </u-tab-bar>
-</div>
+<docs-example [html]="basicHtml" sectionTitle="Basic" fluid></docs-example>
+
+<docs-example [html]="iconsHtml" sectionTitle="With icons" fluid></docs-example>
+
+<docs-example [html]="initialSelectionHtml" sectionTitle="Initial selection" fluid>
+  Add <code>active</code> to any <code>&lt;u-tab&gt;</code> to choose which tab starts selected. Without it, the first tab is selected.
+</docs-example>
+
+<docs-example [html]="secondaryHtml" sectionTitle="Secondary variant" fluid>
+  <code>variant="secondary"</code> renders the full-width indicator style.
+</docs-example>
+
+<docs-apis-table key="tabBar"></docs-apis-table>
+<docs-apis-table key="tab"></docs-apis-table>

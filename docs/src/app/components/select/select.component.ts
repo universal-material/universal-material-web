@@ -1,17 +1,12 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 
 import { ApisTableComponent } from '@docs/docs/apis-table/apis-table.component';
 import { ExampleComponent } from '@docs/docs/example/example.component';
 import { TitleComponent } from '@docs/docs/title/title.component';
 
-import { SelectControlValueAccessor, SelectOption } from '@docs/components/select/select-control-value-accessor';
-import { states } from '@docs/shared/states.model';
-
 import basicHtml from './examples/basic.html';
 import variantsHtml from './examples/variants.html';
-import statesHtml from './examples/states.html';
+import valueHtml from './examples/value.html';
 import disabledHtml from './examples/disabled.html';
 
 @Component({
@@ -19,22 +14,15 @@ import disabledHtml from './examples/disabled.html';
   templateUrl: './select.component.html',
   styleUrl: './select.component.scss',
   imports: [
-    CommonModule,
-    FormsModule,
-    SelectControlValueAccessor,
-    SelectOption,
     ApisTableComponent,
     ExampleComponent,
-    TitleComponent
+    TitleComponent,
   ],
   standalone: true,
 })
 export class SelectComponent {
   basicHtml = basicHtml;
   variantsHtml = variantsHtml;
-  statesHtml = statesHtml;
+  valueHtml = valueHtml;
   disabledHtml = disabledHtml;
-
-  state = 'California';
-  states = states;
 }

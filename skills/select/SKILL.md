@@ -39,8 +39,6 @@ console.log(select.value);  // get
 select.addEventListener('change', () => console.log(select.value));
 ```
 
-In Angular, bind with `[(ngModel)]` and `ngDefaultControl`; in React, use `value` + `onChange`.
-
 ## Initial selection (in markup)
 
 Set the initial selection with the **`value` attribute** — it's applied once the matching `<u-option>` upgrades and is **reflected** back as the selection changes (so `getAttribute('value')` mirrors `.value`):

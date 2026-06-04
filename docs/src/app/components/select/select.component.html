@@ -1,4 +1,4 @@
-<docs-title title="Select" tag="u-select, u-option">Represents a control that provides a menu of options. Mirrors the behavior of the native `&lt;select&gt;` and integrates with Angular forms via the `SelectControlValueAccessor` directive.</docs-title>
+<docs-title title="Select" tag="u-select, u-option">Represents a control that provides a menu of options. Mirrors the behavior of the native `&lt;select&gt;`.</docs-title>
 
 <docs-example
   [html]="basicHtml"
@@ -9,22 +9,10 @@
   sectionTitle="Variants"
 ></docs-example>
 <docs-example
-  [html]="statesHtml"
-  sectionTitle="Bound to ngModel"
-  [renderExample]="false"
+  [html]="valueHtml"
+  sectionTitle="Initial value"
 >
-  <div example class="u-column">
-    <u-select
-      label="State"
-      [(ngModel)]="state"
-      ngDefaultControl
-    >
-      @for (s of states; track s) {
-        <u-option [value]="s">{{ s }}</u-option>
-      }
-    </u-select>
-    <p>Selected: {{ state }}</p>
-  </div>
+  Set the initial selection with the <code>value</code> attribute — it's applied once the matching <code>&lt;u-option&gt;</code> is available and reflected back as the selection changes.
 </docs-example>
 <docs-example
   [html]="disabledHtml"
