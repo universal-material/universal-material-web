@@ -80,8 +80,8 @@ suite('u-select / u-option', () => {
     });
   });
 
-  suite('value attribute', () => {
-    test('selects the option matching the initial value attribute', async () => {
+  suite('value attribute (native parity: no value attribute)', () => {
+    test('the value attribute is inert — initial selection uses <u-option selected>', async () => {
       const el = await fixture<Select>(html`
         <u-select value="b">
           <u-option value="a">A</u-option>
@@ -90,22 +90,13 @@ suite('u-select / u-option', () => {
         </u-select>
       `);
       await el.updateComplete;
-      expect(el.value).to.equal('b');
-      expect(el.selectedIndex).to.equal(1);
-    });
-
-    test('the value attribute wins over <u-option selected>', async () => {
-      const el = await fixture<Select>(html`
-        <u-select value="a">
-          <u-option value="a">A</u-option>
-          <u-option value="b" selected>B</u-option>
-        </u-select>
-      `);
-      await el.updateComplete;
+      // Like the native <select>, the value attribute is ignored: the first
+      // option is selected, not "b".
       expect(el.value).to.equal('a');
+      expect(el.selectedIndex).to.equal(0);
     });
 
-    test('reflects the current value back to the attribute', async () => {
+    test('does not reflect the value to an attribute', async () => {
       const el = await fixture<Select>(html`
         <u-select>
           <u-option value="a">A</u-option>
@@ -113,10 +104,9 @@ suite('u-select / u-option', () => {
         </u-select>
       `);
       await el.updateComplete;
-      expect(el.getAttribute('value')).to.equal('a');
       el.value = 'b';
       await el.updateComplete;
-      expect(el.getAttribute('value')).to.equal('b');
+      expect(el.hasAttribute('value')).to.be.false;
     });
   });
 

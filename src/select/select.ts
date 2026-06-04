@@ -32,10 +32,6 @@ export class Select extends TextFieldBase implements MenuField {
   #syncScheduled = false;
   #selectedIndex = -1;
   #lastSyncSignature = '';
-  // Holds a `value` requested before its option exists (the `value` attribute at
-  // connect, or an assignment made before options upgrade). Consumed by
-  // `#syncFromOptions` once a matching option is available, then cleared.
-  #pendingValue: string | null = null;
 
   @query('u-menu', true) _menu!: Menu;
   @query('.button', true) _button!: HTMLButtonElement;
@@ -48,10 +44,9 @@ export class Select extends TextFieldBase implements MenuField {
   @property({ reflect: true, attribute: 'menu-positioning' }) menuPositioning: 'relative' | 'fixed' = 'relative';
 
   /**
-   * The `value` of the selected option. Settable as an attribute
-   * (`<u-select value="b">`) for the initial selection — applied once the
-   * matching `<u-option>` is available — and reflected back to the attribute
-   * as the selection changes.
+   * The `value` of the selected option. Mirrors the native `<select>`'s
+   * `value` IDL property — there is no `value` *attribute*; set the initial
+   * selection with `<u-option selected>`.
    */
   @state()
   get value(): string {
@@ -59,17 +54,7 @@ export class Select extends TextFieldBase implements MenuField {
   }
 
   set value(value: string) {
-    const options = this._options;
-
-    // Options not upgraded yet (e.g. assigned right after creation): defer until
-    // `#syncFromOptions` can resolve the matching option.
-    if (!options.length) {
-      this.#pendingValue = value;
-      return;
-    }
-
-    this.#pendingValue = null;
-    this.#commitIndex(options.findIndex(o => o.value === value));
+    this.#commitIndex(this._options.findIndex(o => o.value === value));
   }
 
   /**
@@ -131,16 +116,6 @@ export class Select extends TextFieldBase implements MenuField {
     super.connectedCallback();
 
     this.#connected = true;
-
-    // Capture the initial `value` attribute before reflection overwrites it, so
-    // `#syncFromOptions` can honor it once options upgrade. On a DOM move the
-    // attribute already mirrors the current value, so re-reading is harmless.
-    const valueAttr = this.getAttribute('value');
-
-    if (valueAttr !== null) {
-      this.#pendingValue = valueAttr;
-    }
-
     this.#attach();
   }
 
@@ -235,20 +210,6 @@ export class Select extends TextFieldBase implements MenuField {
 
   #syncFromOptions(): void {
     const options = this._options;
-
-    // A requested `value` (attribute or pre-upgrade assignment) takes precedence
-    // over `<u-option selected>` and the first-enabled fallback. Consume it once
-    // options exist, whether or not it matched, so it stays a one-shot initializer.
-    if (this.#pendingValue !== null && options.length > 0) {
-      const pendingIndex = options.findIndex(o => o.value === this.#pendingValue);
-      this.#pendingValue = null;
-
-      if (pendingIndex >= 0) {
-        this.#commitIndex(pendingIndex);
-        return;
-      }
-    }
-
     let lastSelected = -1;
 
     // last-wins
@@ -285,18 +246,7 @@ export class Select extends TextFieldBase implements MenuField {
   }
 
   #emitState(): void {
-    const value = this.value;
-
-    // Reflect the current value to the attribute (idiomatic: native/MUI selects
-    // expose the selection as `value`). `value` is `@state`, not an observed
-    // attribute, so this does not feed back into the property.
-    if (value) {
-      this.setAttribute('value', value);
-    } else {
-      this.removeAttribute('value');
-    }
-
-    this.elementInternals.setFormValue(value || null);
+    this.elementInternals.setFormValue(this.value || null);
     this.#renderAccessibilityList();
     this.#updateDisplay();
     this.#updateEmpty();

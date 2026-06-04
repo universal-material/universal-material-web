@@ -41,16 +41,14 @@ select.addEventListener('change', () => console.log(select.value));
 
 ## Initial selection (in markup)
 
-Set the initial selection with the **`value` attribute** — it's applied once the matching `<u-option>` upgrades and is **reflected** back as the selection changes (so `getAttribute('value')` mirrors `.value`):
+Like the native `<select>`, there is **no `value` attribute** — set the initial selection with `selected` on the option (or assign `.value` in JS after upgrade). With neither, the first enabled option is selected.
 
 ```html
-<u-select label="Country" value="us">
+<u-select label="Country">
   <u-option value="br">Brazil</u-option>
-  <u-option value="us">United States</u-option>
+  <u-option value="us" selected>United States</u-option>
 </u-select>
 ```
-
-`<u-option selected>` also works; if both are present, the `value` attribute wins. With neither, the first enabled option is selected.
 
 ## Icons in options
 

@@ -6,7 +6,7 @@ import { TitleComponent } from '@docs/docs/title/title.component';
 
 import basicHtml from './examples/basic.html';
 import variantsHtml from './examples/variants.html';
-import valueHtml from './examples/value.html';
+import selectedHtml from './examples/selected.html';
 import disabledHtml from './examples/disabled.html';
 
 @Component({
@@ -23,6 +23,6 @@ import disabledHtml from './examples/disabled.html';
 export class SelectComponent {
   basicHtml = basicHtml;
   variantsHtml = variantsHtml;
-  valueHtml = valueHtml;
+  selectedHtml = selectedHtml;
   disabledHtml = disabledHtml;
 }
